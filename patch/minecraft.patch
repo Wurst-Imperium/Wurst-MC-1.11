@@ -1,6 +1,6 @@
-From 5a21a62c6c6dd7131c0ebf13a06aa8805cc22af8 Mon Sep 17 00:00:00 2001
+From e451f182dba95705cbd23951bf7fa32a7bef7aab Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sat, 26 Nov 2016 20:56:26 +0100
+Date: Sat, 26 Nov 2016 21:38:44 +0100
 Subject: [PATCH] mod
 
 ---
@@ -19,7 +19,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
  net/minecraft/client/gui/GuiIngame.java            |  25 +++
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 +++++-
- net/minecraft/client/gui/GuiMainMenu.java          |  20 +-
+ net/minecraft/client/gui/GuiMainMenu.java          |  22 ++-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
  net/minecraft/client/gui/GuiMultiplayer.java       |  85 ++++++++-
  net/minecraft/client/gui/GuiNewChat.java           |  11 ++
@@ -54,7 +54,7 @@ Subject: [PATCH] mod
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 +++-
- 50 files changed, 1206 insertions(+), 417 deletions(-)
+ 50 files changed, 1207 insertions(+), 418 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1276,7 +1276,7 @@ index cbd9720..a783374 100644
      }
  }
 diff --git a/net/minecraft/client/gui/GuiMainMenu.java b/net/minecraft/client/gui/GuiMainMenu.java
-index ba01f04..1f43659 100644
+index ba01f04..e093029 100644
 --- a/net/minecraft/client/gui/GuiMainMenu.java
 +++ b/net/minecraft/client/gui/GuiMainMenu.java
 @@ -28,6 +28,9 @@ import net.minecraft.util.text.TextFormatting;
@@ -1312,20 +1312,22 @@ index ba01f04..1f43659 100644
  
          int i = 24;
          int j = this.height / 4 + 48;
-@@ -282,6 +291,13 @@ public class GuiMainMenu extends GuiScreen
+@@ -282,7 +291,14 @@ public class GuiMainMenu extends GuiScreen
      {
          this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
          this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
+-        this.realmsButton = this.addButton(new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
 +
 +		// TODO: Client
 +		if(WurstClient.INSTANCE.isEnabled())
 +			this.buttonList.add(new GuiButton(3, this.width / 2 - 100,
-+				p_73969_1_ + p_73969_2_ * 2, 200, 20, "Alt Manager"));
-+		else
-+			
-         this.realmsButton = this.addButton(new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
++				p_73969_1_ + p_73969_2_ * 2, 98, 20, "Alt Manager"));
++		this.realmsButton = this.addButton(
++			new GuiButton(14, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2,
++				98, 20, I18n.format("menu.online", new Object[0])));
      }
  
+     /**
 @@ -520,7 +536,7 @@ public class GuiMainMenu extends GuiScreen
      /**
       * Renders the skybox in the main menu
