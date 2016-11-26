@@ -1,9 +1,10 @@
-From f0d250e17aaea3a616d9583c8286430b8355153b Mon Sep 17 00:00:00 2001
+From 7056877afcae624f0a1aa979c754604c8ed5b7fc Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sat, 26 Nov 2016 20:41:11 +0100
+Date: Sat, 26 Nov 2016 20:49:49 +0100
 Subject: [PATCH] mod
 
 ---
+ Start.java                                         |   2 +-
  net/minecraft/block/Block.java                     |  17 +-
  net/minecraft/block/BlockCactus.java               |   6 +
  net/minecraft/block/BlockChest.java                |   4 +
@@ -50,8 +51,21 @@ Subject: [PATCH] mod
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 +++-
- 46 files changed, 1121 insertions(+), 151 deletions(-)
+ 47 files changed, 1122 insertions(+), 152 deletions(-)
 
+diff --git a/Start.java b/Start.java
+index ae0025f..9b0eed6 100644
+--- a/Start.java
++++ b/Start.java
+@@ -8,7 +8,7 @@ public class Start
+ {
+     public static void main(String[] args)
+     {
+-        Main.main(concat(new String[] {"--version", "mcp", "--accessToken", "0", "--assetsDir", "assets", "--assetIndex", "1.8", "--userProperties", "{}"}, args));
++        Main.main(concat(new String[] {"--version", "mcp", "--accessToken", "0", "--assetsDir", "assets", "--assetIndex", "1.11", "--userProperties", "{}"}, args));
+     }
+ 
+     public static <T> T[] concat(T[] first, T[] second)
 diff --git a/net/minecraft/block/Block.java b/net/minecraft/block/Block.java
 index e111add..904e846 100644
 --- a/net/minecraft/block/Block.java
