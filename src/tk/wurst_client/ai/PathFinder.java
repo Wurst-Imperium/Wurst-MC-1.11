@@ -58,7 +58,7 @@ public class PathFinder
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
-		queue.add(new PathPoint(start, null, getDistance(start)));
+		queue.add(new PathPoint(start, null, getHeuristic(start)));
 	}
 	
 	public boolean process(int limit)
@@ -113,7 +113,7 @@ public class PathFinder
 				// add this point to queue and cost map
 				costMap.put(nextPos, newTotalCost);
 				queue.add(new PathPoint(nextPos, currentPoint,
-					newTotalCost + getDistance(nextPos)));
+					newTotalCost + getHeuristic(nextPos)));
 			}
 		}
 		return false;
@@ -395,7 +395,7 @@ public class PathFinder
 		return cost;
 	}
 	
-	private float getDistance(BlockPos pos)
+	private float getHeuristic(BlockPos pos)
 	{
 		float dx = Math.abs(pos.getX() - goal.getX());
 		float dy = Math.abs(pos.getY() - goal.getY());
