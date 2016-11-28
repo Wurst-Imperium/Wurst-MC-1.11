@@ -42,16 +42,9 @@ public class PathFinder
 	
 	private HashMap<BlockPos, Float> costMap = new HashMap<>();
 	private HashMap<BlockPos, BlockPos> prevPosMap = new HashMap<>();
-	private PriorityQueue<PathPoint> queue =
-		new PriorityQueue<>((PathPoint o1, PathPoint o2) -> {
-			float d = o1.getPriority() - o2.getPriority();
-			if(d > 0)
-				return 1;
-			else if(d < 0)
-				return -1;
-			else
-				return 0;
-		});
+	private PriorityQueue<PathPoint> queue = new PriorityQueue<>((o1, o2) -> {
+		return Float.compare(o1.getPriority(), o2.getPriority());
+	});
 	
 	public PathFinder(BlockPos goal)
 	{
