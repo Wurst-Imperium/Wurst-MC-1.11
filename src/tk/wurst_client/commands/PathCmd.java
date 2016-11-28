@@ -301,13 +301,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 				if(renderedThings >= 5000)
 					break;
 				
-				if(queue[i].getPrevious() == null)
-					continue;
-				
-				BlockPos pos = queue[i].getPrevious().getPos();
-				BlockPos nextPos = queue[i].getPos();
-				
-				renderer.renderArrow(pos, nextPos);
+				renderer.renderNode(queue[i].getPos());
 				renderedThings++;
 			}
 			
@@ -319,7 +313,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 				if(renderedThings >= 5000)
 					break;
 				
-				renderer.renderNode(pos);
+				renderer.renderArrow(pathFinder.getPrevPos(pos), pos);
 				renderedThings++;
 			}
 		}

@@ -12,24 +12,17 @@ import net.minecraft.util.math.BlockPos;
 public class PathPoint
 {
 	private BlockPos pos;
-	private PathPoint previous;
 	private float priority;
 	
-	public PathPoint(BlockPos pos, PathPoint previous, float priority)
+	public PathPoint(BlockPos pos, float priority)
 	{
 		this.pos = pos;
-		this.previous = previous;
 		this.priority = priority;
 	}
 	
 	public BlockPos getPos()
 	{
 		return pos;
-	}
-	
-	public PathPoint getPrevious()
-	{
-		return previous;
 	}
 	
 	public float getPriority()

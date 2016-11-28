@@ -41,6 +41,7 @@ public class PathFinder
 	private PathPoint currentPoint;
 	
 	private HashMap<BlockPos, Float> costMap = new HashMap<>();
+	private HashMap<BlockPos, BlockPos> prevPosMap = new HashMap<>();
 	private PriorityQueue<PathPoint> queue =
 		new PriorityQueue<>((PathPoint o1, PathPoint o2) -> {
 			float d = o1.getPriority() - o2.getPriority();
@@ -58,7 +59,7 @@ public class PathFinder
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
-		queue.add(new PathPoint(start, null, getHeuristic(start)));
+		queue.add(new PathPoint(start, getHeuristic(start)));
 	}
 	
 	public boolean process(int limit)
@@ -102,17 +103,16 @@ public class PathFinder
 				}else
 				{
 					// check if flying, walking or jumping
-					BlockPos prevPos = currentPoint.getPrevious() == null ? null
-						: currentPoint.getPrevious().getPos();
 					BlockPos down = pos.down();
 					if(!canFlyAt(pos) && !canBeSolid(down)
-						&& !down.equals(prevPos))
+						&& !down.equals(prevPosMap.get(pos)))
 						continue;
 				}
 				
 				// add this point to queue and cost map
 				costMap.put(nextPos, newTotalCost);
-				queue.add(new PathPoint(nextPos, currentPoint,
+				prevPosMap.put(nextPos, currentPoint.getPos());
+				queue.add(new PathPoint(nextPos,
 					newTotalCost + getHeuristic(nextPos)));
 			}
 		}
@@ -313,15 +313,13 @@ public class PathFinder
 			return true;
 		
 		// check current and previous points
-		PathPoint prevPoint = point;
+		BlockPos prevPos = pos;
 		for(int i = 0; i <= 3; i++)
 		{
 			// check if point does not exist
-			if(prevPoint == null)
+			if(prevPos == null)
 				return true;
-			
-			BlockPos prevPos = prevPoint.getPos();
-			
+				
 			// check if point is not part of this fall
 			// (meaning the fall is too short to cause damage)
 			if(!pos.up(i).equals(prevPos))
@@ -335,7 +333,7 @@ public class PathFinder
 				|| prevBlock instanceof BlockWeb)
 				return true;
 			
-			prevPoint = prevPoint.getPrevious();
+			prevPos = prevPosMap.get(prevPos);
 		}
 		
 		return false;
@@ -411,7 +409,7 @@ public class PathFinder
 	
 	public Set<BlockPos> getProcessedBlocks()
 	{
-		return costMap.keySet();
+		return prevPosMap.keySet();
 	}
 	
 	public PathPoint[] getQueuedPoints()
@@ -424,14 +422,19 @@ public class PathFinder
 		return costMap.get(pos);
 	}
 	
+	public BlockPos getPrevPos(BlockPos pos)
+	{
+		return prevPosMap.get(pos);
+	}
+	
 	public ArrayList<BlockPos> formatPath()
 	{
 		ArrayList<BlockPos> path = new ArrayList<BlockPos>();
-		PathPoint point = currentPoint;
-		while(point != null)
+		BlockPos pos = currentPoint.getPos();
+		while(pos != null)
 		{
-			path.add(point.getPos());
-			point = point.getPrevious();
+			path.add(pos);
+			pos = prevPosMap.get(pos);
 		}
 		Collections.reverse(path);
 		return path;
