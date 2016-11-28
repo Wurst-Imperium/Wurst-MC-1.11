@@ -23,18 +23,21 @@ import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(
-	description = "Digs a 3x3 tunnel around you.",
-	name = "Tunneller",
-	help = "Mods/Tunneller")
-@Bypasses
-public class TunnellerMod extends Mod implements RenderListener, UpdateListener
+	description = "Faster Tunneller that does not bypass NoCheat+",
+	name = "SpeedTunneller",
+	help = "Mods/SpeedTunneller")
+@Bypasses(ghostMode = false,
+	latestNCP = false,
+	olderNCP = false,
+	antiCheat = false)
+public class SpeedTunnellerMod extends Mod implements RenderListener, UpdateListener
 {
 	private static Block currentBlock;
 	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
 	private byte blockHitDelay = 0;
 	private BlockPos pos;
-	private boolean shouldRenderESP;
+	private boolean shouldRenderESP = false;
 	private int oldSlot = -1;
 	
 	@Override
@@ -46,8 +49,8 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			wurst.mods.nukerLegitMod.setEnabled(false);
 		if(wurst.mods.speedNukerMod.isEnabled())
 			wurst.mods.speedNukerMod.setEnabled(false);
-		if(wurst.mods.speedTunnellerMod.isEnabled())
-			wurst.mods.speedTunnellerMod.setEnabled(false);
+		if(wurst.mods.tunnellerMod.isEnabled())
+			wurst.mods.tunnellerMod.setEnabled(false);
 		wurst.events.add(UpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
@@ -57,7 +60,8 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	{
 		return new NavigatorItem[]{wurst.mods.nukerMod,
 			wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
-			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
+			wurst.mods.fastBreakMod, wurst.mods.autoMineMod,
+			wurst.mods.tunnellerMod};
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -78,7 +82,15 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		shouldRenderESP = false;
+		if(mc.player.capabilities.isCreativeMode)
+		{
+			wurst.chat.error(getName() + " doesn't work in creative mode.");
+			setEnabled(false);
+			wurst.chat.message("Switching to " + wurst.mods.nukerMod.getName()
+				+ ".");
+			wurst.mods.nukerMod.setEnabled(true);
+			return;
+		}
 		BlockPos newPos = find();
 		if(newPos == null)
 		{
@@ -89,66 +101,16 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			}
 			return;
 		}
-		if(pos == null || !pos.equals(newPos))
-			currentDamage = 0;
 		pos = newPos;
 		currentBlock = mc.world.getBlockState(pos).getBlock();
-		if(blockHitDelay > 0)
-		{
-			blockHitDelay--;
-			return;
-		}
-		BlockUtils.faceBlockPacket(pos);
-		if(currentDamage == 0)
-		{
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.START_DESTROY_BLOCK, pos, side));
-			if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
-				oldSlot = mc.player.inventory.currentItem;
-			if(mc.player.capabilities.isCreativeMode
-				|| currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) >= 1)
-			{
-				currentDamage = 0;
-				if(mc.player.capabilities.isCreativeMode
-					&& wurst.special.yesCheatSpf.getBypassLevel().ordinal() <= BypassLevel.MINEPLEX_ANTICHEAT
-						.ordinal())
-					nukeAll();
-				else
-				{
-					shouldRenderESP = true;
-					mc.player.swingArm(EnumHand.MAIN_HAND);
-					mc.playerController.onPlayerDestroyBlock(pos);
-				}
-				return;
-			}
-		}
-		if(wurst.mods.autoToolMod.isActive())
+		if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
+			oldSlot = mc.player.inventory.currentItem;
+		if(!mc.player.capabilities.isCreativeMode
+			&& wurst.mods.autoToolMod.isActive()
+			&& currentBlock.getPlayerRelativeBlockHardness(
+				mc.world.getBlockState(pos), mc.player, mc.world, pos) < 1)
 			AutoToolMod.setSlot(pos);
-		mc.player.connection.sendPacket(new CPacketAnimation(
-			EnumHand.MAIN_HAND));
-		shouldRenderESP = true;
-		BlockUtils.faceBlockPacket(pos);
-		currentDamage +=
-			currentBlock.getPlayerRelativeBlockHardness(
-				mc.world.getBlockState(pos), mc.player, mc.world, pos)
-				* (wurst.mods.fastBreakMod.isActive()
-					&& wurst.mods.fastBreakMod.getMode() == 0
-					? wurst.mods.fastBreakMod.speed : 1);
-		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
-			(int)(currentDamage * 10.0F) - 1);
-		if(currentDamage >= 1)
-		{
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.STOP_DESTROY_BLOCK, pos, side));
-			mc.playerController.onPlayerDestroyBlock(pos);
-			blockHitDelay = (byte)4;
-			currentDamage = 0;
-		}else if(wurst.mods.fastBreakMod.isActive()
-			&& wurst.mods.fastBreakMod.getMode() == 1)
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.STOP_DESTROY_BLOCK, pos, side));
+		nukeAll();
 	}
 	
 	@Override
@@ -229,13 +191,14 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 								mc.player, mc.world, blockPos) < 1)
 							continue;
 						side = mc.objectMouseOver.sideHit;
-						shouldRenderESP = true;
+						//shouldRenderESP = true;
 						BlockUtils.faceBlockPacket(pos);
 						mc.player.connection
 							.sendPacket(new CPacketPlayerDigging(
 								Action.START_DESTROY_BLOCK, blockPos, side));
-						block.onBlockDestroyedByPlayer(mc.world, blockPos,
-							mc.world.getBlockState(blockPos));
+						mc.player.connection
+						.sendPacket(new CPacketPlayerDigging(
+							Action.STOP_DESTROY_BLOCK, blockPos, side));
 					}
 				}
 	}

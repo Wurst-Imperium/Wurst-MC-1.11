@@ -134,6 +134,7 @@ public class ModManager
 	public final SpammerMod spammerMod = new SpammerMod();
 	public final SpeedHackMod speedHackMod = new SpeedHackMod();
 	public final SpeedNukerMod speedNukerMod = new SpeedNukerMod();
+	public final SpeedTunnellerMod speedTunnellerMod = new SpeedTunnellerMod();	
 	public final SpiderMod spiderMod = new SpiderMod();
 	public final StepMod stepMod = new StepMod();
 	public final ThrowMod throwMod = new ThrowMod();
