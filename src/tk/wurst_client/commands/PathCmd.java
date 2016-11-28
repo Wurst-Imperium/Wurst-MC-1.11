@@ -140,7 +140,8 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 				System.out.println("Length: " + path.size() + ", processed: "
 					+ pathFinder.getProcessedBlocks().size() + ", queue: "
 					+ pathFinder.getQueuedPoints().length + ", cost: "
-					+ pathFinder.getCurrentPoint().getTotalCost());
+					+ pathFinder
+						.getCost(pathFinder.getCurrentPoint().getPos()));
 		}
 	}
 	
@@ -346,7 +347,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		glDepthMask(true);
 		glDisable(GL_BLEND);
 	}
-
+	
 	public BlockPos getLastGoal()
 	{
 		return lastGoal;

@@ -14,14 +14,11 @@ public class PathPoint
 	private BlockPos pos;
 	private PathPoint previous;
 	private float priority;
-	private float totalCost;
 	
-	public PathPoint(BlockPos pos, PathPoint previous, float totalCost,
-		float priority)
+	public PathPoint(BlockPos pos, PathPoint previous, float priority)
 	{
 		this.pos = pos;
 		this.previous = previous;
-		this.totalCost = totalCost;
 		this.priority = priority;
 	}
 	
@@ -38,10 +35,5 @@ public class PathPoint
 	public float getPriority()
 	{
 		return priority;
-	}
-	
-	public float getTotalCost()
-	{
-		return totalCost;
 	}
 }

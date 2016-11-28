@@ -25,8 +25,7 @@ public class PathFinder
 	private final WurstClient wurst = WurstClient.INSTANCE;
 	private final Minecraft mc = Minecraft.getMinecraft();
 	
-	private final boolean invulnerable =
-		mc.player.capabilities.isCreativeMode;
+	private final boolean invulnerable = mc.player.capabilities.isCreativeMode;
 	public final boolean creativeFlying = mc.player.capabilities.isFlying;
 	public final boolean flying =
 		creativeFlying || wurst.mods.flightMod.isActive();
@@ -57,7 +56,9 @@ public class PathFinder
 	{
 		this.start = new BlockPos(mc.player);
 		this.goal = goal;
-		queue.add(new PathPoint(start, null, 0, getDistance(start)));
+		
+		costMap.put(start, 0F);
+		queue.add(new PathPoint(start, null, getDistance(start)));
 	}
 	
 	public boolean process(int limit)
@@ -75,7 +76,7 @@ public class PathFinder
 			// add neighbors to queue
 			for(BlockPos nextPos : getNeighbors(currentPoint.getPos()))
 			{
-				float newTotalCost = currentPoint.getTotalCost()
+				float newTotalCost = costMap.get(currentPoint.getPos())
 					+ getCost(currentPoint, nextPos);
 				
 				// check if there is a better way to get here
@@ -111,7 +112,7 @@ public class PathFinder
 				
 				// add this point to queue and cost map
 				costMap.put(nextPos, newTotalCost);
-				queue.add(new PathPoint(nextPos, currentPoint, newTotalCost,
+				queue.add(new PathPoint(nextPos, currentPoint,
 					newTotalCost + getDistance(nextPos)));
 			}
 		}
@@ -416,6 +417,11 @@ public class PathFinder
 	public PathPoint[] getQueuedPoints()
 	{
 		return queue.toArray(new PathPoint[queue.size()]);
+	}
+	
+	public float getCost(BlockPos pos)
+	{
+		return costMap.get(pos);
 	}
 	
 	public ArrayList<BlockPos> formatPath()
