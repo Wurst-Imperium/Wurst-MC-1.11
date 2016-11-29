@@ -8,19 +8,14 @@
 package tk.wurst_client.mods;
 
 import net.minecraft.block.Block;
-import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.navigator.NavigatorItem;
-import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 import tk.wurst_client.utils.BlockUtils;
-import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(
 	description = "Faster Tunneller that does not bypass NoCheat+",
@@ -30,14 +25,11 @@ import tk.wurst_client.utils.RenderUtils;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
-public class SpeedTunnellerMod extends Mod implements RenderListener, UpdateListener
+public class SpeedTunnellerMod extends Mod implements UpdateListener
 {
 	private static Block currentBlock;
-	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
-	private byte blockHitDelay = 0;
 	private BlockPos pos;
-	private boolean shouldRenderESP = false;
 	private int oldSlot = -1;
 	
 	@Override
@@ -52,7 +44,6 @@ public class SpeedTunnellerMod extends Mod implements RenderListener, UpdateList
 		if(wurst.mods.tunnellerMod.isEnabled())
 			wurst.mods.tunnellerMod.setEnabled(false);
 		wurst.events.add(UpdateListener.class, this);
-		wurst.events.add(RenderListener.class, this);
 	}
 	
 	@Override
@@ -62,20 +53,6 @@ public class SpeedTunnellerMod extends Mod implements RenderListener, UpdateList
 			wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
 			wurst.mods.fastBreakMod, wurst.mods.autoMineMod,
 			wurst.mods.tunnellerMod};
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onRender()
-	{
-		if(blockHitDelay == 0 && shouldRenderESP)
-			if(!mc.player.capabilities.isCreativeMode
-				&& currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) < 1)
-				RenderUtils.nukerBox(pos, currentDamage);
-			else
-				RenderUtils.nukerBox(pos, 1);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -117,14 +94,11 @@ public class SpeedTunnellerMod extends Mod implements RenderListener, UpdateList
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
 		if(oldSlot != -1)
 		{
 			mc.player.inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
-		currentDamage = 0;
-		shouldRenderESP = false;
 	}
 	
 	@SuppressWarnings("deprecation")
