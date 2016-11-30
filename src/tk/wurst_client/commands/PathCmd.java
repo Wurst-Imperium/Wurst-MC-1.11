@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.PathFinder;
 import tk.wurst_client.ai.PathPoint;
+import tk.wurst_client.ai.PathPos;
 import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
@@ -307,11 +308,15 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			
 			// processed (red)
 			glLineWidth(2.0F);
-			glColor4f(1F, 0F, 0F, 0.75F);
-			for(BlockPos pos : pathFinder.getProcessedBlocks())
+			for(PathPos pos : pathFinder.getProcessedBlocks())
 			{
 				if(renderedThings >= 5000)
 					break;
+				
+				if(pos.isJumping())
+					glColor4f(1F, 0F, 1F, 0.75F);
+				else
+					glColor4f(1F, 0F, 0F, 0.75F);
 				
 				renderer.renderArrow(pathFinder.getPrevPos(pos), pos);
 				renderedThings++;

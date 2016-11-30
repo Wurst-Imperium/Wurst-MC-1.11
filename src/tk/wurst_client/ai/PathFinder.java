@@ -36,19 +36,19 @@ public class PathFinder
 	private final boolean jesus = wurst.mods.jesusMod.isActive();
 	private final boolean spider = wurst.mods.spiderMod.isActive();
 	
-	private final BlockPos start;
+	private final PathPos start;
 	private final BlockPos goal;
 	private PathPoint currentPoint;
 	
-	private HashMap<BlockPos, Float> costMap = new HashMap<>();
-	private HashMap<BlockPos, BlockPos> prevPosMap = new HashMap<>();
+	private HashMap<PathPos, Float> costMap = new HashMap<>();
+	private HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private PriorityQueue<PathPoint> queue = new PriorityQueue<>((o1, o2) -> {
 		return Float.compare(o1.getPriority(), o2.getPriority());
 	});
 	
 	public PathFinder(BlockPos goal)
 	{
-		this.start = new BlockPos(mc.player);
+		start = new PathPos(new BlockPos(mc.player));
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
@@ -64,11 +64,11 @@ public class PathFinder
 			
 			// check if goal is reached
 			// TODO: custom condition for reaching goal
-			if(currentPoint.getPos().equals(goal))
+			if(goal.equals(currentPoint.getPos()))
 				return true;
 			
 			// add neighbors to queue
-			for(BlockPos nextPos : getNeighbors(currentPoint.getPos()))
+			for(PathPos nextPos : getNeighbors(currentPoint.getPos()))
 			{
 				float newTotalCost = costMap.get(currentPoint.getPos())
 					+ getCost(currentPoint, nextPos);
@@ -112,9 +112,9 @@ public class PathFinder
 		return false;
 	}
 	
-	private ArrayList<BlockPos> getNeighbors(BlockPos pos)
+	private ArrayList<PathPos> getNeighbors(BlockPos pos)
 	{
-		ArrayList<BlockPos> neighbors = new ArrayList<BlockPos>();
+		ArrayList<PathPos> neighbors = new ArrayList<>();
 		
 		// abort if too far away
 		if(Math.abs(start.getX() - pos.getX()) > 256
@@ -151,66 +151,66 @@ public class PathFinder
 				canGoThrough(north) && canGoThrough(north.up());
 			if(basicCheckNorth && (flying || canGoThrough(north.down())
 				|| canSafelyStandOn(north.down())))
-				neighbors.add(north);
+				neighbors.add(new PathPos(north));
 			
 			// east
 			boolean basicCheckEast =
 				canGoThrough(east) && canGoThrough(east.up());
 			if(basicCheckEast && (flying || canGoThrough(east.down())
 				|| canSafelyStandOn(east.down())))
-				neighbors.add(east);
+				neighbors.add(new PathPos(east));
 			
 			// south
 			boolean basicCheckSouth =
 				canGoThrough(south) && canGoThrough(south.up());
 			if(basicCheckSouth && (flying || canGoThrough(south.down())
 				|| canSafelyStandOn(south.down())))
-				neighbors.add(south);
+				neighbors.add(new PathPos(south));
 			
 			// west
 			boolean basicCheckWest =
 				canGoThrough(west) && canGoThrough(west.up());
 			if(basicCheckWest && (flying || canGoThrough(west.down())
 				|| canSafelyStandOn(west.down())))
-				neighbors.add(west);
+				neighbors.add(new PathPos(west));
 			
 			// north-east
 			if(basicCheckNorth && basicCheckEast && canGoThrough(northEast)
 				&& canGoThrough(northEast.up())
 				&& (flying || canGoThrough(northEast.down())
 					|| canSafelyStandOn(northEast.down())))
-				neighbors.add(northEast);
+				neighbors.add(new PathPos(northEast));
 			
 			// south-east
 			if(basicCheckSouth && basicCheckEast && canGoThrough(southEast)
 				&& canGoThrough(southEast.up())
 				&& (flying || canGoThrough(southEast.down())
 					|| canSafelyStandOn(southEast.down())))
-				neighbors.add(southEast);
+				neighbors.add(new PathPos(southEast));
 			
 			// south-west
 			if(basicCheckSouth && basicCheckWest && canGoThrough(southWest)
 				&& canGoThrough(southWest.up())
 				&& (flying || canGoThrough(southWest.down())
 					|| canSafelyStandOn(southWest.down())))
-				neighbors.add(southWest);
+				neighbors.add(new PathPos(southWest));
 			
 			// north-west
 			if(basicCheckNorth && basicCheckWest && canGoThrough(northWest)
 				&& canGoThrough(northWest.up())
 				&& (flying || canGoThrough(northWest.down())
 					|| canSafelyStandOn(northWest.down())))
-				neighbors.add(northWest);
+				neighbors.add(new PathPos(northWest));
 		}
 		
 		// up
 		if(pos.getY() < 256 && canGoThrough(up.up())
 			&& (flying || onGround || canClimbUpAt(pos)))
-			neighbors.add(up);
+			neighbors.add(new PathPos(up, onGround));
 		
 		// down
 		if(pos.getY() > 0 && canGoThrough(down))
-			neighbors.add(down);
+			neighbors.add(new PathPos(down));
 		
 		return neighbors;
 	}
@@ -400,7 +400,7 @@ public class PathFinder
 		return currentPoint;
 	}
 	
-	public Set<BlockPos> getProcessedBlocks()
+	public Set<PathPos> getProcessedBlocks()
 	{
 		return prevPosMap.keySet();
 	}

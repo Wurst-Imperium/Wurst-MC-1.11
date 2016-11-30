@@ -7,20 +7,18 @@
  */
 package tk.wurst_client.ai;
 
-import net.minecraft.util.math.BlockPos;
-
 public class PathPoint
 {
-	private BlockPos pos;
+	private PathPos pos;
 	private float priority;
 	
-	public PathPoint(BlockPos pos, float priority)
+	public PathPoint(PathPos pos, float priority)
 	{
 		this.pos = pos;
 		this.priority = priority;
 	}
 	
-	public BlockPos getPos()
+	public PathPos getPos()
 	{
 		return pos;
 	}
