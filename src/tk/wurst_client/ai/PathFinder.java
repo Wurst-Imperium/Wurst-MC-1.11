@@ -38,9 +38,9 @@ public class PathFinder
 	private final BlockPos goal;
 	private PathPos current;
 	
-	private HashMap<PathPos, Float> costMap = new HashMap<>();
-	private HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
-	private PathQueue queue = new PathQueue();
+	private final HashMap<PathPos, Float> costMap = new HashMap<>();
+	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
+	private final PathQueue queue = new PathQueue();
 	
 	public PathFinder(BlockPos goal)
 	{
