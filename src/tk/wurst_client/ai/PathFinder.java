@@ -245,44 +245,35 @@ public class PathFinder
 	
 	private boolean canFallBelow(PathPos pos)
 	{
-		// check fall damage
-		if(!checkFallDamage(pos))
-			return false;
-		
-		// check if player can stand below or keep falling
+		// check if player can keep falling
 		BlockPos down2 = pos.down(2);
-		if(!canGoThrough(down2) && !canSafelyStandOn(down2))
-			return false;
-		
-		return true;
-	}
-	
-	private boolean checkFallDamage(PathPos pos)
-	{
-		// check if fall damage is off
-		if(immuneToFallDamage)
+		if(canGoThrough(down2))
 			return true;
 		
-		// check if fall does not end yet
-		BlockPos down2 = pos.down(2);
-		if(!getMaterial(down2).blocksMovement()
-			|| getBlock(down2) instanceof BlockSign)
+		// check if player can stand below
+		if(!canSafelyStandOn(down2))
+			return false;
+		
+		// check if fall damage is off
+		if(immuneToFallDamage)
 			return true;
 		
 		// check if fall ends with slime block
 		if(getBlock(down2) instanceof BlockSlime)
 			return true;
 		
-		// check current and previous points
+		// check fall damage
 		BlockPos prevPos = pos;
 		for(int i = 0; i <= 3; i++)
 		{
-			// check if point does not exist
+			// check if prevPos does not exist, meaning that the pathfinding
+			// started during the fall and fall damage should be ignored because
+			// it cannot be prevented
 			if(prevPos == null)
 				return true;
 				
-			// check if point is not part of this fall
-			// (meaning the fall is too short to cause damage)
+			// check if point is not part of this fall, meaning that the fall is
+			// too short to cause any damage
 			if(!pos.up(i).equals(prevPos))
 				return true;
 			
