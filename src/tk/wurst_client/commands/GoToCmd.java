@@ -93,7 +93,9 @@ public class GoToCmd extends Cmd implements UpdateListener
 		// find path
 		if(path == null)
 		{
-			if(!pathFinder.process(1024))
+			pathFinder.process(1024);
+			
+			if(!pathFinder.isPathFound())
 				return;
 			
 			path = pathFinder.formatPath();
@@ -120,12 +122,12 @@ public class GoToCmd extends Cmd implements UpdateListener
 					{
 						if(!stopped)
 						{
-							mc.player.motionX /= Math
-								.max(Math.abs(mc.player.motionX) * 50, 1);
-							mc.player.motionY /= Math
-								.max(Math.abs(mc.player.motionY) * 50, 1);
-							mc.player.motionZ /= Math
-								.max(Math.abs(mc.player.motionZ) * 50, 1);
+							mc.player.motionX /=
+								Math.max(Math.abs(mc.player.motionX) * 50, 1);
+							mc.player.motionY /=
+								Math.max(Math.abs(mc.player.motionY) * 50, 1);
+							mc.player.motionZ /=
+								Math.max(Math.abs(mc.player.motionZ) * 50, 1);
 							stopped = true;
 						}
 					}

@@ -42,6 +42,8 @@ public class PathFinder
 	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
+	private boolean pathFound;
+	
 	public PathFinder(BlockPos goal)
 	{
 		start = new PathPos(new BlockPos(mc.player));
@@ -51,17 +53,20 @@ public class PathFinder
 		queue.add(start, getHeuristic(start));
 	}
 	
-	public boolean process(int limit)
+	public void process(int limit)
 	{
+		if(pathFound)
+			throw new IllegalStateException("Path was already found!");
+		
 		for(int i = 0; i < limit && !queue.isEmpty(); i++)
 		{
-			// get next point
+			// get next position from queue
 			current = queue.poll();
 			
 			// check if goal is reached
-			// TODO: custom condition for reaching goal
-			if(goal.equals(current))
-				return true;
+			pathFound = goal.equals(current);
+			if(pathFound)
+				return;
 			
 			// add neighbors to queue
 			for(PathPos next : getNeighbors(current))
@@ -77,7 +82,6 @@ public class PathFinder
 				queue.add(next, newCost + getHeuristic(next));
 			}
 		}
-		return false;
 	}
 	
 	private ArrayList<PathPos> getNeighbors(PathPos pos)
@@ -111,8 +115,8 @@ public class PathFinder
 		// player can move sideways if flying, standing on the ground, jumping,
 		// or inside of a block that allows sideways movement (ladders, webs,
 		// etc.)
-		if(flying || onGround || pos.isJumping() || canMoveSidewaysInMidair(pos)
-			|| canClimbUpAt(pos.down()))
+		if(flying || onGround || pos.isJumping()
+			|| canMoveSidewaysInMidairAt(pos) || canClimbUpAt(pos.down()))
 		{
 			// north
 			boolean basicCheckNorth =
@@ -184,6 +188,15 @@ public class PathFinder
 		return neighbors;
 	}
 	
+	private boolean canBeSolid(BlockPos pos)
+	{
+		Material material = getMaterial(pos);
+		Block block = getBlock(pos);
+		return (material.blocksMovement() && !(block instanceof BlockSign))
+			|| block instanceof BlockLadder || (jesus
+				&& (material == Material.WATER || material == Material.LAVA));
+	}
+	
 	private boolean canGoThrough(BlockPos pos)
 	{
 		// check if loaded
@@ -209,35 +222,16 @@ public class PathFinder
 		return true;
 	}
 	
-	private boolean canFlyAt(BlockPos pos)
+	private boolean canSafelyStandOn(BlockPos pos)
 	{
-		return flying
-			|| !noSlowdownActive && getMaterial(pos) == Material.WATER;
-	}
-	
-	private boolean canBeSolid(BlockPos pos)
-	{
+		// check if solid
 		Material material = getMaterial(pos);
-		Block block = getBlock(pos);
-		return (material.blocksMovement() && !(block instanceof BlockSign))
-			|| block instanceof BlockLadder || (jesus
-				&& (material == Material.WATER || material == Material.LAVA));
-	}
-	
-	private boolean canClimbUpAt(BlockPos pos)
-	{
-		// check if this block works for climbing
-		Block block = getBlock(pos);
-		if(!spider && !(block instanceof BlockLadder)
-			&& !(block instanceof BlockVine))
+		if(!canBeSolid(pos))
 			return false;
 		
-		// check if any adjacent block is solid
-		BlockPos up = pos.up();
-		if(!canBeSolid(pos.north()) && !canBeSolid(pos.east())
-			&& !canBeSolid(pos.south()) && !canBeSolid(pos.west())
-			&& !canBeSolid(up.north()) && !canBeSolid(up.east())
-			&& !canBeSolid(up.south()) && !canBeSolid(up.west()))
+		// check if safe
+		if(!invulnerable
+			&& (material == Material.CACTUS || material == Material.LAVA))
 			return false;
 		
 		return true;
@@ -291,7 +285,32 @@ public class PathFinder
 		return false;
 	}
 	
-	private boolean canMoveSidewaysInMidair(BlockPos pos)
+	private boolean canFlyAt(BlockPos pos)
+	{
+		return flying
+			|| !noSlowdownActive && getMaterial(pos) == Material.WATER;
+	}
+	
+	private boolean canClimbUpAt(BlockPos pos)
+	{
+		// check if this block works for climbing
+		Block block = getBlock(pos);
+		if(!spider && !(block instanceof BlockLadder)
+			&& !(block instanceof BlockVine))
+			return false;
+		
+		// check if any adjacent block is solid
+		BlockPos up = pos.up();
+		if(!canBeSolid(pos.north()) && !canBeSolid(pos.east())
+			&& !canBeSolid(pos.south()) && !canBeSolid(pos.west())
+			&& !canBeSolid(up.north()) && !canBeSolid(up.east())
+			&& !canBeSolid(up.south()) && !canBeSolid(up.west()))
+			return false;
+		
+		return true;
+	}
+	
+	private boolean canMoveSidewaysInMidairAt(BlockPos pos)
 	{
 		// check feet
 		Block blockFeet = getBlock(pos);
@@ -305,21 +324,6 @@ public class PathFinder
 			return true;
 		
 		return false;
-	}
-	
-	private boolean canSafelyStandOn(BlockPos pos)
-	{
-		// check if solid
-		Material material = getMaterial(pos);
-		if(!canBeSolid(pos))
-			return false;
-		
-		// check if safe
-		if(!invulnerable
-			&& (material == Material.CACTUS || material == Material.LAVA))
-			return false;
-		
-		return true;
 	}
 	
 	private float getCost(BlockPos current, BlockPos next)
@@ -353,14 +357,14 @@ public class PathFinder
 			* ((dx + dy + dz) - 0.5857864376269049F * Math.min(dx, dz));
 	}
 	
-	private Material getMaterial(BlockPos pos)
-	{
-		return mc.world.getBlockState(pos).getMaterial();
-	}
-	
 	private Block getBlock(BlockPos pos)
 	{
 		return mc.world.getBlockState(pos).getBlock();
+	}
+	
+	private Material getMaterial(BlockPos pos)
+	{
+		return mc.world.getBlockState(pos).getMaterial();
 	}
 	
 	public PathPos getCurrentPos()
@@ -398,8 +402,17 @@ public class PathFinder
 		return prevPosMap.get(pos);
 	}
 	
+	public boolean isPathFound()
+	{
+		return pathFound;
+	}
+	
 	public ArrayList<BlockPos> formatPath()
 	{
+		if(!pathFound)
+			throw new IllegalStateException("No path found!");
+		
+		// get positions
 		ArrayList<BlockPos> path = new ArrayList<BlockPos>();
 		BlockPos pos = current;
 		while(pos != null)
@@ -407,7 +420,10 @@ public class PathFinder
 			path.add(pos);
 			pos = prevPosMap.get(pos);
 		}
+		
+		// reverse path
 		Collections.reverse(path);
+		
 		return path;
 	}
 }
