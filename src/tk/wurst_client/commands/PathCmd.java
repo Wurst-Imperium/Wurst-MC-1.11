@@ -16,7 +16,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.PathFinder;
-import tk.wurst_client.ai.PathPoint;
 import tk.wurst_client.ai.PathPos;
 import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.RenderListener;
@@ -140,9 +139,8 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			if(debugMode.isChecked())
 				System.out.println("Length: " + path.size() + ", processed: "
 					+ pathFinder.getProcessedBlocks().size() + ", queue: "
-					+ pathFinder.getQueuedPoints().length + ", cost: "
-					+ pathFinder
-						.getCost(pathFinder.getCurrentPoint().getPos()));
+					+ pathFinder.getQueueSize() + ", cost: "
+					+ pathFinder.getCost(pathFinder.getCurrentPos()));
 		}
 	}
 	
@@ -296,13 +294,13 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			// queue (yellow)
 			glLineWidth(2.0F);
 			glColor4f(1F, 1F, 0F, 0.75F);
-			PathPoint[] queue = pathFinder.getQueuedPoints();
+			PathPos[] queue = pathFinder.getQueuedBlocks();
 			for(int i = 0; i < queue.length; i++)
 			{
 				if(renderedThings >= 5000)
 					break;
 				
-				renderer.renderNode(queue[i].getPos());
+				renderer.renderNode(queue[i]);
 				renderedThings++;
 			}
 			

@@ -10,7 +10,6 @@ package tk.wurst_client.ai;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.Set;
 
 import net.minecraft.block.*;
@@ -38,13 +37,11 @@ public class PathFinder
 	
 	private final PathPos start;
 	private final BlockPos goal;
-	private PathPoint currentPoint;
+	private PathPos currentPos;
 	
 	private HashMap<PathPos, Float> costMap = new HashMap<>();
 	private HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
-	private PriorityQueue<PathPoint> queue = new PriorityQueue<>((o1, o2) -> {
-		return Float.compare(o1.getPriority(), o2.getPriority());
-	});
+	private PathQueue queue = new PathQueue();
 	
 	public PathFinder(BlockPos goal)
 	{
@@ -52,7 +49,7 @@ public class PathFinder
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
-		queue.add(new PathPoint(start, getHeuristic(start)));
+		queue.add(start, getHeuristic(start));
 	}
 	
 	public boolean process(int limit)
@@ -60,18 +57,18 @@ public class PathFinder
 		for(int i = 0; i < limit && !queue.isEmpty(); i++)
 		{
 			// get next point
-			currentPoint = queue.poll();
+			currentPos = queue.poll();
 			
 			// check if goal is reached
 			// TODO: custom condition for reaching goal
-			if(goal.equals(currentPoint.getPos()))
+			if(goal.equals(currentPos))
 				return true;
 			
 			// add neighbors to queue
-			for(PathPos nextPos : getNeighbors(currentPoint.getPos()))
+			for(PathPos nextPos : getNeighbors(currentPos))
 			{
-				float newTotalCost = costMap.get(currentPoint.getPos())
-					+ getCost(currentPoint, nextPos);
+				float newTotalCost =
+					costMap.get(currentPos) + getCost(currentPos, nextPos);
 				
 				// check if there is a better way to get here
 				if(costMap.containsKey(nextPos)
@@ -79,8 +76,8 @@ public class PathFinder
 					continue;
 				
 				// get next movement direction
-				BlockPos pos = currentPoint.getPos();
-				Vec3i nextMove = nextPos.subtract(currentPoint.getPos());
+				BlockPos pos = currentPos;
+				Vec3i nextMove = nextPos.subtract(currentPos);
 				
 				// vertical
 				if(nextMove.getY() != 0)
@@ -89,7 +86,7 @@ public class PathFinder
 					
 					// down: check fall damage
 					if(nextMove.getY() < 0 && !canFlyAt(pos)
-						&& !canFallBelow(currentPoint))
+						&& !canFallBelow(currentPos))
 						continue;
 					
 					// horizontal
@@ -104,9 +101,8 @@ public class PathFinder
 				
 				// add this point to queue and cost map
 				costMap.put(nextPos, newTotalCost);
-				prevPosMap.put(nextPos, currentPoint.getPos());
-				queue.add(new PathPoint(nextPos,
-					newTotalCost + getHeuristic(nextPos)));
+				prevPosMap.put(nextPos, currentPos);
+				queue.add(nextPos, newTotalCost + getHeuristic(nextPos));
 			}
 		}
 		return false;
@@ -274,28 +270,27 @@ public class PathFinder
 		return true;
 	}
 	
-	private boolean canFallBelow(PathPoint point)
+	private boolean canFallBelow(PathPos pos)
 	{
 		// check fall damage
-		if(!checkFallDamage(point))
+		if(!checkFallDamage(pos))
 			return false;
 		
 		// check if player can stand below or keep falling
-		BlockPos down2 = point.getPos().down(2);
+		BlockPos down2 = pos.down(2);
 		if(!canGoThrough(down2) && !canSafelyStandOn(down2))
 			return false;
 		
 		return true;
 	}
 	
-	private boolean checkFallDamage(PathPoint point)
+	private boolean checkFallDamage(PathPos pos)
 	{
 		// check if fall damage is off
 		if(immuneToFallDamage)
 			return true;
 		
 		// check if fall does not end yet
-		BlockPos pos = point.getPos();
 		BlockPos down2 = pos.down(2);
 		if(!getMaterial(down2).blocksMovement()
 			|| getBlock(down2) instanceof BlockSign)
@@ -363,13 +358,12 @@ public class PathFinder
 		return true;
 	}
 	
-	private float getCost(PathPoint lastPoint, BlockPos next)
+	private float getCost(BlockPos current, BlockPos next)
 	{
 		float cost = 1F;
 		
 		// diagonal movement
-		if(lastPoint.getPos().getX() != next.getX()
-			&& lastPoint.getPos().getZ() != next.getZ())
+		if(current.getX() != next.getX() && current.getZ() != next.getZ())
 			cost *= 1.4142135623730951F;
 		
 		// liquids
@@ -395,9 +389,24 @@ public class PathFinder
 			* ((dx + dy + dz) - 0.5857864376269049F * Math.min(dx, dz));
 	}
 	
-	public PathPoint getCurrentPoint()
+	private Material getMaterial(BlockPos pos)
 	{
-		return currentPoint;
+		return mc.world.getBlockState(pos).getMaterial();
+	}
+	
+	private Block getBlock(BlockPos pos)
+	{
+		return mc.world.getBlockState(pos).getBlock();
+	}
+	
+	public PathPos getCurrentPos()
+	{
+		return currentPos;
+	}
+	
+	public BlockPos getGoal()
+	{
+		return goal;
 	}
 	
 	public Set<PathPos> getProcessedBlocks()
@@ -405,9 +414,14 @@ public class PathFinder
 		return prevPosMap.keySet();
 	}
 	
-	public PathPoint[] getQueuedPoints()
+	public PathPos[] getQueuedBlocks()
 	{
-		return queue.toArray(new PathPoint[queue.size()]);
+		return queue.toArray();
+	}
+	
+	public int getQueueSize()
+	{
+		return queue.size();
 	}
 	
 	public float getCost(BlockPos pos)
@@ -423,7 +437,7 @@ public class PathFinder
 	public ArrayList<BlockPos> formatPath()
 	{
 		ArrayList<BlockPos> path = new ArrayList<BlockPos>();
-		BlockPos pos = currentPoint.getPos();
+		BlockPos pos = currentPos;
 		while(pos != null)
 		{
 			path.add(pos);
@@ -431,20 +445,5 @@ public class PathFinder
 		}
 		Collections.reverse(path);
 		return path;
-	}
-	
-	private Material getMaterial(BlockPos pos)
-	{
-		return mc.world.getBlockState(pos).getMaterial();
-	}
-	
-	private Block getBlock(BlockPos pos)
-	{
-		return mc.world.getBlockState(pos).getBlock();
-	}
-	
-	public BlockPos getGoal()
-	{
-		return goal;
 	}
 }
