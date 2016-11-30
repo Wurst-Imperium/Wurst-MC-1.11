@@ -16,7 +16,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import tk.wurst_client.WurstClient;
 
 public class PathFinder
@@ -37,7 +36,7 @@ public class PathFinder
 	
 	private final PathPos start;
 	private final BlockPos goal;
-	private PathPos currentPos;
+	private PathPos current;
 	
 	private HashMap<PathPos, Float> costMap = new HashMap<>();
 	private HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
@@ -57,58 +56,31 @@ public class PathFinder
 		for(int i = 0; i < limit && !queue.isEmpty(); i++)
 		{
 			// get next point
-			currentPos = queue.poll();
+			current = queue.poll();
 			
 			// check if goal is reached
 			// TODO: custom condition for reaching goal
-			if(goal.equals(currentPos))
+			if(goal.equals(current))
 				return true;
 			
 			// add neighbors to queue
-			for(PathPos nextPos : getNeighbors(currentPos))
+			for(PathPos next : getNeighbors(current))
 			{
-				float newTotalCost =
-					costMap.get(currentPos) + getCost(currentPos, nextPos);
-				
-				// check if there is a better way to get here
-				if(costMap.containsKey(nextPos)
-					&& costMap.get(nextPos) <= newTotalCost)
+				// check cost
+				float newCost = costMap.get(current) + getCost(current, next);
+				if(costMap.containsKey(next) && costMap.get(next) <= newCost)
 					continue;
 				
-				// get next movement direction
-				BlockPos pos = currentPos;
-				Vec3i nextMove = nextPos.subtract(currentPos);
-				
-				// vertical
-				if(nextMove.getY() != 0)
-				{
-					// up: no further checks required
-					
-					// down: check fall damage
-					if(nextMove.getY() < 0 && !canFlyAt(pos)
-						&& !canFallBelow(currentPos))
-						continue;
-					
-					// horizontal
-				}else
-				{
-					// check if flying, walking or jumping
-					BlockPos down = pos.down();
-					if(!canFlyAt(pos) && !canBeSolid(down)
-						&& !down.equals(prevPosMap.get(pos)))
-						continue;
-				}
-				
-				// add this point to queue and cost map
-				costMap.put(nextPos, newTotalCost);
-				prevPosMap.put(nextPos, currentPos);
-				queue.add(nextPos, newTotalCost + getHeuristic(nextPos));
+				// add to queue
+				costMap.put(next, newCost);
+				prevPosMap.put(next, current);
+				queue.add(next, newCost + getHeuristic(next));
 			}
 		}
 		return false;
 	}
 	
-	private ArrayList<PathPos> getNeighbors(BlockPos pos)
+	private ArrayList<PathPos> getNeighbors(PathPos pos)
 	{
 		ArrayList<PathPos> neighbors = new ArrayList<>();
 		
@@ -136,11 +108,11 @@ public class PathFinder
 		// walking
 		boolean onGround = canBeSolid(down);
 		
-		// player can move sideways if flying, standing on the ground, jumping
-		// (one block above ground), or in a block that allows sideways movement
-		// (ladder, web, etc.)
-		if(flying || onGround || canBeSolid(down.down())
-			|| canMoveSidewaysInMidair(pos) || canClimbUpAt(pos.down()))
+		// player can move sideways if flying, standing on the ground, jumping,
+		// or inside of a block that allows sideways movement (ladders, webs,
+		// etc.)
+		if(flying || onGround || pos.isJumping() || canMoveSidewaysInMidair(pos)
+			|| canClimbUpAt(pos.down()))
 		{
 			// north
 			boolean basicCheckNorth =
@@ -205,7 +177,8 @@ public class PathFinder
 			neighbors.add(new PathPos(up, onGround));
 		
 		// down
-		if(pos.getY() > 0 && canGoThrough(down))
+		if(pos.getY() > 0 && canGoThrough(down)
+			&& (flying || canFallBelow(pos)))
 			neighbors.add(new PathPos(down));
 		
 		return neighbors;
@@ -401,7 +374,7 @@ public class PathFinder
 	
 	public PathPos getCurrentPos()
 	{
-		return currentPos;
+		return current;
 	}
 	
 	public BlockPos getGoal()
@@ -437,7 +410,7 @@ public class PathFinder
 	public ArrayList<BlockPos> formatPath()
 	{
 		ArrayList<BlockPos> path = new ArrayList<BlockPos>();
-		BlockPos pos = currentPos;
+		BlockPos pos = current;
 		while(pos != null)
 		{
 			path.add(pos);
