@@ -42,7 +42,8 @@ public class PathFinder
 	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
-	private boolean pathFound;
+	private boolean done;
+	private int iterations;
 	private final ArrayList<PathPos> path = new ArrayList<>();
 	
 	public PathFinder(BlockPos goal)
@@ -56,17 +57,18 @@ public class PathFinder
 	
 	public void process(int limit)
 	{
-		if(pathFound)
+		if(done)
 			throw new IllegalStateException("Path was already found!");
 		
-		for(int i = 0; i < limit && !queue.isEmpty(); i++)
+		int i = 0;
+		for(; i < limit && !isFailed(); i++)
 		{
 			// get next position from queue
 			current = queue.poll();
 			
 			// check if path is found
-			pathFound = goal.equals(current);
-			if(pathFound)
+			done = goal.equals(current);
+			if(done)
 				return;
 			
 			// add neighbors to queue
@@ -83,6 +85,7 @@ public class PathFinder
 				queue.add(next, newCost + getHeuristic(next));
 			}
 		}
+		iterations += i;
 	}
 	
 	private ArrayList<PathPos> getNeighbors(PathPos pos)
@@ -403,14 +406,19 @@ public class PathFinder
 		return prevPosMap.get(pos);
 	}
 	
-	public boolean isPathFound()
+	public boolean isDone()
 	{
-		return pathFound;
+		return done;
+	}
+	
+	public boolean isFailed()
+	{
+		return queue.isEmpty() || iterations >= 1024 * 200;
 	}
 	
 	public ArrayList<PathPos> formatPath()
 	{
-		if(!pathFound)
+		if(!done)
 			throw new IllegalStateException("No path found!");
 		if(!path.isEmpty())
 			throw new IllegalStateException("Path was already formatted!");

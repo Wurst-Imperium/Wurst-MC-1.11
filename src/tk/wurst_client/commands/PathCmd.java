@@ -122,10 +122,10 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 	{
 		double passedTime = (System.nanoTime() - startTime) / 1e6;
 		pathFinder.process(1024);
-		boolean foundPath = pathFinder.isPathFound();
+		boolean foundPath = pathFinder.isDone();
 		
-		// stop if path is found or 10s have passed
-		if(foundPath || passedTime >= 10e3)
+		// stop if done or failed
+		if(foundPath || pathFinder.isFailed())
 		{
 			if(foundPath)
 				path = pathFinder.formatPath();

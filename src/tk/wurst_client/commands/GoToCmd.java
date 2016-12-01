@@ -74,7 +74,12 @@ public class GoToCmd extends Cmd implements UpdateListener
 		ai.update();
 		
 		if(ai.isDone() || ai.isFailed())
+		{
+			if(ai.isFailed())
+				wurst.chat.error("Could not find a path.");
+			
 			disable();
+		}
 	}
 	
 	private void disable()

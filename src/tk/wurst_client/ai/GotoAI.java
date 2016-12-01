@@ -7,15 +7,10 @@
  */
 package tk.wurst_client.ai;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
-import tk.wurst_client.WurstClient;
 
 public class GotoAI
 {
-	private final WurstClient wurst = WurstClient.INSTANCE;
-	private final Minecraft mc = Minecraft.getMinecraft();
-	
 	private PathFinder pathFinder;
 	private PathProcessor processor;
 	
@@ -31,20 +26,17 @@ public class GotoAI
 	public void update()
 	{
 		// find path
-		if(!pathFinder.isPathFound())
+		if(!pathFinder.isDone())
 		{
 			if(processor != null)
 				processor.lockControls();
 			
 			pathFinder.process(1024);
 			
-			if(!pathFinder.isPathFound())
+			if(!pathFinder.isDone())
 			{
-				if(pathFinder.getQueueSize() == 0)
-				{
-					wurst.chat.error("Could not find a path.");
+				if(pathFinder.isFailed())
 					failed = true;
-				}
 				
 				return;
 			}
