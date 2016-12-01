@@ -15,6 +15,7 @@ import java.util.Set;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
 
@@ -35,8 +36,11 @@ public class PathFinder
 	private final boolean spider = wurst.mods.spiderMod.isActive();
 	
 	private final PathPos start;
-	private final BlockPos goal;
 	private PathPos current;
+	private final BlockPos goal;
+	
+	private final float range;
+	private final Entity entity;
 	
 	private final HashMap<PathPos, Float> costMap = new HashMap<>();
 	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
@@ -50,6 +54,21 @@ public class PathFinder
 	{
 		start = new PathPos(new BlockPos(mc.player));
 		this.goal = goal;
+		
+		this.range = 0;
+		entity = null;
+		
+		costMap.put(start, 0F);
+		queue.add(start, getHeuristic(start));
+	}
+	
+	public PathFinder(Entity entity, float range)
+	{
+		this.range = range;
+		this.entity = entity;
+		
+		start = new PathPos(new BlockPos(mc.player));
+		goal = new BlockPos(entity);
 		
 		costMap.put(start, 0F);
 		queue.add(start, getHeuristic(start));
@@ -67,7 +86,7 @@ public class PathFinder
 			current = queue.poll();
 			
 			// check if path is found
-			done = goal.equals(current);
+			done = getHeuristic(current) <= range;
 			if(done)
 				return;
 			
@@ -452,6 +471,10 @@ public class PathFinder
 	{
 		if(path.isEmpty())
 			throw new IllegalStateException("Path is not formatted!");
+		
+		// check entity
+		if(entity != null && !goal.equals(new BlockPos(entity)))
+			return false;
 		
 		// check player abilities
 		if(invulnerable != mc.player.capabilities.isCreativeMode

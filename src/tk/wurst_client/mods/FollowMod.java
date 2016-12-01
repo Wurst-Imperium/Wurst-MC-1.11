@@ -8,6 +8,7 @@
 package tk.wurst_client.mods;
 
 import net.minecraft.entity.Entity;
+import tk.wurst_client.ai.GotoAI;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
@@ -22,8 +23,10 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class FollowMod extends Mod implements UpdateListener
 {
 	private Entity entity;
+	private GotoAI ai;
+	
 	private float range = 12F;
-	private float distance = 1F;
+	private float distance = 1.1F;
 	
 	private TargetSettings targetSettingsFind = new TargetSettings()
 	{
@@ -116,6 +119,14 @@ public class FollowMod extends Mod implements UpdateListener
 	public void onEnable()
 	{
 		entity = EntityUtils.getClosestEntity(targetSettingsFind);
+		
+		if(entity == null)
+		{
+			setEnabled(false);
+			return;
+		}
+		
+		ai = new GotoAI(entity, distance);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -126,31 +137,34 @@ public class FollowMod extends Mod implements UpdateListener
 		if(mc.player.getHealth() <= 0
 			|| !EntityUtils.isCorrectEntity(entity, targetSettingsKeep))
 		{
-			entity = null;
 			setEnabled(false);
 			return;
 		}
 		
-		// jump if necessary
-		if(mc.player.isCollidedHorizontally && mc.player.onGround)
-			mc.player.jump();
+		// go to entity
+		ai.update();
 		
-		// swim up if necessary
-		if(mc.player.isInWater() && mc.player.posY < entity.posY)
-			mc.player.motionY += 0.04;
-		
-		// follow entity
-		EntityUtils.faceEntityClient(entity);
-		mc.gameSettings.keyBindForward.pressed =
-			mc.player.getDistanceToEntity(entity) > distance;
+		if(ai.isDone() || ai.isFailed())
+		{
+			ai.stop();
+			
+			// face entity
+			EntityUtils.faceEntityClient(entity);
+			
+			// restart pathfinder
+			ai = new GotoAI(entity, distance);
+		}
 	}
 	
 	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		if(entity != null)
-			mc.gameSettings.keyBindForward.pressed = false;
+		
+		if(ai != null)
+			ai.stop();
+		
+		entity = null;
 	}
 	
 	public void setEntity(Entity entity)

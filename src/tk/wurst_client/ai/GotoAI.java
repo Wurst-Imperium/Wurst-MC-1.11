@@ -7,6 +7,7 @@
  */
 package tk.wurst_client.ai;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 
 public class GotoAI
@@ -21,6 +22,12 @@ public class GotoAI
 	{
 		System.out.println("Finding path...");
 		pathFinder = new PathFinder(goal);
+	}
+	
+	public GotoAI(Entity entity, float range)
+	{
+		System.out.println("Finding path...");
+		pathFinder = new PathFinder(entity, range);
 	}
 	
 	public void update()
