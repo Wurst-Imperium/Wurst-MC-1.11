@@ -104,31 +104,4 @@ public class BlockUtils
 		return MathHelper.sqrt(
 			(xDiff - 0.5F) * (xDiff - 0.5F) + (zDiff - 0.5F) * (zDiff - 0.5F));
 	}
-	
-	/**
-	 * Determines whether a block is in a specified cuboid.
-	 * @param bound1 The first corner of the cuboid.
-	 * @param bound2 The second corner of the cuboid.
-	 * @param pos The position to check.
-	 * @return true if the block is within the bounds
-	 */
-	public static  boolean inBounds(BlockPos bound1, BlockPos bound2, BlockPos pos)
-	{
-		return (isBetween(bound1.getX(), pos.getX(), bound2.getX())
-		&& isBetween(bound1.getY(), pos.getY(), bound2.getY())
-		&& isBetween(bound1.getZ(), pos.getZ(), bound2.getZ())
-		);
-	}
-	
-	/**
-	 * Simple helper
-	 * @param i1
-	 * @param middle The middle number
-	 * @param i2
-	 * @return
-	 */
-	public static boolean isBetween(int i1, int middle, int i2)
-	{
-		return ((i1 >= i2) ? (i1 >= middle && middle >= i2) : (i1 <= middle && middle <= i2));
-	}
 }

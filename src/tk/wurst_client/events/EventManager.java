@@ -27,8 +27,7 @@ public final class EventManager
 			new ArrayList<ChatInputListener>());
 		listenerMap.put(ChatOutputListener.class,
 			new ArrayList<ChatOutputListener>());
-		listenerMap.put(DeathListener.class,
-			new ArrayList<DeathListener>());
+		listenerMap.put(DeathListener.class, new ArrayList<DeathListener>());
 		listenerMap.put(GUIRenderListener.class,
 			new ArrayList<GUIRenderListener>());
 		listenerMap.put(LeftClickListener.class,
@@ -37,12 +36,8 @@ public final class EventManager
 			new ArrayList<PacketInputListener>());
 		listenerMap.put(PacketOutputListener.class,
 			new ArrayList<PacketOutputListener>());
-		listenerMap.put(RenderListener.class,
-			new ArrayList<RenderListener>());
-		listenerMap.put(RightClickListener.class,
-			new ArrayList<RightClickListener>());
-		listenerMap.put(UpdateListener.class,
-			new ArrayList<UpdateListener>());
+		listenerMap.put(RenderListener.class, new ArrayList<RenderListener>());
+		listenerMap.put(UpdateListener.class, new ArrayList<UpdateListener>());
 	}
 	
 	@SuppressWarnings("unchecked")

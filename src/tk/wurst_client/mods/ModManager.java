@@ -51,10 +51,8 @@ public class ModManager
 	public final BaseFinderMod baseFinderMod = new BaseFinderMod();
 	public final BlinkMod blinkMod = new BlinkMod();
 	public final BlockHitMod blockHitMod = new BlockHitMod();
-	public final BlockReachMod blockReachMod = new BlockReachMod();
 	public final BoatFlyMod boatFlyMod = new BoatFlyMod();
 	public final BonemealAuraMod bonemealAuraMod = new BonemealAuraMod();
-	public final BoundedNukerMod boundedNukerMod = new BoundedNukerMod();
 	public final BowAimbotMod bowAimbotMod = new BowAimbotMod();
 	public final BuildRandomMod buildRandomMod = new BuildRandomMod();
 	public final BunnyHopMod bunnyHopMod = new BunnyHopMod();
@@ -134,10 +132,9 @@ public class ModManager
 	public final SkinBlinkerMod skinBlinkerMod = new SkinBlinkerMod();
 	public final SneakMod sneakMod = new SneakMod();
 	public final SpammerMod spammerMod = new SpammerMod();
-	public final SpectatorDecectorMod spectatorDectectorMod= new SpectatorDecectorMod();
 	public final SpeedHackMod speedHackMod = new SpeedHackMod();
 	public final SpeedNukerMod speedNukerMod = new SpeedNukerMod();
-	public final SpeedTunnellerMod speedTunnellerMod = new SpeedTunnellerMod();
+	public final SpeedTunnellerMod speedTunnellerMod = new SpeedTunnellerMod();	
 	public final SpiderMod spiderMod = new SpiderMod();
 	public final StepMod stepMod = new StepMod();
 	public final ThrowMod throwMod = new ThrowMod();
