@@ -11,12 +11,10 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.PathFinder;
-import tk.wurst_client.ai.PathPoint;
+import tk.wurst_client.ai.PathPos;
 import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
@@ -31,7 +29,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class PathCmd extends Cmd implements UpdateListener, RenderListener
 {
 	private PathFinder pathFinder;
-	private ArrayList<BlockPos> path;
+	private ArrayList<PathPos> path;
 	private boolean enabled;
 	private BlockPos lastGoal;
 	
@@ -123,7 +121,8 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 	public void onUpdate()
 	{
 		double passedTime = (System.nanoTime() - startTime) / 1e6;
-		boolean foundPath = pathFinder.process(1024);
+		pathFinder.process(1024);
+		boolean foundPath = pathFinder.isPathFound();
 		
 		// stop if path is found or 10s have passed
 		if(foundPath || passedTime >= 10e3)
@@ -139,8 +138,8 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			if(debugMode.isChecked())
 				System.out.println("Length: " + path.size() + ", processed: "
 					+ pathFinder.getProcessedBlocks().size() + ", queue: "
-					+ pathFinder.getQueuedPoints().length + ", cost: "
-					+ pathFinder.getCurrentPoint().getTotalCost());
+					+ pathFinder.getQueueSize() + ", cost: "
+					+ pathFinder.getCost(pathFinder.getCurrentPos()));
 		}
 	}
 	
@@ -283,7 +282,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		glBlendFunc(770, 771);
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
-		glDisable(GL11.GL_TEXTURE_2D);
+		glDisable(GL_TEXTURE_2D);
 		if(!depthTest.isChecked())
 			glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
@@ -294,31 +293,29 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			// queue (yellow)
 			glLineWidth(2.0F);
 			glColor4f(1F, 1F, 0F, 0.75F);
-			PathPoint[] queue = pathFinder.getQueuedPoints();
+			PathPos[] queue = pathFinder.getQueuedBlocks();
 			for(int i = 0; i < queue.length; i++)
 			{
 				if(renderedThings >= 5000)
 					break;
 				
-				if(queue[i].getPrevious() == null)
-					continue;
-				
-				BlockPos pos = queue[i].getPrevious().getPos();
-				BlockPos nextPos = queue[i].getPos();
-				
-				renderer.renderArrow(pos, nextPos);
+				renderer.renderNode(queue[i]);
 				renderedThings++;
 			}
 			
 			// processed (red)
 			glLineWidth(2.0F);
-			glColor4f(1F, 0F, 0F, 0.75F);
-			for(BlockPos pos : pathFinder.getProcessedBlocks())
+			for(PathPos pos : pathFinder.getProcessedBlocks())
 			{
 				if(renderedThings >= 5000)
 					break;
 				
-				renderer.renderNode(pos);
+				if(pos.isJumping())
+					glColor4f(1F, 0F, 1F, 0.75F);
+				else
+					glColor4f(1F, 0F, 0F, 0.75F);
+				
+				renderer.renderArrow(pathFinder.getPrevPos(pos), pos);
 				renderedThings++;
 			}
 		}
@@ -341,12 +338,12 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		}
 		
 		// GL resets
-		glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(true);
 		glDisable(GL_BLEND);
 	}
-
+	
 	public BlockPos getLastGoal()
 	{
 		return lastGoal;

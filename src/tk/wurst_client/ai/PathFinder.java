@@ -10,25 +10,26 @@ package tk.wurst_client.ai;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.Set;
+
+import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.utils.BlockUtils;
 
 public class PathFinder
 {
 	private final WurstClient wurst = WurstClient.INSTANCE;
 	private final Minecraft mc = Minecraft.getMinecraft();
 	
-	private final boolean invulnerable =
-		mc.player.capabilities.isCreativeMode;
-	public final boolean creativeFlying = mc.player.capabilities.isFlying;
-	public final boolean flying =
+	private final boolean invulnerable = mc.player.capabilities.isCreativeMode;
+	private final boolean creativeFlying = mc.player.capabilities.isFlying;
+	private final boolean flying =
 		creativeFlying || wurst.mods.flightMod.isActive();
 	private final boolean immuneToFallDamage =
 		invulnerable || wurst.mods.noFallMod.isActive();
@@ -37,90 +38,69 @@ public class PathFinder
 	private final boolean jesus = wurst.mods.jesusMod.isActive();
 	private final boolean spider = wurst.mods.spiderMod.isActive();
 	
-	private final BlockPos start;
+	private final PathPos start;
 	private final BlockPos goal;
-	private PathPoint currentPoint;
+	private PathPos current;
 	
-	private HashMap<BlockPos, Float> costMap = new HashMap<>();
-	private PriorityQueue<PathPoint> queue =
-		new PriorityQueue<>((PathPoint o1, PathPoint o2) -> {
-			float d = o1.getPriority() - o2.getPriority();
-			if(d > 0)
-				return 1;
-			else if(d < 0)
-				return -1;
-			else
-				return 0;
-		});
+	private final HashMap<PathPos, Float> costMap = new HashMap<>();
+	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
+	private final PathQueue queue = new PathQueue();
+	
+	private boolean pathFound;
+	private final ArrayList<PathPos> path = new ArrayList<>();
+	
+	private int index;
+	private boolean stopped;
+	private boolean goalReached;
+	
+	private final KeyBinding[] controls = new KeyBinding[]{
+		mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack,
+		mc.gameSettings.keyBindRight, mc.gameSettings.keyBindLeft,
+		mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSneak};
 	
 	public PathFinder(BlockPos goal)
 	{
-		this.start = new BlockPos(mc.player);
+		start = new PathPos(new BlockPos(mc.player));
 		this.goal = goal;
-		queue.add(new PathPoint(start, null, 0, getDistance(start)));
+		
+		costMap.put(start, 0F);
+		queue.add(start, getHeuristic(start));
 	}
 	
-	public boolean process(int limit)
+	public void process(int limit)
 	{
+		if(pathFound)
+			throw new IllegalStateException("Path was already found!");
+		
 		for(int i = 0; i < limit && !queue.isEmpty(); i++)
 		{
-			// get next point
-			currentPoint = queue.poll();
+			// get next position from queue
+			current = queue.poll();
 			
-			// check if goal is reached
-			// TODO: custom condition for reaching goal
-			if(currentPoint.getPos().equals(goal))
-				return true;
+			// check if path is found
+			pathFound = goal.equals(current);
+			if(pathFound)
+				return;
 			
 			// add neighbors to queue
-			for(BlockPos nextPos : getNeighbors(currentPoint.getPos()))
+			for(PathPos next : getNeighbors(current))
 			{
-				float newTotalCost = currentPoint.getTotalCost()
-					+ getCost(currentPoint, nextPos);
-				
-				// check if there is a better way to get here
-				if(costMap.containsKey(nextPos)
-					&& costMap.get(nextPos) <= newTotalCost)
+				// check cost
+				float newCost = costMap.get(current) + getCost(current, next);
+				if(costMap.containsKey(next) && costMap.get(next) <= newCost)
 					continue;
 				
-				// get next movement direction
-				BlockPos pos = currentPoint.getPos();
-				Vec3i nextMove = nextPos.subtract(currentPoint.getPos());
-				
-				// vertical
-				if(nextMove.getY() != 0)
-				{
-					// up: no further checks required
-					
-					// down: check fall damage
-					if(nextMove.getY() < 0 && !canFlyAt(pos)
-						&& !canFallBelow(currentPoint))
-						continue;
-					
-					// horizontal
-				}else
-				{
-					// check if flying, walking or jumping
-					BlockPos prevPos = currentPoint.getPrevious() == null ? null
-						: currentPoint.getPrevious().getPos();
-					BlockPos down = pos.down();
-					if(!canFlyAt(pos) && !canBeSolid(down)
-						&& !down.equals(prevPos))
-						continue;
-				}
-				
-				// add this point to queue and cost map
-				costMap.put(nextPos, newTotalCost);
-				queue.add(new PathPoint(nextPos, currentPoint, newTotalCost,
-					newTotalCost + getDistance(nextPos)));
+				// add to queue
+				costMap.put(next, newCost);
+				prevPosMap.put(next, current);
+				queue.add(next, newCost + getHeuristic(next));
 			}
 		}
-		return false;
 	}
 	
-	private ArrayList<BlockPos> getNeighbors(BlockPos pos)
+	private ArrayList<PathPos> getNeighbors(PathPos pos)
 	{
-		ArrayList<BlockPos> neighbors = new ArrayList<BlockPos>();
+		ArrayList<PathPos> neighbors = new ArrayList<>();
 		
 		// abort if too far away
 		if(Math.abs(start.getX() - pos.getX()) > 256
@@ -146,79 +126,89 @@ public class PathFinder
 		// walking
 		boolean onGround = canBeSolid(down);
 		
-		// player can move sideways if flying, standing on the ground, jumping
-		// (one block above ground), or in a block that allows sideways movement
-		// (ladder, web, etc.)
-		if(flying || onGround || canBeSolid(down.down())
-			|| canMoveSidewaysInMidair(pos) || canClimbUpAt(pos.down()))
+		// player can move sideways if flying, standing on the ground, jumping,
+		// or inside of a block that allows sideways movement (ladders, webs,
+		// etc.)
+		if(flying || onGround || pos.isJumping()
+			|| canMoveSidewaysInMidairAt(pos) || canClimbUpAt(pos.down()))
 		{
 			// north
 			boolean basicCheckNorth =
 				canGoThrough(north) && canGoThrough(north.up());
 			if(basicCheckNorth && (flying || canGoThrough(north.down())
 				|| canSafelyStandOn(north.down())))
-				neighbors.add(north);
+				neighbors.add(new PathPos(north));
 			
 			// east
 			boolean basicCheckEast =
 				canGoThrough(east) && canGoThrough(east.up());
 			if(basicCheckEast && (flying || canGoThrough(east.down())
 				|| canSafelyStandOn(east.down())))
-				neighbors.add(east);
+				neighbors.add(new PathPos(east));
 			
 			// south
 			boolean basicCheckSouth =
 				canGoThrough(south) && canGoThrough(south.up());
 			if(basicCheckSouth && (flying || canGoThrough(south.down())
 				|| canSafelyStandOn(south.down())))
-				neighbors.add(south);
+				neighbors.add(new PathPos(south));
 			
 			// west
 			boolean basicCheckWest =
 				canGoThrough(west) && canGoThrough(west.up());
 			if(basicCheckWest && (flying || canGoThrough(west.down())
 				|| canSafelyStandOn(west.down())))
-				neighbors.add(west);
+				neighbors.add(new PathPos(west));
 			
 			// north-east
 			if(basicCheckNorth && basicCheckEast && canGoThrough(northEast)
 				&& canGoThrough(northEast.up())
 				&& (flying || canGoThrough(northEast.down())
 					|| canSafelyStandOn(northEast.down())))
-				neighbors.add(northEast);
+				neighbors.add(new PathPos(northEast));
 			
 			// south-east
 			if(basicCheckSouth && basicCheckEast && canGoThrough(southEast)
 				&& canGoThrough(southEast.up())
 				&& (flying || canGoThrough(southEast.down())
 					|| canSafelyStandOn(southEast.down())))
-				neighbors.add(southEast);
+				neighbors.add(new PathPos(southEast));
 			
 			// south-west
 			if(basicCheckSouth && basicCheckWest && canGoThrough(southWest)
 				&& canGoThrough(southWest.up())
 				&& (flying || canGoThrough(southWest.down())
 					|| canSafelyStandOn(southWest.down())))
-				neighbors.add(southWest);
+				neighbors.add(new PathPos(southWest));
 			
 			// north-west
 			if(basicCheckNorth && basicCheckWest && canGoThrough(northWest)
 				&& canGoThrough(northWest.up())
 				&& (flying || canGoThrough(northWest.down())
 					|| canSafelyStandOn(northWest.down())))
-				neighbors.add(northWest);
+				neighbors.add(new PathPos(northWest));
 		}
 		
 		// up
 		if(pos.getY() < 256 && canGoThrough(up.up())
 			&& (flying || onGround || canClimbUpAt(pos)))
-			neighbors.add(up);
+			neighbors.add(new PathPos(up, onGround));
 		
 		// down
-		if(pos.getY() > 0 && canGoThrough(down))
-			neighbors.add(down);
+		if(pos.getY() > 0 && canGoThrough(down)
+			&& (flying || canFallBelow(pos)))
+			neighbors.add(new PathPos(down));
 		
 		return neighbors;
+	}
+	
+	private boolean canBeSolid(BlockPos pos)
+	{
+		Material material = getMaterial(pos);
+		Block block = getBlock(pos);
+		return (material.blocksMovement() && !(block instanceof BlockSign))
+			|| block instanceof BlockLadder || (jesus
+				&& (material == Material.WATER || material == Material.LAVA));
 	}
 	
 	private boolean canGoThrough(BlockPos pos)
@@ -246,19 +236,73 @@ public class PathFinder
 		return true;
 	}
 	
+	private boolean canSafelyStandOn(BlockPos pos)
+	{
+		// check if solid
+		Material material = getMaterial(pos);
+		if(!canBeSolid(pos))
+			return false;
+		
+		// check if safe
+		if(!invulnerable
+			&& (material == Material.CACTUS || material == Material.LAVA))
+			return false;
+		
+		return true;
+	}
+	
+	private boolean canFallBelow(PathPos pos)
+	{
+		// check if player can keep falling
+		BlockPos down2 = pos.down(2);
+		if(canGoThrough(down2))
+			return true;
+		
+		// check if player can stand below
+		if(!canSafelyStandOn(down2))
+			return false;
+		
+		// check if fall damage is off
+		if(immuneToFallDamage)
+			return true;
+		
+		// check if fall ends with slime block
+		if(getBlock(down2) instanceof BlockSlime)
+			return true;
+		
+		// check fall damage
+		BlockPos prevPos = pos;
+		for(int i = 0; i <= 3; i++)
+		{
+			// check if prevPos does not exist, meaning that the pathfinding
+			// started during the fall and fall damage should be ignored because
+			// it cannot be prevented
+			if(prevPos == null)
+				return true;
+				
+			// check if point is not part of this fall, meaning that the fall is
+			// too short to cause any damage
+			if(!pos.up(i).equals(prevPos))
+				return true;
+			
+			// check if block resets fall damage
+			Block prevBlock = getBlock(prevPos);
+			if(prevBlock instanceof BlockLiquid
+				|| prevBlock instanceof BlockLadder
+				|| prevBlock instanceof BlockVine
+				|| prevBlock instanceof BlockWeb)
+				return true;
+			
+			prevPos = prevPosMap.get(prevPos);
+		}
+		
+		return false;
+	}
+	
 	private boolean canFlyAt(BlockPos pos)
 	{
 		return flying
 			|| !noSlowdownActive && getMaterial(pos) == Material.WATER;
-	}
-	
-	private boolean canBeSolid(BlockPos pos)
-	{
-		Material material = getMaterial(pos);
-		Block block = getBlock(pos);
-		return (material.blocksMovement() && !(block instanceof BlockSign))
-			|| block instanceof BlockLadder || (jesus
-				&& (material == Material.WATER || material == Material.LAVA));
 	}
 	
 	private boolean canClimbUpAt(BlockPos pos)
@@ -280,67 +324,7 @@ public class PathFinder
 		return true;
 	}
 	
-	private boolean canFallBelow(PathPoint point)
-	{
-		// check fall damage
-		if(!checkFallDamage(point))
-			return false;
-		
-		// check if player can stand below or keep falling
-		BlockPos down2 = point.getPos().down(2);
-		if(!canGoThrough(down2) && !canSafelyStandOn(down2))
-			return false;
-		
-		return true;
-	}
-	
-	private boolean checkFallDamage(PathPoint point)
-	{
-		// check if fall damage is off
-		if(immuneToFallDamage)
-			return true;
-		
-		// check if fall does not end yet
-		BlockPos pos = point.getPos();
-		BlockPos down2 = pos.down(2);
-		if(!getMaterial(down2).blocksMovement()
-			|| getBlock(down2) instanceof BlockSign)
-			return true;
-		
-		// check if fall ends with slime block
-		if(getBlock(down2) instanceof BlockSlime)
-			return true;
-		
-		// check current and previous points
-		PathPoint prevPoint = point;
-		for(int i = 0; i <= 3; i++)
-		{
-			// check if point does not exist
-			if(prevPoint == null)
-				return true;
-			
-			BlockPos prevPos = prevPoint.getPos();
-			
-			// check if point is not part of this fall
-			// (meaning the fall is too short to cause damage)
-			if(!pos.up(i).equals(prevPos))
-				return true;
-			
-			// check if block resets fall damage
-			Block prevBlock = getBlock(prevPos);
-			if(prevBlock instanceof BlockLiquid
-				|| prevBlock instanceof BlockLadder
-				|| prevBlock instanceof BlockVine
-				|| prevBlock instanceof BlockWeb)
-				return true;
-			
-			prevPoint = prevPoint.getPrevious();
-		}
-		
-		return false;
-	}
-	
-	private boolean canMoveSidewaysInMidair(BlockPos pos)
+	private boolean canMoveSidewaysInMidairAt(BlockPos pos)
 	{
 		// check feet
 		Block blockFeet = getBlock(pos);
@@ -356,28 +340,12 @@ public class PathFinder
 		return false;
 	}
 	
-	private boolean canSafelyStandOn(BlockPos pos)
-	{
-		// check if solid
-		Material material = getMaterial(pos);
-		if(!canBeSolid(pos))
-			return false;
-		
-		// check if safe
-		if(!invulnerable
-			&& (material == Material.CACTUS || material == Material.LAVA))
-			return false;
-		
-		return true;
-	}
-	
-	private float getCost(PathPoint lastPoint, BlockPos next)
+	private float getCost(BlockPos current, BlockPos next)
 	{
 		float cost = 1F;
 		
 		// diagonal movement
-		if(lastPoint.getPos().getX() != next.getX()
-			&& lastPoint.getPos().getZ() != next.getZ())
+		if(current.getX() != next.getX() && current.getZ() != next.getZ())
 			cost *= 1.4142135623730951F;
 		
 		// liquids
@@ -394,7 +362,7 @@ public class PathFinder
 		return cost;
 	}
 	
-	private float getDistance(BlockPos pos)
+	private float getHeuristic(BlockPos pos)
 	{
 		float dx = Math.abs(pos.getX() - goal.getX());
 		float dy = Math.abs(pos.getY() - goal.getY());
@@ -403,32 +371,9 @@ public class PathFinder
 			* ((dx + dy + dz) - 0.5857864376269049F * Math.min(dx, dz));
 	}
 	
-	public PathPoint getCurrentPoint()
+	private Block getBlock(BlockPos pos)
 	{
-		return currentPoint;
-	}
-	
-	public Set<BlockPos> getProcessedBlocks()
-	{
-		return costMap.keySet();
-	}
-	
-	public PathPoint[] getQueuedPoints()
-	{
-		return queue.toArray(new PathPoint[queue.size()]);
-	}
-	
-	public ArrayList<BlockPos> formatPath()
-	{
-		ArrayList<BlockPos> path = new ArrayList<BlockPos>();
-		PathPoint point = currentPoint;
-		while(point != null)
-		{
-			path.add(point.getPos());
-			point = point.getPrevious();
-		}
-		Collections.reverse(path);
-		return path;
+		return mc.world.getBlockState(pos).getBlock();
 	}
 	
 	private Material getMaterial(BlockPos pos)
@@ -436,13 +381,244 @@ public class PathFinder
 		return mc.world.getBlockState(pos).getMaterial();
 	}
 	
-	private Block getBlock(BlockPos pos)
+	public PathPos getCurrentPos()
 	{
-		return mc.world.getBlockState(pos).getBlock();
+		return current;
 	}
 	
 	public BlockPos getGoal()
 	{
 		return goal;
+	}
+	
+	public Set<PathPos> getProcessedBlocks()
+	{
+		return prevPosMap.keySet();
+	}
+	
+	public PathPos[] getQueuedBlocks()
+	{
+		return queue.toArray();
+	}
+	
+	public int getQueueSize()
+	{
+		return queue.size();
+	}
+	
+	public float getCost(BlockPos pos)
+	{
+		return costMap.get(pos);
+	}
+	
+	public BlockPos getPrevPos(BlockPos pos)
+	{
+		return prevPosMap.get(pos);
+	}
+	
+	public boolean isPathFound()
+	{
+		return pathFound;
+	}
+	
+	public ArrayList<PathPos> formatPath()
+	{
+		if(!pathFound)
+			throw new IllegalStateException("No path found!");
+		if(!path.isEmpty())
+			throw new IllegalStateException("Path was already formatted!");
+		
+		// get positions
+		PathPos pos = current;
+		while(pos != null)
+		{
+			path.add(pos);
+			pos = prevPosMap.get(pos);
+		}
+		
+		// reverse path
+		Collections.reverse(path);
+		
+		return path;
+	}
+	
+	public boolean isPathStillValid()
+	{
+		if(path.isEmpty())
+			throw new IllegalStateException("Path is not formatted!");
+		
+		// check player abilities
+		if(invulnerable != mc.player.capabilities.isCreativeMode
+			|| flying != (creativeFlying || wurst.mods.flightMod.isActive())
+			|| immuneToFallDamage != (invulnerable
+				|| wurst.mods.noFallMod.isActive())
+			|| noSlowdownActive != wurst.mods.noSlowdownMod.isActive()
+			|| jesus != wurst.mods.jesusMod.isActive()
+			|| spider != wurst.mods.spiderMod.isActive())
+			return false;
+		
+		// check path
+		for(int i = Math.max(1, index); i < path.size(); i++)
+			if(!getNeighbors(path.get(i - 1)).contains(path.get(i)))
+				return false;
+			
+		return true;
+	}
+	
+	public boolean isGoalReached()
+	{
+		return goalReached;
+	}
+	
+	// TODO: Clean up!
+	public void goToGoal()
+	{
+		if(!pathFound)
+			throw new IllegalStateException("No path found!");
+		if(path.isEmpty())
+			throw new IllegalStateException("Path is not formatted!");
+		
+		// get positions
+		BlockPos pos = new BlockPos(mc.player);
+		BlockPos nextPos = path.get(index);
+		
+		// update index
+		if(pos.equals(nextPos))
+		{
+			index++;
+			
+			if(index < path.size())
+			{
+				// stop when changing directions
+				if(creativeFlying && index >= 2)
+				{
+					BlockPos prevPos = path.get(index - 1);
+					if(!path.get(index).subtract(prevPos)
+						.equals(prevPos.subtract(path.get(index - 2))))
+					{
+						if(!stopped)
+						{
+							mc.player.motionX /=
+								Math.max(Math.abs(mc.player.motionX) * 50, 1);
+							mc.player.motionY /=
+								Math.max(Math.abs(mc.player.motionY) * 50, 1);
+							mc.player.motionZ /=
+								Math.max(Math.abs(mc.player.motionZ) * 50, 1);
+							stopped = true;
+						}
+					}
+				}
+				
+				// disable when done
+			}else
+			{
+				if(creativeFlying)
+				{
+					mc.player.motionX /=
+						Math.max(Math.abs(mc.player.motionX) * 50, 1);
+					mc.player.motionY /=
+						Math.max(Math.abs(mc.player.motionY) * 50, 1);
+					mc.player.motionZ /=
+						Math.max(Math.abs(mc.player.motionZ) * 50, 1);
+				}
+				
+				goalReached = true;
+			}
+			
+			return;
+		}
+		
+		stopped = false;
+		
+		lockControls();
+		
+		// check if player moved off the path
+		if(index > 0)
+		{
+			BlockPos prevPos = path.get(index - 1);
+			if((pos.getX() != prevPos.getX() && pos.getX() != nextPos.getX())
+				|| (pos.getY() != prevPos.getY()
+					&& pos.getY() != nextPos.getY())
+				|| (pos.getZ() != prevPos.getZ()
+					&& pos.getZ() != nextPos.getZ()))
+				System.err.println("Player moved off the path.");
+		}
+		
+		// move
+		BlockUtils.faceBlockClientHorizontally(nextPos);
+		
+		// horizontal movement
+		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())
+		{
+			mc.gameSettings.keyBindForward.pressed = true;
+			
+			// vertical movement
+		}else if(pos.getY() != nextPos.getY())
+		{
+			// flying
+			if(flying)
+			{
+				if(pos.getY() < nextPos.getY())
+					mc.gameSettings.keyBindJump.pressed = true;
+				else
+					mc.gameSettings.keyBindSneak.pressed = true;
+				
+				// not flying
+			}else
+			{
+				// go up
+				if(pos.getY() < nextPos.getY())
+				{
+					// climb up
+					// TODO: vines and spider
+					if(mc.world.getBlockState(pos)
+						.getBlock() instanceof BlockLadder)
+					{
+						BlockUtils.faceBlockClientHorizontally(
+							pos.offset(mc.world.getBlockState(pos)
+								.getValue(BlockHorizontal.FACING)
+								.getOpposite()));
+						mc.gameSettings.keyBindForward.pressed = true;
+						
+						// jump up
+					}else
+					{
+						mc.gameSettings.keyBindJump.pressed = true;
+						
+						// directional jump
+						if(index < path.size() - 1)
+						{
+							BlockUtils.faceBlockClientHorizontally(
+								path.get(index + 1));
+							mc.gameSettings.keyBindForward.pressed = true;
+						}
+					}
+					
+					// go down
+				}else
+				{
+					// walk off the edge
+					if(mc.player.onGround)
+						mc.gameSettings.keyBindForward.pressed = true;
+				}
+			}
+		}
+	}
+	
+	public void lockControls()
+	{
+		for(KeyBinding key : controls)
+			key.pressed = false;
+		mc.player.rotationPitch = 10;
+		BlockUtils.faceBlockClientHorizontally(goal);
+		mc.player.setSprinting(false);
+		mc.player.capabilities.isFlying = creativeFlying;
+	}
+	
+	public void releaseControls()
+	{
+		// reset keys
+		for(KeyBinding key : controls)
+			key.pressed = Keyboard.isKeyDown(key.getKeyCode());
 	}
 }
