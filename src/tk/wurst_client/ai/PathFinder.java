@@ -230,7 +230,8 @@ public class PathFinder
 	{
 		// check for fences, etc.
 		Block block = getBlock(pos);
-		if(block instanceof BlockFence || block instanceof BlockWall)
+		if(block instanceof BlockFence || block instanceof BlockWall
+			|| block instanceof BlockFenceGate)
 			return false;
 		
 		return true;
