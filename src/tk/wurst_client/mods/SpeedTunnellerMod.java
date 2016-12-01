@@ -63,9 +63,9 @@ public class SpeedTunnellerMod extends Mod implements UpdateListener
 		{
 			wurst.chat.error(getName() + " doesn't work in creative mode.");
 			setEnabled(false);
-			wurst.chat.message("Switching to " + wurst.mods.nukerMod.getName()
+			wurst.chat.message("Switching to " + wurst.mods.tunnellerMod.getName()
 				+ ".");
-			wurst.mods.nukerMod.setEnabled(true);
+			wurst.mods.tunnellerMod.setEnabled(true);
 			return;
 		}
 		BlockPos newPos = find();
