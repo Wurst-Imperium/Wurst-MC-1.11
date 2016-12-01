@@ -11,8 +11,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.PathFinder;
@@ -284,7 +282,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		glBlendFunc(770, 771);
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
-		glDisable(GL11.GL_TEXTURE_2D);
+		glDisable(GL_TEXTURE_2D);
 		if(!depthTest.isChecked())
 			glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
@@ -340,7 +338,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		}
 		
 		// GL resets
-		glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(true);
 		glDisable(GL_BLEND);
