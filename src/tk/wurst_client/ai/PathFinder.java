@@ -123,57 +123,57 @@ public class PathFinder
 			|| canMoveSidewaysInMidairAt(pos) || canClimbUpAt(pos.down()))
 		{
 			// north
-			boolean basicCheckNorth =
-				canGoThrough(north) && canGoThrough(north.up());
+			boolean basicCheckNorth = canGoThrough(north)
+				&& canGoThrough(north.up()) && canGoAbove(north.down());
 			if(basicCheckNorth && (flying || canGoThrough(north.down())
 				|| canSafelyStandOn(north.down())))
 				neighbors.add(new PathPos(north));
 			
 			// east
-			boolean basicCheckEast =
-				canGoThrough(east) && canGoThrough(east.up());
+			boolean basicCheckEast = canGoThrough(east)
+				&& canGoThrough(east.up()) && canGoAbove(east.down());
 			if(basicCheckEast && (flying || canGoThrough(east.down())
 				|| canSafelyStandOn(east.down())))
 				neighbors.add(new PathPos(east));
 			
 			// south
-			boolean basicCheckSouth =
-				canGoThrough(south) && canGoThrough(south.up());
+			boolean basicCheckSouth = canGoThrough(south)
+				&& canGoThrough(south.up()) && canGoAbove(south.down());
 			if(basicCheckSouth && (flying || canGoThrough(south.down())
 				|| canSafelyStandOn(south.down())))
 				neighbors.add(new PathPos(south));
 			
 			// west
-			boolean basicCheckWest =
-				canGoThrough(west) && canGoThrough(west.up());
+			boolean basicCheckWest = canGoThrough(west)
+				&& canGoThrough(west.up()) && canGoAbove(west.down());
 			if(basicCheckWest && (flying || canGoThrough(west.down())
 				|| canSafelyStandOn(west.down())))
 				neighbors.add(new PathPos(west));
 			
 			// north-east
 			if(basicCheckNorth && basicCheckEast && canGoThrough(northEast)
-				&& canGoThrough(northEast.up())
+				&& canGoThrough(northEast.up()) && canGoAbove(northEast.down())
 				&& (flying || canGoThrough(northEast.down())
 					|| canSafelyStandOn(northEast.down())))
 				neighbors.add(new PathPos(northEast));
 			
 			// south-east
 			if(basicCheckSouth && basicCheckEast && canGoThrough(southEast)
-				&& canGoThrough(southEast.up())
+				&& canGoThrough(southEast.up()) && canGoAbove(southEast.down())
 				&& (flying || canGoThrough(southEast.down())
 					|| canSafelyStandOn(southEast.down())))
 				neighbors.add(new PathPos(southEast));
 			
 			// south-west
 			if(basicCheckSouth && basicCheckWest && canGoThrough(southWest)
-				&& canGoThrough(southWest.up())
+				&& canGoThrough(southWest.up()) && canGoAbove(southWest.down())
 				&& (flying || canGoThrough(southWest.down())
 					|| canSafelyStandOn(southWest.down())))
 				neighbors.add(new PathPos(southWest));
 			
 			// north-west
 			if(basicCheckNorth && basicCheckWest && canGoThrough(northWest)
-				&& canGoThrough(northWest.up())
+				&& canGoThrough(northWest.up()) && canGoAbove(northWest.down())
 				&& (flying || canGoThrough(northWest.down())
 					|| canSafelyStandOn(northWest.down())))
 				neighbors.add(new PathPos(northWest));
@@ -221,6 +221,16 @@ public class PathFinder
 		// check if safe
 		if(!invulnerable
 			&& (material == Material.LAVA || material == Material.FIRE))
+			return false;
+		
+		return true;
+	}
+	
+	private boolean canGoAbove(BlockPos pos)
+	{
+		// check for fences, etc.
+		Block block = getBlock(pos);
+		if(block instanceof BlockFence || block instanceof BlockWall)
 			return false;
 		
 		return true;
