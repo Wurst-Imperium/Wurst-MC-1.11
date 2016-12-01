@@ -12,15 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.utils.BlockUtils;
 
 public class PathFinder
 {
@@ -48,15 +44,6 @@ public class PathFinder
 	
 	private boolean pathFound;
 	private final ArrayList<PathPos> path = new ArrayList<>();
-	
-	private int index;
-	private boolean stopped;
-	private boolean goalReached;
-	
-	private final KeyBinding[] controls = new KeyBinding[]{
-		mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack,
-		mc.gameSettings.keyBindRight, mc.gameSettings.keyBindLeft,
-		mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSneak};
 	
 	public PathFinder(BlockPos goal)
 	{
@@ -442,7 +429,7 @@ public class PathFinder
 		return path;
 	}
 	
-	public boolean isPathStillValid()
+	public boolean isPathStillValid(int index)
 	{
 		if(path.isEmpty())
 			throw new IllegalStateException("Path is not formatted!");
@@ -465,160 +452,11 @@ public class PathFinder
 		return true;
 	}
 	
-	public boolean isGoalReached()
+	public PathProcessor getProcessor()
 	{
-		return goalReached;
-	}
-	
-	// TODO: Clean up!
-	public void goToGoal()
-	{
-		if(!pathFound)
-			throw new IllegalStateException("No path found!");
-		if(path.isEmpty())
-			throw new IllegalStateException("Path is not formatted!");
+		if(flying)
+			return new FlyPathProcessor(path, creativeFlying);
 		
-		// get positions
-		BlockPos pos = new BlockPos(mc.player);
-		BlockPos nextPos = path.get(index);
-		
-		// update index
-		if(pos.equals(nextPos))
-		{
-			index++;
-			
-			if(index < path.size())
-			{
-				// stop when changing directions
-				if(creativeFlying && index >= 2)
-				{
-					BlockPos prevPos = path.get(index - 1);
-					if(!path.get(index).subtract(prevPos)
-						.equals(prevPos.subtract(path.get(index - 2))))
-					{
-						if(!stopped)
-						{
-							mc.player.motionX /=
-								Math.max(Math.abs(mc.player.motionX) * 50, 1);
-							mc.player.motionY /=
-								Math.max(Math.abs(mc.player.motionY) * 50, 1);
-							mc.player.motionZ /=
-								Math.max(Math.abs(mc.player.motionZ) * 50, 1);
-							stopped = true;
-						}
-					}
-				}
-				
-				// disable when done
-			}else
-			{
-				if(creativeFlying)
-				{
-					mc.player.motionX /=
-						Math.max(Math.abs(mc.player.motionX) * 50, 1);
-					mc.player.motionY /=
-						Math.max(Math.abs(mc.player.motionY) * 50, 1);
-					mc.player.motionZ /=
-						Math.max(Math.abs(mc.player.motionZ) * 50, 1);
-				}
-				
-				goalReached = true;
-			}
-			
-			return;
-		}
-		
-		stopped = false;
-		
-		lockControls();
-		
-		// check if player moved off the path
-		if(index > 0)
-		{
-			BlockPos prevPos = path.get(index - 1);
-			if((pos.getX() != prevPos.getX() && pos.getX() != nextPos.getX())
-				|| (pos.getY() != prevPos.getY()
-					&& pos.getY() != nextPos.getY())
-				|| (pos.getZ() != prevPos.getZ()
-					&& pos.getZ() != nextPos.getZ()))
-				System.err.println("Player moved off the path.");
-		}
-		
-		// move
-		BlockUtils.faceBlockClientHorizontally(nextPos);
-		
-		// horizontal movement
-		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())
-		{
-			mc.gameSettings.keyBindForward.pressed = true;
-			
-			// vertical movement
-		}else if(pos.getY() != nextPos.getY())
-		{
-			// flying
-			if(flying)
-			{
-				if(pos.getY() < nextPos.getY())
-					mc.gameSettings.keyBindJump.pressed = true;
-				else
-					mc.gameSettings.keyBindSneak.pressed = true;
-				
-				// not flying
-			}else
-			{
-				// go up
-				if(pos.getY() < nextPos.getY())
-				{
-					// climb up
-					// TODO: vines and spider
-					if(mc.world.getBlockState(pos)
-						.getBlock() instanceof BlockLadder)
-					{
-						BlockUtils.faceBlockClientHorizontally(
-							pos.offset(mc.world.getBlockState(pos)
-								.getValue(BlockHorizontal.FACING)
-								.getOpposite()));
-						mc.gameSettings.keyBindForward.pressed = true;
-						
-						// jump up
-					}else
-					{
-						mc.gameSettings.keyBindJump.pressed = true;
-						
-						// directional jump
-						if(index < path.size() - 1)
-						{
-							BlockUtils.faceBlockClientHorizontally(
-								path.get(index + 1));
-							mc.gameSettings.keyBindForward.pressed = true;
-						}
-					}
-					
-					// go down
-				}else
-				{
-					// walk off the edge
-					if(mc.player.onGround)
-						mc.gameSettings.keyBindForward.pressed = true;
-				}
-			}
-		}
-	}
-	
-	public void lockControls()
-	{
-		for(KeyBinding key : controls)
-			key.pressed = false;
-		mc.player.rotationPitch = 10;
-		BlockUtils.faceBlockClientHorizontally(goal);
-		mc.player.setSprinting(false);
-		mc.player.capabilities.isFlying = creativeFlying;
-	}
-	
-	public void releaseControls()
-	{
-		// reset keys
-		for(KeyBinding key : controls)
-			key.pressed = Keyboard.isKeyDown(key.getKeyCode());
+		return new WalkPathProcessor(path);
 	}
 }

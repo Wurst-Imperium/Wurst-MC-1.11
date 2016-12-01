@@ -8,7 +8,7 @@
 package tk.wurst_client.commands;
 
 import net.minecraft.util.math.BlockPos;
-import tk.wurst_client.ai.PathFinder;
+import tk.wurst_client.ai.GotoAI;
 import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
@@ -19,7 +19,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	help = "Commands/goto")
 public class GoToCmd extends Cmd implements UpdateListener
 {
-	private PathFinder pathFinder;
+	private GotoAI ai;
 	private boolean enabled;
 	
 	private TargetSettings targetSettings = new TargetSettings()
@@ -54,63 +54,33 @@ public class GoToCmd extends Cmd implements UpdateListener
 		{
 			BlockPos goal = wurst.commands.pathCmd.getLastGoal();
 			if(goal != null)
-				pathFinder = new PathFinder(goal);
+				ai = new GotoAI(goal);
 			else
 				error("No previous position on .path.");
 		}else
 		{
 			int[] goal = argsToPos(targetSettings, args);
-			pathFinder =
-				new PathFinder(new BlockPos(goal[0], goal[1], goal[2]));
+			ai = new GotoAI(new BlockPos(goal[0], goal[1], goal[2]));
 		}
 		
 		// start
 		enabled = true;
 		wurst.events.add(UpdateListener.class, this);
-		System.out.println("Finding path...");
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		// find path
-		if(!pathFinder.isPathFound())
-		{
-			pathFinder.lockControls();
-			pathFinder.process(1024);
-			
-			if(!pathFinder.isPathFound())
-			{
-				if(pathFinder.getQueueSize() == 0)
-				{
-					wurst.chat.error("Could not find a path.");
-					disable();
-				}
-				
-				return;
-			}
-			
-			pathFinder.formatPath();
-			System.out.println("Done");
-		}
+		ai.update();
 		
-		if(!pathFinder.isPathStillValid())
-		{
-			System.out.println("Updating path...");
-			pathFinder = new PathFinder(pathFinder.getGoal());
-			return;
-		}
-		
-		pathFinder.goToGoal();
-		
-		if(pathFinder.isGoalReached())
+		if(ai.isDone() || ai.isFailed())
 			disable();
 	}
 	
 	private void disable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		pathFinder.releaseControls();
+		ai.stop();
 		enabled = false;
 	}
 	
