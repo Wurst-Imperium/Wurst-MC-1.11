@@ -50,6 +50,10 @@ public class GotoAI
 			}
 			
 			pathFinder.formatPath();
+			
+			// set processor
+			processor = pathFinder.getProcessor();
+			
 			System.out.println("Done");
 		}
 		
@@ -59,13 +63,8 @@ public class GotoAI
 		{
 			System.out.println("Updating path...");
 			pathFinder = new PathFinder(pathFinder.getGoal());
-			processor = null;
 			return;
 		}
-		
-		// set processor
-		if(processor == null)
-			processor = pathFinder.getProcessor();
 		
 		// process path
 		processor.process();
