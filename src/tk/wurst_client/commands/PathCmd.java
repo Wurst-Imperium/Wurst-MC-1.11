@@ -29,7 +29,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class PathCmd extends Cmd implements UpdateListener, RenderListener
 {
 	private PathFinder pathFinder;
-	private ArrayList<BlockPos> path;
+	private ArrayList<PathPos> path;
 	private boolean enabled;
 	private BlockPos lastGoal;
 	

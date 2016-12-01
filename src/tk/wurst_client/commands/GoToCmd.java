@@ -85,6 +85,13 @@ public class GoToCmd extends Cmd implements UpdateListener
 			System.out.println("Done");
 		}
 		
+		if(!pathFinder.isPathStillValid())
+		{
+			System.out.println("Updating path...");
+			pathFinder = new PathFinder(pathFinder.getGoal());
+			return;
+		}
+		
 		pathFinder.goToGoal();
 		
 		if(pathFinder.isGoalReached())

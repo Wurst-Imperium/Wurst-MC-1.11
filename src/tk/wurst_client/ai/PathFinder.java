@@ -47,7 +47,7 @@ public class PathFinder
 	private final PathQueue queue = new PathQueue();
 	
 	private boolean pathFound;
-	private final ArrayList<BlockPos> path = new ArrayList<>();
+	private final ArrayList<PathPos> path = new ArrayList<>();
 	
 	private int index;
 	private boolean stopped;
@@ -421,7 +421,7 @@ public class PathFinder
 		return pathFound;
 	}
 	
-	public ArrayList<BlockPos> formatPath()
+	public ArrayList<PathPos> formatPath()
 	{
 		if(!pathFound)
 			throw new IllegalStateException("No path found!");
@@ -429,7 +429,7 @@ public class PathFinder
 			throw new IllegalStateException("Path was already formatted!");
 		
 		// get positions
-		BlockPos pos = current;
+		PathPos pos = current;
 		while(pos != null)
 		{
 			path.add(pos);
@@ -440,6 +440,29 @@ public class PathFinder
 		Collections.reverse(path);
 		
 		return path;
+	}
+	
+	public boolean isPathStillValid()
+	{
+		if(path.isEmpty())
+			throw new IllegalStateException("Path is not formatted!");
+		
+		// check player abilities
+		if(invulnerable != mc.player.capabilities.isCreativeMode
+			|| flying != (creativeFlying || wurst.mods.flightMod.isActive())
+			|| immuneToFallDamage != (invulnerable
+				|| wurst.mods.noFallMod.isActive())
+			|| noSlowdownActive != wurst.mods.noSlowdownMod.isActive()
+			|| jesus != wurst.mods.jesusMod.isActive()
+			|| spider != wurst.mods.spiderMod.isActive())
+			return false;
+		
+		// check path
+		for(int i = Math.max(1, index); i < path.size(); i++)
+			if(!getNeighbors(path.get(i - 1)).contains(path.get(i)))
+				return false;
+			
+		return true;
 	}
 	
 	public boolean isGoalReached()
