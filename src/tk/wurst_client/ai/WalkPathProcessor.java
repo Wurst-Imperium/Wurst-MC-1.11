@@ -95,6 +95,11 @@ public class WalkPathProcessor extends PathProcessor
 				// go down
 			}else
 			{
+				// skip mid-air nodes and go straight to the bottom
+				while(index < path.size() - 1
+					&& path.get(index).down().equals(path.get(index + 1)))
+					index++;
+				
 				// walk off the edge
 				if(mc.player.onGround)
 					mc.gameSettings.keyBindForward.pressed = true;
