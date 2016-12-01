@@ -530,12 +530,7 @@ public class PathFinder
 		
 		stopped = false;
 		
-		// lock controls
-		for(KeyBinding key : controls)
-			key.pressed = false;
-		mc.player.rotationPitch = 10;
-		mc.player.setSprinting(false);
-		mc.player.capabilities.isFlying = creativeFlying;
+		lockControls();
 		
 		// check if player moved off the path
 		if(index > 0)
@@ -608,6 +603,16 @@ public class PathFinder
 				}
 			}
 		}
+	}
+	
+	public void lockControls()
+	{
+		for(KeyBinding key : controls)
+			key.pressed = false;
+		mc.player.rotationPitch = 10;
+		BlockUtils.faceBlockClientHorizontally(goal);
+		mc.player.setSprinting(false);
+		mc.player.capabilities.isFlying = creativeFlying;
 	}
 	
 	public void releaseControls()

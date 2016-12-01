@@ -76,10 +76,19 @@ public class GoToCmd extends Cmd implements UpdateListener
 		// find path
 		if(!pathFinder.isPathFound())
 		{
+			pathFinder.lockControls();
 			pathFinder.process(1024);
 			
 			if(!pathFinder.isPathFound())
+			{
+				if(pathFinder.getQueueSize() == 0)
+				{
+					wurst.chat.error("Could not find a path.");
+					disable();
+				}
+				
 				return;
+			}
 			
 			pathFinder.formatPath();
 			System.out.println("Done");
