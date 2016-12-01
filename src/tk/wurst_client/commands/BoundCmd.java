@@ -20,6 +20,9 @@ public class BoundCmd extends Cmd
 	@Override
 	public void execute(String[] args) throws Error
 	{
+		wurst.chat.cmd("This command is disabled.");;
+		return;
+		/*
 		if(args.length == 0)
 		{
 			syntaxError();
@@ -52,6 +55,7 @@ public class BoundCmd extends Cmd
 			default:
 				syntaxError();
 		}
+		*/
 		
 	}
 	

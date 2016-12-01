@@ -25,7 +25,7 @@ import tk.wurst_client.navigator.NavigatorItem;
 	tags = "SpectatorDetector, spectator dectector",
 	help = "Mods/SpectatorDectector")
 @Bypasses
-public class SpectatorDecectorMod extends Mod implements UpdateListener
+public class SpectatorDetectorMod extends Mod implements UpdateListener
 {
 	private Map<String, String> spectators = new TreeMap<String, String>();
 	

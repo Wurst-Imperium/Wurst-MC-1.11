@@ -410,6 +410,8 @@ public class BoundedNukerMod extends Mod
 		{
 			block.onBlockDestroyedByPlayer(mc.world, pos,
 				mc.world.getBlockState(pos));
+			mc.player.connection.sendPacket(
+				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 		}
 	}
 	
