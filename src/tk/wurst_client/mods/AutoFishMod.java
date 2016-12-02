@@ -43,31 +43,40 @@ public class AutoFishMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
-			if (lastY == 0) {
-				lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
-			}
-			if (lastY != translate(Minecraft.getMinecraft().player.fishEntity.posY)) {
-				lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
-				catching = true;
-				new Thread() {
-					@Override
-					public void run() {
-						Minecraft.getMinecraft().rightClickMouse();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						Minecraft.getMinecraft().rightClickMouse();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						lastY = 0;
-						catching = false;
+			try {
+				if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
+					if (lastY == 0) {
+						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
 					}
-				}.start();
+					if (lastY != translate(Minecraft.getMinecraft().player.fishEntity.posY)) {
+						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
+						catching = true;
+						new Thread() {
+							@Override
+							public void run() {
+								Minecraft.getMinecraft().rightClickMouse();
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								Minecraft.getMinecraft().rightClickMouse();
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								lastY = 0;
+								catching = false;
+							}
+						}.start();
+					}
+				}
+			} catch (Exception ex) {
+				// Probably if you had the mod on when closing mc and starting
+				// it, it will crash when joining a world
+				lastY = 0;
+				catching = false;
 			}
 		}
 	}
