@@ -29,6 +29,16 @@ public class AutoFishMod extends Mod implements UpdateListener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
+	private int translate(double d) {
+		String s = String.valueOf(d);
+		s = s.replace(".", ",");
+		if (s.contains(",")) {
+			return Integer.valueOf(s.split(",")[0]);
+		} else {
+			return Integer.valueOf(s);
+		}
+	}
+	
 	@Override
 	public void onUpdate()
 	{
