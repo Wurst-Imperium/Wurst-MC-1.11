@@ -8,7 +8,7 @@
 package tk.wurst_client.mods;
 
 import net.minecraft.entity.Entity;
-import tk.wurst_client.ai.GotoAI;
+import tk.wurst_client.ai.FollowAI;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
@@ -23,10 +23,10 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class FollowMod extends Mod implements UpdateListener
 {
 	private Entity entity;
-	private GotoAI ai;
+	private FollowAI ai;
 	
 	private float range = 12F;
-	private float distance = 1.1F;
+	private float distance = 1F;
 	
 	private TargetSettings targetSettingsFind = new TargetSettings()
 	{
@@ -126,7 +126,7 @@ public class FollowMod extends Mod implements UpdateListener
 			return;
 		}
 		
-		ai = new GotoAI(entity, distance);
+		ai = new FollowAI(entity, distance);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -152,7 +152,7 @@ public class FollowMod extends Mod implements UpdateListener
 			EntityUtils.faceEntityClient(entity);
 			
 			// restart pathfinder
-			ai = new GotoAI(entity, distance);
+			ai = new FollowAI(entity, distance);
 		}
 	}
 	
@@ -163,6 +163,9 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		if(ai != null)
 			ai.stop();
+		
+		if(entity != null)
+			wurst.chat.message("No longer following " + entity.getName());
 		
 		entity = null;
 	}

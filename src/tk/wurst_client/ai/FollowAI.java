@@ -7,20 +7,20 @@
  */
 package tk.wurst_client.ai;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.entity.Entity;
 
-public class GotoAI
+public class FollowAI
 {
-	private PathFinder pathFinder;
+	private EntityPathFinder pathFinder;
 	private PathProcessor processor;
 	
 	private boolean done;
 	private boolean failed;
 	
-	public GotoAI(BlockPos goal)
+	public FollowAI(Entity entity, float range)
 	{
-		System.out.println("Finding path...");
-		pathFinder = new PathFinder(goal);
+		pathFinder = new EntityPathFinder(entity, range);
+		pathFinder.setThinkTime(50);
 	}
 	
 	public void update()
@@ -45,16 +45,13 @@ public class GotoAI
 			
 			// set processor
 			processor = pathFinder.getProcessor();
-			
-			System.out.println("Done");
 		}
 		
 		// check path
 		if(processor != null
 			&& !pathFinder.isPathStillValid(processor.getIndex()))
 		{
-			System.out.println("Updating path...");
-			pathFinder = new PathFinder(pathFinder.getGoal());
+			pathFinder = new EntityPathFinder(pathFinder);
 			return;
 		}
 		

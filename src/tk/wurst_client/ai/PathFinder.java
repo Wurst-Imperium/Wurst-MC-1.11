@@ -15,7 +15,6 @@ import java.util.Set;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
 
@@ -36,18 +35,19 @@ public class PathFinder
 	private final boolean spider = wurst.mods.spiderMod.isActive();
 	
 	private final PathPos start;
-	private PathPos current;
+	protected PathPos current;
 	private final BlockPos goal;
-	
-	private final float range;
-	private final Entity entity;
 	
 	private final HashMap<PathPos, Float> costMap = new HashMap<>();
 	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
-	private boolean done;
+	protected int thinkSpeed = 1024;
+	protected int thinkTime = 200;
 	private int iterations;
+	
+	protected boolean done;
+	private boolean failed;
 	private final ArrayList<PathPos> path = new ArrayList<>();
 	
 	public PathFinder(BlockPos goal)
@@ -55,39 +55,30 @@ public class PathFinder
 		start = new PathPos(new BlockPos(mc.player));
 		this.goal = goal;
 		
-		this.range = 0;
-		entity = null;
-		
 		costMap.put(start, 0F);
 		queue.add(start, getHeuristic(start));
 	}
 	
-	public PathFinder(Entity entity, float range)
+	public PathFinder(PathFinder pathFinder)
 	{
-		this.range = range;
-		this.entity = entity;
-		
-		start = new PathPos(new BlockPos(mc.player));
-		goal = new BlockPos(entity);
-		
-		costMap.put(start, 0F);
-		queue.add(start, getHeuristic(start));
+		this(pathFinder.goal);
+		thinkSpeed = pathFinder.thinkSpeed;
+		thinkTime = pathFinder.thinkTime;
 	}
 	
-	public void process(int limit)
+	public void think()
 	{
 		if(done)
 			throw new IllegalStateException("Path was already found!");
 		
 		int i = 0;
-		for(; i < limit && !isFailed(); i++)
+		for(; i < thinkSpeed && !checkFailed(); i++)
 		{
 			// get next position from queue
 			current = queue.poll();
 			
 			// check if path is found
-			done = getHeuristic(current) <= range;
-			if(done)
+			if(checkDone())
 				return;
 			
 			// add neighbors to queue
@@ -105,6 +96,16 @@ public class PathFinder
 			}
 		}
 		iterations += i;
+	}
+	
+	protected boolean checkDone()
+	{
+		return done = goal.equals(current);
+	}
+	
+	private boolean checkFailed()
+	{
+		return failed = queue.isEmpty() || iterations >= thinkSpeed * thinkTime;
 	}
 	
 	private ArrayList<PathPos> getNeighbors(PathPos pos)
@@ -443,7 +444,7 @@ public class PathFinder
 	
 	public boolean isFailed()
 	{
-		return queue.isEmpty() || iterations >= 1024 * 200;
+		return failed;
 	}
 	
 	public ArrayList<PathPos> formatPath()
@@ -472,10 +473,6 @@ public class PathFinder
 		if(path.isEmpty())
 			throw new IllegalStateException("Path is not formatted!");
 		
-		// check entity
-		if(entity != null && !goal.equals(new BlockPos(entity)))
-			return false;
-		
 		// check player abilities
 		if(invulnerable != mc.player.capabilities.isCreativeMode
 			|| flying != (creativeFlying || wurst.mods.flightMod.isActive())
@@ -500,5 +497,15 @@ public class PathFinder
 			return new FlyPathProcessor(path, creativeFlying);
 		
 		return new WalkPathProcessor(path);
+	}
+	
+	public void setThinkSpeed(int thinkSpeed)
+	{
+		this.thinkSpeed = thinkSpeed;
+	}
+	
+	public void setThinkTime(int thinkTime)
+	{
+		this.thinkTime = thinkTime;
 	}
 }
