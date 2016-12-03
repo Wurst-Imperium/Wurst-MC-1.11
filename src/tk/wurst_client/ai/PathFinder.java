@@ -449,13 +449,24 @@ public class PathFinder
 	
 	public ArrayList<PathPos> formatPath()
 	{
-		if(!done)
+		if(!done && !failed)
 			throw new IllegalStateException("No path found!");
 		if(!path.isEmpty())
 			throw new IllegalStateException("Path was already formatted!");
 		
+		// get last position
+		PathPos pos;
+		if(!failed)
+			pos = current;
+		else
+		{
+			pos = start;
+			for(PathPos next : prevPosMap.keySet())
+				if(getHeuristic(next) < getHeuristic(pos))
+					pos = next;
+		}
+				
 		// get positions
-		PathPos pos = current;
 		while(pos != null)
 		{
 			path.add(pos);

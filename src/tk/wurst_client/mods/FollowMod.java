@@ -118,7 +118,8 @@ public class FollowMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		entity = EntityUtils.getClosestEntity(targetSettingsFind);
+		if(entity == null)
+			entity = EntityUtils.getClosestEntity(targetSettingsFind);
 		
 		if(entity == null)
 		{
@@ -128,6 +129,7 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		ai = new FollowAI(entity, distance);
 		wurst.events.add(UpdateListener.class, this);
+		wurst.chat.message("Now following " + entity.getName());
 	}
 	
 	@Override
@@ -143,17 +145,6 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		// go to entity
 		ai.update();
-		
-		if(ai.isDone() || ai.isFailed())
-		{
-			ai.stop();
-			
-			// face entity
-			EntityUtils.faceEntityClient(entity);
-			
-			// restart pathfinder
-			ai = new FollowAI(entity, distance);
-		}
 	}
 	
 	@Override

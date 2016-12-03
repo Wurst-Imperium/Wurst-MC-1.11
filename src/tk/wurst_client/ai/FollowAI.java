@@ -20,26 +20,21 @@ public class FollowAI
 	public FollowAI(Entity entity, float range)
 	{
 		pathFinder = new EntityPathFinder(entity, range);
-		pathFinder.setThinkTime(50);
+		pathFinder.setThinkTime(40);
 	}
 	
 	public void update()
 	{
 		// find path
-		if(!pathFinder.isDone())
+		if(!pathFinder.isDone() && !pathFinder.isFailed())
 		{
 			if(processor != null)
 				processor.lockControls();
 			
 			pathFinder.think();
 			
-			if(!pathFinder.isDone())
-			{
-				if(pathFinder.isFailed())
-					failed = true;
-				
+			if(!pathFinder.isDone() && !pathFinder.isFailed())
 				return;
-			}
 			
 			pathFinder.formatPath();
 			
@@ -56,13 +51,18 @@ public class FollowAI
 		}
 		
 		// process path
-		processor.process();
+		if(!processor.isFailed() && !processor.isDone())
+			processor.process();
+		else
+		{
+			processor.lockControls();
+			
+			if(processor.isFailed())
+				failed = true;
+			else if(processor.isDone())
+				done = true;
+		}
 		
-		if(processor.isFailed())
-			failed = true;
-		
-		if(processor.isDone())
-			done = true;
 	}
 	
 	public void stop()

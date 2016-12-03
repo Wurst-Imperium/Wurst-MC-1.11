@@ -45,13 +45,14 @@ public abstract class PathProcessor
 	{
 		releaseControls();
 	}
-
+	
 	public void lockControls()
 	{
 		for(KeyBinding key : controls)
 			key.pressed = false;
 		mc.player.rotationPitch = 10;
-		BlockUtils.faceBlockClientHorizontally(path.get(index));
+		if(index < path.size())
+			BlockUtils.faceBlockClientHorizontally(path.get(index));
 		mc.player.setSprinting(false);
 	}
 	
@@ -66,7 +67,7 @@ public abstract class PathProcessor
 	{
 		return index;
 	}
-
+	
 	public final boolean isDone()
 	{
 		return done;
