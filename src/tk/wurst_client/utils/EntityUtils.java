@@ -302,13 +302,10 @@ public class EntityUtils
 	public static Entity getEntityWithName(String name, TargetSettings settings)
 	{
 		for(Entity entity : Minecraft.getMinecraft().world.loadedEntityList)
-		{
-			System.out.println(entity.getName());
 			if(isCorrectEntity(entity, settings)
 				&& entity.getName().equalsIgnoreCase(name))
 				return entity;
-		}
-		
+			
 		return null;
 	}
 	
