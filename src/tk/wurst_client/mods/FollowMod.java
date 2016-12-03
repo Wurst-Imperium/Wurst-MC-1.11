@@ -135,12 +135,25 @@ public class FollowMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		// check if player died, entity died or entity disappeared
-		if(mc.player.getHealth() <= 0
-			|| !EntityUtils.isCorrectEntity(entity, targetSettingsKeep))
+		// check if player died
+		if(mc.player.getHealth() <= 0)
 		{
 			setEnabled(false);
 			return;
+		}
+		
+		// check if entity died or entity disappeared
+		if(!EntityUtils.isCorrectEntity(entity, targetSettingsKeep))
+		{
+			entity = EntityUtils.getClosestEntity(targetSettingsFind);
+			
+			if(entity == null)
+			{
+				setEnabled(false);
+				return;
+			}
+			
+			ai = new FollowAI(entity, distance);
 		}
 		
 		// go to entity
@@ -157,6 +170,8 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		if(entity != null)
 			wurst.chat.message("No longer following " + entity.getName());
+		else
+			wurst.chat.message("No longer following entity");
 		
 		entity = null;
 	}
