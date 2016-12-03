@@ -17,9 +17,9 @@ public class FollowAI
 	private boolean done;
 	private boolean failed;
 	
-	public FollowAI(Entity entity, float range)
+	public FollowAI(Entity entity, float distance)
 	{
-		pathFinder = new EntityPathFinder(entity, range);
+		pathFinder = new EntityPathFinder(entity, distance);
 		pathFinder.setThinkTime(40);
 	}
 	
