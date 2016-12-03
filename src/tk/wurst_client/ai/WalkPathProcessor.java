@@ -62,6 +62,9 @@ public class WalkPathProcessor extends PathProcessor
 		{
 			mc.gameSettings.keyBindForward.pressed = true;
 			
+			if(mc.player.isInWater() && mc.player.posY < nextPos.getY())
+				mc.gameSettings.keyBindJump.pressed = true;
+			
 			// vertical movement
 		}else if(pos.getY() != nextPos.getY())
 		{
