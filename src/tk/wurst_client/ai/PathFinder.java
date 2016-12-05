@@ -26,7 +26,7 @@ public class PathFinder
 	
 	private final boolean invulnerable = mc.player.capabilities.isCreativeMode;
 	private final boolean creativeFlying = mc.player.capabilities.isFlying;
-	private final boolean flying =
+	protected final boolean flying =
 		creativeFlying || wurst.mods.flightMod.isActive();
 	private final boolean immuneToFallDamage =
 		invulnerable || wurst.mods.noFallMod.isActive();
@@ -34,13 +34,14 @@ public class PathFinder
 		wurst.mods.noSlowdownMod.isActive();
 	private final boolean jesus = wurst.mods.jesusMod.isActive();
 	private final boolean spider = wurst.mods.spiderMod.isActive();
+	protected boolean fallingAllowed = true;
 	
 	private final PathPos start;
 	protected PathPos current;
 	private final BlockPos goal;
 	
 	private final HashMap<PathPos, Float> costMap = new HashMap<>();
-	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
+	protected final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
 	protected int thinkSpeed = 1024;
@@ -48,7 +49,7 @@ public class PathFinder
 	private int iterations;
 	
 	protected boolean done;
-	private boolean failed;
+	protected boolean failed;
 	private final ArrayList<PathPos> path = new ArrayList<>();
 	
 	public PathFinder(BlockPos goal)
@@ -215,13 +216,13 @@ public class PathFinder
 		return false;
 	}
 	
-	private boolean isPassable(BlockPos pos)
+	protected boolean isPassable(BlockPos pos)
 	{
 		return canGoThrough(pos) && canGoThrough(pos.up())
 			&& canGoAbove(pos.down());
 	}
 	
-	private boolean canBeSolid(BlockPos pos)
+	protected boolean canBeSolid(BlockPos pos)
 	{
 		Material material = getMaterial(pos);
 		Block block = getBlock(pos);
@@ -293,16 +294,16 @@ public class PathFinder
 			return false;
 		
 		// check if fall damage is off
-		if(immuneToFallDamage)
+		if(immuneToFallDamage && fallingAllowed)
 			return true;
 		
 		// check if fall ends with slime block
-		if(getBlock(down2) instanceof BlockSlime)
+		if(getBlock(down2) instanceof BlockSlime && fallingAllowed)
 			return true;
 		
 		// check fall damage
 		BlockPos prevPos = pos;
-		for(int i = 0; i <= 3; i++)
+		for(int i = 0; i <= (fallingAllowed ? 3 : 1); i++)
 		{
 			// check if prevPos does not exist, meaning that the pathfinding
 			// started during the fall and fall damage should be ignored because
@@ -401,7 +402,7 @@ public class PathFinder
 			* ((dx + dy + dz) - 0.5857864376269049F * Math.min(dx, dz));
 	}
 	
-	private Block getBlock(BlockPos pos)
+	protected Block getBlock(BlockPos pos)
 	{
 		return mc.world.getBlockState(pos).getBlock();
 	}
@@ -527,5 +528,10 @@ public class PathFinder
 	public void setThinkTime(int thinkTime)
 	{
 		this.thinkTime = thinkTime;
+	}
+	
+	public void setFallingAllowed(boolean fallingAllowed)
+	{
+		this.fallingAllowed = fallingAllowed;
 	}
 }
