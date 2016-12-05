@@ -10,58 +10,61 @@ package tk.wurst_client.mods;
 import java.util.Random;
 
 import net.minecraft.util.math.BlockPos;
+import tk.wurst_client.ai.GoRandomAI;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.utils.BlockUtils;
 
 @Mod.Info(name = "AntiAFK",
-	description = "Walks around randomly to hide you from AFK detectors.\n"
-		+ "Needs 3x3 blocks of free space.",
+	description = "Walks around randomly to hide you from AFK detectors.",
 	tags = "AFKBot,anti afk,afk bot",
 	help = "Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)
 public class AntiAfkMod extends Mod implements UpdateListener
 {
-	private BlockPos block;
-	private Random random;
-	private BlockPos nextBlock;
+	private GoRandomAI ai;
+	private int timer;
+	private Random random = new Random();
 	
 	@Override
 	public void onEnable()
 	{
-		try
-		{
-			block = new BlockPos(mc.player);
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		random = new Random();
+		ai = new GoRandomAI(new BlockPos(mc.player), 16F);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		updateMS();
-		if(hasTimePassedM(3000) || nextBlock == null)
+		// check if player died
+		if(mc.player.getHealth() <= 0)
 		{
-			if(block == null)
-				onEnable();
-			nextBlock =
-				block.add(random.nextInt(3) - 1, 0, random.nextInt(3) - 1);
-			updateLastMS();
+			setEnabled(false);
+			return;
 		}
-		BlockUtils.faceBlockClientHorizontally(nextBlock);
-		if(BlockUtils.getHorizontalPlayerBlockDistance(nextBlock) > 0.75)
-			mc.gameSettings.keyBindForward.pressed = true;
-		else
-			mc.gameSettings.keyBindForward.pressed = false;
+		
+		if(timer > 0)
+		{
+			timer--;
+			mc.gameSettings.keyBindJump.pressed = mc.player.isInWater();
+			return;
+		}
+		
+		// walk around
+		ai.update();
+		
+		// wait 2 - 3 seconds (40 - 60 ticks)
+		if(ai.isDone())
+		{
+			ai.stop();
+			timer = 40 + random.nextInt(21);
+		}
 	}
 	
 	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		mc.gameSettings.keyBindForward.pressed = false;
+		
+		if(ai != null)
+			ai.stop();
 	}
 }
