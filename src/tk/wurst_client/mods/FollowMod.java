@@ -140,6 +140,7 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		if(entity == null)
 		{
+			wurst.chat.error("Could not find a valid entity within 12 blocks.");
 			setEnabled(false);
 			return;
 		}
@@ -155,6 +156,8 @@ public class FollowMod extends Mod implements UpdateListener
 		// check if player died
 		if(mc.player.getHealth() <= 0)
 		{
+			if(entity == null)
+				wurst.chat.message("No longer following entity");
 			setEnabled(false);
 			return;
 		}
@@ -166,6 +169,7 @@ public class FollowMod extends Mod implements UpdateListener
 			
 			if(entity == null)
 			{
+				wurst.chat.message("No longer following entity");
 				setEnabled(false);
 				return;
 			}
@@ -187,8 +191,6 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		if(entity != null)
 			wurst.chat.message("No longer following " + entity.getName());
-		else
-			wurst.chat.message("No longer following entity");
 		
 		entity = null;
 	}
