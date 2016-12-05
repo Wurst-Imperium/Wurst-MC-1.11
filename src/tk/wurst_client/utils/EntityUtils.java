@@ -8,7 +8,6 @@
 package tk.wurst_client.utils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
@@ -34,8 +33,6 @@ public class EntityUtils
 	public static float pitch;
 	
 	public static final TargetSettings DEFAULT_SETTINGS = new TargetSettings();
-	private static final List<Entity> loadedEntities =
-		Minecraft.getMinecraft().world.loadedEntityList;
 	
 	public synchronized static boolean faceEntityClient(Entity entity)
 	{
@@ -260,7 +257,7 @@ public class EntityUtils
 	{
 		ArrayList<Entity> validEntities = new ArrayList<>();
 		
-		for(Entity entity : loadedEntities)
+		for(Entity entity : Minecraft.getMinecraft().world.loadedEntityList)
 		{
 			if(isCorrectEntity(entity, settings))
 				validEntities.add(entity);
@@ -304,7 +301,7 @@ public class EntityUtils
 	
 	public static Entity getEntityWithName(String name, TargetSettings settings)
 	{
-		for(Entity entity : loadedEntities)
+		for(Entity entity : Minecraft.getMinecraft().world.loadedEntityList)
 			if(isCorrectEntity(entity, settings)
 				&& entity.getName().equalsIgnoreCase(name))
 				return entity;
@@ -314,7 +311,7 @@ public class EntityUtils
 	
 	public static Entity getEntityWithId(UUID id, TargetSettings settings)
 	{
-		for(Entity entity : loadedEntities)
+		for(Entity entity : Minecraft.getMinecraft().world.loadedEntityList)
 			if(isCorrectEntity(entity, settings)
 				&& entity.getUniqueID().equals(id))
 				return entity;

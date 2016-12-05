@@ -8,9 +8,12 @@
 package tk.wurst_client.mods;
 
 import net.minecraft.entity.Entity;
+import tk.wurst_client.ai.FollowAI;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
+import tk.wurst_client.navigator.settings.SliderSetting;
+import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
@@ -22,8 +25,25 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class FollowMod extends Mod implements UpdateListener
 {
 	private Entity entity;
+	private FollowAI ai;
+	
 	private float range = 12F;
-	private float distance = 1F;
+	
+	public SliderSetting distance =
+		new SliderSetting("Distance", 1F, 1F, 12F, 0.5F, ValueDisplay.DECIMAL)
+		{
+			@Override
+			public void update()
+			{
+				entity = null;
+			};
+		};
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(distance);
+	}
 	
 	private TargetSettings targetSettingsFind = new TargetSettings()
 	{
@@ -115,42 +135,64 @@ public class FollowMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		entity = EntityUtils.getClosestEntity(targetSettingsFind);
+		if(entity == null)
+			entity = EntityUtils.getClosestEntity(targetSettingsFind);
+		
+		if(entity == null)
+		{
+			wurst.chat.error("Could not find a valid entity within 12 blocks.");
+			setEnabled(false);
+			return;
+		}
+		
+		ai = new FollowAI(entity, distance.getValueF());
 		wurst.events.add(UpdateListener.class, this);
+		wurst.chat.message("Now following " + entity.getName());
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		// check if player died, entity died or entity disappeared
-		if(mc.player.getHealth() <= 0
-			|| !EntityUtils.isCorrectEntity(entity, targetSettingsKeep))
+		// check if player died
+		if(mc.player.getHealth() <= 0)
 		{
-			entity = null;
+			if(entity == null)
+				wurst.chat.message("No longer following entity");
 			setEnabled(false);
 			return;
 		}
 		
-		// jump if necessary
-		if(mc.player.isCollidedHorizontally && mc.player.onGround)
-			mc.player.jump();
+		// check if entity died or entity disappeared
+		if(!EntityUtils.isCorrectEntity(entity, targetSettingsKeep))
+		{
+			entity = EntityUtils.getClosestEntity(targetSettingsFind);
+			
+			if(entity == null)
+			{
+				wurst.chat.message("No longer following entity");
+				setEnabled(false);
+				return;
+			}
+			
+			ai = new FollowAI(entity, distance.getValueF());
+		}
 		
-		// swim up if necessary
-		if(mc.player.isInWater() && mc.player.posY < entity.posY)
-			mc.player.motionY += 0.04;
-		
-		// follow entity
-		EntityUtils.faceEntityClient(entity);
-		mc.gameSettings.keyBindForward.pressed =
-			mc.player.getDistanceToEntity(entity) > distance;
+		// go to entity
+		ai.update();
 	}
 	
 	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		
+		if(ai != null)
+			ai.stop();
+		
 		if(entity != null)
-			mc.gameSettings.keyBindForward.pressed = false;
+			wurst.chat.message("No longer following " + entity.getName());
+		
+		entity = null;
 	}
 	
 	public void setEntity(Entity entity)

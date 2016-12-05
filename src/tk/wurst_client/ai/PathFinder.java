@@ -12,15 +12,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.utils.BlockUtils;
 
 public class PathFinder
 {
@@ -39,24 +36,20 @@ public class PathFinder
 	private final boolean spider = wurst.mods.spiderMod.isActive();
 	
 	private final PathPos start;
+	protected PathPos current;
 	private final BlockPos goal;
-	private PathPos current;
 	
 	private final HashMap<PathPos, Float> costMap = new HashMap<>();
 	private final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
-	private boolean pathFound;
+	protected int thinkSpeed = 1024;
+	protected int thinkTime = 200;
+	private int iterations;
+	
+	protected boolean done;
+	private boolean failed;
 	private final ArrayList<PathPos> path = new ArrayList<>();
-	
-	private int index;
-	private boolean stopped;
-	private boolean goalReached;
-	
-	private final KeyBinding[] controls = new KeyBinding[]{
-		mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack,
-		mc.gameSettings.keyBindRight, mc.gameSettings.keyBindLeft,
-		mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSneak};
 	
 	public PathFinder(BlockPos goal)
 	{
@@ -67,19 +60,26 @@ public class PathFinder
 		queue.add(start, getHeuristic(start));
 	}
 	
-	public void process(int limit)
+	public PathFinder(PathFinder pathFinder)
 	{
-		if(pathFound)
+		this(pathFinder.goal);
+		thinkSpeed = pathFinder.thinkSpeed;
+		thinkTime = pathFinder.thinkTime;
+	}
+	
+	public void think()
+	{
+		if(done)
 			throw new IllegalStateException("Path was already found!");
 		
-		for(int i = 0; i < limit && !queue.isEmpty(); i++)
+		int i = 0;
+		for(; i < thinkSpeed && !checkFailed(); i++)
 		{
 			// get next position from queue
 			current = queue.poll();
 			
 			// check if path is found
-			pathFound = goal.equals(current);
-			if(pathFound)
+			if(checkDone())
 				return;
 			
 			// add neighbors to queue
@@ -96,6 +96,17 @@ public class PathFinder
 				queue.add(next, newCost + getHeuristic(next));
 			}
 		}
+		iterations += i;
+	}
+	
+	protected boolean checkDone()
+	{
+		return done = goal.equals(current);
+	}
+	
+	private boolean checkFailed()
+	{
+		return failed = queue.isEmpty() || iterations >= thinkSpeed * thinkTime;
 	}
 	
 	private ArrayList<PathPos> getNeighbors(PathPos pos)
@@ -133,65 +144,44 @@ public class PathFinder
 			|| canMoveSidewaysInMidairAt(pos) || canClimbUpAt(pos.down()))
 		{
 			// north
-			boolean basicCheckNorth =
-				canGoThrough(north) && canGoThrough(north.up());
-			if(basicCheckNorth && (flying || canGoThrough(north.down())
-				|| canSafelyStandOn(north.down())))
+			if(checkHorizontalMovement(pos, north))
 				neighbors.add(new PathPos(north));
 			
 			// east
-			boolean basicCheckEast =
-				canGoThrough(east) && canGoThrough(east.up());
-			if(basicCheckEast && (flying || canGoThrough(east.down())
-				|| canSafelyStandOn(east.down())))
+			if(checkHorizontalMovement(pos, east))
 				neighbors.add(new PathPos(east));
 			
 			// south
-			boolean basicCheckSouth =
-				canGoThrough(south) && canGoThrough(south.up());
-			if(basicCheckSouth && (flying || canGoThrough(south.down())
-				|| canSafelyStandOn(south.down())))
+			if(checkHorizontalMovement(pos, south))
 				neighbors.add(new PathPos(south));
 			
 			// west
-			boolean basicCheckWest =
-				canGoThrough(west) && canGoThrough(west.up());
-			if(basicCheckWest && (flying || canGoThrough(west.down())
-				|| canSafelyStandOn(west.down())))
+			if(checkHorizontalMovement(pos, west))
 				neighbors.add(new PathPos(west));
 			
 			// north-east
-			if(basicCheckNorth && basicCheckEast && canGoThrough(northEast)
-				&& canGoThrough(northEast.up())
-				&& (flying || canGoThrough(northEast.down())
-					|| canSafelyStandOn(northEast.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.NORTH, EnumFacing.EAST))
 				neighbors.add(new PathPos(northEast));
 			
 			// south-east
-			if(basicCheckSouth && basicCheckEast && canGoThrough(southEast)
-				&& canGoThrough(southEast.up())
-				&& (flying || canGoThrough(southEast.down())
-					|| canSafelyStandOn(southEast.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.SOUTH, EnumFacing.EAST))
 				neighbors.add(new PathPos(southEast));
 			
 			// south-west
-			if(basicCheckSouth && basicCheckWest && canGoThrough(southWest)
-				&& canGoThrough(southWest.up())
-				&& (flying || canGoThrough(southWest.down())
-					|| canSafelyStandOn(southWest.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.SOUTH, EnumFacing.WEST))
 				neighbors.add(new PathPos(southWest));
 			
 			// north-west
-			if(basicCheckNorth && basicCheckWest && canGoThrough(northWest)
-				&& canGoThrough(northWest.up())
-				&& (flying || canGoThrough(northWest.down())
-					|| canSafelyStandOn(northWest.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.NORTH, EnumFacing.WEST))
 				neighbors.add(new PathPos(northWest));
 		}
 		
 		// up
 		if(pos.getY() < 256 && canGoThrough(up.up())
-			&& (flying || onGround || canClimbUpAt(pos)))
+			&& (flying || onGround || canClimbUpAt(pos))
+			&& (flying || canClimbUpAt(pos) || goal.equals(up)
+				|| canSafelyStandOn(north) || canSafelyStandOn(east)
+				|| canSafelyStandOn(south) || canSafelyStandOn(west)))
 			neighbors.add(new PathPos(up, onGround));
 		
 		// down
@@ -200,6 +190,35 @@ public class PathFinder
 			neighbors.add(new PathPos(down));
 		
 		return neighbors;
+	}
+	
+	private boolean checkHorizontalMovement(BlockPos current, BlockPos next)
+	{
+		if(isPassable(next) && (canFlyAt(current) || canGoThrough(next.down())
+			|| canSafelyStandOn(next.down())))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean checkDiagonalMovement(BlockPos current,
+		EnumFacing direction1, EnumFacing direction2)
+	{
+		BlockPos horizontal1 = current.offset(direction1);
+		BlockPos horizontal2 = current.offset(direction2);
+		BlockPos next = horizontal1.offset(direction2);
+		
+		if(isPassable(horizontal1) && isPassable(horizontal2)
+			&& checkHorizontalMovement(current, next))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean isPassable(BlockPos pos)
+	{
+		return canGoThrough(pos) && canGoThrough(pos.up())
+			&& canGoAbove(pos.down());
 	}
 	
 	private boolean canBeSolid(BlockPos pos)
@@ -231,6 +250,17 @@ public class PathFinder
 		// check if safe
 		if(!invulnerable
 			&& (material == Material.LAVA || material == Material.FIRE))
+			return false;
+		
+		return true;
+	}
+	
+	private boolean canGoAbove(BlockPos pos)
+	{
+		// check for fences, etc.
+		Block block = getBlock(pos);
+		if(block instanceof BlockFence || block instanceof BlockWall
+			|| block instanceof BlockFenceGate)
 			return false;
 		
 		return true;
@@ -416,20 +446,36 @@ public class PathFinder
 		return prevPosMap.get(pos);
 	}
 	
-	public boolean isPathFound()
+	public boolean isDone()
 	{
-		return pathFound;
+		return done;
+	}
+	
+	public boolean isFailed()
+	{
+		return failed;
 	}
 	
 	public ArrayList<PathPos> formatPath()
 	{
-		if(!pathFound)
+		if(!done && !failed)
 			throw new IllegalStateException("No path found!");
 		if(!path.isEmpty())
 			throw new IllegalStateException("Path was already formatted!");
 		
+		// get last position
+		PathPos pos;
+		if(!failed)
+			pos = current;
+		else
+		{
+			pos = start;
+			for(PathPos next : prevPosMap.keySet())
+				if(getHeuristic(next) < getHeuristic(pos))
+					pos = next;
+		}
+		
 		// get positions
-		PathPos pos = current;
 		while(pos != null)
 		{
 			path.add(pos);
@@ -442,7 +488,7 @@ public class PathFinder
 		return path;
 	}
 	
-	public boolean isPathStillValid()
+	public boolean isPathStillValid(int index)
 	{
 		if(path.isEmpty())
 			throw new IllegalStateException("Path is not formatted!");
@@ -465,160 +511,21 @@ public class PathFinder
 		return true;
 	}
 	
-	public boolean isGoalReached()
+	public PathProcessor getProcessor()
 	{
-		return goalReached;
+		if(flying)
+			return new FlyPathProcessor(path, creativeFlying);
+		
+		return new WalkPathProcessor(path);
 	}
 	
-	// TODO: Clean up!
-	public void goToGoal()
+	public void setThinkSpeed(int thinkSpeed)
 	{
-		if(!pathFound)
-			throw new IllegalStateException("No path found!");
-		if(path.isEmpty())
-			throw new IllegalStateException("Path is not formatted!");
-		
-		// get positions
-		BlockPos pos = new BlockPos(mc.player);
-		BlockPos nextPos = path.get(index);
-		
-		// update index
-		if(pos.equals(nextPos))
-		{
-			index++;
-			
-			if(index < path.size())
-			{
-				// stop when changing directions
-				if(creativeFlying && index >= 2)
-				{
-					BlockPos prevPos = path.get(index - 1);
-					if(!path.get(index).subtract(prevPos)
-						.equals(prevPos.subtract(path.get(index - 2))))
-					{
-						if(!stopped)
-						{
-							mc.player.motionX /=
-								Math.max(Math.abs(mc.player.motionX) * 50, 1);
-							mc.player.motionY /=
-								Math.max(Math.abs(mc.player.motionY) * 50, 1);
-							mc.player.motionZ /=
-								Math.max(Math.abs(mc.player.motionZ) * 50, 1);
-							stopped = true;
-						}
-					}
-				}
-				
-				// disable when done
-			}else
-			{
-				if(creativeFlying)
-				{
-					mc.player.motionX /=
-						Math.max(Math.abs(mc.player.motionX) * 50, 1);
-					mc.player.motionY /=
-						Math.max(Math.abs(mc.player.motionY) * 50, 1);
-					mc.player.motionZ /=
-						Math.max(Math.abs(mc.player.motionZ) * 50, 1);
-				}
-				
-				goalReached = true;
-			}
-			
-			return;
-		}
-		
-		stopped = false;
-		
-		lockControls();
-		
-		// check if player moved off the path
-		if(index > 0)
-		{
-			BlockPos prevPos = path.get(index - 1);
-			if((pos.getX() != prevPos.getX() && pos.getX() != nextPos.getX())
-				|| (pos.getY() != prevPos.getY()
-					&& pos.getY() != nextPos.getY())
-				|| (pos.getZ() != prevPos.getZ()
-					&& pos.getZ() != nextPos.getZ()))
-				System.err.println("Player moved off the path.");
-		}
-		
-		// move
-		BlockUtils.faceBlockClientHorizontally(nextPos);
-		
-		// horizontal movement
-		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())
-		{
-			mc.gameSettings.keyBindForward.pressed = true;
-			
-			// vertical movement
-		}else if(pos.getY() != nextPos.getY())
-		{
-			// flying
-			if(flying)
-			{
-				if(pos.getY() < nextPos.getY())
-					mc.gameSettings.keyBindJump.pressed = true;
-				else
-					mc.gameSettings.keyBindSneak.pressed = true;
-				
-				// not flying
-			}else
-			{
-				// go up
-				if(pos.getY() < nextPos.getY())
-				{
-					// climb up
-					// TODO: vines and spider
-					if(mc.world.getBlockState(pos)
-						.getBlock() instanceof BlockLadder)
-					{
-						BlockUtils.faceBlockClientHorizontally(
-							pos.offset(mc.world.getBlockState(pos)
-								.getValue(BlockHorizontal.FACING)
-								.getOpposite()));
-						mc.gameSettings.keyBindForward.pressed = true;
-						
-						// jump up
-					}else
-					{
-						mc.gameSettings.keyBindJump.pressed = true;
-						
-						// directional jump
-						if(index < path.size() - 1)
-						{
-							BlockUtils.faceBlockClientHorizontally(
-								path.get(index + 1));
-							mc.gameSettings.keyBindForward.pressed = true;
-						}
-					}
-					
-					// go down
-				}else
-				{
-					// walk off the edge
-					if(mc.player.onGround)
-						mc.gameSettings.keyBindForward.pressed = true;
-				}
-			}
-		}
+		this.thinkSpeed = thinkSpeed;
 	}
 	
-	public void lockControls()
+	public void setThinkTime(int thinkTime)
 	{
-		for(KeyBinding key : controls)
-			key.pressed = false;
-		mc.player.rotationPitch = 10;
-		BlockUtils.faceBlockClientHorizontally(goal);
-		mc.player.setSprinting(false);
-		mc.player.capabilities.isFlying = creativeFlying;
-	}
-	
-	public void releaseControls()
-	{
-		// reset keys
-		for(KeyBinding key : controls)
-			key.pressed = Keyboard.isKeyDown(key.getKeyCode());
+		this.thinkTime = thinkTime;
 	}
 }
