@@ -12,6 +12,8 @@ import tk.wurst_client.ai.FollowAI;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
+import tk.wurst_client.navigator.settings.SliderSetting;
+import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
@@ -26,7 +28,22 @@ public class FollowMod extends Mod implements UpdateListener
 	private FollowAI ai;
 	
 	private float range = 12F;
-	private float distance = 1F;
+	
+	public SliderSetting distance =
+		new SliderSetting("Distance", 1F, 1F, 12F, 0.5F, ValueDisplay.DECIMAL)
+		{
+			@Override
+			public void update()
+			{
+				entity = null;
+			};
+		};
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(distance);
+	}
 	
 	private TargetSettings targetSettingsFind = new TargetSettings()
 	{
@@ -127,7 +144,7 @@ public class FollowMod extends Mod implements UpdateListener
 			return;
 		}
 		
-		ai = new FollowAI(entity, distance);
+		ai = new FollowAI(entity, distance.getValueF());
 		wurst.events.add(UpdateListener.class, this);
 		wurst.chat.message("Now following " + entity.getName());
 	}
@@ -153,7 +170,7 @@ public class FollowMod extends Mod implements UpdateListener
 				return;
 			}
 			
-			ai = new FollowAI(entity, distance);
+			ai = new FollowAI(entity, distance.getValueF());
 		}
 		
 		// go to entity
