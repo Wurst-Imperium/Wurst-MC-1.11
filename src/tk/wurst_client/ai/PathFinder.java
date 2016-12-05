@@ -15,6 +15,7 @@ import java.util.Set;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
 
@@ -143,65 +144,44 @@ public class PathFinder
 			|| canMoveSidewaysInMidairAt(pos) || canClimbUpAt(pos.down()))
 		{
 			// north
-			boolean basicCheckNorth = canGoThrough(north)
-				&& canGoThrough(north.up()) && canGoAbove(north.down());
-			if(basicCheckNorth && (flying || canGoThrough(north.down())
-				|| canSafelyStandOn(north.down())))
+			if(checkHorizontalMovement(pos, north))
 				neighbors.add(new PathPos(north));
 			
 			// east
-			boolean basicCheckEast = canGoThrough(east)
-				&& canGoThrough(east.up()) && canGoAbove(east.down());
-			if(basicCheckEast && (flying || canGoThrough(east.down())
-				|| canSafelyStandOn(east.down())))
+			if(checkHorizontalMovement(pos, east))
 				neighbors.add(new PathPos(east));
 			
 			// south
-			boolean basicCheckSouth = canGoThrough(south)
-				&& canGoThrough(south.up()) && canGoAbove(south.down());
-			if(basicCheckSouth && (flying || canGoThrough(south.down())
-				|| canSafelyStandOn(south.down())))
+			if(checkHorizontalMovement(pos, south))
 				neighbors.add(new PathPos(south));
 			
 			// west
-			boolean basicCheckWest = canGoThrough(west)
-				&& canGoThrough(west.up()) && canGoAbove(west.down());
-			if(basicCheckWest && (flying || canGoThrough(west.down())
-				|| canSafelyStandOn(west.down())))
+			if(checkHorizontalMovement(pos, west))
 				neighbors.add(new PathPos(west));
 			
 			// north-east
-			if(basicCheckNorth && basicCheckEast && canGoThrough(northEast)
-				&& canGoThrough(northEast.up()) && canGoAbove(northEast.down())
-				&& (flying || canGoThrough(northEast.down())
-					|| canSafelyStandOn(northEast.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.NORTH, EnumFacing.EAST))
 				neighbors.add(new PathPos(northEast));
 			
 			// south-east
-			if(basicCheckSouth && basicCheckEast && canGoThrough(southEast)
-				&& canGoThrough(southEast.up()) && canGoAbove(southEast.down())
-				&& (flying || canGoThrough(southEast.down())
-					|| canSafelyStandOn(southEast.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.SOUTH, EnumFacing.EAST))
 				neighbors.add(new PathPos(southEast));
 			
 			// south-west
-			if(basicCheckSouth && basicCheckWest && canGoThrough(southWest)
-				&& canGoThrough(southWest.up()) && canGoAbove(southWest.down())
-				&& (flying || canGoThrough(southWest.down())
-					|| canSafelyStandOn(southWest.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.SOUTH, EnumFacing.WEST))
 				neighbors.add(new PathPos(southWest));
 			
 			// north-west
-			if(basicCheckNorth && basicCheckWest && canGoThrough(northWest)
-				&& canGoThrough(northWest.up()) && canGoAbove(northWest.down())
-				&& (flying || canGoThrough(northWest.down())
-					|| canSafelyStandOn(northWest.down())))
+			if(checkDiagonalMovement(pos, EnumFacing.NORTH, EnumFacing.WEST))
 				neighbors.add(new PathPos(northWest));
 		}
 		
 		// up
 		if(pos.getY() < 256 && canGoThrough(up.up())
-			&& (flying || onGround || canClimbUpAt(pos)))
+			&& (flying || onGround || canClimbUpAt(pos))
+			&& (flying || canClimbUpAt(pos) || goal.equals(up)
+				|| canSafelyStandOn(north) || canSafelyStandOn(east)
+				|| canSafelyStandOn(south) || canSafelyStandOn(west)))
 			neighbors.add(new PathPos(up, onGround));
 		
 		// down
@@ -210,6 +190,35 @@ public class PathFinder
 			neighbors.add(new PathPos(down));
 		
 		return neighbors;
+	}
+	
+	private boolean checkHorizontalMovement(BlockPos current, BlockPos next)
+	{
+		if(isPassable(next) && (canFlyAt(current) || canGoThrough(next.down())
+			|| canSafelyStandOn(next.down())))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean checkDiagonalMovement(BlockPos current,
+		EnumFacing direction1, EnumFacing direction2)
+	{
+		BlockPos horizontal1 = current.offset(direction1);
+		BlockPos horizontal2 = current.offset(direction2);
+		BlockPos next = horizontal1.offset(direction2);
+		
+		if(isPassable(horizontal1) && isPassable(horizontal2)
+			&& checkHorizontalMovement(current, next))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean isPassable(BlockPos pos)
+	{
+		return canGoThrough(pos) && canGoThrough(pos.up())
+			&& canGoAbove(pos.down());
 	}
 	
 	private boolean canBeSolid(BlockPos pos)
@@ -465,7 +474,7 @@ public class PathFinder
 				if(getHeuristic(next) < getHeuristic(pos))
 					pos = next;
 		}
-				
+		
 		// get positions
 		while(pos != null)
 		{
