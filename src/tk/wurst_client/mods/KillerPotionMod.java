@@ -11,8 +11,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import tk.wurst_client.mods.Mod.Bypasses;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
 	description = "Generates a potion that can kill players in Creative mode.\n"
@@ -26,31 +26,31 @@ public class KillerPotionMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		if(mc.player.inventory.getStackInSlot(0) != null)
-		{
-			wurst.chat.error("Please clear the first slot in your hotbar.");
-			setEnabled(false);
-			return;
-		}else if(!mc.player.capabilities.isCreativeMode)
+		// check gamemode
+		if(!mc.player.capabilities.isCreativeMode)
 		{
 			wurst.chat.error("Creative mode only.");
 			setEnabled(false);
 			return;
 		}
 		
+		// generate potion
 		ItemStack stack = new ItemStack(Items.SPLASH_POTION);
-		NBTTagList effects = new NBTTagList();
 		NBTTagCompound effect = new NBTTagCompound();
 		effect.setInteger("Amplifier", 125);
 		effect.setInteger("Duration", 2000);
 		effect.setInteger("Id", 6);
+		NBTTagList effects = new NBTTagList();
 		effects.appendTag(effect);
 		stack.setTagInfo("CustomPotionEffects", effects);
-		stack.setStackDisplayName("§c§lKiller§6§lPotion");
+		stack.setStackDisplayName("§rSplash Potion of §4§lDEATH");
 		
-		mc.player.connection
-			.sendPacket(new CPacketCreativeInventoryAction(36, stack));
-		wurst.chat.message("Potion created.");
+		// give potion
+		if(InventoryUtils.placeStackInHotbar(stack))
+			wurst.chat.message("Potion created.");
+		else
+			wurst.chat.error("Please clear a slot in your hotbar.");
+		
 		setEnabled(false);
 	}
 }
