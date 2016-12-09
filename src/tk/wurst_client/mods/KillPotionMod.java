@@ -15,13 +15,13 @@ import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
-	description = "Generates a potion that can kill players in Creative mode.\n"
+	description = "Generates a potion that can kill anything, even players in Creative mode.\n"
 		+ "Requires Creative mode.",
-	name = "KillerPotion",
-	tags = "killer potion",
+	name = "KillPotion",
+	tags = "KillerPotion,kill potion,killer potion",
 	help = "Mods/KillerPotion")
 @Bypasses
-public class KillerPotionMod extends Mod
+public class KillPotionMod extends Mod
 {
 	@Override
 	public void onEnable()
