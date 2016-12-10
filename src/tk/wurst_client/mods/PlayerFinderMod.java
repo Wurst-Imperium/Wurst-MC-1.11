@@ -108,6 +108,10 @@ public class PlayerFinderMod extends Mod implements PacketInputListener,
 					lightning.getZ() / 32D);
 			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
 				blockPos = pos;
+				wurst.chat.info("Lightning struck at "
+					+ pos.getX() + " "
+					+ pos.getY() + " "
+					+ pos.getZ() + ".");
 		}
 	}
 }

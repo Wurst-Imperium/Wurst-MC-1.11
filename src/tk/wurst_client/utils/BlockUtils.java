@@ -104,7 +104,7 @@ public class BlockUtils
 		return MathHelper.sqrt(
 			(xDiff - 0.5F) * (xDiff - 0.5F) + (zDiff - 0.5F) * (zDiff - 0.5F));
 	}
-	
+
 	/**
 	 * Determines whether a block is in a specified cuboid.
 	 * @param bound1 The first corner of the cuboid.
@@ -131,4 +131,5 @@ public class BlockUtils
 	{
 		return ((i1 >= i2) ? (i1 >= middle && middle >= i2) : (i1 <= middle && middle <= i2));
 	}
+	
 }

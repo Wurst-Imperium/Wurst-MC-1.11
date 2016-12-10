@@ -32,12 +32,11 @@ import tk.wurst_client.utils.BlockUtils;
 @Info(
 	description = "Boxed Nuker. When bounded, will not\n"
 		+ "nuke until both corners are set.\n"
-		+ "Use .bound to manage bounds.\n"
-		+ "So many checkboxes. XD\n\n",
+		+ "Use .bound to manage bounds.\n" + "So many checkboxes. XD\n\n",
 	name = "BoundedNuker",
 	tags = "BoundedNuker, bounded nuker, nuker, boundable",
 	help = "Mods/BoundedNuker")
-@Bypasses(antiCheat = false,
+@Bypasses(antiCheat = true,
 	olderNCP = false,
 	latestNCP = false,
 	ghostMode = false)
@@ -408,10 +407,13 @@ public class BoundedNukerMod extends Mod
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 		}else
 		{
+			BlockUtils.faceBlockPacket(pos);
 			block.onBlockDestroyedByPlayer(mc.world, pos,
 				mc.world.getBlockState(pos));
-			mc.player.connection.sendPacket(
-				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
+			/*
+			 * mc.player.connection.sendPacket(
+			 * new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
+			 */
 		}
 	}
 	

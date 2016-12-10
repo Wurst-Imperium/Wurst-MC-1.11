@@ -24,6 +24,8 @@ public class ModManager
 			}
 		});
 	
+	public final AdvancedAimBotMod advancedAimBotMod = new AdvancedAimBotMod();
+	public final AdvancedTriggerBotMod advancedTriggerBotMod = new AdvancedTriggerBotMod();
 	public final AntiAfkMod antiAfkMod = new AntiAfkMod();
 	public final AntiBlindMod antiBlindMod = new AntiBlindMod();
 	public final AntiCactusMod antiCactusMod = new AntiCactusMod();
@@ -56,6 +58,7 @@ public class ModManager
 	public final BonemealAuraMod bonemealAuraMod = new BonemealAuraMod();
 	public final BoundedNukerMod boundedNukerMod = new BoundedNukerMod();
 	public final BowAimbotMod bowAimbotMod = new BowAimbotMod();
+	public final BowSpamMod bowSpamMod = new BowSpamMod();
 	public final BuildRandomMod buildRandomMod = new BuildRandomMod();
 	public final BunnyHopMod bunnyHopMod = new BunnyHopMod();
 	public final CaveFinderMod caveFinderMod = new CaveFinderMod();
@@ -134,10 +137,10 @@ public class ModManager
 	public final SkinBlinkerMod skinBlinkerMod = new SkinBlinkerMod();
 	public final SneakMod sneakMod = new SneakMod();
 	public final SpammerMod spammerMod = new SpammerMod();
-	public final SpectatorDecectorMod spectatorDectectorMod= new SpectatorDecectorMod();
+	public final SpectatorDetectorMod spectatorDetectorMod = new SpectatorDetectorMod();
 	public final SpeedHackMod speedHackMod = new SpeedHackMod();
 	public final SpeedNukerMod speedNukerMod = new SpeedNukerMod();
-	public final SpeedTunnellerMod speedTunnellerMod = new SpeedTunnellerMod();
+	public final SpeedTunnellerMod speedTunnellerMod = new SpeedTunnellerMod();	
 	public final SpiderMod spiderMod = new SpiderMod();
 	public final StepMod stepMod = new StepMod();
 	public final ThrowMod throwMod = new ThrowMod();
