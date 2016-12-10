@@ -37,6 +37,8 @@ public final class EventManager
 		listenerMap.put(PacketOutputListener.class,
 			new ArrayList<PacketOutputListener>());
 		listenerMap.put(RenderListener.class, new ArrayList<RenderListener>());
+		listenerMap.put(RightClickListener.class,
+			new ArrayList<RightClickListener>());
 		listenerMap.put(UpdateListener.class, new ArrayList<UpdateListener>());
 	}
 	

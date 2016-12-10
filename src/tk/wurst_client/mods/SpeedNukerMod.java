@@ -102,6 +102,8 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 			wurst.mods.nukerLegitMod.setEnabled(false);
 		if(wurst.mods.tunnellerMod.isEnabled())
 			wurst.mods.tunnellerMod.setEnabled(false);
+		if(wurst.mods.speedTunnellerMod.isEnabled())
+			wurst.mods.speedTunnellerMod.setEnabled(false);
 		wurst.events.add(LeftClickListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
 	}

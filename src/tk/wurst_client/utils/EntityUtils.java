@@ -119,12 +119,34 @@ public class EntityUtils
 		return -1;
 	}
 	
+	public static float getDistanceFromMouseF(Entity entity)
+	{
+		float[] neededRotations = getRotationsNeeded(entity);
+		if(neededRotations != null)
+		{
+			float neededYaw =
+				Minecraft.getMinecraft().player.rotationYaw
+					- neededRotations[0],
+				neededPitch = Minecraft.getMinecraft().player.rotationPitch
+					- neededRotations[1];
+			float distanceFromMouse = MathHelper
+				.sqrt(neededYaw * neededYaw + neededPitch * neededPitch);
+			return distanceFromMouse;
+		}
+		return -1;
+	}
+	
 	public static boolean isCorrectEntity(Entity en, TargetSettings settings)
 	{
 		// non-entities
 		if(en == null)
 			return false;
-		
+		/*
+		 * // invisible cheat detectors
+		 * if(en.isInvisible()
+		 * || en.isInvisibleToPlayer(Minecraft.getMinecraft().player))
+		 * return false;
+		 */
 		// dead entities
 		if(en instanceof EntityLivingBase && (((EntityLivingBase)en).isDead
 			|| ((EntityLivingBase)en).getHealth() <= 0))
@@ -297,6 +319,47 @@ public class EntityUtils
 				closestEnemy = entity;
 			
 		return closestEnemy;
+	}
+	
+	public static Entity getClosestEntityToMouse(TargetSettings settings)
+	{
+		Minecraft mc = Minecraft.getMinecraft();
+		Entity target = null;
+		float targetRange = Float.MAX_VALUE;
+		
+		for(Entity entity : mc.world.loadedEntityList)
+		{
+			if(getDistanceFromMouseF(entity) < targetRange)
+			{
+				if(!isCorrectEntity(entity, settings))
+				{
+					continue;
+				}
+				target = entity;
+				targetRange = getDistanceFromMouseF(target);
+			}
+		}
+		return target;
+	}
+	
+	public static Entity getClosestEntityWeighted(TargetSettings settings)
+	{
+		Minecraft mc = Minecraft.getMinecraft();
+		Entity target = null;
+		float targetWeight = Float.MAX_VALUE;
+		
+		for(Entity entity : mc.world.loadedEntityList)
+		{
+			float entityWeight = getDistanceFromMouseF(entity)
+				/ mc.player.getDistanceToEntity(entity);
+			
+			if(entityWeight < targetWeight && isCorrectEntity(entity, settings))
+			{
+				target = entity;
+				targetWeight = entityWeight;
+			}
+		}
+		return target;
 	}
 	
 	public static Entity getEntityWithName(String name, TargetSettings settings)
