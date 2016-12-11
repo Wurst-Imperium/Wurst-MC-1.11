@@ -16,7 +16,8 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 public class InventoryUtils
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	private static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
+	
+	public static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
 	
 	public static boolean placeStackInHotbar(ItemStack stack)
 	{

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import tk.wurst_client.mods.Mod.Bypasses;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
 	description = "Generates a CrashChest. Give a lot of these to another\n"
@@ -26,7 +27,8 @@ public class CrashChestMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		if(mc.player.inventory.getStackInSlot(36) != null)
+		if(mc.player.inventory.getStackInSlot(36)
+			.getItem() != InventoryUtils.NULL_ITEM)
 		{
 			if(mc.player.inventory.getStackInSlot(36).getDisplayName()
 				.equals("§6§lCOPY ME"))
