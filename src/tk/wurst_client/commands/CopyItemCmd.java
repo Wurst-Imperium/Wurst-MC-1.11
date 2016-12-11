@@ -9,11 +9,12 @@ package tk.wurst_client.commands;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import tk.wurst_client.commands.Cmd.Info;
+import tk.wurst_client.utils.InventoryUtils;
 
-@Info(description = "Allows you to copy items that other people are holding\n"
-	+ "or wearing. Requires creative mode.",
+@Info(
+	description = "Allows you to copy items that other people are holding\n"
+		+ "or wearing. Requires creative mode.",
 	name = "copyitem",
 	syntax = {"<player> (hand|head|chest|legs|feet)"},
 	help = "Commands/copyitem")
@@ -62,16 +63,10 @@ public class CopyItemCmd extends Cmd
 		if(item == null)
 			error("Player \"" + args[0] + "\" could not be found.");
 		
-		// copy item
-		for(int i = 0; i < 9; i++)
-			if(mc.player.inventory.getStackInSlot(i) == null)
-			{
-				mc.player.connection
-					.sendPacket(new CPacketCreativeInventoryAction(
-						36 + i, item));
-				wurst.chat.message("Item copied.");
-				return;
-			}
-		error("Please clear a slot in your hotbar.");
+		// give item
+		if(InventoryUtils.placeStackInHotbar(item))
+			wurst.chat.message("Item copied.");
+		else
+			error("Please clear a slot in your hotbar.");
 	}
 }
