@@ -8,11 +8,10 @@
 package tk.wurst_client.commands;
 
 import net.minecraft.block.Block;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.mods.NukerMod;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Changes the settings of Nuker.",
+@Cmd.Info(description = "Changes the settings of Nuker.",
 	name = "nuker",
 	syntax = {"mode (normal|id|flat|smash)", "id <block_id>",
 		"name <block_name>"},

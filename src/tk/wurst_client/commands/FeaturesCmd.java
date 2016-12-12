@@ -7,12 +7,11 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.mods.Mod;
 import tk.wurst_client.special.Spf;
 
-@Info(description = "Shows the feature count and some over statistics.",
+@Cmd.Info(description = "Shows the feature count and some over statistics.",
 	name = "features",
 	syntax = {},
 	help = "Commands/features")

@@ -7,12 +7,11 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.mods.SpammerMod;
 import tk.wurst_client.spam.SpamProcessor;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Changes the delay of Spammer or spams spam from a file.",
+@Cmd.Info(description = "Changes the delay of Spammer or spams spam from a file.",
 	name = "spammer",
 	syntax = {"delay <delay_in_ms>", "spam <file>"},
 	help = "Commands/spammer")

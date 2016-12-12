@@ -7,9 +7,7 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
-
-@Info(description = "Clears the chat completely.",
+@Cmd.Info(description = "Clears the chat completely.",
 	name = "clear",
 	syntax = {},
 	help = "Commands/clear")

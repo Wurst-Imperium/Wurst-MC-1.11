@@ -15,13 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.PathFinder;
 import tk.wurst_client.ai.PathPos;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(
+@Cmd.Info(
 	description = "Shows the shortest path to a specific point. Useful for labyrinths and caves.",
 	name = "path",
 	syntax = {"<x> <y> <z>", "<entity>", "-debug", "-depth", "-refresh"},

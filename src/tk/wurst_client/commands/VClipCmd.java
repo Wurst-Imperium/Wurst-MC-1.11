@@ -7,10 +7,9 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Teleports you up/down. Can glitch you through floors & "
+@Cmd.Info(description = "Teleports you up/down. Can glitch you through floors & "
 	+ "ceilings.\nThe maximum distance is 100 blocks on vanilla servers and "
 	+ "10 blocks on Bukkit servers.", name = "vclip", syntax = {"<height>"},
 	help = "Commands/vclip")

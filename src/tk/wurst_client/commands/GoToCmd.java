@@ -9,11 +9,10 @@ package tk.wurst_client.commands;
 
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.GotoAI;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(description = "Walks or flies you to a specific location.",
+@Cmd.Info(description = "Walks or flies you to a specific location.",
 	name = "goto",
 	syntax = {"<x> <y> <z>", "<entity>", "-path"},
 	help = "Commands/goto")

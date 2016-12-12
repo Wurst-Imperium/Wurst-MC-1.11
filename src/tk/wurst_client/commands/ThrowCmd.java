@@ -7,10 +7,9 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Changes the amount of Throw or toggles it.",
+@Cmd.Info(description = "Changes the amount of Throw or toggles it.",
 	name = "throw",
 	syntax = {"[amount <amount>]"},
 	help = "Commands/throw")

@@ -11,10 +11,9 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Lists all keybinds.",
+@Cmd.Info(description = "Lists all keybinds.",
 	name = "binds",
 	syntax = {"[<page>]"},
 	help = "Commands/binds")

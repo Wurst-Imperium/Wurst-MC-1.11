@@ -8,10 +8,9 @@
 package tk.wurst_client.commands;
 
 import net.minecraft.block.Block;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Changes the settings of Search or toggles it.",
+@Cmd.Info(description = "Changes the settings of Search or toggles it.",
 	name = "search",
 	syntax = {"id <block_id>", "name <block_name>"},
 	help = "Commands/search")

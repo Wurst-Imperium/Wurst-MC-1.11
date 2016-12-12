@@ -12,11 +12,10 @@ import java.util.Iterator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.mods.XRayMod;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Manages or toggles X-Ray.",
+@Cmd.Info(description = "Manages or toggles X-Ray.",
 	name = "xray",
 	syntax = {"add (id <block_id>|name <block_name>)",
 		"remove (id <block_id>|name <block_name>)", "list [<page>]"},

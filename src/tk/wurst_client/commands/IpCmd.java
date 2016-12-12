@@ -10,11 +10,10 @@ package tk.wurst_client.commands;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.hooks.ServerHook;
 
-@Info(description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
+@Cmd.Info(description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
 	name = "ip",
 	syntax = {"[copy]"},
 	help = "Commands/ip")

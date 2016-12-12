@@ -7,9 +7,7 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
-
-@Info(description = "Types \"/gamemode <args>\".\nUseful for servers that don't support /gm.",
+@Cmd.Info(description = "Types \"/gamemode <args>\".\nUseful for servers that don't support /gm.",
 	name = "gm",
 	syntax = {"<gamemode>"},
 	help = "Commands/gm")

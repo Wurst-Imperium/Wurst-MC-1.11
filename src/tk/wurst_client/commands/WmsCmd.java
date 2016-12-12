@@ -7,9 +7,7 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
-
-@Info(description = "Enables/disables Wurst messages or sends a message.",
+@Cmd.Info(description = "Enables/disables Wurst messages or sends a message.",
 	name = "wms",
 	syntax = {"(on | off)", "echo <message>"},
 	help = "Commands/wms")

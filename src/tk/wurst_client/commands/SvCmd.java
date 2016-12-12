@@ -7,11 +7,10 @@
  */
 package tk.wurst_client.commands;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.hooks.ServerHook;
 
-@Info(description = "Shows the version of the server you are currently playing on.",
+@Cmd.Info(description = "Shows the version of the server you are currently playing on.",
 	name = "sv",
 	syntax = {},
 	help = "Commands/sv")

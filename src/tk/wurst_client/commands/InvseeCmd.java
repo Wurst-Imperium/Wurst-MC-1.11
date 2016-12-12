@@ -9,10 +9,9 @@ package tk.wurst_client.commands;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.events.listeners.RenderListener;
 
-@Info(description = "Allows you to see parts of another player's inventory.",
+@Cmd.Info(description = "Allows you to see parts of another player's inventory.",
 	name = "invsee",
 	syntax = {"<player>"},
 	help = "Commands/invsee")

@@ -9,10 +9,9 @@ package tk.wurst_client.commands;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.item.ItemStack;
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.InventoryUtils;
 
-@Info(
+@Cmd.Info(
 	description = "Allows you to copy items that other people are holding\n"
 		+ "or wearing. Requires creative mode.",
 	name = "copyitem",

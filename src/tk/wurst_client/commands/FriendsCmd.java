@@ -9,10 +9,9 @@ package tk.wurst_client.commands;
 
 import java.util.Iterator;
 
-import tk.wurst_client.commands.Cmd.Info;
 import tk.wurst_client.utils.MiscUtils;
 
-@Info(description = "Manages your friends list.", name = "friends", syntax = {
+@Cmd.Info(description = "Manages your friends list.", name = "friends", syntax = {
 	"(add | remove) <player>", "list [<page>]"},
 	help = "Commands/friends")
 public class FriendsCmd extends Cmd
