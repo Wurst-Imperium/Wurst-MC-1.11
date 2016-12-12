@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
+ * Copyright Â© 2014 - 2016 | Wurst-Imperium | All rights reserved.
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,7 +22,7 @@ import tk.wurst_client.mods.Mod.Info;
 	name = "AutoArmor",
 	tags = "auto armor",
 	help = "Mods/AutoArmor")
-@Bypasses(ghostMode = false, latestNCP = false)
+@Bypasses(ghostMode = false, latestNCP = true)
 public class AutoArmorMod extends Mod implements UpdateListener
 {
 	private int[] bestArmor;
