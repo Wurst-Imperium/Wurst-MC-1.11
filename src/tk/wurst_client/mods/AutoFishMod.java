@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
+ * Copyright Â© 2014 - 2016 | Wurst-Imperium | All rights reserved.
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,7 @@ import tk.wurst_client.mods.Mod.Info;
 public class AutoFishMod extends Mod implements UpdateListener
 {
 	private boolean catching = false;
+	private int lastY = 0;
 	
 	@Override
 	public void onEnable()
@@ -28,30 +29,55 @@ public class AutoFishMod extends Mod implements UpdateListener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
+	private int translate(double d) {
+		String s = String.valueOf(d);
+		s = s.replace(".", ",");
+		if (s.contains(",")) {
+			return Integer.valueOf(s.split(",")[0]);
+		} else {
+			return Integer.valueOf(s);
+		}
+	}
+	
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.fishEntity != null && isHooked(mc.player.fishEntity)
-			&& !catching)
-		{
-			catching = true;
-			mc.rightClickMouse();
-			new Thread("AutoFish")
-			{
-				@Override
-				public void run()
-				{
-					try
-					{
-						Thread.sleep(1000);
-					}catch(InterruptedException e)
-					{
-						e.printStackTrace();
+		if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
+			try {
+				if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
+					if (lastY == 0) {
+						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
 					}
-					mc.rightClickMouse();
-					catching = false;
+					if (lastY != translate(Minecraft.getMinecraft().player.fishEntity.posY)) {
+						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
+						catching = true;
+						new Thread() {
+							@Override
+							public void run() {
+								Minecraft.getMinecraft().rightClickMouse();
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								Minecraft.getMinecraft().rightClickMouse();
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								lastY = 0;
+								catching = false;
+							}
+						}.start();
+					}
 				}
-			}.start();
+			} catch (Exception ex) {
+				// Probably if you had the mod on when closing mc and starting
+				// it, it will crash when joining a world
+				lastY = 0;
+				catching = false;
+			}
 		}
 	}
 	
