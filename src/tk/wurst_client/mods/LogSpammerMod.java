@@ -13,15 +13,13 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Fills the server console with errors so that admins can't see what you are doing.\n"
 		+ "Patched on Spigot.",
 	name = "LogSpammer",
 	help = "Mods/LogSpammer")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class LogSpammerMod extends Mod implements UpdateListener
 {
 	private PacketBuffer payload;

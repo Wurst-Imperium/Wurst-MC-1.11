@@ -12,7 +12,6 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
-import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.navigator.gui.NavigatorScreen;
 
 @Mod.Info(
@@ -21,7 +20,7 @@ import tk.wurst_client.navigator.gui.NavigatorScreen;
 	name = "MenuWalk",
 	tags = "InventoryWalk, menu walk, inventory walk",
 	help = "Mods/MenuWalk")
-@Bypasses
+@Mod.Bypasses
 public class MenuWalkMod extends Mod
 {
 	public boolean shouldAllowWalking()

@@ -9,16 +9,14 @@ package tk.wurst_client.mods;
 
 import net.minecraft.client.Minecraft;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Automatically jumps whenever you walk.\n"
 		+ "Tip: Jumping while sprinting is a faster way to move.",
 	name = "BunnyHop",
 	tags = "AutoJump, BHop, bunny hop, auto jump",
 	help = "Mods/BunnyHop")
-@Bypasses
+@Mod.Bypasses
 public class BunnyHopMod extends Mod implements UpdateListener
 {
 	@Override

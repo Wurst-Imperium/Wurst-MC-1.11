@@ -10,16 +10,14 @@ package tk.wurst_client.mods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "While this is active, other people will think you are\n"
 		+ "rolling your head around!\n" + "Looks a bit like nodding.",
 	name = "HeadRoll",
 	tags = "head roll",
 	help = "Mods/HeadRoll")
-@Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public class HeadRollMod extends Mod implements UpdateListener
 {
 	@Override

@@ -18,7 +18,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.RenderUtils;
 
@@ -27,7 +26,7 @@ import tk.wurst_client.utils.RenderUtils;
 	
 	tags = "AimAssist, ArrowPrediction, aim assist, arrow prediction",
 	help = "Mods/Trajectories")
-@Bypasses
+@Mod.Bypasses
 public class TrajectoriesMod extends Mod implements RenderListener
 {
 	@Override

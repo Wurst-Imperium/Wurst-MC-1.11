@@ -13,18 +13,16 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.ModeSetting;
 
-@Info(
+@Mod.Info(
 	description = "Automatically leaves the server when your health is low.\n"
 		+ "The Chars, TP and SelfHurt modes can bypass CombatLog and similar plugins.",
 	name = "AutoLeave",
 	tags = "AutoDisconnect, auto leave, auto disconnect",
 	help = "Mods/AutoLeave")
-@Bypasses
+@Mod.Bypasses
 public class AutoLeaveMod extends Mod implements UpdateListener
 {
 	private int mode = 0;

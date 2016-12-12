@@ -8,17 +8,15 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Uses an item multiple times.\n"
 		+ "This can cause a lot of lag and even crash a server.\n"
 		+ "Works best with snowballs or eggs.\n"
 		+ "Use the .throw command to change the amount of uses per click.",
 	name = "Throw",
 	help = "Mods/Throw")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class ThrowMod extends Mod implements UpdateListener
 {
 	@Override

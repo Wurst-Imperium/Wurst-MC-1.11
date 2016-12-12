@@ -11,15 +11,13 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 
-@Info(description = "Automatically eats food when necessary.",
+@Mod.Info(description = "Automatically eats food when necessary.",
 	name = "AutoEat",
 	tags = "AutoSoup,auto eat,auto soup",
 	help = "Mods/AutoEat")
-@Bypasses
+@Mod.Bypasses
 public class AutoEatMod extends Mod implements UpdateListener
 {
 	private int oldSlot;

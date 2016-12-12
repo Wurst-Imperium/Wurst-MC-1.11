@@ -7,16 +7,13 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
-
-@Info(
+@Mod.Info(
 	description = "Hides all player names.\n"
 		+ "Some YouTubers like to censor out all names in their\n" + "videos.",
 	name = "NameProtect",
 	tags = "name protect",
 	help = "Mods/NameProtect")
-@Bypasses
+@Mod.Bypasses
 public class NameProtectMod extends Mod
 {	
 	

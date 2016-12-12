@@ -9,7 +9,6 @@ package tk.wurst_client.mods;
 
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
-import tk.wurst_client.mods.Mod.Bypasses;
 
 @Mod.Info(
 	description = "Generates a CrashItem.\n"
@@ -17,7 +16,7 @@ import tk.wurst_client.mods.Mod.Bypasses;
 	name = "CrashItem",
 	tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
 	help = "Mods/CrashItem")
-@Bypasses
+@Mod.Bypasses
 public class CrashItemMod extends Mod
 {
 	@Override

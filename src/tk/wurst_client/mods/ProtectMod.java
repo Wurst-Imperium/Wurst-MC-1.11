@@ -10,17 +10,15 @@ package tk.wurst_client.mods;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(
+@Mod.Info(
 	description = "A bot that follows the closest entity and protects it from other entities.\n"
 		+ "Use .protect <entity> to protect a specific entity instead of the closest one.",
 	name = "Protect",
 	help = "Mods/Protect")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class ProtectMod extends Mod implements UpdateListener
 {
 	private Entity friend;

@@ -10,18 +10,16 @@ package tk.wurst_client.mods;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(
+@Mod.Info(
 	description = "Allows you to see the world as someone else.\n"
 		+ "Use the .rv command to make it target a specific entity.",
 	name = "RemoteView",
 	tags = "remote view",
 	help = "Mods/RemoteView")
-@Bypasses
+@Mod.Bypasses
 public class RemoteViewMod extends Mod implements UpdateListener
 {
 	private Entity entity = null;

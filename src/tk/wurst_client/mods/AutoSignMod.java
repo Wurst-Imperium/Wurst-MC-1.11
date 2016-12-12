@@ -8,10 +8,8 @@
 package tk.wurst_client.mods;
 
 import net.minecraft.util.text.ITextComponent;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Instantly writes whatever text you want on every sign\n"
 		+ "you place. Once activated, you can write normally on\n"
 		+ "one sign to specify the text for all other signs.",
@@ -19,7 +17,7 @@ import tk.wurst_client.mods.Mod.Info;
 	noCheatCompatible = false,
 	tags = "auto sign",
 	help = "Mods/AutoSign")
-@Bypasses(ghostMode = false, latestNCP = false, olderNCP = false, antiCheat = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false, antiCheat = false)
 public class AutoSignMod extends Mod
 {
 	public ITextComponent[] signText;

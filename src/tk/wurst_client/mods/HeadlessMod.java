@@ -10,16 +10,14 @@ package tk.wurst_client.mods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "While this is active, other people will think you are\n"
 		+ "headless. Looks hilarious!",
 	name = "Headless",
 	tags = "head less",
 	help = "Mods/Headless")
-@Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public class HeadlessMod extends Mod implements UpdateListener
 {
 	@Override

@@ -7,18 +7,16 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 
-@Info(
+@Mod.Info(
 	description = "Changes the speed of almost everything.\n"
 		+ "Tip: Slow speeds make aiming easier and work well with\n"
 		+ "NoCheat+.",
 	name = "Timer",
 	help = "Mods/Timer")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class TimerMod extends Mod
 {
 	public float speed = 2.0F;

@@ -8,16 +8,14 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Allows you to jump in mid-air.\n"
 		+ "Looks as if you had a jetpack.",
 	name = "Jetpack",
 	tags = "jet pack",
 	help = "Mods/Jetpack")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false,

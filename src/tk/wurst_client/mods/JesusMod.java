@@ -14,7 +14,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
 
 @Mod.Info(
 	description = "Allows you to walk on water.\n"
@@ -22,7 +21,7 @@ import tk.wurst_client.mods.Mod.Bypasses;
 		+ "Bypasses NoCheat+ if YesCheat+ is enabled.",
 	name = "Jesus",
 	help = "Mods/Jesus")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class JesusMod extends Mod implements UpdateListener
 {
 	private int ticksOutOfWater = 10;

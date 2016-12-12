@@ -17,16 +17,14 @@ import net.minecraft.util.StringUtils;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Sends a TPA request to all players.\n"
 		+ "Stops if someone accepts.",
 	name = "MassTPA",
 	tags = "mass tpa",
 	help = "Mods/MassTPA")
-@Bypasses
+@Mod.Bypasses
 public class MassTpaMod extends Mod implements UpdateListener,
 	ChatInputListener
 {

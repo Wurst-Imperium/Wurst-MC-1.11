@@ -11,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
@@ -21,7 +20,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "CrashChest",
 	tags = "crash chest",
 	help = "Mods/CrashChest")
-@Bypasses
+@Mod.Bypasses
 public class CrashChestMod extends Mod
 {
 	@Override

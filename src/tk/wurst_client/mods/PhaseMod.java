@@ -8,16 +8,14 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Exploits a bug in NoCheat+ that allows you to glitch\n"
 		+ "through blocks.",
 	name = "Phase",
 	tags = "Phaze",
 	help = "Mods/Phase")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	antiCheat = false,
 	mineplexAntiCheat = false)

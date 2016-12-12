@@ -9,21 +9,19 @@ package tk.wurst_client.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 
-@Info(
+@Mod.Info(
 	description = "Allows you to you fly.\n"
 		+ "Bypasses NoCheat+ if YesCheat+ is enabled.\n"
 		+ "Bypasses MAC if AntiMAC is enabled.",
 	name = "Flight",
 	tags = "FlyHack,fly hack,flying",
 	help = "Mods/Flight")
-@Bypasses(ghostMode = false, latestNCP = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false)
 public class FlightMod extends Mod implements UpdateListener
 {
 	public float speed = 1F;

@@ -22,20 +22,18 @@ import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.events.listeners.DeathListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.EntityUtils;
-import tk.wurst_client.utils.RenderUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RenderUtils;
 
-@Info(description = "Makes ArenaBrawl on mc.hypixel.net a lot easier.\n"
+@Mod.Info(description = "Makes ArenaBrawl on mc.hypixel.net a lot easier.\n"
 	+ "This is a collection of mods that have been optimized\n"
 	+ "for ArenaBrawl. It will bypass everything that Hypixel\n"
 	+ "has to offer.", name = "ArenaBrawl", help = "Mods/ArenaBrawl")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class ArenaBrawlMod extends Mod
 	implements ChatInputListener, DeathListener, RenderListener, UpdateListener
 {

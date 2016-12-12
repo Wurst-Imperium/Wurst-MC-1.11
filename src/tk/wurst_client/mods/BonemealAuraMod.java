@@ -22,21 +22,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 import tk.wurst_client.utils.BlockUtils;
 
-@Info(
+@Mod.Info(
 	description = "Automatically uses bone meal on specific types of plants.\n"
 		+ "Use the checkboxes to specify the types of plants.",
 	name = "BonemealAura",
 	tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
 	help = "Mods/BonemealAura")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class BonemealAuraMod extends Mod implements UpdateListener
 {
 	public float normalRange = 5F;

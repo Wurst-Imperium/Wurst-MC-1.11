@@ -9,15 +9,13 @@ package tk.wurst_client.mods;
 
 import net.minecraft.block.Block;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Automatically mines a block as soon as you look at it.",
 	name = "AutoMine",
 	tags = "AutoBreak, auto mine, auto break",
 	help = "Mods/AutoMine")
-@Bypasses
+@Mod.Bypasses
 public class AutoMineMod extends Mod implements UpdateListener
 {
 	@Override

@@ -8,14 +8,12 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Allows you to climb up walls like a spider.",
 	name = "Spider",
 	help = "Mods/Spider")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)

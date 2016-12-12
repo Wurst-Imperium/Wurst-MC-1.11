@@ -30,11 +30,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 
-@Info(
+@Mod.Info(
 	description = "Cracks AuthMe passwords. Can be used to get OP.\n"
 		+ "If you want to know how to use this, press the\n"
 		+ "\"How to use\" button. That will open an online\n"
@@ -44,7 +42,7 @@ import tk.wurst_client.navigator.NavigatorItem;
 	tags = "Force OP,AuthMe Cracker,AuthMeCracker,auth me cracker,admin hack,"
 		+ "AuthMe password cracker",
 	help = "Mods/Force_OP_(AuthMeCracker)")
-@Bypasses
+@Mod.Bypasses
 public class ForceOpMod extends Mod implements ChatInputListener
 {
 	private String[] defaultList = {"password", "passwort", "password1",

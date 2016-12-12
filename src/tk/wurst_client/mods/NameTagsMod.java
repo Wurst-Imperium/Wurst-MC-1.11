@@ -7,16 +7,13 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
-
-@Info(
+@Mod.Info(
 	description = "Changes the scale of the nametags so you can always read them.\n"
 		+ "Also allows you to see the nametags of sneaking players.",
 	name = "NameTags",
 	tags = "name tags",
 	help = "Mods/NameTags")
-@Bypasses
+@Mod.Bypasses
 public class NameTagsMod extends Mod
 {	
 	

@@ -8,17 +8,15 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Cancels slowness effects caused by water, soul sand and\n"
 		+ "using items.",
 	name = "NoSlowdown",
 	noCheatCompatible = false,
 	tags = "no slowdown, no slow down",
 	help = "Mods/NoSlowdown")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)

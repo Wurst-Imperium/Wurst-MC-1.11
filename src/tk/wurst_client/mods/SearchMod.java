@@ -13,17 +13,15 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.utils.RenderUtils;
 
-@Info(
+@Mod.Info(
 	description = "Helps you to find specific blocks.\n"
 		+ "Use .search id <block id> or .search name <block name>\n"
 		+ "to specify it.",
 	name = "Search",
 	help = "Mods/Search")
-@Bypasses
+@Mod.Bypasses
 public class SearchMod extends Mod implements UpdateListener, RenderListener
 {
 	private ArrayList<BlockPos> matchingBlocks = new ArrayList<BlockPos>();

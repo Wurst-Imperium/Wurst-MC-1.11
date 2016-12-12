@@ -13,17 +13,15 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.utils.RenderUtils;
 
-@Info(
+@Mod.Info(
 	description = "Finds player bases by searching for man-made blocks.\n"
 		+ "Good for finding faction bases.",
 	name = "BaseFinder",
 	tags = "base finder, factions",
 	help = "Mods/BaseFinder")
-@Bypasses
+@Mod.Bypasses
 public class BaseFinderMod extends Mod implements UpdateListener,
 	RenderListener
 {

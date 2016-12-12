@@ -13,17 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 
-@Info(
+@Mod.Info(
 	description = "Automatically uses the best tool in your hotbar to\n"
 		+ "mine blocks. Tip: This works with Nuker.",
 	name = "AutoTool",
 	tags = "auto tool",
 	help = "Mods/AutoTool")
-@Bypasses
+@Mod.Bypasses
 public class AutoToolMod extends Mod implements LeftClickListener,
 	UpdateListener
 {

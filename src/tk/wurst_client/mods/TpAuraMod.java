@@ -12,7 +12,6 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
@@ -25,7 +24,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	name = "TP-Aura",
 	tags = "TpAura, EnderAura, Ender-Aura, tp aura, ender aura",
 	help = "Mods/TP-Aura")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)

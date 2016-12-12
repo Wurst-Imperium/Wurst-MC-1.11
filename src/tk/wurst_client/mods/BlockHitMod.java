@@ -11,17 +11,15 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import tk.wurst_client.events.listeners.LeftClickListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Automatically blocks whenever you hit something with a\n"
 		+ "sword. Some say that you will receive less damage in PVP when doing\n"
 		+ "this.",
 	name = "BlockHit",
 	tags = "AutoBlock, BlockHitting, auto block, block hitting",
 	help = "Mods/BlockHit")
-@Bypasses
+@Mod.Bypasses
 public class BlockHitMod extends Mod implements LeftClickListener
 {
 	@Override

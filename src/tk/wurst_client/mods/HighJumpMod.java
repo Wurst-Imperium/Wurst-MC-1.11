@@ -7,18 +7,16 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 
-@Info(
+@Mod.Info(
 	description = "Makes you jump much higher.",
 	name = "HighJump",
 	noCheatCompatible = false,
 	tags = "high jump",
 	help = "Mods/HighJump")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false,

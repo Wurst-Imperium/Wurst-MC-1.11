@@ -11,7 +11,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
@@ -20,7 +19,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "KillPotion",
 	tags = "KillerPotion,kill potion,killer potion",
 	help = "Mods/KillerPotion")
-@Bypasses
+@Mod.Bypasses
 public class KillPotionMod extends Mod
 {
 	@Override

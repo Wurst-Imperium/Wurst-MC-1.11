@@ -8,15 +8,13 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Makes you sprint whenever you walk.",
 	name = "AutoSprint",
 	tags = "auto sprint",
 	help = "Mods/AutoSprint")
-@Bypasses
+@Mod.Bypasses
 public class AutoSprintMod extends Mod implements UpdateListener
 {
 	@Override

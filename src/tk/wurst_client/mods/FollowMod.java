@@ -10,18 +10,16 @@ package tk.wurst_client.mods;
 import net.minecraft.entity.Entity;
 import tk.wurst_client.ai.FollowAI;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(
+@Mod.Info(
 	description = "A bot that follows the closest entity.\n" + "Very annoying.",
 	name = "Follow",
 	help = "Mods/Follow")
-@Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false)
 public class FollowMod extends Mod implements UpdateListener
 {
 	private Entity entity;

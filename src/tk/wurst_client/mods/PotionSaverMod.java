@@ -7,14 +7,12 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-
 @Mod.Info(
 	description = "Freezes all potion effects while you are standing still.",
 	name = "PotionSaver",
 	tags = "potion saver",
 	help = "Mods/PotionSaver")
-@Bypasses
+@Mod.Bypasses
 public class PotionSaverMod extends Mod
 {	
 	

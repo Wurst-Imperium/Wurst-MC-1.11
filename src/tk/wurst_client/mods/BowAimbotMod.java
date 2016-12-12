@@ -20,13 +20,12 @@ import tk.wurst_client.events.listeners.GUIRenderListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.font.Fonts;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.EntityUtils;
-import tk.wurst_client.utils.RenderUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RenderUtils;
 
-@Info(
+@Mod.Info(
 	description = "Automatically aims your bow at the closest entity.\n"
 		+ "Tip: This works with FastBow.",
 	name = "BowAimbot",

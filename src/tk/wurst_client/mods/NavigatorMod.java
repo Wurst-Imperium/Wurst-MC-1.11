@@ -7,15 +7,13 @@
  */
 package tk.wurst_client.mods;
 
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.gui.NavigatorMainScreen;
 
-@Info(description = "",
+@Mod.Info(description = "",
 	name = "Navigator",
 	tags = "ClickGUI",
 	help = "Mods/Navigator")
-@Bypasses
+@Mod.Bypasses
 public class NavigatorMod extends Mod
 {
 	@Override

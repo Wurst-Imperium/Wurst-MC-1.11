@@ -10,16 +10,14 @@ package tk.wurst_client.mods;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.RenderUtils;
 
-@Info(
+@Mod.Info(
 	description = "Draws lines to players around you.",
 	name = "Tracers",
 	help = "Mods/Tracers")
-@Bypasses
+@Mod.Bypasses
 public class TracersMod extends Mod implements RenderListener
 {
 	@Override

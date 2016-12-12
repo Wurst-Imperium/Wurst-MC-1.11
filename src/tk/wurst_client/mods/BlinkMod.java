@@ -15,15 +15,13 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.PacketOutputEvent;
 import tk.wurst_client.events.listeners.PacketOutputListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Suspends all motion updates while enabled.\n"
 		+ "Can be used for teleportation, instant picking up of items and more.",
 	name = "Blink",
 	help = "Mods/Blink")
-@Bypasses
+@Mod.Bypasses
 public class BlinkMod extends Mod implements PacketOutputListener
 {
 	private static ArrayList<Packet> packets = new ArrayList<Packet>();

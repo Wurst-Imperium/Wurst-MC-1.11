@@ -8,10 +8,8 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 
-@Info(
+@Mod.Info(
 	description = "Makes you invisible and invincible.\n"
 		+ "If you die and respawn near a certain player while\n"
 		+ "this mod is enabled, that player will be unable to see\n"
@@ -19,7 +17,7 @@ import tk.wurst_client.mods.Mod.Info;
 	name = "Invisibility",
 	tags = "Invisible, GodMode, god mode",
 	help = "Mods/Invisibility")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false,

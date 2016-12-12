@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.mods.Mod.Bypasses;
-import tk.wurst_client.mods.Mod.Info;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
@@ -21,12 +19,12 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Info(description = "Faster Killaura that attacks multiple entities at once.",
+@Mod.Info(description = "Faster Killaura that attacks multiple entities at once.",
 	name = "MultiAura",
 	noCheatCompatible = false,
 	tags = "ForceField, multi aura, force field",
 	help = "Mods/MultiAura")
-@Bypasses(ghostMode = false,
+@Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
