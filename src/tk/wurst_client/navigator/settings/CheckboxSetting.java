@@ -117,6 +117,7 @@ public class CheckboxSetting implements NavigatorSetting
 	public final void load(JsonObject json)
 	{
 		checked = json.get(name).getAsBoolean();
+		update();
 	}
 	
 	@Override

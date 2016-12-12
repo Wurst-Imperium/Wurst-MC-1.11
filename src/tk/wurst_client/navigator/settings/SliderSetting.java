@@ -227,6 +227,7 @@ public class SliderSetting implements NavigatorSetting
 	public final void load(JsonObject json)
 	{
 		value = json.get(name).getAsDouble();
+		update();
 	}
 	
 	@Override

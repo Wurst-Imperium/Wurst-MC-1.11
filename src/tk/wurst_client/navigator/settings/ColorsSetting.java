@@ -207,6 +207,7 @@ public class ColorsSetting implements NavigatorSetting
 		JsonArray jsonColors = json.get(name).getAsJsonArray();
 		for(int i = 0; i < selected.length; i++)
 			selected[i] = jsonColors.get(i).getAsBoolean();
+		update();
 	}
 	
 	@Override
