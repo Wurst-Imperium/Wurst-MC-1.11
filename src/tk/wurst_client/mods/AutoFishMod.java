@@ -12,8 +12,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
 
-@Info(
-	description = "Automatically catches fish.",
+@Info(description = "Automatically catches fish.",
 	name = "AutoFish",
 	tags = "FishBot, auto fish, fish bot, fishing",
 	help = "Mods/AutoFish")
@@ -63,7 +62,7 @@ public class AutoFishMod extends Mod implements UpdateListener
 	
 	private boolean isHooked(EntityFishHook hook)
 	{
-		return hook.motionX == 0.0D && hook.motionZ == 0.0D
-			&& hook.motionY != 0.0D;
+		return hook.motionX == 0.0 && hook.motionZ == 0.0
+			&& hook.motionY <= -0.24;
 	}
 }
