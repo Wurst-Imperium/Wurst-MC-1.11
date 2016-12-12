@@ -19,7 +19,7 @@ import tk.wurst_client.mods.Mod.Info;
 @Bypasses
 public class AutoFishMod extends Mod implements UpdateListener
 {
-	private boolean catching = false;
+	private int timer;
 	
 	@Override
 	public void onEnable()
@@ -30,27 +30,23 @@ public class AutoFishMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.fishEntity != null && isHooked(mc.player.fishEntity)
-			&& !catching)
+		switch(timer)
 		{
-			catching = true;
-			mc.rightClickMouse();
-			new Thread("AutoFish")
-			{
-				@Override
-				public void run()
+			case 0:
+				EntityFishHook hook = mc.player.fishEntity;
+				if(hook != null && hook.motionX == 0.0 && hook.motionZ == 0.0
+					&& hook.motionY <= -0.24)
 				{
-					try
-					{
-						Thread.sleep(1000);
-					}catch(InterruptedException e)
-					{
-						e.printStackTrace();
-					}
 					mc.rightClickMouse();
-					catching = false;
+					timer = 20;
 				}
-			}.start();
+				break;
+			
+			case 1:
+				mc.rightClickMouse();
+			default:
+				timer--;
+				break;
 		}
 	}
 	
@@ -58,11 +54,6 @@ public class AutoFishMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-	}
-	
-	private boolean isHooked(EntityFishHook hook)
-	{
-		return hook.motionX == 0.0 && hook.motionZ == 0.0
-			&& hook.motionY <= -0.24;
+		timer = 0;
 	}
 }
