@@ -33,16 +33,6 @@ public class ChatManager
 		component(new TextComponentString(message));
 	}
 	
-	public void info(String message)
-	{
-		message("§8[§7§lINFO§8]§f " + message);
-	}
-	
-	public void debug(String message)
-	{
-		message("§8[§7§lDEBUG-INFO§8]§f " + message);
-	}
-	
 	public void warning(String message)
 	{
 		message("§c[§6§lWARNING§c]§f " + message);
