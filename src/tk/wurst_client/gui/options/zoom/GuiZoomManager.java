@@ -7,11 +7,10 @@
  */
 package tk.wurst_client.gui.options.zoom;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.gui.options.GuiPressAKey;
 import tk.wurst_client.gui.options.GuiPressAKeyCallback;

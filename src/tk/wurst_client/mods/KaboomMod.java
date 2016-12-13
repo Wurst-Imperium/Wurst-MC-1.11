@@ -20,6 +20,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
 	description = "Breaks blocks around you like an explosion.\n"
@@ -63,7 +64,7 @@ public class KaboomMod extends Mod implements UpdateListener
 	{
 		if(mc.player.capabilities.isCreativeMode)
 		{
-			wurst.chat.error("Survival mode only.");
+			ChatUtils.error("Survival mode only.");
 			setEnabled(false);
 			return;
 		}

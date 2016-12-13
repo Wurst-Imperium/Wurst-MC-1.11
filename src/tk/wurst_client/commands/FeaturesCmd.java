@@ -10,6 +10,7 @@ package tk.wurst_client.commands;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.mods.Mod;
 import tk.wurst_client.special.Spf;
+import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(description = "Shows the feature count and some over statistics.",
 	name = "features",
@@ -23,11 +24,11 @@ public class FeaturesCmd extends Cmd
 		if(args.length != 0)
 			syntaxError();
 		
-		wurst.chat.message("> All features: "
+		ChatUtils.message("> All features: "
 			+ wurst.navigator.countAllFeatures());
-		wurst.chat.message("> Mods: " + wurst.mods.countMods());
-		wurst.chat.message("> Commands: " + wurst.commands.countCommands());
-		wurst.chat.message("> Special features: "
+		ChatUtils.message("> Mods: " + wurst.mods.countMods());
+		ChatUtils.message("> Commands: " + wurst.commands.countCommands());
+		ChatUtils.message("> Special features: "
 			+ wurst.special.countFeatures());
 		int settings = 0, bypasses = 0;
 		for(Mod mod : wurst.mods.getAllMods())
@@ -36,12 +37,12 @@ public class FeaturesCmd extends Cmd
 			if(mod.getClass().getAnnotation(Mod.Info.class).noCheatCompatible())
 				bypasses++;
 		}
-		wurst.chat.message("> NoCheat bypasses (mods only): " + bypasses);
+		ChatUtils.message("> NoCheat bypasses (mods only): " + bypasses);
 		for(Cmd cmd : wurst.commands.getAllCommands())
 			settings += cmd.getSettings().size();
 		for(Spf spf : wurst.special.getAllFeatures())
 			settings += spf.getSettings().size();
-		wurst.chat.message("> Settings: " + settings);
+		ChatUtils.message("> Settings: " + settings);
 	}
 	
 	@Override

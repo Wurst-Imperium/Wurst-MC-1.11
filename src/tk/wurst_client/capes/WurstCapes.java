@@ -13,13 +13,13 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import net.minecraft.client.resources.SkinManager.SkinAvailableCallback;
-import tk.wurst_client.utils.JsonUtils;
-
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
+import net.minecraft.client.resources.SkinManager.SkinAvailableCallback;
+import tk.wurst_client.utils.JsonUtils;
 
 public class WurstCapes
 {

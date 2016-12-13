@@ -7,9 +7,9 @@
  */
 package tk.wurst_client.gui.options;
 
-import net.minecraft.client.gui.GuiScreen;
-
 import org.lwjgl.input.Keyboard;
+
+import net.minecraft.client.gui.GuiScreen;
 
 public class GuiPressAKey extends GuiScreen
 {

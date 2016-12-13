@@ -9,6 +9,7 @@ package tk.wurst_client.commands;
 
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
+import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(description = "Annoys a player by repeating everything he says.",
 	name = "annoy",
@@ -28,9 +29,9 @@ public class AnnoyCmd extends Cmd implements ChatInputListener
 			if(args.length == 1)
 			{
 				name = args[0];
-				wurst.chat.message("Now annoying " + name + ".");
+				ChatUtils.message("Now annoying " + name + ".");
 				if(name.equals(mc.player.getName()))
-					wurst.chat.warning("Annoying yourself is a bad idea!");
+					ChatUtils.warning("Annoying yourself is a bad idea!");
 				wurst.events.add(ChatInputListener.class, this);
 			}else
 			{
@@ -42,7 +43,7 @@ public class AnnoyCmd extends Cmd implements ChatInputListener
 			wurst.events.remove(ChatInputListener.class, this);
 			if(name != null)
 			{
-				wurst.chat.message("No longer annoying " + name + ".");
+				ChatUtils.message("No longer annoying " + name + ".");
 				name = null;
 			}
 		}

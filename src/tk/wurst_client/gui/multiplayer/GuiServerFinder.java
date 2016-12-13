@@ -12,14 +12,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.multiplayer.ServerData;
-
-import org.lwjgl.input.Keyboard;
-
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.servers.WurstServerPinger;
 import tk.wurst_client.utils.MiscUtils;

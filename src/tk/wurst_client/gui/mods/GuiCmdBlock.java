@@ -9,13 +9,12 @@ package tk.wurst_client.gui.mods;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-
-import org.lwjgl.input.Keyboard;
-
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.mods.CmdBlockMod;
 

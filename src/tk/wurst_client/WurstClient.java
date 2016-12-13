@@ -8,7 +8,6 @@
 package tk.wurst_client;
 
 import tk.wurst_client.analytics.AnalyticsManager;
-import tk.wurst_client.chat.ChatManager;
 import tk.wurst_client.commands.CmdManager;
 import tk.wurst_client.events.EventManager;
 import tk.wurst_client.files.FileManager;
@@ -31,7 +30,6 @@ public enum WurstClient
 	public static final int PROTOCOL_VERSION = 315;
 	
 	public AnalyticsManager analytics;
-	public ChatManager chat;
 	public CmdManager commands;
 	public EventManager events;
 	public FileManager files;
@@ -53,7 +51,6 @@ public enum WurstClient
 		special = new SpfManager();
 		files = new FileManager();
 		updater = new Updater();
-		chat = new ChatManager();
 		keybinds = new KeybindManager();
 		options = new OptionsManager();
 		friends = new FriendsList();

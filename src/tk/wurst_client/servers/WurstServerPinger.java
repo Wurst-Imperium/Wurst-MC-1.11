@@ -10,11 +10,11 @@ package tk.wurst_client.servers;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.ServerPinger;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.network.ServerPinger;
 
 public class WurstServerPinger
 {

@@ -25,6 +25,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.commands.Cmd.SyntaxError;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.events.listeners.ChatOutputListener;
+import tk.wurst_client.utils.ChatUtils;
 
 public class CmdManager implements ChatOutputListener
 {
@@ -126,14 +127,14 @@ public class CmdManager implements ChatOutputListener
 				}catch(SyntaxError e)
 				{
 					if(e.getMessage() != null)
-						WurstClient.INSTANCE.chat
+						ChatUtils
 							.message("§4Syntax error:§r " + e.getMessage());
 					else
-						WurstClient.INSTANCE.chat.message("§4Syntax error!§r");
+						ChatUtils.message("§4Syntax error!§r");
 					cmd.printSyntax();
 				}catch(Cmd.Error e)
 				{
-					WurstClient.INSTANCE.chat.error(e.getMessage());
+					ChatUtils.error(e.getMessage());
 				}catch(Throwable e)
 				{
 					CrashReport crashReport =
@@ -162,12 +163,12 @@ public class CmdManager implements ChatOutputListener
 							.setClickEvent(new ClickEvent(Action.OPEN_URL,
 								"https://www.wurst-client.tk/wiki/Commands/say/"));
 						
-						WurstClient.INSTANCE.chat.component(
+						ChatUtils.component(
 							new TextComponentString("Try using .say (")
 								.appendSibling(link).appendText(")"));
 						break;
 					default:
-						WurstClient.INSTANCE.chat.error(
+						ChatUtils.error(
 							"\"." + commandName + "\" is not a valid command.");
 						break;
 				}

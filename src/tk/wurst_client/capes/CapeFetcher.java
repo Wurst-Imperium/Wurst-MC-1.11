@@ -11,16 +11,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.client.resources.SkinManager.SkinAvailableCallback;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.MiscUtils;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 public class CapeFetcher implements Runnable
 {

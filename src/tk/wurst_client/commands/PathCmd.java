@@ -18,6 +18,7 @@ import tk.wurst_client.ai.PathPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
 @Cmd.Info(
@@ -67,12 +68,12 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			{
 				case "-debug":
 					debugMode.toggle();
-					wurst.chat.message("Debug mode "
+					ChatUtils.message("Debug mode "
 						+ (debugMode.isChecked() ? "on" : "off") + ".");
 					return;
 				case "-depth":
 					depthTest.toggle();
-					wurst.chat.message("Depth test "
+					ChatUtils.message("Depth test "
 						+ (depthTest.isChecked() ? "on" : "off") + ".");
 					return;
 				case "-refresh":
@@ -129,7 +130,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			if(foundPath)
 				path = pathFinder.formatPath();
 			else
-				wurst.chat.error("Could not find a path.");
+				ChatUtils.error("Could not find a path.");
 			
 			wurst.events.remove(UpdateListener.class, this);
 			

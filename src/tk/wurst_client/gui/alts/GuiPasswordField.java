@@ -7,6 +7,8 @@
  */
 package tk.wurst_client.gui.alts;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,8 +16,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
-
-import org.lwjgl.opengl.GL11;
 
 public class GuiPasswordField extends Gui
 {

@@ -11,6 +11,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import tk.wurst_client.events.ChatOutputEvent;
+import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(description = "Enchants items with everything.",
 	name = "enchant",
@@ -60,9 +61,9 @@ public class EnchantCmd extends Cmd
 					}
 			}
 			if(items == 1)
-				wurst.chat.message("Enchanted 1 item.");
+				ChatUtils.message("Enchanted 1 item.");
 			else
-				wurst.chat.message("Enchanted " + items + " items.");
+				ChatUtils.message("Enchanted " + items + " items.");
 		}else
 			syntaxError();
 	}

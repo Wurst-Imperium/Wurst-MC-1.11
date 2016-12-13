@@ -17,6 +17,7 @@ import net.minecraft.util.StringUtils;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
 	description = "Sends a TPA request to all players.\n"
@@ -80,7 +81,7 @@ public class MassTpaMod extends Mod implements UpdateListener,
 			|| message.toLowerCase().contains("permission"))
 		{
 			event.cancel();
-			wurst.chat.message("§4§lERROR:§f This server doesn't have TPA.");
+			ChatUtils.message("§4§lERROR:§f This server doesn't have TPA.");
 			setEnabled(false);
 		}else if(message.toLowerCase().contains("accepted")
 			&& message.toLowerCase().contains("request")
@@ -88,7 +89,7 @@ public class MassTpaMod extends Mod implements UpdateListener,
 			&& message.toLowerCase().contains("anfrage"))
 		{
 			event.cancel();
-			wurst.chat.message("Someone accepted your TPA request. Stopping.");
+			ChatUtils.message("Someone accepted your TPA request. Stopping.");
 			setEnabled(false);
 		}
 	}

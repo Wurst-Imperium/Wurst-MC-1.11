@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(
@@ -22,8 +23,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "base finder, factions",
 	help = "Mods/BaseFinder")
 @Mod.Bypasses
-public class BaseFinderMod extends Mod implements UpdateListener,
-	RenderListener
+public class BaseFinderMod extends Mod implements UpdateListener, RenderListener
 {
 	public BaseFinderMod()
 	{
@@ -68,8 +68,8 @@ public class BaseFinderMod extends Mod implements UpdateListener,
 						int posY = (int)(mc.player.posY + y);
 						int posZ = (int)(mc.player.posZ + z);
 						BlockPos pos = new BlockPos(posX, posY, posZ);
-						if(!naturalBlocks.contains(mc.world.getBlockState(
-							pos).getBlock()))
+						if(!naturalBlocks
+							.contains(mc.world.getBlockState(pos).getBlock()))
 							matchingBlocks.add(pos);
 						if(matchingBlocks.size() >= maxBlocks)
 							break;
@@ -82,10 +82,9 @@ public class BaseFinderMod extends Mod implements UpdateListener,
 			}
 			if(matchingBlocks.size() >= maxBlocks && shouldInform)
 			{
-				wurst.chat.warning(getName() + " found §lA LOT§r of blocks.");
-				wurst.chat
-					.message("To prevent lag, it will only show the first "
-						+ maxBlocks + " blocks.");
+				ChatUtils.warning(getName() + " found §lA LOT§r of blocks.");
+				ChatUtils.message("To prevent lag, it will only show the first "
+					+ maxBlocks + " blocks.");
 				shouldInform = false;
 			}else if(matchingBlocks.size() < maxBlocks)
 				shouldInform = true;

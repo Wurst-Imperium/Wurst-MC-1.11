@@ -8,6 +8,7 @@
 package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
 	description = "Makes you invisible and invincible.\n"
@@ -38,10 +39,10 @@ public class InvisibilityMod extends Mod implements UpdateListener
 			{
 				// Respawning too early for server-side invisibility
 				mc.player.respawnPlayer();
-				wurst.chat.message("You should now be invisible.");
+				ChatUtils.message("You should now be invisible.");
 			}else
 			{
-				wurst.chat.message("You are no longer invisible.");
+				ChatUtils.message("You are no longer invisible.");
 				wurst.events.remove(UpdateListener.class, this);
 			}
 	}

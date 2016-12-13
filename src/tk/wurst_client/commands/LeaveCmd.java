@@ -12,8 +12,10 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.ChatOutputEvent;
+import tk.wurst_client.utils.ChatUtils;
 
-@Cmd.Info(description = "Leaves the current server or changes the mode of AutoLeave.",
+@Cmd.Info(
+	description = "Leaves the current server or changes the mode of AutoLeave.",
 	name = "leave",
 	syntax = {"[chars|tp|selfhurt|quit]", "mode chars|tp|selfhurt|quit"},
 	help = "Commands/leave")
@@ -42,8 +44,7 @@ public class LeaveCmd extends Cmd
 			case 2:
 				wurst.mods.autoLeaveMod.setMode(parseMode(args[1]));
 				wurst.files.saveOptions();
-				wurst.chat
-					.message("AutoLeave mode set to \"" + args[1] + "\".");
+				ChatUtils.message("AutoLeave mode set to \"" + args[1] + "\".");
 				break;
 			default:
 				break;
@@ -70,16 +71,14 @@ public class LeaveCmd extends Cmd
 				mc.world.sendQuittingDisconnectingPacket();
 				break;
 			case 1:
-				mc.player.connection.sendPacket(new CPacketChatMessage(
-					"§"));
+				mc.player.connection.sendPacket(new CPacketChatMessage("§"));
 				break;
 			case 2:
-				mc.player.connection
-					.sendPacket(new CPacketPlayer.Position(3.1e7d, 100,
-						3.1e7d, false));
+				mc.player.connection.sendPacket(
+					new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
 			case 3:
-				mc.player.connection.sendPacket(new CPacketUseEntity(
-					mc.player, EnumHand.MAIN_HAND));
+				mc.player.connection.sendPacket(
+					new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
 				break;
 			default:
 				break;
@@ -93,7 +92,7 @@ public class LeaveCmd extends Cmd
 		for(int i = 0; i < modeNames.length; i++)
 			if(input.equals(modeNames[i].toLowerCase()))
 				return i;
-		
+			
 		// syntax error if mode does not exist
 		syntaxError("Invalid mode: " + input);
 		return 0;

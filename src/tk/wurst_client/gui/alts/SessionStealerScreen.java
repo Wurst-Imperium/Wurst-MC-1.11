@@ -14,21 +14,20 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.Session;
-
 import org.lwjgl.input.Keyboard;
-
-import tk.wurst_client.WurstClient;
-import tk.wurst_client.utils.JsonUtils;
-import tk.wurst_client.utils.MiscUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.Session;
+import tk.wurst_client.WurstClient;
+import tk.wurst_client.utils.JsonUtils;
+import tk.wurst_client.utils.MiscUtils;
 
 public class SessionStealerScreen extends GuiScreen
 {

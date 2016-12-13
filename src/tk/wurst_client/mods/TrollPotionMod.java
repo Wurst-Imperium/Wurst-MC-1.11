@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
@@ -28,7 +29,7 @@ public class TrollPotionMod extends Mod
 		// check gamemode
 		if(!mc.player.capabilities.isCreativeMode)
 		{
-			wurst.chat.error("Creative mode only.");
+			ChatUtils.error("Creative mode only.");
 			setEnabled(false);
 			return;
 		}
@@ -49,9 +50,9 @@ public class TrollPotionMod extends Mod
 		
 		// give potion
 		if(InventoryUtils.placeStackInHotbar(stack))
-			wurst.chat.message("Potion created.");
+			ChatUtils.message("Potion created.");
 		else
-			wurst.chat.error("Please clear a slot in your hotbar.");
+			ChatUtils.error("Please clear a slot in your hotbar.");
 		
 		setEnabled(false);
 	}

@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.util.math.MathHelper;
-
-import org.lwjgl.opengl.GL11;
-
 import tk.wurst_client.alts.Alt;
 
 public class GuiAltList extends GuiSlot

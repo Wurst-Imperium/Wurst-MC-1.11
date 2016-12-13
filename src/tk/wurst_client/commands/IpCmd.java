@@ -12,6 +12,7 @@ import java.awt.datatransfer.StringSelection;
 
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.hooks.ServerHook;
+import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
 	name = "ip",
@@ -23,7 +24,7 @@ public class IpCmd extends Cmd
 	public void execute(String[] args) throws Error
 	{
 		if(args.length == 0)
-			wurst.chat.message("IP: " + ServerHook.getCurrentServerIP());
+			ChatUtils.message("IP: " + ServerHook.getCurrentServerIP());
 		else if(args[0].toLowerCase().equals("copy"))
 		{
 			Toolkit
@@ -31,7 +32,7 @@ public class IpCmd extends Cmd
 				.getSystemClipboard()
 				.setContents(
 					new StringSelection(ServerHook.getCurrentServerIP()), null);
-			wurst.chat.message("IP copied to clipboard.");
+			ChatUtils.message("IP copied to clipboard.");
 		}else
 			syntaxError();
 	}

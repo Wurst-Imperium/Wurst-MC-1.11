@@ -8,6 +8,7 @@
 package tk.wurst_client.commands;
 
 import net.minecraft.block.Block;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Changes the settings of Search or toggles it.",
@@ -22,7 +23,7 @@ public class SearchCmd extends Cmd
 		if(args.length == 0)
 		{
 			wurst.mods.searchMod.toggle();
-			wurst.chat.message("Search turned "
+			ChatUtils.message("Search turned "
 				+ (wurst.mods.searchMod.isEnabled() == true ? "on" : "off")
 				+ ".");
 		}else if(args.length == 2)
@@ -35,7 +36,7 @@ public class SearchCmd extends Cmd
 					syntaxError("ID must be a number.");
 				wurst.files.saveOptions();
 				wurst.mods.searchMod.notify = true;
-				wurst.chat.message("Search ID set to " + args[1] + ".");
+				ChatUtils.message("Search ID set to " + args[1] + ".");
 			}else if(args[0].equalsIgnoreCase("name"))
 			{
 				int newID =
@@ -45,7 +46,7 @@ public class SearchCmd extends Cmd
 				wurst.options.searchID = Integer.valueOf(newID);
 				wurst.files.saveOptions();
 				wurst.mods.searchMod.notify = true;
-				wurst.chat.message("Search ID set to " + newID + " (" + args[1]
+				ChatUtils.message("Search ID set to " + newID + " (" + args[1]
 					+ ").");
 			}
 		}else

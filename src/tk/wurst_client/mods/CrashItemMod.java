@@ -9,6 +9,7 @@ package tk.wurst_client.mods;
 
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
+import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
 	description = "Generates a CrashItem.\n"
@@ -25,12 +26,12 @@ public class CrashItemMod extends Mod
 		if(mc.player.inventory.getCurrentItem() == null
 			|| !(mc.player.inventory.getCurrentItem().getItem() instanceof ItemNameTag))
 		{
-			wurst.chat.error("You are not holding a nametag in your hand.");
+			ChatUtils.error("You are not holding a nametag in your hand.");
 			setEnabled(false);
 			return;
 		}else if(!mc.player.capabilities.isCreativeMode)
 		{
-			wurst.chat.error("Creative mode only.");
+			ChatUtils.error("Creative mode only.");
 			setEnabled(false);
 			return;
 		}
@@ -43,7 +44,7 @@ public class CrashItemMod extends Mod
 		mc.player.inventory.getCurrentItem().setStackDisplayName(stackName);
 		mc.displayGuiScreen(new GuiInventory(mc.player));
 		mc.player.closeScreen();
-		wurst.chat.message("CrashItem created. Right click a mob with it.");
+		ChatUtils.message("CrashItem created. Right click a mob with it.");
 		setEnabled(false);
 	}
 }

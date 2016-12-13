@@ -12,9 +12,9 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.Rectangle;
 import java.io.IOException;
 
-import net.minecraft.client.gui.GuiScreen;
-
 import org.lwjgl.input.Mouse;
+
+import net.minecraft.client.gui.GuiScreen;
 
 public abstract class NavigatorScreen extends GuiScreen
 {

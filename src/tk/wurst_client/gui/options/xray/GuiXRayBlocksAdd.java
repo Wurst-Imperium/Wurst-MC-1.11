@@ -9,6 +9,8 @@ package tk.wurst_client.gui.options.xray;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -18,9 +20,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import org.lwjgl.input.Keyboard;
-
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.mods.XRayMod;
 

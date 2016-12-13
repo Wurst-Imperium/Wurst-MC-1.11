@@ -9,6 +9,7 @@ package tk.wurst_client.commands;
 
 import java.util.Iterator;
 
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Shows the command list or the help for a command.",
@@ -31,23 +32,23 @@ public class HelpCmd extends Cmd
 			int page = Integer.valueOf(args[0]);
 			if(page > pages || page < 1)
 				syntaxError("Invalid page: " + page);
-			wurst.chat.message("Available commands: "
+			ChatUtils.message("Available commands: "
 				+ wurst.commands.countCommands());
-			wurst.chat.message("Command list (page " + page + "/" + pages
+			ChatUtils.message("Command list (page " + page + "/" + pages
 				+ "):");
 			Iterator<Cmd> itr = wurst.commands.getAllCommands().iterator();
 			for(int i = 0; itr.hasNext(); i++)
 			{
 				Cmd cmd = itr.next();
 				if(i >= (page - 1) * 8 && i < (page - 1) * 8 + 8)
-					wurst.chat.message(cmd.getCmdName());
+					ChatUtils.message(cmd.getCmdName());
 			}
 		}else
 		{
 			Cmd cmd = wurst.commands.getCommandByName(args[0]);
 			if(cmd != null)
 			{
-				wurst.chat.message("Available help for ." + args[0] + ":");
+				ChatUtils.message("Available help for ." + args[0] + ":");
 				cmd.printHelp();
 				cmd.printSyntax();
 			}else

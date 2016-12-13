@@ -10,6 +10,7 @@ package tk.wurst_client.commands;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.ai.GotoAI;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
 @Cmd.Info(description = "Walks or flies you to a specific location.",
@@ -75,7 +76,7 @@ public class GoToCmd extends Cmd implements UpdateListener
 		if(ai.isDone() || ai.isFailed())
 		{
 			if(ai.isFailed())
-				wurst.chat.error("Could not find a path.");
+				ChatUtils.error("Could not find a path.");
 			
 			disable();
 		}

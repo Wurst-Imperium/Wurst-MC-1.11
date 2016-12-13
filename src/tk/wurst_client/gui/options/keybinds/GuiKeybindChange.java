@@ -12,12 +12,11 @@ import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-
-import org.lwjgl.input.Keyboard;
-
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.gui.options.GuiPressAKey;
 import tk.wurst_client.gui.options.GuiPressAKeyCallback;

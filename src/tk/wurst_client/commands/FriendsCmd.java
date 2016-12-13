@@ -9,6 +9,7 @@ package tk.wurst_client.commands;
 
 import java.util.Iterator;
 
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Manages your friends list.", name = "friends", syntax = {
@@ -34,15 +35,15 @@ public class FriendsCmd extends Cmd
 				int page = Integer.valueOf(args[1]);
 				if(page > pages || page < 1)
 					syntaxError();
-				wurst.chat.message("Current friends: " + wurst.friends.size());
-				wurst.chat.message("Friends list (page " + page + "/" + pages
+				ChatUtils.message("Current friends: " + wurst.friends.size());
+				ChatUtils.message("Friends list (page " + page + "/" + pages
 					+ "):");
 				Iterator<String> itr = wurst.friends.iterator();
 				for(int i = 0; itr.hasNext(); i++)
 				{
 					String friend = itr.next();
 					if(i >= (page - 1) * 8 && i < (page - 1) * 8 + 8)
-						wurst.chat.message(friend);
+						ChatUtils.message(friend);
 				}
 			}else
 				syntaxError();
@@ -52,21 +53,21 @@ public class FriendsCmd extends Cmd
 		{
 			if(wurst.friends.contains(args[1]))
 			{
-				wurst.chat.error("\"" + args[1]
+				ChatUtils.error("\"" + args[1]
 					+ "\" is already in your friends list.");
 				return;
 			}
 			wurst.friends.add(args[1]);
 			wurst.files.saveFriends();
-			wurst.chat.message("Added friend \"" + args[1] + "\".");
+			ChatUtils.message("Added friend \"" + args[1] + "\".");
 		}else if(args[0].equalsIgnoreCase("remove"))
 		{
 			if(wurst.friends.remove(args[1]))
 			{
 				wurst.files.saveFriends();
-				wurst.chat.message("Removed friend \"" + args[1] + "\".");
+				ChatUtils.message("Removed friend \"" + args[1] + "\".");
 			}else
-				wurst.chat.error("\"" + args[1]
+				ChatUtils.error("\"" + args[1]
 					+ "\" is not in your friends list.");
 		}else
 			syntaxError();

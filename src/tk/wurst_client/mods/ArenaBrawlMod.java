@@ -25,6 +25,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.RenderUtils;
@@ -288,7 +289,7 @@ public class ArenaBrawlMod extends Mod
 		if(scoreboard != null
 			&& (scoreboard.size() == 13 || scoreboard.size() == 11))
 		{// If you are in the lobby:
-			wurst.chat.message("You need to be in a 2v2 arena.");
+			ChatUtils.message("You need to be in a 2v2 arena.");
 			setEnabled(false);
 			return;
 		}
@@ -370,7 +371,7 @@ public class ArenaBrawlMod extends Mod
 		wurst.events.remove(UpdateListener.class, this);
 		mc.gameSettings.keyBindForward.pressed = false;
 		if(friendsName != null)
-			wurst.chat.message(
+			ChatUtils.message(
 				"No longer playing ArenaBrawl with " + friendsName + ".");
 		reset();
 	}
@@ -383,7 +384,7 @@ public class ArenaBrawlMod extends Mod
 			&& message.endsWith(" has won the game!"))
 		{
 			event.cancel();
-			wurst.chat.message(message.substring(9));
+			ChatUtils.message(message.substring(9));
 			setEnabled(false);
 		}
 	}
@@ -393,14 +394,14 @@ public class ArenaBrawlMod extends Mod
 	{
 		mc.player.respawnPlayer();
 		mc.displayGuiScreen((GuiScreen)null);
-		wurst.chat.message("You died.");
+		ChatUtils.message("You died.");
 		setEnabled(false);
 	}
 	
 	private void setupFrame()
 	{
 		friendsName = formatSBName(0);
-		wurst.chat.message("Now playing ArenaBrawl with " + friendsName + ".");
+		ChatUtils.message("Now playing ArenaBrawl with " + friendsName + ".");
 		frame = true;
 	}
 	

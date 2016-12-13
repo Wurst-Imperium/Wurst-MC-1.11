@@ -13,14 +13,12 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Helps you to find specific blocks.\n"
-		+ "Use .search id <block id> or .search name <block name>\n"
-		+ "to specify it.",
-	name = "Search",
-	help = "Mods/Search")
+@Mod.Info(description = "Helps you to find specific blocks.\n"
+	+ "Use .search id <block id> or .search name <block name>\n"
+	+ "to specify it.", name = "Search", help = "Mods/Search")
 @Mod.Bypasses
 public class SearchMod extends Mod implements UpdateListener, RenderListener
 {
@@ -81,10 +79,9 @@ public class SearchMod extends Mod implements UpdateListener, RenderListener
 			}
 			if(matchingBlocks.size() >= maxBlocks && notify)
 			{
-				wurst.chat.warning(getName() + " found §lA LOT§r of blocks.");
-				wurst.chat
-					.message("To prevent lag, it will only show the first "
-						+ maxBlocks + " blocks.");
+				ChatUtils.warning(getName() + " found §lA LOT§r of blocks.");
+				ChatUtils.message("To prevent lag, it will only show the first "
+					+ maxBlocks + " blocks.");
 				notify = false;
 			}else if(matchingBlocks.size() < maxBlocks)
 				notify = true;

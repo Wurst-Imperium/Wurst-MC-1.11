@@ -9,6 +9,7 @@ package tk.wurst_client.commands;
 
 import tk.wurst_client.mods.SpammerMod;
 import tk.wurst_client.spam.SpamProcessor;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Changes the delay of Spammer or spams spam from a file.",
@@ -31,9 +32,9 @@ public class SpammerCmd extends Cmd
 				newDelay = newDelay - newDelay % 50;
 			wurst.options.spamDelay = newDelay;
 			SpammerMod.updateDelaySpinner();
-			wurst.chat.message("Spammer delay set to " + newDelay + "ms.");
+			ChatUtils.message("Spammer delay set to " + newDelay + "ms.");
 		}else if(args[0].equalsIgnoreCase("spam"))
 			if(!SpamProcessor.runSpam(args[1]))
-				wurst.chat.error("File does not exist.");
+				ChatUtils.error("File does not exist.");
 	}
 }

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.util.ResourceLocation;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.InventoryUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -79,11 +80,11 @@ public class GiveCmd extends Cmd
 		// list all templates
 		if(args[0].equalsIgnoreCase("templates"))
 		{
-			wurst.chat.message("§cItem templates:");
+			ChatUtils.message("§cItem templates:");
 			for(int i = 0; i < templates.length; i++)
 			{
 				ItemTemplate template = templates[i];
-				wurst.chat.message("§c" + (i + 1) + "§c: §6" + template.name);
+				ChatUtils.message("§c" + (i + 1) + "§c: §6" + template.name);
 			}
 			return;
 		}
@@ -157,7 +158,7 @@ public class GiveCmd extends Cmd
 		
 		// give item
 		if(InventoryUtils.placeStackInHotbar(stack))
-			wurst.chat.message("Item" + (amount > 1 ? "s" : "") + " created.");
+			ChatUtils.message("Item" + (amount > 1 ? "s" : "") + " created.");
 		else
 			error("Please clear a slot in your hotbar.");
 	}

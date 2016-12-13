@@ -10,12 +10,12 @@ package tk.wurst_client.navigator.settings;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 import tk.wurst_client.utils.JsonUtils;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public class ColorsSetting implements NavigatorSetting
 {

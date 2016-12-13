@@ -18,6 +18,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.MiscUtils;
@@ -30,7 +31,8 @@ public abstract class Cmd implements NavigatorItem
 	private String[] syntax = getClass().getAnnotation(Info.class).syntax();
 	private String tags = getClass().getAnnotation(Info.class).tags();
 	private String help = getClass().getAnnotation(Info.class).help();
-	protected ArrayList<NavigatorSetting> settings = new ArrayList<NavigatorSetting>();
+	protected ArrayList<NavigatorSetting> settings =
+		new ArrayList<NavigatorSetting>();
 	
 	protected static final WurstClient wurst = WurstClient.INSTANCE;
 	protected static final Minecraft mc = Minecraft.getMinecraft();
@@ -129,7 +131,7 @@ public abstract class Cmd implements NavigatorItem
 	@Override
 	public final ArrayList<NavigatorSetting> getSettings()
 	{
-		return settings ;
+		return settings;
 	}
 	
 	@Override
@@ -165,7 +167,7 @@ public abstract class Cmd implements NavigatorItem
 	public final void printHelp()
 	{
 		for(String line : description.split("\n"))
-			WurstClient.INSTANCE.chat.message(line);
+			ChatUtils.message(line);
 	}
 	
 	public final void printSyntax()
@@ -178,7 +180,7 @@ public abstract class Cmd implements NavigatorItem
 				output += "\n    " + syntax[i];
 		}
 		for(String line : output.split("\n"))
-			WurstClient.INSTANCE.chat.message(line);
+			ChatUtils.message(line);
 	}
 	
 	protected final int[] argsToPos(TargetSettings targetSettings,

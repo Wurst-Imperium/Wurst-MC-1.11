@@ -10,14 +10,14 @@ package tk.wurst_client.gui.main;
 import java.io.IOException;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.utils.MiscUtils;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class GuiMessage extends GuiScreen
 {

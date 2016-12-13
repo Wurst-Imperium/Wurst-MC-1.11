@@ -12,6 +12,7 @@ import tk.wurst_client.ai.FollowAI;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
@@ -138,14 +139,14 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		if(entity == null)
 		{
-			wurst.chat.error("Could not find a valid entity within 12 blocks.");
+			ChatUtils.error("Could not find a valid entity within 12 blocks.");
 			setEnabled(false);
 			return;
 		}
 		
 		ai = new FollowAI(entity, distance.getValueF());
 		wurst.events.add(UpdateListener.class, this);
-		wurst.chat.message("Now following " + entity.getName());
+		ChatUtils.message("Now following " + entity.getName());
 	}
 	
 	@Override
@@ -155,7 +156,7 @@ public class FollowMod extends Mod implements UpdateListener
 		if(mc.player.getHealth() <= 0)
 		{
 			if(entity == null)
-				wurst.chat.message("No longer following entity");
+				ChatUtils.message("No longer following entity");
 			setEnabled(false);
 			return;
 		}
@@ -167,7 +168,7 @@ public class FollowMod extends Mod implements UpdateListener
 			
 			if(entity == null)
 			{
-				wurst.chat.message("No longer following entity");
+				ChatUtils.message("No longer following entity");
 				setEnabled(false);
 				return;
 			}
@@ -188,7 +189,7 @@ public class FollowMod extends Mod implements UpdateListener
 			ai.stop();
 		
 		if(entity != null)
-			wurst.chat.message("No longer following " + entity.getName());
+			ChatUtils.message("No longer following " + entity.getName());
 		
 		entity = null;
 	}

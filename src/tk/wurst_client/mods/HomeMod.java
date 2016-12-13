@@ -10,6 +10,7 @@ package tk.wurst_client.mods;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
 	description = "Types \"/home\" instantly.",
@@ -55,7 +56,7 @@ public class HomeMod extends Mod implements UpdateListener, ChatInputListener
 			|| message.toLowerCase().contains("permission"))
 		{
 			event.cancel();
-			wurst.chat.error("This server doesn't have /home.");
+			ChatUtils.error("This server doesn't have /home.");
 		}
 	}
 }

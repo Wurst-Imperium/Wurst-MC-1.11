@@ -8,6 +8,7 @@
 package tk.wurst_client.commands;
 
 import net.minecraft.item.ItemStack;
+import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(description = "Renames the item in your hand. Use $ for colors, use $$ for $.",
 	name = "rename",
@@ -30,6 +31,6 @@ public class RenameCmd extends Cmd
 		if(item == null)
 			error("There is no item in your hand.");
 		item.setStackDisplayName(message);
-		wurst.chat.message("Renamed item to \"" + message + "§r\".");
+		ChatUtils.message("Renamed item to \"" + message + "§r\".");
 	}
 }

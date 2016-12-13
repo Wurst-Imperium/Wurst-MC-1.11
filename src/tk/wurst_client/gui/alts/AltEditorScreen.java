@@ -12,13 +12,12 @@ import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 
 import java.io.IOException;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.NameGenerator;

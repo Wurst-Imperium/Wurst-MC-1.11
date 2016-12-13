@@ -19,12 +19,12 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import tk.wurst_client.WurstClient;
-import tk.wurst_client.utils.JsonUtils;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import tk.wurst_client.WurstClient;
+import tk.wurst_client.utils.JsonUtils;
 
 public class Updater
 {

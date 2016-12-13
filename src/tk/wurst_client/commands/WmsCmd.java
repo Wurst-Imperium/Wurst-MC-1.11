@@ -7,6 +7,8 @@
  */
 package tk.wurst_client.commands;
 
+import tk.wurst_client.utils.ChatUtils;
+
 @Cmd.Info(description = "Enables/disables Wurst messages or sends a message.",
 	name = "wms",
 	syntax = {"(on | off)", "echo <message>"},
@@ -19,13 +21,13 @@ public class WmsCmd extends Cmd
 		if(args.length == 0)
 			syntaxError();
 		if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off"))
-			wurst.chat.setEnabled(args[0].equalsIgnoreCase("on"));
+			ChatUtils.setEnabled(args[0].equalsIgnoreCase("on"));
 		else if(args[0].equalsIgnoreCase("echo") && args.length >= 2)
 		{
 			String message = args[1];
 			for(int i = 2; i < args.length; i++)
 				message += " " + args[i];
-			wurst.chat.cmd(message);
+			ChatUtils.cmd(message);
 		}else
 			syntaxError();
 	}

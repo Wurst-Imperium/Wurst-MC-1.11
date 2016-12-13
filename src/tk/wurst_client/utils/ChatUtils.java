@@ -5,58 +5,58 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.chat;
+package tk.wurst_client.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-public class ChatManager
+public class ChatUtils
 {
-	private boolean enabled = true;
+	private static boolean enabled = true;
 	
-	public void setEnabled(boolean enabled)
+	public static void setEnabled(boolean enabled)
 	{
-		this.enabled = enabled;
+		ChatUtils.enabled = enabled;
 	}
 	
-	public void component(ITextComponent component)
+	public static void component(ITextComponent component)
 	{
 		if(enabled)
-			Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-				new TextComponentString("§c[§6Wurst§c]§f ")
+			Minecraft.getMinecraft().ingameGUI.getChatGUI()
+				.printChatMessage(new TextComponentString("§c[§6Wurst§c]§f ")
 					.appendSibling(component));
 	}
 	
-	public void message(String message)
+	public static void message(String message)
 	{
 		component(new TextComponentString(message));
 	}
 	
-	public void warning(String message)
+	public static void warning(String message)
 	{
 		message("§c[§6§lWARNING§c]§f " + message);
 	}
 	
-	public void error(String message)
+	public static void error(String message)
 	{
 		message("§c[§4§lERROR§c]§f " + message);
 	}
 	
-	public void success(String message)
+	public static void success(String message)
 	{
 		message("§a[§2§lSUCCESS§a]§f " + message);
 	}
 	
-	public void failure(String message)
+	public static void failure(String message)
 	{
 		message("§c[§4§lFAILURE§c]§f " + message);
 	}
 	
-	public void cmd(String message)
+	public static void cmd(String message)
 	{
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-			new TextComponentString("§c[§6Wurst§c]§f §0§l<§aCMD§0§l>§f "
-				+ message));
+		Minecraft.getMinecraft().ingameGUI.getChatGUI()
+			.printChatMessage(new TextComponentString(
+				"§c[§6Wurst§c]§f §0§l<§aCMD§0§l>§f " + message));
 	}
 }

@@ -9,6 +9,7 @@ package tk.wurst_client.commands;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.item.ItemStack;
+import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Cmd.Info(
@@ -64,7 +65,7 @@ public class CopyItemCmd extends Cmd
 		
 		// give item
 		if(InventoryUtils.placeStackInHotbar(item))
-			wurst.chat.message("Item copied.");
+			ChatUtils.message("Item copied.");
 		else
 			error("Please clear a slot in your hotbar.");
 	}

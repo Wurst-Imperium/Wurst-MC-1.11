@@ -23,15 +23,14 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.util.ResourceLocation;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.DefaultResourcePack;
+import net.minecraft.util.ResourceLocation;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.bot.WurstBot;
 

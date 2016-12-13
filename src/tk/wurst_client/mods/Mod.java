@@ -22,6 +22,7 @@ import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 import tk.wurst_client.special.YesCheatSpf.BypassLevel;
+import tk.wurst_client.utils.ChatUtils;
 
 public class Mod implements NavigatorItem
 {
@@ -298,7 +299,7 @@ public class Mod implements NavigatorItem
 	
 	public final void noCheatMessage()
 	{
-		WurstClient.INSTANCE.chat.warning(name + " cannot bypass NoCheat+.");
+		ChatUtils.warning(name + " cannot bypass NoCheat+.");
 	}
 	
 	public final void updateMS()
