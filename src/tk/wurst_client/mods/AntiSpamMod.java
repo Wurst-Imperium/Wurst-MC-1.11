@@ -7,15 +7,17 @@
  */
 package tk.wurst_client.mods;
 
-import java.util.List;
+import java.util.Iterator;
 
 import net.minecraft.client.gui.ChatLine;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
+import tk.wurst_client.utils.MiscUtils;
 
 @Mod.Info(
-	description = "Blocks chat spam.\n" + "Example:\n" + "Spam!\n" + "Spam!\n"
-		+ "Spam!\n" + "Will be changed to:\n" + "Spam! [x3]",
+	description = "Blocks chat spam by adding a counter to repeated messages.\n"
+		+ "Example:\n" + "Spam!\n" + "Spam!\n" + "Spam!\n"
+		+ "Will be replaced with:\n" + "Spam! [x3]",
 	name = "AntiSpam",
 	tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",
 	help = "Mods/AntiSpam")
@@ -37,60 +39,51 @@ public class AntiSpamMod extends Mod implements ChatInputListener
 	@Override
 	public void onReceivedMessage(ChatInputEvent event)
 	{
-		final List<ChatLine> chatLines = event.getChatLines();
-		new Thread(new Runnable()
+		// check if chat history is empty
+		if(event.getChatLines().isEmpty())
+			return;
+		
+		String newLine = event.getComponent().getUnformattedText();
+		int spamCounter = 1;
+		
+		// count and remove duplicates of the new line
+		for(Iterator<ChatLine> itr = event.getChatLines().iterator(); itr
+			.hasNext();)
 		{
-			@Override
-			public void run()
+			// find old lines that start with the new one
+			String line = itr.next().getChatComponent().getUnformattedText();
+			if(!line.startsWith(newLine))
+				continue;
+			
+			// if the old line equals the new one, add 1 to the counter
+			if(line.length() == newLine.length())
+				spamCounter++;
+			else
 			{
-				try
-				{
-					Thread.sleep(50);
-					if(chatLines.size() > 1)
-						for(int i = chatLines.size() - 1; i >= 1; i--)
-							for(int i2 = i - 1; i2 >= 0; i2--)
-							{
-								// Fixes concurrent modification
-								if(chatLines.size() <= i)
-									continue;
-								
-								if(chatLines.get(i).getChatComponent()
-									.getUnformattedText().startsWith(
-										chatLines.get(i2).getChatComponent()
-											.getUnformattedText()))
-								{
-									if(chatLines.get(i).getChatComponent()
-										.getUnformattedText().endsWith("]")
-										&& chatLines.get(i).getChatComponent()
-											.getUnformattedText()
-											.contains(" [x"))
-									{
-										int numberIndex1 =
-											chatLines.get(i).getChatComponent()
-												.getUnformattedText()
-												.lastIndexOf(" [x") + 3;
-										int numberIndex2 =
-											chatLines.get(i).getChatComponent()
-												.getUnformattedText().length()
-												- 1;
-										int number = Integer.valueOf(chatLines
-											.get(i).getChatComponent()
-											.getUnformattedText().substring(
-												numberIndex1, numberIndex2));
-										chatLines.get(i2).getChatComponent()
-											.appendText(
-												" [x" + (number + 1) + "]");
-									}else
-										chatLines.get(i2).getChatComponent()
-											.appendText(" [x2]");
-									chatLines.remove(i);
-								}
-							}
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-				}
+				// if the old line equals the new one plus added text, check if
+				// that text is a spam counter
+				
+				// first check if it matches " [x.*]"
+				String addedText = line.substring(newLine.length());
+				if(!addedText.startsWith(" [x") || !addedText.endsWith("]"))
+					continue;
+				
+				// then check if the counter value is a valid number
+				String oldSpamCounter =
+					addedText.substring(3, addedText.length() - 1);
+				if(!MiscUtils.isInteger(oldSpamCounter))
+					continue;
+				
+				// if the old counter is valid, add its value to the new counter
+				spamCounter += Integer.parseInt(oldSpamCounter);
 			}
-		}, "AntiSpam").start();
+			
+			// remove the old line
+			itr.remove();
+		}
+		
+		// if the new line exists more than once, add a spam counter to it
+		if(spamCounter > 1)
+			event.getComponent().appendText(" [x" + spamCounter + "]");
 	}
 }
