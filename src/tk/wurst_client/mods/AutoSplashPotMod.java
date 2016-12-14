@@ -37,21 +37,27 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Health", health, 2, 20, 1,
-			ValueDisplay.INTEGER)
-		{
-			@Override
-			public void update()
+		settings.add(
+			new SliderSetting("Health", health, 2, 20, 1, ValueDisplay.INTEGER)
 			{
-				health = (float)getValue();
-			}
-		});
+				@Override
+				public void update()
+				{
+					health = (float)getValue();
+				}
+			});
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		wurst.events.add(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	@Override
@@ -85,15 +91,15 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 				NetHandlerPlayClient connection = mc.player.connection;
 				connection.sendPacket(new CPacketPlayer.Rotation(
 					mc.player.rotationYaw, 90.0F, mc.player.onGround));
-				connection.sendPacket(new CPacketHeldItemChange(
-					potionInHotbar - 36));
+				connection
+					.sendPacket(new CPacketHeldItemChange(potionInHotbar - 36));
 				mc.playerController.updateController();
-				connection.sendPacket(new CPacketPlayerTryUseItem(
-					EnumHand.MAIN_HAND));
+				connection.sendPacket(
+					new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
 				connection.sendPacket(new CPacketHeldItemChange(oldSlot));
-				connection.sendPacket(new CPacketPlayer.Rotation(
-					mc.player.rotationYaw, mc.player.rotationPitch,
-					mc.player.onGround));
+				connection.sendPacket(
+					new CPacketPlayer.Rotation(mc.player.rotationYaw,
+						mc.player.rotationPitch, mc.player.onGround));
 				
 				// reset timer
 				updateLastMS();
@@ -102,12 +108,6 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 				mc.playerController.windowClick(0, potionInInventory, 0,
 					ClickType.QUICK_MOVE, mc.player);
 		
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	private int findPotion(int startSlot, int endSlot)

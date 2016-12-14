@@ -25,17 +25,17 @@ public class PanicMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		for(Mod mod : wurst.mods.getAllMods())
 			if(mod.isEnabled() && mod != this)
 				mod.setEnabled(false);
 		setEnabled(false);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

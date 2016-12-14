@@ -26,6 +26,13 @@ public class NoClipMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		mc.player.noClip = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		mc.player.noClip = true;
@@ -43,12 +50,5 @@ public class NoClipMod extends Mod implements UpdateListener
 			mc.player.motionY += speed;
 		if(mc.gameSettings.keyBindSneak.pressed)
 			mc.player.motionY -= speed;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		mc.player.noClip = false;
 	}
 }

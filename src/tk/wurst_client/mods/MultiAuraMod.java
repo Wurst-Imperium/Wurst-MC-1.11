@@ -19,7 +19,8 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(description = "Faster Killaura that attacks multiple entities at once.",
+@Mod.Info(
+	description = "Faster Killaura that attacks multiple entities at once.",
 	name = "MultiAura",
 	noCheatCompatible = false,
 	tags = "ForceField, multi aura, force field",
@@ -130,14 +131,20 @@ public class MultiAuraMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		EntityUtils.lookChanged = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// update timer
 		updateMS();
 		
 		// check timer / cooldown
-		if(useCooldown.isChecked()
-			? mc.player.getCooledAttackStrength(0F) < 1F
+		if(useCooldown.isChecked() ? mc.player.getCooledAttackStrength(0F) < 1F
 			: !hasTimePassedS(speed.getValueF()))
 			return;
 		
@@ -170,12 +177,5 @@ public class MultiAuraMod extends Mod implements UpdateListener
 		
 		// reset timer
 		updateLastMS();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		EntityUtils.lookChanged = false;
 	}
 }

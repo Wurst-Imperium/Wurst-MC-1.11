@@ -24,8 +24,8 @@ public class LogSpammerMod extends Mod implements UpdateListener
 {
 	private PacketBuffer payload;
 	private Random random;
-	private final String[] vulnerableChannels = new String[]{"MC|BEdit",
-		"MC|BSign", "MC|TrSel", "MC|PickItem"};
+	private final String[] vulnerableChannels =
+		new String[]{"MC|BEdit", "MC|BSign", "MC|TrSel", "MC|PickItem"};
 	
 	@Override
 	public void onEnable()
@@ -41,6 +41,12 @@ public class LogSpammerMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		updateMS();
@@ -51,11 +57,5 @@ public class LogSpammerMod extends Mod implements UpdateListener
 				payload));
 			updateLastMS();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

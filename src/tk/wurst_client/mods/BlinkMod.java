@@ -57,6 +57,19 @@ public class BlinkMod extends Mod implements PacketOutputListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(PacketOutputListener.class, this);
+		
+		for(Packet packet : packets)
+			mc.player.connection.sendPacket(packet);
+		packets.clear();
+		mc.world.removeEntityFromWorld(-69);
+		fakePlayer = null;
+		blinkTime = 0;
+	}
+	
+	@Override
 	public void onSentPacket(PacketOutputEvent event)
 	{
 		Packet packet = event.getPacket();
@@ -72,19 +85,6 @@ public class BlinkMod extends Mod implements PacketOutputListener
 			lastTime = System.currentTimeMillis();
 			event.cancel();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(PacketOutputListener.class, this);
-		
-		for(Packet packet : packets)
-			mc.player.connection.sendPacket(packet);
-		packets.clear();
-		mc.world.removeEntityFromWorld(-69);
-		fakePlayer = null;
-		blinkTime = 0;
 	}
 	
 	public void cancel()

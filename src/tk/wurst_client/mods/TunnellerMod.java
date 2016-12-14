@@ -21,8 +21,7 @@ import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Digs a 3x3 tunnel around you.",
+@Mod.Info(description = "Digs a 3x3 tunnel around you.",
 	name = "Tunneller",
 	help = "Mods/Tunneller")
 @Mod.Bypasses
@@ -35,6 +34,14 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	private BlockPos pos;
 	private boolean shouldRenderESP;
 	private int oldSlot = -1;
+	
+	@Override
+	public NavigatorItem[] getSeeAlso()
+	{
+		return new NavigatorItem[]{wurst.mods.nukerMod,
+			wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
+			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
+	}
 	
 	@Override
 	public void onEnable()
@@ -50,11 +57,17 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public void onDisable()
 	{
-		return new NavigatorItem[]{wurst.mods.nukerMod,
-			wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
-			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
+		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+		}
+		currentDamage = 0;
+		shouldRenderESP = false;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -64,8 +77,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 		if(blockHitDelay == 0 && shouldRenderESP)
 			if(!mc.player.capabilities.isCreativeMode
 				&& currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) < 1)
+					mc.world.getBlockState(pos), mc.player, mc.world, pos) < 1)
 				RenderUtils.nukerBox(pos, currentDamage);
 			else
 				RenderUtils.nukerBox(pos, 1);
@@ -104,13 +116,12 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 				oldSlot = mc.player.inventory.currentItem;
 			if(mc.player.capabilities.isCreativeMode
 				|| currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) >= 1)
+					mc.world.getBlockState(pos), mc.player, mc.world, pos) >= 1)
 			{
 				currentDamage = 0;
 				if(mc.player.capabilities.isCreativeMode
-					&& wurst.special.yesCheatSpf.getBypassLevel().ordinal() <= BypassLevel.MINEPLEX_ANTICHEAT
-						.ordinal())
+					&& wurst.special.yesCheatSpf.getBypassLevel()
+						.ordinal() <= BypassLevel.MINEPLEX_ANTICHEAT.ordinal())
 					nukeAll();
 				else
 				{
@@ -123,43 +134,28 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 		}
 		if(wurst.mods.autoToolMod.isActive())
 			AutoToolMod.setSlot(pos);
-		mc.player.connection.sendPacket(new CPacketAnimation(
-			EnumHand.MAIN_HAND));
+		mc.player.connection
+			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		shouldRenderESP = true;
 		BlockUtils.faceBlockPacket(pos);
-		currentDamage +=
-			currentBlock.getPlayerRelativeBlockHardness(
-				mc.world.getBlockState(pos), mc.player, mc.world, pos)
-				* (wurst.mods.fastBreakMod.isActive()
-					&& wurst.mods.fastBreakMod.getMode() == 0
+		currentDamage += currentBlock.getPlayerRelativeBlockHardness(
+			mc.world.getBlockState(pos), mc.player, mc.world, pos)
+			* (wurst.mods.fastBreakMod.isActive()
+				&& wurst.mods.fastBreakMod.getMode() == 0
 					? wurst.mods.fastBreakMod.speed : 1);
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
 			(int)(currentDamage * 10.0F) - 1);
 		if(currentDamage >= 1)
 		{
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.STOP_DESTROY_BLOCK, pos, side));
+			mc.player.connection.sendPacket(
+				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 			mc.playerController.onPlayerDestroyBlock(pos);
 			blockHitDelay = (byte)4;
 			currentDamage = 0;
 		}else if(wurst.mods.fastBreakMod.isActive()
 			&& wurst.mods.fastBreakMod.getMode() == 1)
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.STOP_DESTROY_BLOCK, pos, side));
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
-		if(oldSlot != -1)
-		{
-			mc.player.inventory.currentItem = oldSlot;
-			oldSlot = -1;
-		}
-		currentDamage = 0;
-		shouldRenderESP = false;
+			mc.player.connection.sendPacket(
+				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -177,8 +173,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 					int posY = (int)(Math.floor(mc.player.posY) + y);
 					int posZ = (int)(Math.floor(mc.player.posZ) + z);
 					BlockPos blockPos = new BlockPos(posX, posY, posZ);
-					Block block =
-						mc.world.getBlockState(blockPos).getBlock();
+					Block block = mc.world.getBlockState(blockPos).getBlock();
 					float xDiff = (float)(mc.player.posX - posX);
 					float yDiff = (float)(mc.player.posY - posY);
 					float zDiff = (float)(mc.player.posZ - posZ);
@@ -187,8 +182,8 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 					{
 						if(wurst.mods.nukerMod.mode.getSelected() == 3
 							&& block.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(blockPos),
-								mc.player, mc.world, blockPos) < 1)
+								mc.world.getBlockState(blockPos), mc.player,
+								mc.world, blockPos) < 1)
 							continue;
 						side = mc.objectMouseOver.sideHit;
 						if(closest == null)
@@ -216,21 +211,20 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 					int posY = (int)(Math.floor(mc.player.posY) + y);
 					int posZ = (int)(Math.floor(mc.player.posZ) + z);
 					BlockPos blockPos = new BlockPos(posX, posY, posZ);
-					Block block =
-						mc.world.getBlockState(blockPos).getBlock();
+					Block block = mc.world.getBlockState(blockPos).getBlock();
 					if(Block.getIdFromBlock(block) != 0 && posY >= 0)
 					{
 						if(wurst.mods.nukerMod.mode.getSelected() == 3
 							&& block.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(blockPos),
-								mc.player, mc.world, blockPos) < 1)
+								mc.world.getBlockState(blockPos), mc.player,
+								mc.world, blockPos) < 1)
 							continue;
 						side = mc.objectMouseOver.sideHit;
 						shouldRenderESP = true;
 						BlockUtils.faceBlockPacket(pos);
-						mc.player.connection
-							.sendPacket(new CPacketPlayerDigging(
-								Action.START_DESTROY_BLOCK, blockPos, side));
+						mc.player.connection.sendPacket(
+							new CPacketPlayerDigging(Action.START_DESTROY_BLOCK,
+								blockPos, side));
 						block.onBlockDestroyedByPlayer(mc.world, blockPos,
 							mc.world.getBlockState(blockPos));
 					}

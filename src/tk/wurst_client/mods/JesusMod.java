@@ -35,6 +35,12 @@ public class JesusMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		WurstClient.INSTANCE.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(!mc.gameSettings.keyBindSneak.pressed)
@@ -51,12 +57,6 @@ public class JesusMod extends Mod implements UpdateListener
 				
 				ticksOutOfWater++;
 			}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		WurstClient.INSTANCE.events.remove(UpdateListener.class, this);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -91,7 +91,6 @@ public class JesusMod extends Mod implements UpdateListener
 	{
 		return isActive() && !(mc.player == null)
 			&& !(mc.player.fallDistance > 3)
-			&& !mc.gameSettings.keyBindSneak.pressed
-			&& !mc.player.isInWater();
+			&& !mc.gameSettings.keyBindSneak.pressed && !mc.player.isInWater();
 	}
 }

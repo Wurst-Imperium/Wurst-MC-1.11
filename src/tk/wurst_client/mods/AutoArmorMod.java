@@ -15,8 +15,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Manages your armor automatically.",
+@Mod.Info(description = "Manages your armor automatically.",
 	name = "AutoArmor",
 	tags = "auto armor",
 	help = "Mods/AutoArmor")
@@ -32,11 +31,17 @@ public class AutoArmorMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.player.capabilities.isCreativeMode
 			|| mc.currentScreen instanceof GuiContainer
-			&& !(mc.currentScreen instanceof GuiInventory))
+				&& !(mc.currentScreen instanceof GuiInventory))
 			return;
 		updateMS();
 		if(hasTimePassedM(3000))
@@ -66,15 +71,14 @@ public class AutoArmorMod extends Mod implements UpdateListener
 				ItemArmor bestArmor;
 				try
 				{
-					bestArmor =
-						(ItemArmor)mc.player.inventory.getStackInSlot(
-							this.bestArmor[i]).getItem();
+					bestArmor = (ItemArmor)mc.player.inventory
+						.getStackInSlot(this.bestArmor[i]).getItem();
 				}catch(Exception e)
 				{
 					bestArmor = null;
 				}
-				if(bestArmor != null
-					&& (currentArmor == null || bestArmor.damageReduceAmount > currentArmor.damageReduceAmount))
+				if(bestArmor != null && (currentArmor == null
+					|| bestArmor.damageReduceAmount > currentArmor.damageReduceAmount))
 					if(mc.player.inventory.getFirstEmptyStack() != -1
 						|| currentArmor == null)
 					{
@@ -82,17 +86,12 @@ public class AutoArmorMod extends Mod implements UpdateListener
 							ClickType.QUICK_MOVE, mc.player);
 						mc.playerController.windowClick(0,
 							this.bestArmor[i] < 9 ? 36 + this.bestArmor[i]
-								: this.bestArmor[i], 0, ClickType.QUICK_MOVE,
+								: this.bestArmor[i],
+							0, ClickType.QUICK_MOVE,
 							Minecraft.getMinecraft().player);
 					}
 			}
 			updateLastMS();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

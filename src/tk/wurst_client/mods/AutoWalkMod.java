@@ -9,8 +9,7 @@ package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Automatically walks all the time.",
+@Mod.Info(description = "Automatically walks all the time.",
 	name = "AutoWalk",
 	tags = "auto walk",
 	help = "Mods/AutoWalk")
@@ -24,16 +23,16 @@ public class AutoWalkMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onUpdate()
-	{
-		if(!mc.gameSettings.keyBindForward.pressed)
-			mc.gameSettings.keyBindForward.pressed = true;
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
 		mc.gameSettings.keyBindForward.pressed = false;
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		if(!mc.gameSettings.keyBindForward.pressed)
+			mc.gameSettings.keyBindForward.pressed = true;
 	}
 }

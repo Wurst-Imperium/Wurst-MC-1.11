@@ -27,18 +27,17 @@ public class DerpMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onUpdate()
-	{
-		float yaw =
-			mc.player.rotationYaw + (float)(Math.random() * 360 - 180);
-		float pitch = (float)(Math.random() * 180 - 90);
-		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(yaw,
-			pitch, mc.player.onGround));
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		float yaw = mc.player.rotationYaw + (float)(Math.random() * 360 - 180);
+		float pitch = (float)(Math.random() * 180 - 90);
+		mc.player.connection.sendPacket(
+			new CPacketPlayer.Rotation(yaw, pitch, mc.player.onGround));
 	}
 }

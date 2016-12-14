@@ -16,8 +16,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.BlockUtils;
 
-@Mod.Info(
-	description = "Places random blocks around you.",
+@Mod.Info(description = "Places random blocks around you.",
 	name = "BuildRandom",
 	tags = "build random",
 	help = "Mods/BuildRandom")
@@ -40,11 +39,16 @@ public class BuildRandomMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(wurst.mods.freecamMod.isActive()
-			|| wurst.mods.remoteViewMod.isActive()
-			|| mc.objectMouseOver == null
+			|| wurst.mods.remoteViewMod.isActive() || mc.objectMouseOver == null
 			|| mc.objectMouseOver.typeOfHit != Type.BLOCK)
 			return;
 		if(mc.rightClickDelayTimer > 0 && !wurst.mods.fastPlaceMod.isActive())
@@ -59,10 +63,14 @@ public class BuildRandomMod extends Mod implements UpdateListener
 			for(int x = (int)range; x >= -range - 1; x--)
 			{
 				for(int z = (int)range; z >= -range; z--)
-					if(Block.getIdFromBlock(mc.world.getBlockState(
-						new BlockPos((int)(x + mc.player.posX),
-							(int)(y + mc.player.posY),
-							(int)(z + mc.player.posZ))).getBlock()) != 0
+					if(Block
+						.getIdFromBlock(
+							mc.world
+								.getBlockState(
+									new BlockPos((int)(x + mc.player.posX),
+										(int)(y + mc.player.posY),
+										(int)(z + mc.player.posZ)))
+								.getBlock()) != 0
 						&& BlockUtils.getBlockDistance(x, y, z) <= range)
 					{
 						hasBlocks = true;
@@ -77,11 +85,9 @@ public class BuildRandomMod extends Mod implements UpdateListener
 		if(!hasBlocks)
 			return;
 		BlockPos randomPos = null;
-		while(distance > range
-			|| distance < -range
-			|| randomPos == null
-			|| Block.getIdFromBlock(mc.world.getBlockState(randomPos)
-				.getBlock()) == 0)
+		while(distance > range || distance < -range || randomPos == null
+			|| Block.getIdFromBlock(
+				mc.world.getBlockState(randomPos).getBlock()) == 0)
 		{
 			xDiff = (int)(Math.random() * range * 2 - range - 1);
 			yDiff = (int)(Math.random() * range * 2 - range);
@@ -102,11 +108,5 @@ public class BuildRandomMod extends Mod implements UpdateListener
 				- mc.objectMouseOver.getBlockPos().getY(),
 			(float)mc.objectMouseOver.hitVec.zCoord
 				- mc.objectMouseOver.getBlockPos().getZ()));
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

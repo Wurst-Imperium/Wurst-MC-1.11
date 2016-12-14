@@ -13,8 +13,7 @@ import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Draws lines to players around you.",
+@Mod.Info(description = "Draws lines to players around you.",
 	name = "Tracers",
 	help = "Mods/Tracers")
 @Mod.Bypasses
@@ -34,21 +33,21 @@ public class TracersMod extends Mod implements RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		if(wurst.mods.arenaBrawlMod.isActive())
 			return;
 		for(Object entity : mc.world.loadedEntityList)
-			if(entity instanceof EntityPlayer
-				&& !((Entity)entity).getName().equals(
-					mc.getSession().getUsername()))
-				RenderUtils.tracerLine((Entity)entity, wurst.friends
-					.contains(((EntityPlayer)entity).getName()) ? 1 : 0);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(RenderListener.class, this);
+			if(entity instanceof EntityPlayer && !((Entity)entity).getName()
+				.equals(mc.getSession().getUsername()))
+				RenderUtils.tracerLine((Entity)entity,
+					wurst.friends.contains(((EntityPlayer)entity).getName()) ? 1
+						: 0);
 	}
 }

@@ -127,6 +127,13 @@ public class ClickAuraMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		EntityUtils.lookChanged = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// update timer
@@ -137,8 +144,7 @@ public class ClickAuraMod extends Mod implements UpdateListener
 			return;
 		
 		// check timer / cooldown
-		if(useCooldown.isChecked()
-			? mc.player.getCooledAttackStrength(0F) < 1F
+		if(useCooldown.isChecked() ? mc.player.getCooledAttackStrength(0F) < 1F
 			: !hasTimePassedS(speed.getValueF()))
 			return;
 		
@@ -170,13 +176,6 @@ public class ClickAuraMod extends Mod implements UpdateListener
 		
 		// reset timer
 		updateLastMS();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		EntityUtils.lookChanged = false;
 	}
 	
 	@Override

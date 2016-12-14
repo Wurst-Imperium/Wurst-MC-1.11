@@ -40,6 +40,13 @@ public class StepMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		mc.player.stepHeight = 0.5F;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(wurst.special.yesCheatSpf.getBypassLevel()
@@ -65,13 +72,6 @@ public class StepMod extends Mod implements UpdateListener
 			}
 		}else
 			mc.player.stepHeight = height.getValueF();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		mc.player.stepHeight = 0.5F;
 	}
 	
 	@Override

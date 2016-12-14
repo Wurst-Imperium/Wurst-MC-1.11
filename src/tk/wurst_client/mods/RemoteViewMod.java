@@ -117,6 +117,28 @@ public class RemoteViewMod extends Mod implements UpdateListener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
+	@Override
+	public void onDisable()
+	{
+		// remove listener
+		wurst.events.remove(UpdateListener.class, this);
+		
+		// reset entity
+		if(entity != null)
+		{
+			ChatUtils.message("No longer viewing " + entity.getName() + ".");
+			entity.setInvisible(wasInvisible);
+			entity = null;
+		}
+		
+		// reset player
+		mc.player.noClip = false;
+		mc.player.setPositionAndRotation(oldX, oldY, oldZ, oldYaw, oldPitch);
+		
+		// remove fake player
+		mc.world.removeEntityFromWorld(-69);
+	}
+	
 	public void onToggledByCommand(String viewName)
 	{
 		// set entity
@@ -146,27 +168,5 @@ public class RemoteViewMod extends Mod implements UpdateListener
 		
 		// set entity invisible
 		entity.setInvisible(true);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		// remove listener
-		wurst.events.remove(UpdateListener.class, this);
-		
-		// reset entity
-		if(entity != null)
-		{
-			ChatUtils.message("No longer viewing " + entity.getName() + ".");
-			entity.setInvisible(wasInvisible);
-			entity = null;
-		}
-		
-		// reset player
-		mc.player.noClip = false;
-		mc.player.setPositionAndRotation(oldX, oldY, oldZ, oldYaw, oldPitch);
-		
-		// remove fake player
-		mc.world.removeEntityFromWorld(-69);
 	}
 }

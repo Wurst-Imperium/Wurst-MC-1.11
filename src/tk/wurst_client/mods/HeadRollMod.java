@@ -27,18 +27,17 @@ public class HeadRollMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onUpdate()
-	{
-		mc.player.connection
-			.sendPacket(new CPacketPlayer.Rotation(Minecraft
-				.getMinecraft().player.rotationYaw, (float)Math
-				.sin(mc.player.ticksExisted % 20 / 10d * Math.PI) * 90,
-				mc.player.onGround));
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
+			Minecraft.getMinecraft().player.rotationYaw,
+			(float)Math.sin(mc.player.ticksExisted % 20 / 10d * Math.PI) * 90,
+			mc.player.onGround));
 	}
 }

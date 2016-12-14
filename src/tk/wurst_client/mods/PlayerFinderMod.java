@@ -21,14 +21,13 @@ import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Finds far players during thunderstorms.",
+@Mod.Info(description = "Finds far players during thunderstorms.",
 	name = "PlayerFinder",
 	tags = "player finder",
 	help = "Mods/PlayerFinder")
 @Mod.Bypasses
-public class PlayerFinderMod extends Mod implements PacketInputListener,
-	RenderListener
+public class PlayerFinderMod extends Mod
+	implements PacketInputListener, RenderListener
 {
 	private BlockPos blockPos;
 	
@@ -48,32 +47,32 @@ public class PlayerFinderMod extends Mod implements PacketInputListener,
 	}
 	
 	@Override
-	public void onRender()
-	{
-		if(blockPos == null)
-			return;
-		float red =
-			(1F - (float)Math.sin((float)(System.currentTimeMillis() % 1000L)
-				/ 1000L * Math.PI * 2)) / 2F;
-		float green =
-			(1F - (float)Math
-				.sin((float)((System.currentTimeMillis() + 333L) % 1000L)
-					/ 1000L * Math.PI * 2)) / 2F;
-		float blue =
-			(1F - (float)Math
-				.sin((float)((System.currentTimeMillis() + 666L) % 1000L)
-					/ 1000L * Math.PI * 2)) / 2F;
-		Color color = new Color(red, green, blue);
-		RenderUtils.tracerLine(blockPos.getX(), blockPos.getY(),
-			blockPos.getZ(), color);
-		RenderUtils.blockEsp(blockPos);
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(PacketInputListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
+	public void onRender()
+	{
+		if(blockPos == null)
+			return;
+		float red = (1F - (float)Math.sin(
+			(float)(System.currentTimeMillis() % 1000L) / 1000L * Math.PI * 2))
+			/ 2F;
+		float green = (1F - (float)Math
+			.sin((float)((System.currentTimeMillis() + 333L) % 1000L) / 1000L
+				* Math.PI * 2))
+			/ 2F;
+		float blue = (1F - (float)Math
+			.sin((float)((System.currentTimeMillis() + 666L) % 1000L) / 1000L
+				* Math.PI * 2))
+			/ 2F;
+		Color color = new Color(red, green, blue);
+		RenderUtils.tracerLine(blockPos.getX(), blockPos.getY(),
+			blockPos.getZ(), color);
+		RenderUtils.blockEsp(blockPos);
 	}
 	
 	@Override
@@ -92,18 +91,15 @@ public class PlayerFinderMod extends Mod implements PacketInputListener,
 		{
 			SPacketSoundEffect sound = (SPacketSoundEffect)packet;
 			BlockPos pos =
-				new BlockPos(sound.getX(), sound.getY(),
-					sound.getZ());
+				new BlockPos(sound.getX(), sound.getY(), sound.getZ());
 			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
 				blockPos = pos;
 		}else if(packet instanceof SPacketSpawnGlobalEntity)
 		{
 			SPacketSpawnGlobalEntity lightning =
 				(SPacketSpawnGlobalEntity)packet;
-			BlockPos pos =
-				new BlockPos(lightning.getX() / 32D,
-					lightning.getY() / 32D,
-					lightning.getZ() / 32D);
+			BlockPos pos = new BlockPos(lightning.getX() / 32D,
+				lightning.getY() / 32D, lightning.getZ() / 32D);
 			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
 				blockPos = pos;
 		}

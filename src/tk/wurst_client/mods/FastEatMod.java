@@ -27,21 +27,21 @@ public class FastEatMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
-		if(mc.player.getHealth() > 0
-			&& mc.player.onGround
+		if(mc.player.getHealth() > 0 && mc.player.onGround
 			&& mc.player.inventory.getCurrentItem() != null
-			&& mc.player.inventory.getCurrentItem().getItem() instanceof ItemFood
+			&& mc.player.inventory.getCurrentItem()
+				.getItem() instanceof ItemFood
 			&& mc.player.getFoodStats().needFood()
 			&& mc.gameSettings.keyBindUseItem.pressed)
 			for(int i = 0; i < 100; i++)
 				mc.player.connection.sendPacket(new CPacketPlayer(false));
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

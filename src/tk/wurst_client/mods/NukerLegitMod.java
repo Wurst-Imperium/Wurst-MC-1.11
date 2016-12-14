@@ -36,8 +36,8 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "LegitNuker, nuker legit, legit nuker",
 	help = "Mods/NukerLegit")
 @Mod.Bypasses
-public class NukerLegitMod extends Mod implements LeftClickListener,
-	RenderListener, UpdateListener
+public class NukerLegitMod extends Mod
+	implements LeftClickListener, RenderListener, UpdateListener
 {
 	private static Block currentBlock;
 	private float currentDamage;
@@ -47,28 +47,28 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 	private boolean shouldRenderESP;
 	private int oldSlot = -1;
 	
-	public CheckboxSetting useNuker = new CheckboxSetting("Use Nuker settings",
-		true)
-	{
-		@Override
-		public void update()
+	public CheckboxSetting useNuker =
+		new CheckboxSetting("Use Nuker settings", true)
 		{
-			if(isChecked())
+			@Override
+			public void update()
 			{
-				NukerMod nuker = wurst.mods.nukerMod;
-				range.lockToValue(nuker.range.getValue());
-				mode.lock(nuker.mode.getSelected());
-			}else
-			{
-				range.unlock();
-				mode.unlock();
-			}
+				if(isChecked())
+				{
+					NukerMod nuker = wurst.mods.nukerMod;
+					range.lockToValue(nuker.range.getValue());
+					mode.lock(nuker.mode.getSelected());
+				}else
+				{
+					range.unlock();
+					mode.unlock();
+				}
+			};
 		};
-	};
-	public final SliderSetting range = new SliderSetting("Range", 4.25, 1,
-		4.25, 0.05, ValueDisplay.DECIMAL);
-	public final ModeSetting mode = new ModeSetting("Mode", new String[]{
-		"Normal", "ID", "Flat", "Smash"}, 0);
+	public final SliderSetting range =
+		new SliderSetting("Range", 4.25, 1, 4.25, 0.05, ValueDisplay.DECIMAL);
+	public final ModeSetting mode = new ModeSetting("Mode",
+		new String[]{"Normal", "ID", "Flat", "Smash"}, 0);
 	
 	@Override
 	public void initSettings()
@@ -114,6 +114,23 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 		wurst.events.add(RenderListener.class, this);
 	}
 	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(LeftClickListener.class, this);
+		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+		}
+		currentDamage = 0;
+		shouldRenderESP = false;
+		NukerMod.id = 0;
+		wurst.files.saveOptions();
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRender()
@@ -121,8 +138,7 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 		if(blockHitDelay == 0 && shouldRenderESP)
 			if(!mc.player.capabilities.isCreativeMode
 				&& currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) < 1)
+					mc.world.getBlockState(pos), mc.player, mc.world, pos) < 1)
 				RenderUtils.nukerBox(pos, currentDamage);
 			else
 				RenderUtils.nukerBox(pos, 1);
@@ -161,8 +177,7 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 				oldSlot = mc.player.inventory.currentItem;
 			if(mc.player.capabilities.isCreativeMode
 				|| currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world,
-					pos) >= 1)
+					mc.world.getBlockState(pos), mc.player, mc.world, pos) >= 1)
 			{
 				currentDamage = 0;
 				shouldRenderESP = true;
@@ -174,39 +189,21 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 		}
 		if(wurst.mods.autoToolMod.isActive())
 			AutoToolMod.setSlot(pos);
-		mc.player.connection.sendPacket(new CPacketAnimation(
-			EnumHand.MAIN_HAND));
+		mc.player.connection
+			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		shouldRenderESP = true;
-		currentDamage +=
-			currentBlock.getPlayerRelativeBlockHardness(
-				mc.world.getBlockState(pos), mc.player, mc.world, pos);
+		currentDamage += currentBlock.getPlayerRelativeBlockHardness(
+			mc.world.getBlockState(pos), mc.player, mc.world, pos);
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
 			(int)(currentDamage * 10.0F) - 1);
 		if(currentDamage >= 1)
 		{
-			mc.player.connection.sendPacket(new CPacketPlayerDigging(
-				Action.STOP_DESTROY_BLOCK, pos, side));
+			mc.player.connection.sendPacket(
+				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 			mc.playerController.onPlayerDestroyBlock(pos);
 			blockHitDelay = (byte)4;
 			currentDamage = 0;
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(LeftClickListener.class, this);
-		wurst.events.remove(UpdateListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
-		if(oldSlot != -1)
-		{
-			mc.player.inventory.currentItem = oldSlot;
-			oldSlot = -1;
-		}
-		currentDamage = 0;
-		shouldRenderESP = false;
-		NukerMod.id = 0;
-		wurst.files.saveOptions();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -220,9 +217,8 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
 				.getBlock().getMaterial(null) != Material.AIR)
 		{
-			NukerMod.id =
-				Block.getIdFromBlock(mc.world.getBlockState(
-					mc.objectMouseOver.getBlockPos()).getBlock());
+			NukerMod.id = Block.getIdFromBlock(mc.world
+				.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock());
 			wurst.files.saveOptions();
 		}
 	}
@@ -239,12 +235,11 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 			if(alreadyProcessed.contains(currentPos))
 				continue;
 			alreadyProcessed.add(currentPos);
-			if(BlockUtils.getPlayerBlockDistance(currentPos) > Math.min(
-				range.getValueF(), 4.25F))
+			if(BlockUtils.getPlayerBlockDistance(currentPos) > Math
+				.min(range.getValueF(), 4.25F))
 				continue;
-			int currentID =
-				Block.getIdFromBlock(mc.world.getBlockState(currentPos)
-					.getBlock());
+			int currentID = Block
+				.getIdFromBlock(mc.world.getBlockState(currentPos).getBlock());
 			if(currentID != 0)
 				switch(mode.getSelected())
 				{
@@ -257,9 +252,7 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 							return currentPos;
 						break;
 					case 3:
-						if(mc.world
-							.getBlockState(currentPos)
-							.getBlock()
+						if(mc.world.getBlockState(currentPos).getBlock()
 							.getPlayerRelativeBlockHardness(
 								mc.world.getBlockState(pos), mc.player,
 								mc.world, currentPos) >= 1)
@@ -268,8 +261,8 @@ public class NukerLegitMod extends Mod implements LeftClickListener,
 					default:
 						return currentPos;
 				}
-			if(!mc.world.getBlockState(currentPos).getBlock()
-				.getMaterial(null).blocksMovement())
+			if(!mc.world.getBlockState(currentPos).getBlock().getMaterial(null)
+				.blocksMovement())
 			{
 				queue.add(currentPos.add(0, 0, -1));// north
 				queue.add(currentPos.add(0, 0, 1));// south

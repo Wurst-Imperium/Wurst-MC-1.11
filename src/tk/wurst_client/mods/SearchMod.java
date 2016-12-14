@@ -42,6 +42,13 @@ public class SearchMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		for(BlockPos blockPos : matchingBlocks)
@@ -87,12 +94,5 @@ public class SearchMod extends Mod implements UpdateListener, RenderListener
 				notify = true;
 			updateLastMS();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
 	}
 }

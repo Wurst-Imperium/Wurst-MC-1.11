@@ -17,19 +17,18 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 
-@Mod.Info(
-	description = "Eases the use of the Elytra.",
+@Mod.Info(description = "Eases the use of the Elytra.",
 	name = "ExtraElytra",
 	tags = "EasyElytra, extra elytra, easy elytra",
 	help = "Mods/ExtraElytra")
 @Mod.Bypasses
 public class ExtraElytraMod extends Mod implements UpdateListener
 {
-	private CheckboxSetting instantFly = new CheckboxSetting("Instant fly",
-		true);
+	private CheckboxSetting instantFly =
+		new CheckboxSetting("Instant fly", true);
 	private CheckboxSetting easyFly = new CheckboxSetting("Easy fly", false);
-	private CheckboxSetting stopInWater = new CheckboxSetting(
-		"Stop flying in water", true);
+	private CheckboxSetting stopInWater =
+		new CheckboxSetting("Stop flying in water", true);
 	
 	@Override
 	public void initSettings()
@@ -46,6 +45,12 @@ public class ExtraElytraMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		updateMS();
@@ -59,9 +64,8 @@ public class ExtraElytraMod extends Mod implements UpdateListener
 		{
 			if(stopInWater.isChecked() && mc.player.isInWater())
 			{
-				mc.player.connection
-					.sendPacket(new CPacketEntityAction(mc.player,
-						CPacketEntityAction.Action.START_FALL_FLYING));
+				mc.player.connection.sendPacket(new CPacketEntityAction(
+					mc.player, CPacketEntityAction.Action.START_FALL_FLYING));
 				return;
 			}
 			
@@ -96,15 +100,9 @@ public class ExtraElytraMod extends Mod implements UpdateListener
 				mc.player.setSprinting(true);
 				mc.player.jump();
 			}
-			mc.player.connection.sendPacket(new CPacketEntityAction(
-				mc.player, CPacketEntityAction.Action.START_FALL_FLYING));
+			mc.player.connection.sendPacket(new CPacketEntityAction(mc.player,
+				CPacketEntityAction.Action.START_FALL_FLYING));
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	@Override

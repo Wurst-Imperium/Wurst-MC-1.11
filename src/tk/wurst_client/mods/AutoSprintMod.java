@@ -9,8 +9,7 @@ package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Makes you sprint whenever you walk.",
+@Mod.Info(description = "Makes you sprint whenever you walk.",
 	name = "AutoSprint",
 	tags = "auto sprint",
 	help = "Mods/AutoSprint")
@@ -24,16 +23,16 @@ public class AutoSprintMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(!mc.player.isCollidedHorizontally && mc.player.moveForward > 0
 			&& !mc.player.isSneaking())
 			mc.player.setSprinting(true);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

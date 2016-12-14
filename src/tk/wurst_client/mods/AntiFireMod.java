@@ -27,17 +27,17 @@ public class AntiFireMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+
+	@Override
 	public void onUpdate()
 	{
 		if(!mc.player.capabilities.isCreativeMode && mc.player.onGround
 			&& mc.player.isBurning())
 			for(int i = 0; i < 100; i++)
 				mc.player.connection.sendPacket(new CPacketPlayer());
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

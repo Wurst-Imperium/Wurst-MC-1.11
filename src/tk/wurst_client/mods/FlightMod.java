@@ -56,24 +56,28 @@ public class FlightMod extends Mod implements UpdateListener
 		if(wurst.mods.jetpackMod.isEnabled())
 			wurst.mods.jetpackMod.setEnabled(false);
 		
-		if(wurst.special.yesCheatSpf.getBypassLevel().ordinal() >= BypassLevel.MINEPLEX_ANTICHEAT
-			.ordinal())
+		if(wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() >= BypassLevel.MINEPLEX_ANTICHEAT.ordinal())
 		{
 			double startX = mc.player.posX;
 			startY = mc.player.posY;
 			double startZ = mc.player.posZ;
 			for(int i = 0; i < 4; i++)
 			{
-				mc.player.connection
-					.sendPacket(new CPacketPlayer.Position(startX,
-						startY + 1.01, startZ, false));
-				mc.player.connection
-					.sendPacket(new CPacketPlayer.Position(startX, startY,
-						startZ, false));
+				mc.player.connection.sendPacket(new CPacketPlayer.Position(
+					startX, startY + 1.01, startZ, false));
+				mc.player.connection.sendPacket(
+					new CPacketPlayer.Position(startX, startY, startZ, false));
 			}
 			mc.player.jump();
 		}
 		wurst.events.add(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	@Override
@@ -121,11 +125,5 @@ public class FlightMod extends Mod implements UpdateListener
 					mc.player.motionY -= speed;
 				break;
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

@@ -9,8 +9,7 @@ package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Makes you twerk like Miley Cyrus!",
+@Mod.Info(description = "Makes you twerk like Miley Cyrus!",
 	name = "MileyCyrus",
 	tags = "miley cyrus, twerk",
 	help = "Mods/MileyCyrus")
@@ -27,6 +26,13 @@ public class MileyCyrusMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		mc.gameSettings.keyBindSneak.pressed = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		timer++;
@@ -36,12 +42,5 @@ public class MileyCyrusMod extends Mod implements UpdateListener
 				!mc.gameSettings.keyBindSneak.pressed;
 			timer = 0;
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		mc.gameSettings.keyBindSneak.pressed = false;
 	}
 }

@@ -42,21 +42,27 @@ public class KaboomMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Power", power, 32, 512, 32,
-			ValueDisplay.INTEGER)
-		{
-			@Override
-			public void update()
+		settings.add(
+			new SliderSetting("Power", power, 32, 512, 32, ValueDisplay.INTEGER)
 			{
-				power = (int)getValue();
-			}
-		});
+				@Override
+				public void update()
+				{
+					power = (int)getValue();
+				}
+			});
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		wurst.events.add(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	@Override
@@ -77,7 +83,7 @@ public class KaboomMod extends Mod implements UpdateListener
 				{
 					new Explosion(mc.world, mc.player, mc.player.posX,
 						mc.player.posY, mc.player.posZ, 6F, false, true)
-						.doExplosionB(true);
+							.doExplosionB(true);
 					for(int x = range; x >= -range - 1; x--)
 						for(int z = range; z >= -range; z--)
 						{
@@ -92,9 +98,8 @@ public class KaboomMod extends Mod implements UpdateListener
 							float xDiff = (float)(mc.player.posX - posX);
 							float yDiff = (float)(mc.player.posY - posY);
 							float zDiff = (float)(mc.player.posZ - posZ);
-							float currentDistance =
-								BlockUtils
-									.getBlockDistance(xDiff, yDiff, zDiff);
+							float currentDistance = BlockUtils
+								.getBlockDistance(xDiff, yDiff, zDiff);
 							if(Block.getIdFromBlock(block) != 0 && posY >= 0
 								&& currentDistance <= range)
 							{
@@ -102,9 +107,8 @@ public class KaboomMod extends Mod implements UpdateListener
 									continue;
 								EnumFacing side = mc.objectMouseOver.sideHit;
 								BlockUtils.faceBlockPacket(pos);
-								mc.player.connection
-									.sendPacket(new CPacketAnimation(
-										EnumHand.MAIN_HAND));
+								mc.player.connection.sendPacket(
+									new CPacketAnimation(EnumHand.MAIN_HAND));
 								mc.player.connection
 									.sendPacket(new CPacketPlayerDigging(
 										Action.START_DESTROY_BLOCK, pos, side));
@@ -122,11 +126,5 @@ public class KaboomMod extends Mod implements UpdateListener
 			}
 		}.start();
 		setEnabled(false);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

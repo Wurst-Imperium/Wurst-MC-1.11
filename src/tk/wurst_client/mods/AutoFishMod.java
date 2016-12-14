@@ -26,6 +26,13 @@ public class AutoFishMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		timer = 0;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		switch(timer)
@@ -46,12 +53,5 @@ public class AutoFishMod extends Mod implements UpdateListener
 				timer--;
 				break;
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		timer = 0;
 	}
 }

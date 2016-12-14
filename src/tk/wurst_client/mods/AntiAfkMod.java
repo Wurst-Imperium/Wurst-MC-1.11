@@ -32,6 +32,15 @@ public class AntiAfkMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		
+		if(ai != null)
+			ai.stop();
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// check if player died
@@ -57,14 +66,5 @@ public class AntiAfkMod extends Mod implements UpdateListener
 			ai.stop();
 			timer = 40 + random.nextInt(21);
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		
-		if(ai != null)
-			ai.stop();
 	}
 }

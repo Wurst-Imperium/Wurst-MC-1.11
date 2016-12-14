@@ -23,8 +23,7 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.ChatUtils;
 
-@Mod.Info(
-	description = "Faster Nuker that cannot bypass NoCheat+.",
+@Mod.Info(description = "Faster Nuker that cannot bypass NoCheat+.",
 	name = "SpeedNuker",
 	tags = "FastNuker, speed nuker, fast nuker",
 	help = "Mods/SpeedNuker")
@@ -32,35 +31,35 @@ import tk.wurst_client.utils.ChatUtils;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
-public class SpeedNukerMod extends Mod implements LeftClickListener,
-	UpdateListener
+public class SpeedNukerMod extends Mod
+	implements LeftClickListener, UpdateListener
 {
 	private static Block currentBlock;
 	private BlockPos pos;
 	private int oldSlot = -1;
 	
-	public CheckboxSetting useNuker = new CheckboxSetting("Use Nuker settings",
-		true)
-	{
-		@Override
-		public void update()
+	public CheckboxSetting useNuker =
+		new CheckboxSetting("Use Nuker settings", true)
 		{
-			if(isChecked())
+			@Override
+			public void update()
 			{
-				NukerMod nuker = wurst.mods.nukerMod;
-				range.lockToValue(nuker.range.getValue());
-				mode.lock(nuker.mode.getSelected());
-			}else
-			{
-				range.unlock();
-				mode.unlock();
-			}
+				if(isChecked())
+				{
+					NukerMod nuker = wurst.mods.nukerMod;
+					range.lockToValue(nuker.range.getValue());
+					mode.lock(nuker.mode.getSelected());
+				}else
+				{
+					range.unlock();
+					mode.unlock();
+				}
+			};
 		};
-	};
-	public final SliderSetting range = new SliderSetting("Range", 6, 1, 6,
-		0.05, ValueDisplay.DECIMAL);
-	public final ModeSetting mode = new ModeSetting("Mode", new String[]{
-		"Normal", "ID", "Flat", "Smash"}, 0);
+	public final SliderSetting range =
+		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	public final ModeSetting mode = new ModeSetting("Mode",
+		new String[]{"Normal", "ID", "Flat", "Smash"}, 0);
 	
 	@Override
 	public void initSettings()
@@ -105,6 +104,20 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(LeftClickListener.class, this);
+		wurst.events.remove(UpdateListener.class, this);
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+		}
+		NukerMod.id = 0;
+		wurst.files.saveOptions();
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onUpdate()
@@ -113,8 +126,8 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 		{
 			ChatUtils.error(getName() + " doesn't work in creative mode.");
 			setEnabled(false);
-			ChatUtils.message("Switching to " + wurst.mods.nukerMod.getName()
-				+ ".");
+			ChatUtils
+				.message("Switching to " + wurst.mods.nukerMod.getName() + ".");
 			wurst.mods.nukerMod.setEnabled(true);
 			return;
 		}
@@ -140,20 +153,6 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 		nukeAll();
 	}
 	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(LeftClickListener.class, this);
-		wurst.events.remove(UpdateListener.class, this);
-		if(oldSlot != -1)
-		{
-			mc.player.inventory.currentItem = oldSlot;
-			oldSlot = -1;
-		}
-		NukerMod.id = 0;
-		wurst.files.saveOptions();
-	}
-	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onLeftClick()
@@ -165,9 +164,8 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
 				.getBlock().getMaterial(null) != Material.AIR)
 		{
-			NukerMod.id =
-				Block.getIdFromBlock(mc.world.getBlockState(
-					mc.objectMouseOver.getBlockPos()).getBlock());
+			NukerMod.id = Block.getIdFromBlock(mc.world
+				.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock());
 			wurst.files.saveOptions();
 		}
 	}
@@ -178,10 +176,12 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 		BlockPos closest = null;
 		float closestDistance = range.getValueF() + 1;
 		int nukerMode = mode.getSelected();
-		for(int y = (int)range.getValueF(); y >= (nukerMode == 2 ? 0 : -range
-			.getValueF()); y--)
-			for(int x = (int)range.getValueF(); x >= -range.getValueF() - 1; x--)
-				for(int z = (int)range.getValueF(); z >= -range.getValueF(); z--)
+		for(int y = (int)range.getValueF(); y >= (nukerMode == 2 ? 0
+			: -range.getValueF()); y--)
+			for(int x = (int)range.getValueF(); x >= -range.getValueF()
+				- 1; x--)
+				for(int z =
+					(int)range.getValueF(); z >= -range.getValueF(); z--)
 				{
 					if(mc.player == null)
 						continue;
@@ -191,8 +191,7 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 					int posY = (int)(Math.floor(mc.player.posY) + y);
 					int posZ = (int)(Math.floor(mc.player.posZ) + z);
 					BlockPos blockPos = new BlockPos(posX, posY, posZ);
-					Block block =
-						mc.world.getBlockState(blockPos).getBlock();
+					Block block = mc.world.getBlockState(blockPos).getBlock();
 					float xDiff = (float)(mc.player.posX - posX);
 					float yDiff = (float)(mc.player.posY - posY);
 					float zDiff = (float)(mc.player.posZ - posZ);
@@ -206,8 +205,8 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 							continue;
 						if(nukerMode == 3
 							&& block.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(blockPos),
-								mc.player, mc.world, blockPos) < 1)
+								mc.world.getBlockState(blockPos), mc.player,
+								mc.world, blockPos) < 1)
 							continue;
 						if(closest == null)
 						{
@@ -227,10 +226,12 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 	private void nukeAll()
 	{
 		int nukerMode = mode.getSelected();
-		for(int y = (int)range.getValueF(); y >= (nukerMode == 2 ? 0 : -range
-			.getValueF()); y--)
-			for(int x = (int)range.getValueF(); x >= -range.getValueF() - 1; x--)
-				for(int z = (int)range.getValueF(); z >= -range.getValueF(); z--)
+		for(int y = (int)range.getValueF(); y >= (nukerMode == 2 ? 0
+			: -range.getValueF()); y--)
+			for(int x = (int)range.getValueF(); x >= -range.getValueF()
+				- 1; x--)
+				for(int z =
+					(int)range.getValueF(); z >= -range.getValueF(); z--)
 				{
 					int posX = (int)(Math.floor(mc.player.posX) + x);
 					int posY = (int)(Math.floor(mc.player.posY) + y);
@@ -238,8 +239,7 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 					if(x == 0 && y == -1 && z == 0)
 						continue;
 					BlockPos blockPos = new BlockPos(posX, posY, posZ);
-					Block block =
-						mc.world.getBlockState(blockPos).getBlock();
+					Block block = mc.world.getBlockState(blockPos).getBlock();
 					float xDiff = (float)(mc.player.posX - posX);
 					float yDiff = (float)(mc.player.posY - posY);
 					float zDiff = (float)(mc.player.posZ - posZ);
@@ -253,18 +253,18 @@ public class SpeedNukerMod extends Mod implements LeftClickListener,
 							continue;
 						if(nukerMode == 3
 							&& block.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(blockPos),
-								mc.player, mc.world, blockPos) < 1)
+								mc.world.getBlockState(blockPos), mc.player,
+								mc.world, blockPos) < 1)
 							continue;
 						if(!mc.player.onGround)
 							continue;
 						EnumFacing side = mc.objectMouseOver.sideHit;
-						mc.player.connection
-							.sendPacket(new CPacketPlayerDigging(
-								Action.START_DESTROY_BLOCK, blockPos, side));
-						mc.player.connection
-							.sendPacket(new CPacketPlayerDigging(
-								Action.STOP_DESTROY_BLOCK, blockPos, side));
+						mc.player.connection.sendPacket(
+							new CPacketPlayerDigging(Action.START_DESTROY_BLOCK,
+								blockPos, side));
+						mc.player.connection.sendPacket(
+							new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK,
+								blockPos, side));
 					}
 				}
 	}

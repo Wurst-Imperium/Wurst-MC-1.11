@@ -13,8 +13,7 @@ import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Allows you to see items through walls.",
+@Mod.Info(description = "Allows you to see items through walls.",
 	name = "ItemESP",
 	tags = "item esp",
 	help = "Mods/ItemESP")
@@ -34,16 +33,16 @@ public class ItemEspMod extends Mod implements RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		for(Object entity : mc.world.loadedEntityList)
 			if(entity instanceof EntityItem)
 				RenderUtils.entityESPBox((Entity)entity, 2);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(RenderListener.class, this);
 	}
 }

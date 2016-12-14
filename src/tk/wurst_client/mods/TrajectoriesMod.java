@@ -43,6 +43,12 @@ public class TrajectoriesMod extends Mod implements RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		EntityPlayerSP player = mc.player;
@@ -57,27 +63,25 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		if(!(item instanceof ItemBow || item instanceof ItemSnowball
 			|| item instanceof ItemEgg || item instanceof ItemEnderPearl
 			|| item instanceof ItemSplashPotion
-			|| item instanceof ItemLingeringPotion || item instanceof ItemFishingRod))
+			|| item instanceof ItemLingeringPotion
+			|| item instanceof ItemFishingRod))
 			return;
 		
 		boolean usingBow =
 			player.inventory.getCurrentItem().getItem() instanceof ItemBow;
 		
 		// calculate starting position
-		double arrowPosX =
-			player.lastTickPosX + (player.posX - player.lastTickPosX)
-				* mc.timer.renderPartialTicks
-				- MathHelper.cos((float)Math.toRadians(player.rotationYaw))
-				* 0.16F;
-		double arrowPosY =
-			player.lastTickPosY + (player.posY - player.lastTickPosY)
+		double arrowPosX = player.lastTickPosX
+			+ (player.posX - player.lastTickPosX) * mc.timer.renderPartialTicks
+			- MathHelper.cos((float)Math.toRadians(player.rotationYaw)) * 0.16F;
+		double arrowPosY = player.lastTickPosY
+			+ (player.posY - player.lastTickPosY)
 				* Minecraft.getMinecraft().timer.renderPartialTicks
-				+ player.getEyeHeight() - 0.1;
-		double arrowPosZ =
-			player.lastTickPosZ + (player.posZ - player.lastTickPosZ)
+			+ player.getEyeHeight() - 0.1;
+		double arrowPosZ = player.lastTickPosZ
+			+ (player.posZ - player.lastTickPosZ)
 				* Minecraft.getMinecraft().timer.renderPartialTicks
-				- MathHelper.sin((float)Math.toRadians(player.rotationYaw))
-				* 0.16F;
+			- MathHelper.sin((float)Math.toRadians(player.rotationYaw)) * 0.16F;
 		
 		// calculate starting motion
 		float arrowMotionFactor = usingBow ? 1F : 0.4F;
@@ -88,9 +92,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		float arrowMotionY = -MathHelper.sin(pitch) * arrowMotionFactor;
 		float arrowMotionZ =
 			MathHelper.cos(yaw) * MathHelper.cos(pitch) * arrowMotionFactor;
-		double arrowMotion =
-			Math.sqrt(arrowMotionX * arrowMotionX + arrowMotionY * arrowMotionY
-				+ arrowMotionZ * arrowMotionZ);
+		double arrowMotion = Math.sqrt(arrowMotionX * arrowMotionX
+			+ arrowMotionY * arrowMotionY + arrowMotionZ * arrowMotionZ);
 		arrowMotionX /= arrowMotion;
 		arrowMotionY /= arrowMotion;
 		arrowMotionZ /= arrowMotion;
@@ -130,18 +133,17 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		RenderManager renderManager = mc.getRenderManager();
 		
 		// draw trajectory line
-		double gravity =
-			usingBow ? 0.05D : item instanceof ItemPotion ? 0.4D : item instanceof ItemFishingRod ? 0.15D : 0.03D;
-		Vec3d playerVector =
-			new Vec3d(player.posX, player.posY + player.getEyeHeight(),
-				player.posZ);
+		double gravity = usingBow ? 0.05D : item instanceof ItemPotion ? 0.4D
+			: item instanceof ItemFishingRod ? 0.15D : 0.03D;
+		Vec3d playerVector = new Vec3d(player.posX,
+			player.posY + player.getEyeHeight(), player.posZ);
 		GL11.glColor3d(0, 1, 0);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 		for(int i = 0; i < 1000; i++)
 		{
-			GL11.glVertex3d(arrowPosX - renderManager.renderPosX, arrowPosY
-				- renderManager.renderPosY, arrowPosZ
-				- renderManager.renderPosZ);
+			GL11.glVertex3d(arrowPosX - renderManager.renderPosX,
+				arrowPosY - renderManager.renderPosY,
+				arrowPosZ - renderManager.renderPosZ);
 			
 			arrowPosX += arrowMotionX * 0.1;
 			arrowPosY += arrowMotionY * 0.1;
@@ -151,8 +153,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 			arrowMotionZ *= 0.999D;
 			arrowMotionY -= gravity * 0.1;
 			
-			if(mc.world.rayTraceBlocks(playerVector, new Vec3d(arrowPosX,
-				arrowPosY, arrowPosZ)) != null)
+			if(mc.world.rayTraceBlocks(playerVector,
+				new Vec3d(arrowPosX, arrowPosY, arrowPosZ)) != null)
 				break;
 		}
 		GL11.glEnd();
@@ -161,9 +163,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		double renderX = arrowPosX - renderManager.renderPosX;
 		double renderY = arrowPosY - renderManager.renderPosY;
 		double renderZ = arrowPosZ - renderManager.renderPosZ;
-		AxisAlignedBB bb =
-			new AxisAlignedBB(renderX - 0.5, renderY - 0.5, renderZ - 0.5,
-				renderX + 0.5, renderY + 0.5, renderZ + 0.5);
+		AxisAlignedBB bb = new AxisAlignedBB(renderX - 0.5, renderY - 0.5,
+			renderZ - 0.5, renderX + 0.5, renderY + 0.5, renderZ + 0.5);
 		GL11.glColor4f(0F, 1F, 0F, 0.15F);
 		RenderUtils.drawColorBox(bb, 0F, 1F, 0F, 0.15F);
 		GL11.glColor4d(0, 0, 0, 0.5F);
@@ -177,11 +178,5 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glPopMatrix();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(RenderListener.class, this);
 	}
 }

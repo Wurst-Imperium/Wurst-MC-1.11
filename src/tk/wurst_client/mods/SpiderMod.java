@@ -9,8 +9,7 @@ package tk.wurst_client.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Allows you to climb up walls like a spider.",
+@Mod.Info(description = "Allows you to climb up walls like a spider.",
 	name = "Spider",
 	help = "Mods/Spider")
 @Mod.Bypasses(ghostMode = false,
@@ -26,15 +25,15 @@ public class SpiderMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.player.isCollidedHorizontally)
 			mc.player.motionY = 0.2;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

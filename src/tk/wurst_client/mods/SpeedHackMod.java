@@ -28,11 +28,17 @@ public class SpeedHackMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// return if sneaking or not walking
-		if(mc.player.isSneaking() || mc.player.moveForward == 0
-			&& mc.player.moveStrafing == 0)
+		if(mc.player.isSneaking()
+			|| mc.player.moveForward == 0 && mc.player.moveStrafing == 0)
 			return;
 		
 		// activate sprint if walking forward
@@ -45,9 +51,8 @@ public class SpeedHackMod extends Mod implements UpdateListener
 			mc.player.motionY += 0.1;
 			mc.player.motionX *= 1.8;
 			mc.player.motionZ *= 1.8;
-			double currentSpeed =
-				Math.sqrt(Math.pow(mc.player.motionX, 2)
-					+ Math.pow(mc.player.motionZ, 2));
+			double currentSpeed = Math.sqrt(Math.pow(mc.player.motionX, 2)
+				+ Math.pow(mc.player.motionZ, 2));
 			
 			// limit speed to highest value that works on NoCheat+ version
 			// 3.13.0-BETA-sMD5NET-b878
@@ -55,17 +60,9 @@ public class SpeedHackMod extends Mod implements UpdateListener
 			double maxSpeed = 0.66F;
 			if(currentSpeed > maxSpeed)
 			{
-				mc.player.motionX =
-					mc.player.motionX / currentSpeed * maxSpeed;
-				mc.player.motionZ =
-					mc.player.motionZ / currentSpeed * maxSpeed;
+				mc.player.motionX = mc.player.motionX / currentSpeed * maxSpeed;
+				mc.player.motionZ = mc.player.motionZ / currentSpeed * maxSpeed;
 			}
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

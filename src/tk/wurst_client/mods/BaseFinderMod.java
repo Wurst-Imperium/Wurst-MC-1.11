@@ -45,6 +45,13 @@ public class BaseFinderMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		for(BlockPos blockPos : matchingBlocks)
@@ -90,13 +97,6 @@ public class BaseFinderMod extends Mod implements UpdateListener, RenderListener
 				shouldInform = true;
 			updateLastMS();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
 	}
 	
 	private void initBlocks()

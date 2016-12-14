@@ -55,6 +55,14 @@ public class BowAimbotMod extends Mod
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(GUIRenderListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		if(target == null)
@@ -136,13 +144,13 @@ public class BowAimbotMod extends Mod
 		}
 		
 		// set position to aim at
-		double posX = target.posX + (target.posX - target.prevPosX) * 5
-			- mc.player.posX;
+		double posX =
+			target.posX + (target.posX - target.prevPosX) * 5 - mc.player.posX;
 		double posY = target.posY + (target.posY - target.prevPosY) * 5
 			+ target.getEyeHeight() - 0.15 - mc.player.posY
 			- mc.player.getEyeHeight();
-		double posZ = target.posZ + (target.posZ - target.prevPosZ) * 5
-			- mc.player.posZ;
+		double posZ =
+			target.posZ + (target.posZ - target.prevPosZ) * 5 - mc.player.posZ;
 		
 		// set yaw
 		mc.player.rotationYaw =
@@ -160,13 +168,5 @@ public class BowAimbotMod extends Mod
 								* velocity - g * (g * (distanceXZ * distanceXZ)
 									+ 2 * posY * (velocity * velocity)))))
 						/ (g * distanceXZ)));
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(GUIRenderListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

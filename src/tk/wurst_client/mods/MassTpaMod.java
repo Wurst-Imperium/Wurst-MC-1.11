@@ -26,8 +26,7 @@ import tk.wurst_client.utils.ChatUtils;
 	tags = "mass tpa",
 	help = "Mods/MassTPA")
 @Mod.Bypasses
-public class MassTpaMod extends Mod implements UpdateListener,
-	ChatInputListener
+public class MassTpaMod extends Mod implements UpdateListener, ChatInputListener
 {
 	private float speed = 1F;
 	private int i;
@@ -41,11 +40,18 @@ public class MassTpaMod extends Mod implements UpdateListener,
 		Iterator itr = mc.getConnection().getPlayerInfoMap().iterator();
 		players = new ArrayList<String>();
 		while(itr.hasNext())
-			players.add(StringUtils.stripControlCodes(((NetworkPlayerInfo)itr
-				.next()).getPlayerNameForReal()));
+			players.add(StringUtils.stripControlCodes(
+				((NetworkPlayerInfo)itr.next()).getPlayerNameForReal()));
 		Collections.shuffle(players, random);
 		wurst.events.add(ChatInputListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(ChatInputListener.class, this);
+		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	@Override
@@ -65,13 +71,6 @@ public class MassTpaMod extends Mod implements UpdateListener,
 	}
 	
 	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(ChatInputListener.class, this);
-		wurst.events.remove(UpdateListener.class, this);
-	}
-	
-	@Override
 	public void onReceivedMessage(ChatInputEvent event)
 	{
 		String message = event.getComponent().getUnformattedText();
@@ -86,7 +85,7 @@ public class MassTpaMod extends Mod implements UpdateListener,
 		}else if(message.toLowerCase().contains("accepted")
 			&& message.toLowerCase().contains("request")
 			|| message.toLowerCase().contains("akzeptiert")
-			&& message.toLowerCase().contains("anfrage"))
+				&& message.toLowerCase().contains("anfrage"))
 		{
 			event.cancel();
 			ChatUtils.message("Someone accepted your TPA request. Stopping.");

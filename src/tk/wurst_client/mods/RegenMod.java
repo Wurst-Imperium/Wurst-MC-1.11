@@ -26,6 +26,12 @@ public class RegenMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(!mc.player.capabilities.isCreativeMode
@@ -34,11 +40,5 @@ public class RegenMod extends Mod implements UpdateListener
 			&& mc.player.onGround)
 			for(int i = 0; i < 1000; i++)
 				mc.player.connection.sendPacket(new CPacketPlayer());
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

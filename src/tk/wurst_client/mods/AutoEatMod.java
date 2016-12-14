@@ -37,6 +37,12 @@ public class AutoEatMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(oldSlot != -1 || mc.player.capabilities.isCreativeMode
@@ -94,12 +100,6 @@ public class AutoEatMod extends Mod implements UpdateListener
 				wurst.events.remove(UpdateListener.class, this);
 			}
 		});
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	public boolean isEating()

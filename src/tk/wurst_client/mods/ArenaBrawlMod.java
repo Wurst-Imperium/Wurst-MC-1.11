@@ -213,6 +213,20 @@ public class ArenaBrawlMod extends Mod
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(ChatInputListener.class, this);
+		wurst.events.remove(DeathListener.class, this);
+		wurst.events.remove(RenderListener.class, this);
+		wurst.events.remove(UpdateListener.class, this);
+		mc.gameSettings.keyBindForward.pressed = false;
+		if(friendsName != null)
+			ChatUtils.message(
+				"No longer playing ArenaBrawl with " + friendsName + ".");
+		reset();
+	}
+	
+	@Override
 	public void onRender()
 	{
 		if(targetType == TargetType.BLOCK_E)
@@ -313,8 +327,8 @@ public class ArenaBrawlMod extends Mod
 		{
 			scanTotems();
 			getTarget();
-			if(!mc.player.isCollidedHorizontally
-				&& mc.player.moveForward > 0 && !mc.player.isSneaking())
+			if(!mc.player.isCollidedHorizontally && mc.player.moveForward > 0
+				&& !mc.player.isSneaking())
 			{// Built-in AutoSprint and BunnyHop:
 				mc.player.setSprinting(true);
 				if(mc.player.onGround && mc.player.isSprinting())
@@ -360,20 +374,6 @@ public class ArenaBrawlMod extends Mod
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(ChatInputListener.class, this);
-		wurst.events.remove(DeathListener.class, this);
-		wurst.events.remove(RenderListener.class, this);
-		wurst.events.remove(UpdateListener.class, this);
-		mc.gameSettings.keyBindForward.pressed = false;
-		if(friendsName != null)
-			ChatUtils.message(
-				"No longer playing ArenaBrawl with " + friendsName + ".");
-		reset();
 	}
 	
 	@Override
@@ -427,10 +427,10 @@ public class ArenaBrawlMod extends Mod
 					int posX = (int)(mc.player.posX + x);
 					int posY = (int)(mc.player.posY + y);
 					int posZ = (int)(mc.player.posZ + z);
-					if(Block.getIdFromBlock(mc.world
-						.getBlockState(new BlockPos(posX, posY, posZ))
-						.getBlock()) == Block
-							.getIdFromBlock(Block.getBlockFromName("wool")))
+					if(Block.getIdFromBlock(
+						mc.world.getBlockState(new BlockPos(posX, posY, posZ))
+							.getBlock()) == Block
+								.getIdFromBlock(Block.getBlockFromName("wool")))
 						matchingBlocks.add(new int[]{posX, posY, posZ});
 				}
 		enemyTotems.clear();
@@ -599,8 +599,7 @@ public class ArenaBrawlMod extends Mod
 				{
 					mc.gameSettings.keyBindUseItem.pressed = false;
 					mc.player.swingArm(EnumHand.MAIN_HAND);
-					mc.playerController.attackEntity(mc.player,
-						entityTarget);
+					mc.playerController.attackEntity(mc.player, entityTarget);
 				}
 				lastAttack = System.currentTimeMillis();
 			}

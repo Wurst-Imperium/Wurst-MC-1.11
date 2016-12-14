@@ -22,8 +22,8 @@ import tk.wurst_client.navigator.NavigatorItem;
 	tags = "auto tool",
 	help = "Mods/AutoTool")
 @Mod.Bypasses
-public class AutoToolMod extends Mod implements LeftClickListener,
-	UpdateListener
+public class AutoToolMod extends Mod
+	implements LeftClickListener, UpdateListener
 {
 	private boolean isActive = false;
 	private int oldSlot;
@@ -41,22 +41,6 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onUpdate()
-	{
-		if(!mc.gameSettings.keyBindAttack.pressed && isActive)
-		{
-			isActive = false;
-			mc.player.inventory.currentItem = oldSlot;
-		}else if(isActive
-			&& mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null
-			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-				.getBlock().getMaterial(null) != Material.AIR)
-			setSlot(mc.objectMouseOver.getBlockPos());
-	}
-	
 	@Override
 	public void onDisable()
 	{
@@ -68,13 +52,28 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 	
 	@SuppressWarnings("deprecation")
 	@Override
+	public void onUpdate()
+	{
+		if(!mc.gameSettings.keyBindAttack.pressed && isActive)
+		{
+			isActive = false;
+			mc.player.inventory.currentItem = oldSlot;
+		}else if(isActive && mc.objectMouseOver != null
+			&& mc.objectMouseOver.getBlockPos() != null
+			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
+				.getBlock().getMaterial(null) != Material.AIR)
+			setSlot(mc.objectMouseOver.getBlockPos());
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
 	public void onLeftClick()
 	{
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.getBlockPos() == null)
 			return;
-		if(mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-			.getBlock().getMaterial(null) != Material.AIR)
+		if(mc.world.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock()
+			.getMaterial(null) != Material.AIR)
 		{
 			isActive = true;
 			oldSlot = mc.player.inventory.currentItem;

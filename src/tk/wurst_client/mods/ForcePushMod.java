@@ -43,17 +43,17 @@ public class ForcePushMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.player.onGround
 			&& EntityUtils.getClosestEntity(targetSettings) != null)
 			for(int i = 0; i < 1000; i++)
 				mc.player.connection.sendPacket(new CPacketPlayer(true));
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

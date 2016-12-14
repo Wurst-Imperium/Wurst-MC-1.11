@@ -40,6 +40,17 @@ public class FreecamMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		mc.player.setPositionAndRotation(oldX, oldY, oldZ,
+			mc.player.rotationYaw, mc.player.rotationPitch);
+		mc.world.removeEntityFromWorld(-69);
+		fakePlayer = null;
+		mc.renderGlobal.loadRenderers();
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		mc.player.motionX = 0;
@@ -50,16 +61,5 @@ public class FreecamMod extends Mod implements UpdateListener
 			mc.player.motionY += wurst.mods.flightMod.speed;
 		if(mc.gameSettings.keyBindSneak.pressed)
 			mc.player.motionY -= wurst.mods.flightMod.speed;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		mc.player.setPositionAndRotation(oldX, oldY, oldZ,
-			mc.player.rotationYaw, mc.player.rotationPitch);
-		mc.world.removeEntityFromWorld(-69);
-		fakePlayer = null;
-		mc.renderGlobal.loadRenderers();
 	}
 }

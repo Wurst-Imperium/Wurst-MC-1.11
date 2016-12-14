@@ -133,6 +133,14 @@ public class ProtectMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		if(friend != null)
+			mc.gameSettings.keyBindForward.pressed = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// check if player died, friend died or friend disappeared
@@ -196,14 +204,6 @@ public class ProtectMod extends Mod implements UpdateListener
 			// reset timer
 			updateLastMS();
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		if(friend != null)
-			mc.gameSettings.keyBindForward.pressed = false;
 	}
 	
 	public void setFriend(Entity friend)

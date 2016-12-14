@@ -23,8 +23,7 @@ import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Allows you to see chests through walls.",
+@Mod.Info(description = "Allows you to see chests through walls.",
 	name = "ChestESP",
 	tags = "ChestFinder, chest esp, chest finder",
 	help = "Mods/ChestESP")
@@ -51,6 +50,12 @@ public class ChestEspMod extends Mod implements RenderListener
 		emptyChests.clear();
 		nonEmptyChests.clear();
 		wurst.events.add(RenderListener.class, this);
+	}
+	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(RenderListener.class, this);
 	}
 	
 	@Override
@@ -114,12 +119,6 @@ public class ChestEspMod extends Mod implements RenderListener
 			shouldInform = false;
 		}else if(chests < maxChests)
 			shouldInform = true;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(RenderListener.class, this);
 	}
 	
 	public void openChest(BlockPos pos)

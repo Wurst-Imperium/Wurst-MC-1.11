@@ -25,8 +25,8 @@ import tk.wurst_client.navigator.NavigatorItem;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
-public class AutoSwordMod extends Mod implements LeftClickListener,
-	UpdateListener
+public class AutoSwordMod extends Mod
+	implements LeftClickListener, UpdateListener
 {
 	private int oldSlot;
 	private int timer;
@@ -45,6 +45,12 @@ public class AutoSwordMod extends Mod implements LeftClickListener,
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(LeftClickListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(timer > 0)
@@ -54,12 +60,6 @@ public class AutoSwordMod extends Mod implements LeftClickListener,
 		}
 		mc.player.inventory.currentItem = oldSlot;
 		wurst.events.remove(UpdateListener.class, this);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(LeftClickListener.class, this);
 	}
 	
 	@Override
@@ -85,9 +85,8 @@ public class AutoSwordMod extends Mod implements LeftClickListener,
 			if(item.getItem() instanceof ItemSword)
 				speed = ((ItemSword)item.getItem()).getDamageVsEntity();
 			else if(item.getItem() instanceof ItemTool)
-				speed =
-					((ItemTool)item.getItem()).getToolMaterial()
-						.getDamageVsEntity();
+				speed = ((ItemTool)item.getItem()).getToolMaterial()
+					.getDamageVsEntity();
 			if(speed > bestSpeed)
 			{
 				bestSpeed = speed;
@@ -96,8 +95,7 @@ public class AutoSwordMod extends Mod implements LeftClickListener,
 		}
 		if(bestSlot != -1 && bestSlot != mc.player.inventory.currentItem)
 		{
-			wurst.mods.autoSwordMod.oldSlot =
-				mc.player.inventory.currentItem;
+			wurst.mods.autoSwordMod.oldSlot = mc.player.inventory.currentItem;
 			mc.player.inventory.currentItem = bestSlot;
 			wurst.mods.autoSwordMod.timer = 4;
 			wurst.events.add(UpdateListener.class, wurst.mods.autoSwordMod);

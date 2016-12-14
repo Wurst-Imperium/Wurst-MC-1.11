@@ -25,6 +25,12 @@ public class BoatFlyMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(!mc.player.isRiding())
@@ -32,11 +38,5 @@ public class BoatFlyMod extends Mod implements UpdateListener
 		
 		mc.player.getRidingEntity().motionY =
 			mc.gameSettings.keyBindJump.pressed ? 0.3 : 0;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

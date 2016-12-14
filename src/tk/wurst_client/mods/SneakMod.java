@@ -14,8 +14,7 @@ import net.minecraft.network.play.client.CPacketEntityAction.Action;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 
-@Mod.Info(
-	description = "Automatically sneaks all the time.",
+@Mod.Info(description = "Automatically sneaks all the time.",
 	name = "Sneak",
 	tags = "AutoSneaking",
 	help = "Mods/Sneak")
@@ -29,27 +28,27 @@ public class SneakMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onUpdate()
-	{
-		if(wurst.special.yesCheatSpf.getBypassLevel().ordinal() >= BypassLevel.OLDER_NCP
-			.ordinal())
-		{
-			NetHandlerPlayClient connection = mc.player.connection;
-			connection.sendPacket(new CPacketEntityAction(Minecraft
-				.getMinecraft().player, Action.START_SNEAKING));
-			connection.sendPacket(new CPacketEntityAction(Minecraft
-				.getMinecraft().player, Action.STOP_SNEAKING));
-		}else
-			mc.player.connection.sendPacket(new CPacketEntityAction(
-				Minecraft.getMinecraft().player, Action.START_SNEAKING));
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
 		mc.gameSettings.keyBindSneak.pressed = false;
-		mc.player.connection.sendPacket(new CPacketEntityAction(
-			mc.player, Action.STOP_SNEAKING));
+		mc.player.connection.sendPacket(
+			new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		if(wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
+		{
+			NetHandlerPlayClient connection = mc.player.connection;
+			connection.sendPacket(new CPacketEntityAction(
+				Minecraft.getMinecraft().player, Action.START_SNEAKING));
+			connection.sendPacket(new CPacketEntityAction(
+				Minecraft.getMinecraft().player, Action.STOP_SNEAKING));
+		}else
+			mc.player.connection.sendPacket(new CPacketEntityAction(
+				Minecraft.getMinecraft().player, Action.START_SNEAKING));
 	}
 }

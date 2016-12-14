@@ -33,6 +33,12 @@ public class OverlayMod extends Mod implements RenderListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(RenderListener.class, this);
+	}
+	
+	@Override
 	public void onRender()
 	{
 		if(mc.objectMouseOver == null
@@ -43,11 +49,5 @@ public class OverlayMod extends Mod implements RenderListener
 			mc.world.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock();
 		if(Block.getIdFromBlock(mouseOverBlock) != 0)
 			RenderUtils.nukerBox(pos, mc.playerController.curBlockDamageMP);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(RenderListener.class, this);
 	}
 }

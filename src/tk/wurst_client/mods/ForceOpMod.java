@@ -46,6 +46,8 @@ import tk.wurst_client.utils.ChatUtils;
 @Mod.Bypasses
 public class ForceOpMod extends Mod implements ChatInputListener
 {
+	// TODO: Clean up
+	
 	private String[] defaultList = {"password", "passwort", "password1",
 		"passwort1", "password123", "passwort123", "pass", "pw", "pw1", "pw123",
 		"hallo", "Wurst", "wurst", "1234", "12345", "123456", "1234567",
@@ -410,6 +412,21 @@ public class ForceOpMod extends Mod implements ChatInputListener
 		wurst.events.add(ChatInputListener.class, this);
 	}
 	
+	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(ChatInputListener.class, this);
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				if(dialog != null)
+					dialog.dispose();
+			}
+		}.start();
+	}
+	
 	private void loadPWList()
 	{
 		if(rbTXTList.isSelected() && !wurst.options.forceOPList
@@ -502,20 +519,5 @@ public class ForceOpMod extends Mod implements ChatInputListener
 	private boolean hasGotWrongPWMSG()
 	{
 		return gotWrongPWMSG;
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(ChatInputListener.class, this);
-		new Thread()
-		{
-			@Override
-			public void run()
-			{
-				if(dialog != null)
-					dialog.dispose();
-			}
-		}.start();
 	}
 }

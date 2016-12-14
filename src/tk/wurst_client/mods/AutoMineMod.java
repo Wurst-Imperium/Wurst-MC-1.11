@@ -26,23 +26,23 @@ public class AutoMineMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		mc.gameSettings.keyBindAttack.pressed = false;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.getBlockPos() == null)
 			return;
-		if(Block.getIdFromBlock(mc.world.getBlockState(
-			mc.objectMouseOver.getBlockPos()).getBlock()) != 0)
+		if(Block.getIdFromBlock(mc.world
+			.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock()) != 0)
 			mc.gameSettings.keyBindAttack.pressed = true;
 		else
 			mc.gameSettings.keyBindAttack.pressed = false;
 		
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		mc.gameSettings.keyBindAttack.pressed = false;
 	}
 }

@@ -31,14 +31,6 @@ public class NoWallsMod extends Mod implements PacketOutputListener
 	}
 	
 	@Override
-	public void onSentPacket(PacketOutputEvent event)
-	{
-		Packet packet = event.getPacket();
-		if(packet instanceof CPacketPlayer)
-			event.cancel();
-	}
-	
-	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(PacketOutputListener.class, this);
@@ -49,5 +41,13 @@ public class NoWallsMod extends Mod implements PacketOutputListener
 			mc.player.onGround));
 		
 		wurst.mods.noClipMod.setEnabled(false);
+	}
+	
+	@Override
+	public void onSentPacket(PacketOutputEvent event)
+	{
+		Packet packet = event.getPacket();
+		if(packet instanceof CPacketPlayer)
+			event.cancel();
 	}
 }

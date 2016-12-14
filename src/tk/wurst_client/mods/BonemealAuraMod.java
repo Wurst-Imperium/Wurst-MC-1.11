@@ -39,12 +39,12 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 {
 	public float normalRange = 5F;
 	public float yesCheatRange = 4.25F;
-	private final CheckboxSetting saplings = new CheckboxSetting("Saplings",
-		true);
-	private final CheckboxSetting crops = new CheckboxSetting(
-		"Carrots, Potatoes & Wheat", true);
-	private final CheckboxSetting stems = new CheckboxSetting(
-		"Melons & Pumpkins", true);
+	private final CheckboxSetting saplings =
+		new CheckboxSetting("Saplings", true);
+	private final CheckboxSetting crops =
+		new CheckboxSetting("Carrots, Potatoes & Wheat", true);
+	private final CheckboxSetting stems =
+		new CheckboxSetting("Melons & Pumpkins", true);
 	private final CheckboxSetting cocoa = new CheckboxSetting("Cocoa", true);
 	private final CheckboxSetting other = new CheckboxSetting("Other", false);
 	
@@ -76,18 +76,23 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		ItemStack item =
-			mc.player.inventory
-				.getStackInSlot(mc.player.inventory.currentItem);
+			mc.player.inventory.getStackInSlot(mc.player.inventory.currentItem);
 		if(item == null || !(item.getItem() instanceof ItemDye)
 			|| item.getMetadata() != 15)
 			return;
 		
-		float range =
-			wurst.special.yesCheatSpf.getBypassLevel().ordinal() >= BypassLevel.ANTICHEAT
-				.ordinal() ? yesCheatRange : normalRange;
+		float range = wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() >= BypassLevel.ANTICHEAT.ordinal() ? yesCheatRange
+				: normalRange;
 		BlockPos pos = mc.player.getPosition();
 		for(int y = (int)-range - 1; y < (int)range + 1; y++)
 			for(int x = (int)-range - 1; x < (int)range + 1; x++)
@@ -99,8 +104,8 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 						continue;
 					
 					BlockUtils.faceBlockPacket(currentPos);
-					mc.player.connection
-						.sendPacket(new CPacketPlayerTryUseItemOnBlock(currentPos,
+					mc.player.connection.sendPacket(
+						new CPacketPlayerTryUseItemOnBlock(currentPos,
 							EnumFacing.UP, EnumHand.MAIN_HAND, 0.5F, 1F, 0.5F));
 				}
 	}
@@ -124,11 +129,5 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 			return cocoa.isChecked();
 		else
 			return other.isChecked();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

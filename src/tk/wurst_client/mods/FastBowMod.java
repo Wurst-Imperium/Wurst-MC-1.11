@@ -40,6 +40,12 @@ public class FastBowMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.player.getHealth() > 0
@@ -61,11 +67,5 @@ public class FastBowMod extends Mod implements UpdateListener
 			mc.player.inventory.getCurrentItem().getItem().onPlayerStoppedUsing(
 				mc.player.inventory.getCurrentItem(), mc.world, mc.player, 10);
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 }

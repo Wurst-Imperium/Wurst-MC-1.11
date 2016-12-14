@@ -150,6 +150,20 @@ public class FollowMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+		
+		if(ai != null)
+			ai.stop();
+		
+		if(entity != null)
+			ChatUtils.message("No longer following " + entity.getName());
+		
+		entity = null;
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		// check if player died
@@ -178,20 +192,6 @@ public class FollowMod extends Mod implements UpdateListener
 		
 		// go to entity
 		ai.update();
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
-		
-		if(ai != null)
-			ai.stop();
-		
-		if(entity != null)
-			ChatUtils.message("No longer following " + entity.getName());
-		
-		entity = null;
 	}
 	
 	public void setEntity(Entity entity)

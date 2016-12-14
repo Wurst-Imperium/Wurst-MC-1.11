@@ -61,12 +61,19 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(UpdateListener.class, this);
+	}
+	
+	@Override
 	public void onUpdate()
 	{
 		if(mc.player.getHealth() <= 8.0
 			&& !mc.player.capabilities.isCreativeMode
-			&& (!mc.isIntegratedServerRunning() || Minecraft.getMinecraft().player.connection
-				.getPlayerInfoMap().size() > 1))
+			&& (!mc.isIntegratedServerRunning()
+				|| Minecraft.getMinecraft().player.connection.getPlayerInfoMap()
+					.size() > 1))
 		{
 			switch(mode)
 			{
@@ -78,26 +85,18 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 						.sendPacket(new CPacketChatMessage("§"));
 					break;
 				case 2:
-					mc.player.connection
-						.sendPacket(new CPacketPlayer.Position(
-							3.1e7d, 100, 3.1e7d, false));
+					mc.player.connection.sendPacket(
+						new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
 					break;
 				case 3:
-					mc.player.connection
-						.sendPacket(new CPacketUseEntity(mc.player,
-							EnumHand.MAIN_HAND));
+					mc.player.connection.sendPacket(
+						new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
 					break;
 				default:
 					break;
 			}
 			setEnabled(false);
 		}
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(UpdateListener.class, this);
 	}
 	
 	public int getMode()

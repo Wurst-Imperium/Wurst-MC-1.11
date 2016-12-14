@@ -29,6 +29,12 @@ public class FancyChatMod extends Mod implements ChatOutputListener
 	}
 	
 	@Override
+	public void onDisable()
+	{
+		wurst.events.remove(ChatOutputListener.class, this);
+	}
+	
+	@Override
 	public void onSentMessage(ChatOutputEvent event)
 	{
 		if(event.getMessage().startsWith("/")
@@ -43,13 +49,7 @@ public class FancyChatMod extends Mod implements ChatOutputListener
 				out += new String(Character.toChars(chr + 0xFEE0));
 			else
 				out += chr;
-		
+			
 		event.setMessage(out);
-	}
-	
-	@Override
-	public void onDisable()
-	{
-		wurst.events.remove(ChatOutputListener.class, this);
 	}
 }
