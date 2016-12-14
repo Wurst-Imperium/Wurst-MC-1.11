@@ -19,19 +19,12 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses(ghostMode = false)
 public class AntiKnockbackMod extends Mod
 {
-	public float strength = 1F;
+	public final SliderSetting strength = new SliderSetting("Strength", 1, 0.01, 1,
+		0.01, ValueDisplay.PERCENTAGE);
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Strength", strength, 0.01, 1, 0.01,
-			ValueDisplay.PERCENTAGE)
-		{
-			@Override
-			public void update()
-			{
-				strength = (float)getValue();
-			}
-		});
+		settings.add(strength);
 	}
 }

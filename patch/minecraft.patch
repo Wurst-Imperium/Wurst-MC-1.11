@@ -1,6 +1,6 @@
-From 70b6c3cda58d840459dc49895527563fc0308da5 Mon Sep 17 00:00:00 2001
+From 8247fa4c1dd8e8081c04d4784b5fd85452848fa5 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 5 Dec 2016 12:59:04 +0100
+Date: Wed, 14 Dec 2016 09:39:07 +0100
 Subject: [PATCH] mod
 
 ---
@@ -46,7 +46,7 @@ Subject: [PATCH] mod
  net/minecraft/client/resources/SkinManager.java    |   4 +
  net/minecraft/client/settings/KeyBinding.java      |   2 +-
  net/minecraft/crash/CrashReport.java               |  44 ++++-
- net/minecraft/entity/Entity.java                   | 185 ++++++++++--------
+ net/minecraft/entity/Entity.java                   | 186 ++++++++++--------
  net/minecraft/entity/EntityLivingBase.java         |  15 +-
  net/minecraft/entity/player/EntityPlayer.java      |  12 +-
  net/minecraft/network/NetworkManager.java          |  26 +++
@@ -55,7 +55,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 +++-
- 51 files changed, 1214 insertions(+), 418 deletions(-)
+ 51 files changed, 1215 insertions(+), 418 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -2792,7 +2792,7 @@ index 217b744..687514a 100644
          try
          {
 diff --git a/net/minecraft/entity/Entity.java b/net/minecraft/entity/Entity.java
-index 4c8589d..1a16f32 100644
+index 4c8589d..aebdbf5 100644
 --- a/net/minecraft/entity/Entity.java
 +++ b/net/minecraft/entity/Entity.java
 @@ -20,6 +20,7 @@ import net.minecraft.block.material.EnumPushReaction;
@@ -3154,7 +3154,7 @@ index 4c8589d..1a16f32 100644
              {
                  block.onLanded(this.world, this);
              }
-@@ -2400,9 +2423,13 @@ public abstract class Entity implements ICommandSender
+@@ -2400,9 +2423,14 @@ public abstract class Entity implements ICommandSender
       */
      public void setVelocity(double x, double y, double z)
      {
@@ -3164,7 +3164,8 @@ index 4c8589d..1a16f32 100644
 +		// TODO: Client
 +		float strength = 1F;
 +		if(WurstClient.INSTANCE.mods.antiKnockbackMod.isActive())
-+			strength = 1F - WurstClient.INSTANCE.mods.antiKnockbackMod.strength;
++			strength = 1F - WurstClient.INSTANCE.mods.antiKnockbackMod.strength
++				.getValueF();
 +		this.motionX = x * strength;
 +		this.motionY = y * strength;
 +		this.motionZ = z * strength;
