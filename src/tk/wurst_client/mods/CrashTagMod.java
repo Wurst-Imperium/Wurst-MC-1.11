@@ -15,11 +15,11 @@ import tk.wurst_client.utils.ChatUtils;
 @Mod.Info(
 	description = "Modifies a nametag so that it can kick people from the server.\n"
 		+ "Right click a mob with the modified nametag to kick all nearby players.",
-	name = "CrashItem",
+	name = "CrashTag",
 	tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
 	help = "Mods/CrashItem")
 @Mod.Bypasses
-public class CrashItemMod extends Mod
+public class CrashTagMod extends Mod
 {
 	@Override
 	public void onEnable()
