@@ -43,8 +43,6 @@ public class PlayerEspMod extends Mod implements RenderListener
 	@Override
 	public void onRender()
 	{
-		if(wurst.mods.arenaBrawlMod.isActive())
-			return;
 		for(Object entity : mc.world.loadedEntityList)
 			if(entity instanceof EntityPlayer && !((Entity)entity).getName()
 				.equals(mc.getSession().getUsername()))

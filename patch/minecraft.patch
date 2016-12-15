@@ -1,6 +1,6 @@
-From cc0953ff37d1fe8cfe8befa31808045f4a0a459d Mon Sep 17 00:00:00 2001
+From 3a11eb185e595f88915670c9219816d076ebde49 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 15 Dec 2016 12:10:38 +0100
+Date: Thu, 15 Dec 2016 19:20:13 +0100
 Subject: [PATCH] mod
 
 ---
@@ -17,7 +17,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  87 +++++++++
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
- net/minecraft/client/gui/GuiIngame.java            |  25 +++
+ net/minecraft/client/gui/GuiIngame.java            |  13 ++
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 +++++-
  net/minecraft/client/gui/GuiMainMenu.java          |  22 ++-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
@@ -55,7 +55,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 +++-
- 51 files changed, 1216 insertions(+), 418 deletions(-)
+ 51 files changed, 1204 insertions(+), 418 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1084,7 +1084,7 @@ index 0d62806..74c134b 100644
      }
  }
 diff --git a/net/minecraft/client/gui/GuiIngame.java b/net/minecraft/client/gui/GuiIngame.java
-index ca226ec..8b32756 100644
+index ca226ec..ba3db90 100644
 --- a/net/minecraft/client/gui/GuiIngame.java
 +++ b/net/minecraft/client/gui/GuiIngame.java
 @@ -4,6 +4,8 @@ import com.google.common.base.Predicate;
@@ -1096,59 +1096,35 @@ index ca226ec..8b32756 100644
  import java.util.Collection;
  import java.util.List;
  import java.util.Random;
-@@ -48,6 +50,9 @@ import net.minecraft.util.math.RayTraceResult;
+@@ -48,6 +50,8 @@ import net.minecraft.util.math.RayTraceResult;
  import net.minecraft.util.text.ITextComponent;
  import net.minecraft.util.text.TextFormatting;
  import net.minecraft.world.border.WorldBorder;
 +import tk.wurst_client.WurstClient;
 +import tk.wurst_client.gui.UIRenderer;
-+import tk.wurst_client.mods.ArenaBrawlMod;
  
  public class GuiIngame extends Gui
  {
-@@ -346,6 +351,12 @@ public class GuiIngame extends Gui
+@@ -346,6 +350,10 @@ public class GuiIngame extends Gui
              this.renderScoreboard(scoreobjective1, scaledresolution);
          }
          
 +		// TODO: Client
-+		else
-+			ArenaBrawlMod.scoreboard = null;
 +		if(!this.mc.gameSettings.showDebugInfo)
 +			UIRenderer.renderUI(zLevel);
 +
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
          GlStateManager.disableAlpha();
-@@ -731,11 +742,18 @@ public class GuiIngame extends Gui
-         int l1 = scaledRes.getScaledWidth() - i - 3;
-         int j = 0;
- 
-+		// TODO: Client
-+		ArrayList<String> wurst1 = new ArrayList<String>();
-+
-         for (Score score1 : collection)
-         {
+@@ -736,6 +744,7 @@ public class GuiIngame extends Gui
              ++j;
              ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
              String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
-+
-+			// TODO: Client
-+			wurst1.add(s1);
 +			
              String s2 = TextFormatting.RED + "" + score1.getScorePoints();
              int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
              int l = scaledRes.getScaledWidth() - 3 + 2;
-@@ -751,6 +769,9 @@ public class GuiIngame extends Gui
-                 this.getFontRenderer().drawString(s3, l1 + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, 553648127);
-             }
-         }
-+        
-+		// TODO: Client
-+		ArenaBrawlMod.scoreboard = wurst1;
-     }
- 
-     private void renderPlayerStats(ScaledResolution scaledRes)
-@@ -1032,6 +1053,10 @@ public class GuiIngame extends Gui
+@@ -1032,6 +1041,10 @@ public class GuiIngame extends Gui
  
      private void renderPumpkinOverlay(ScaledResolution scaledRes)
      {

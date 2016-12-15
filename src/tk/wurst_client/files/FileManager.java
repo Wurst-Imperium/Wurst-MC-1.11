@@ -140,13 +140,13 @@ public class FileManager
 	
 	private HashSet<String> modBlacklist =
 		Sets.newHashSet(AntiAfkMod.class.getName(), BlinkMod.class.getName(),
-			ArenaBrawlMod.class.getName(), AutoBuildMod.class.getName(),
-			AutoSignMod.class.getName(), FightBotMod.class.getName(),
-			FollowMod.class.getName(), ForceOpMod.class.getName(),
-			FreecamMod.class.getName(), InvisibilityMod.class.getName(),
-			LsdMod.class.getName(), MassTpaMod.class.getName(),
-			NavigatorMod.class.getName(), ProtectMod.class.getName(),
-			RemoteViewMod.class.getName(), SpammerMod.class.getName());
+			AutoBuildMod.class.getName(), AutoSignMod.class.getName(),
+			FightBotMod.class.getName(), FollowMod.class.getName(),
+			ForceOpMod.class.getName(), FreecamMod.class.getName(),
+			InvisibilityMod.class.getName(), LsdMod.class.getName(),
+			MassTpaMod.class.getName(), NavigatorMod.class.getName(),
+			ProtectMod.class.getName(), RemoteViewMod.class.getName(),
+			SpammerMod.class.getName());
 	
 	public boolean isModBlacklisted(Mod mod)
 	{
