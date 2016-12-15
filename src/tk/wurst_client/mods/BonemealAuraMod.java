@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -37,8 +37,8 @@ import tk.wurst_client.utils.BlockUtils;
 @Mod.Bypasses(ghostMode = false)
 public class BonemealAuraMod extends Mod implements UpdateListener
 {
-	public float normalRange = 5F;
-	public float yesCheatRange = 4.25F;
+	public final SliderSetting range =
+		new SliderSetting("Range", 5, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	private final CheckboxSetting saplings =
 		new CheckboxSetting("Saplings", true);
 	private final CheckboxSetting crops =
@@ -51,18 +51,7 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		// TODO: lock slider instead
-		settings.add(new SliderSetting("Range", normalRange, 1, 6, 0.05,
-			ValueDisplay.DECIMAL)
-		{
-			@Override
-			public void update()
-			{
-				normalRange = (float)getValue();
-				yesCheatRange = Math.min(normalRange, 4.25F);
-			}
-		});
-		
+		settings.add(range);
 		settings.add(saplings);
 		settings.add(crops);
 		settings.add(stems);
@@ -91,17 +80,15 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 			|| item.getMetadata() != 15)
 			return;
 		
-		float range = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.ANTICHEAT.ordinal() ? yesCheatRange
-				: normalRange;
 		BlockPos pos = mc.player.getPosition();
-		for(int y = (int)-range - 1; y < (int)range + 1; y++)
-			for(int x = (int)-range - 1; x < (int)range + 1; x++)
-				for(int z = (int)-range - 1; z < (int)range + 1; z++)
+		for(int y = -range.getValueI() - 1; y < range.getValueI() + 1; y++)
+			for(int x = -range.getValueI() - 1; x < range.getValueI() + 1; x++)
+				for(int z = -range.getValueI() - 1; z < range.getValueI()
+					+ 1; z++)
 				{
 					BlockPos currentPos = pos.add(x, y, z);
 					if(BlockUtils.getPlayerBlockDistance(currentPos) > range
-						|| !isCorrectBlock(currentPos))
+						.getValueF() || !isCorrectBlock(currentPos))
 						continue;
 					
 					BlockUtils.faceBlockPacket(currentPos);
@@ -109,6 +96,25 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 						new CPacketPlayerTryUseItemOnBlock(currentPos,
 							EnumFacing.UP, EnumHand.MAIN_HAND, 0.5F, 1F, 0.5F));
 				}
+	}
+	
+	@Override
+	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	{
+		switch(bypassLevel)
+		{
+			default:
+			case OFF:
+			case MINEPLEX_ANTICHEAT:
+				range.unlock();
+				break;
+			case ANTICHEAT:
+			case OLDER_NCP:
+			case LATEST_NCP:
+			case GHOST_MODE:
+				range.lockToMax(4.25);
+				break;
+		}
 	}
 	
 	private boolean isCorrectBlock(BlockPos pos)
