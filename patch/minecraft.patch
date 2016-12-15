@@ -1,6 +1,6 @@
-From 8247fa4c1dd8e8081c04d4784b5fd85452848fa5 Mon Sep 17 00:00:00 2001
+From 92e0b8d2e64e4fb1b9b795cc9682475c1b253845 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Wed, 14 Dec 2016 09:39:07 +0100
+Date: Thu, 15 Dec 2016 11:04:06 +0100
 Subject: [PATCH] mod
 
 ---
@@ -3393,7 +3393,7 @@ index f52d2b2..2425498 100644
              itextcomponent.getStyle().setUnderlined(Boolean.valueOf(true));
              return new TextComponentTranslation("screenshot.success", new Object[] {itextcomponent});
 diff --git a/net/minecraft/util/Timer.java b/net/minecraft/util/Timer.java
-index f224815..97061cc 100644
+index f224815..94d8aea 100644
 --- a/net/minecraft/util/Timer.java
 +++ b/net/minecraft/util/Timer.java
 @@ -2,6 +2,8 @@ package net.minecraft.util;
@@ -3411,7 +3411,7 @@ index f224815..97061cc 100644
      {
 +		// TODO: Client
 +		TimerMod timerMod = WurstClient.INSTANCE.mods.timerMod;
-+		timerSpeed = timerMod.isActive() ? timerMod.speed : 1F;
++		timerSpeed = timerMod.isActive() ? timerMod.speed.getValueF() : 1F;
 +		
          long i = Minecraft.getSystemTime();
          long j = i - this.lastSyncSysClock;
