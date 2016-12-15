@@ -24,21 +24,14 @@ import tk.wurst_client.special.YesCheatSpf.BypassLevel;
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public class FlightMod extends Mod implements UpdateListener
 {
-	public float speed = 1F;
+	public final SliderSetting speed =
+		new SliderSetting("Speed", 1, 0.05, 5, 0.05, ValueDisplay.DECIMAL);
 	private double startY;
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Speed", speed, 0.05, 5, 0.05,
-			ValueDisplay.DECIMAL)
-		{
-			@Override
-			public void update()
-			{
-				speed = (float)getValue();
-			}
-		});
+		settings.add(speed);
 	}
 	
 	@Override
@@ -117,12 +110,12 @@ public class FlightMod extends Mod implements UpdateListener
 				mc.player.motionX = 0;
 				mc.player.motionY = 0;
 				mc.player.motionZ = 0;
-				mc.player.jumpMovementFactor = speed;
+				mc.player.jumpMovementFactor = speed.getValueF();
 				
 				if(mc.gameSettings.keyBindJump.pressed)
-					mc.player.motionY += speed;
+					mc.player.motionY += speed.getValue();
 				if(mc.gameSettings.keyBindSneak.pressed)
-					mc.player.motionY -= speed;
+					mc.player.motionY -= speed.getValue();
 				break;
 		}
 	}

@@ -185,7 +185,7 @@ public class NukerMod extends Mod
 			mc.world.getBlockState(pos), mc.player, mc.world, pos)
 			* (wurst.mods.fastBreakMod.isActive()
 				&& wurst.mods.fastBreakMod.getMode() == 0
-					? wurst.mods.fastBreakMod.speed : 1);
+					? wurst.mods.fastBreakMod.speed.getValueF() : 1);
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
 			(int)(currentDamage * 10.0F) - 1);
 		if(currentDamage >= 1)

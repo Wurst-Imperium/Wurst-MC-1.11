@@ -10,8 +10,7 @@ package tk.wurst_client.mods;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(
-	description = "Makes you jump much higher.",
+@Mod.Info(description = "Makes you jump much higher.",
 	name = "HighJump",
 	noCheatCompatible = false,
 	tags = "high jump",
@@ -23,19 +22,12 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 	mineplexAntiCheat = false)
 public class HighJumpMod extends Mod
 {
-	public int jumpHeight = 6;
+	public final SliderSetting height =
+		new SliderSetting("Height", 6, 1, 100, 1, ValueDisplay.INTEGER);
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Height", jumpHeight, 1, 100, 1,
-			ValueDisplay.INTEGER)
-		{
-			@Override
-			public void update()
-			{
-				jumpHeight = (int)getValue();
-			}
-		});
+		settings.add(height);
 	}
 }

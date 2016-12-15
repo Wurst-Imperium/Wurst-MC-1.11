@@ -51,6 +51,7 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
+		// TODO: lock slider instead
 		settings.add(new SliderSetting("Range", normalRange, 1, 6, 0.05,
 			ValueDisplay.DECIMAL)
 		{

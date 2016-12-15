@@ -32,20 +32,13 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses
 public class AutoSoupMod extends Mod implements UpdateListener
 {
-	public float health = 20F;
+	public final SliderSetting health =
+		new SliderSetting("Health", 20, 2, 20, 1, ValueDisplay.INTEGER);
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(
-			new SliderSetting("Health", health, 2, 20, 1, ValueDisplay.INTEGER)
-			{
-				@Override
-				public void update()
-				{
-					health = (float)getValue();
-				}
-			});
+		settings.add(health);
 	}
 	
 	@Override
@@ -77,7 +70,7 @@ public class AutoSoupMod extends Mod implements UpdateListener
 		EntityPlayerSP player = mc.player;
 		
 		// check if health is low
-		if(player.getHealth() >= health)
+		if(player.getHealth() >= health.getValueF())
 			return;
 		
 		// find soup

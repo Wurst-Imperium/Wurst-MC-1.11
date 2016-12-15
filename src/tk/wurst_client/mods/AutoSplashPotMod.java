@@ -32,20 +32,13 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses
 public class AutoSplashPotMod extends Mod implements UpdateListener
 {
-	public float health = 18F;
+	public final SliderSetting health =
+		new SliderSetting("Health", 18, 2, 20, 1, ValueDisplay.INTEGER);
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(
-			new SliderSetting("Health", health, 2, 20, 1, ValueDisplay.INTEGER)
-			{
-				@Override
-				public void update()
-				{
-					health = (float)getValue();
-				}
-			});
+		settings.add(health);
 	}
 	
 	@Override
@@ -72,7 +65,7 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 			return;
 		
 		// check if health is low
-		if(mc.player.getHealth() >= health)
+		if(mc.player.getHealth() >= health.getValueF())
 			return;
 		
 		// find health potions

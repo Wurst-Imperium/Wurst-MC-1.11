@@ -37,20 +37,13 @@ import tk.wurst_client.utils.ChatUtils;
 public class KaboomMod extends Mod implements UpdateListener
 {
 	private int range = 6;
-	public int power = 128;
+	public final SliderSetting power =
+		new SliderSetting("Power", 128, 32, 512, 32, ValueDisplay.INTEGER);
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(
-			new SliderSetting("Power", power, 32, 512, 32, ValueDisplay.INTEGER)
-			{
-				@Override
-				public void update()
-				{
-					power = (int)getValue();
-				}
-			});
+		settings.add(power);
 	}
 	
 	@Override
@@ -112,7 +105,7 @@ public class KaboomMod extends Mod implements UpdateListener
 								mc.player.connection
 									.sendPacket(new CPacketPlayerDigging(
 										Action.START_DESTROY_BLOCK, pos, side));
-								for(int i = 0; i < power; i++)
+								for(int i = 0; i < power.getValueI(); i++)
 									mc.player.connection
 										.sendPacket(new CPacketPlayerDigging(
 											Action.STOP_DESTROY_BLOCK, pos,

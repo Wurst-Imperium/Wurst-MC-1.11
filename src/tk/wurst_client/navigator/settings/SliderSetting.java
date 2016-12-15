@@ -94,6 +94,11 @@ public class SliderSetting implements NavigatorSetting
 		return (float)getValue();
 	}
 	
+	public final int getValueI()
+	{
+		return (int)getValue();
+	}
+	
 	public final void setValue(double value)
 	{
 		if(!disabled)
@@ -242,9 +247,7 @@ public class SliderSetting implements NavigatorSetting
 		INTEGER((v) -> (int)v + ""),
 		PERCENTAGE((v) -> (int)(Math.round(v * 1e8) / 1e6) + "%"),
 		DEGREES((v) -> (int)v + "°"),
-		NONE((v) -> {
-			return "";
-		});
+		NONE((v) -> "");
 		
 		private ValueProcessor processor;
 		

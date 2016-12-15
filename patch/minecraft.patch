@@ -1,6 +1,6 @@
-From 92e0b8d2e64e4fb1b9b795cc9682475c1b253845 Mon Sep 17 00:00:00 2001
+From cc0953ff37d1fe8cfe8befa31808045f4a0a459d Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 15 Dec 2016 11:04:06 +0100
+Date: Thu, 15 Dec 2016 12:10:38 +0100
 Subject: [PATCH] mod
 
 ---
@@ -31,7 +31,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/inventory/GuiChest.java   |  78 ++++++++
  .../client/gui/inventory/GuiContainer.java         |   5 +
  .../client/gui/inventory/GuiEditSign.java          |  16 ++
- .../client/multiplayer/PlayerControllerMP.java     |  33 +++-
+ .../client/multiplayer/PlayerControllerMP.java     |  34 +++-
  net/minecraft/client/multiplayer/ServerList.java   |   6 +
  .../client/network/NetHandlerPlayClient.java       | 186 +++---------------
  .../client/network/NetworkPlayerInfo.java          |   8 +
@@ -55,7 +55,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 +++-
- 51 files changed, 1215 insertions(+), 418 deletions(-)
+ 51 files changed, 1216 insertions(+), 418 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1937,7 +1937,7 @@ index 45afaf7..cfee0bb 100644
                  this.mc.displayGuiScreen((GuiScreen)null);
              }
 diff --git a/net/minecraft/client/multiplayer/PlayerControllerMP.java b/net/minecraft/client/multiplayer/PlayerControllerMP.java
-index 82169d6..5b9f4de 100644
+index 82169d6..b49df1f 100644
 --- a/net/minecraft/client/multiplayer/PlayerControllerMP.java
 +++ b/net/minecraft/client/multiplayer/PlayerControllerMP.java
 @@ -40,6 +40,8 @@ import net.minecraft.util.math.RayTraceResult;
@@ -1983,7 +1983,7 @@ index 82169d6..5b9f4de 100644
              this.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, posBlock, directionFacing));
              clickBlockCreative(this.mc, this, posBlock, directionFacing);
              return true;
-@@ -319,7 +328,14 @@ public class PlayerControllerMP
+@@ -319,7 +328,15 @@ public class PlayerControllerMP
              }
              else
              {
@@ -1995,11 +1995,12 @@ index 82169d6..5b9f4de 100644
 +						this.mc.player.world, posBlock)
 +						* (fastBreak.isActive()
 +							&& !this.currentGameType.isCreative()
-+							&& fastBreak.getMode() == 0 ? fastBreak.speed : 1);
++							&& fastBreak.getMode() == 0
++								? fastBreak.speed.getValueF() : 1);
  
                  if (this.stepSoundTickCounter % 4.0F == 0.0F)
                  {
-@@ -337,7 +353,14 @@ public class PlayerControllerMP
+@@ -337,7 +354,14 @@ public class PlayerControllerMP
                      this.curBlockDamageMP = 0.0F;
                      this.stepSoundTickCounter = 0.0F;
                      this.blockHitDelay = 5;
@@ -3173,7 +3174,7 @@ index 4c8589d..aebdbf5 100644
  
      public void handleStatusUpdate(byte id)
 diff --git a/net/minecraft/entity/EntityLivingBase.java b/net/minecraft/entity/EntityLivingBase.java
-index 3c4bdd3..ed28a12 100644
+index 3c4bdd3..c717b92 100644
 --- a/net/minecraft/entity/EntityLivingBase.java
 +++ b/net/minecraft/entity/EntityLivingBase.java
 @@ -71,6 +71,9 @@ import net.minecraft.util.math.MathHelper;
@@ -3193,7 +3194,7 @@ index 3c4bdd3..ed28a12 100644
 +		// TODO: Client
 +		HighJumpMod highJumpMod = WurstClient.INSTANCE.mods.highJumpMod;
 +		if(this instanceof EntityPlayer && highJumpMod.isActive())
-+			this.motionY += highJumpMod.jumpHeight * 0.1F;
++			this.motionY += highJumpMod.height.getValueF() * 0.1F;
 +
          if (this.isPotionActive(MobEffects.JUMP_BOOST))
          {

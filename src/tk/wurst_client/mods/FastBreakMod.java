@@ -21,22 +21,15 @@ import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses
 public class FastBreakMod extends Mod
 {
-	public float speed = 2;
+	public final SliderSetting speed =
+		new SliderSetting("Speed", 2, 1, 5, 0.05, ValueDisplay.DECIMAL);
 	private int mode = 0;
 	private String[] modes = new String[]{"Normal", "Instant"};
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(new SliderSetting("Speed", speed, 1, 5, 0.05,
-			ValueDisplay.DECIMAL)
-		{
-			@Override
-			public void update()
-			{
-				speed = (float)getValue();
-			}
-		});
+		settings.add(speed);
 		settings.add(new ModeSetting("Mode", modes, mode)
 		{
 			@Override
