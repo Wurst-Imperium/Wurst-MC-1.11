@@ -9,11 +9,12 @@ package tk.wurst_client.mods;
 
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
+import net.minecraft.item.ItemStack;
 import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
-	description = "Generates a CrashItem.\n"
-		+ "Right click a mob with it to kick nearby players from the server.",
+	description = "Modifies a nametag so that it can kick people from the server.\n"
+		+ "Right click a mob with the modified nametag to kick all nearby players.",
 	name = "CrashItem",
 	tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
 	help = "Mods/CrashItem")
@@ -23,28 +24,35 @@ public class CrashItemMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		if(mc.player.inventory.getCurrentItem() == null
-			|| !(mc.player.inventory.getCurrentItem().getItem() instanceof ItemNameTag))
-		{
-			ChatUtils.error("You are not holding a nametag in your hand.");
-			setEnabled(false);
-			return;
-		}else if(!mc.player.capabilities.isCreativeMode)
+		// check gamemode
+		if(!mc.player.capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);
 			return;
 		}
-		String stackName = "";
-		for(int i = 0; i < 3000; i++)
+		
+		// check held item
+		ItemStack heldStack = mc.player.inventory.getCurrentItem();
+		if(heldStack == null || !(heldStack.getItem() instanceof ItemNameTag))
 		{
-			StringBuilder builder = new StringBuilder().append(stackName);
-			stackName = builder.append("############").toString();
+			ChatUtils.error("You need a nametag in your hand.");
+			setEnabled(false);
+			return;
 		}
-		mc.player.inventory.getCurrentItem().setStackDisplayName(stackName);
+		
+		// modify held item
+		StringBuilder stackName = new StringBuilder();
+		for(int i = 0; i < 18000; i++)
+			stackName.append('#');
+		heldStack.setStackDisplayName(stackName.toString());
+		
+		// open & close the inventory
+		// for some reason that's needed for the item to update
 		mc.displayGuiScreen(new GuiInventory(mc.player));
 		mc.player.closeScreen();
-		ChatUtils.message("CrashItem created. Right click a mob with it.");
+		
+		ChatUtils.message("Nametag modified.");
 		setEnabled(false);
 	}
 }
