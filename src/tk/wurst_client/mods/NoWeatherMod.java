@@ -19,10 +19,7 @@ public class NoWeatherMod extends Mod
 			@Override
 			public void update()
 			{
-				if(!isChecked())
-					time.setDisabled(true);
-				else
-					time.setDisabled(false);
+				time.setDisabled(!isChecked());
 			};
 		};
 	public SliderSetting time =
@@ -34,10 +31,7 @@ public class NoWeatherMod extends Mod
 			@Override
 			public void update()
 			{
-				if(!isChecked())
-					moonPhase.setDisabled(true);
-				else
-					moonPhase.setDisabled(false);
+				moonPhase.setDisabled(!isChecked());
 			};
 		};
 	public SliderSetting moonPhase =
