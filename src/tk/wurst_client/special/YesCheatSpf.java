@@ -66,9 +66,7 @@ public class YesCheatSpf extends Spf
 	
 	public static enum BypassLevel
 	{
-		OFF("Off", (b) -> {
-			return true;
-		}),
+		OFF("Off", (b) -> true),
 		MINEPLEX_ANTICHEAT("Mineplex AntiCheat", (b) -> b.mineplexAntiCheat()),
 		ANTICHEAT("AntiCheat", (b) -> b.antiCheat()),
 		OLDER_NCP("Older NoCheat+", (b) -> b.olderNCP()),
