@@ -8,8 +8,8 @@
 package tk.wurst_client.features.special_features;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.CheckboxSetting;
-import tk.wurst_client.navigator.settings.ColorsSetting;
+import tk.wurst_client.settings.CheckboxSetting;
+import tk.wurst_client.settings.ColorsSetting;
 
 @Spf.Info(description = "Controls what entities are targeted by other features (e.g. Killaura). Also allows you to\n"
 	+ "bypass AntiAura plugins by filtering out fake entities.",

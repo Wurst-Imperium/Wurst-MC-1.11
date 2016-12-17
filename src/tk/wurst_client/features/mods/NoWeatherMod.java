@@ -1,8 +1,8 @@
 package tk.wurst_client.features.mods;
 
-import tk.wurst_client.navigator.settings.CheckboxSetting;
-import tk.wurst_client.navigator.settings.SliderSetting;
-import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.settings.CheckboxSetting;
+import tk.wurst_client.settings.SliderSetting;
+import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
 	description = "Allows you to alter the client-side weather, time and moon phase.",

@@ -10,8 +10,8 @@ package tk.wurst_client.features.commands;
 import java.util.Iterator;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.ModeSetting;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.ModeSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 
 @Cmd.Info(description = "Changes a mode setting of a feature. Allows you to\n"
 	+ "switch modes through keybinds.",

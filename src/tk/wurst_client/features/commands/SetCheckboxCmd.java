@@ -10,8 +10,8 @@ package tk.wurst_client.features.commands;
 import java.util.Iterator;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.CheckboxSetting;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.CheckboxSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 
 @Cmd.Info(description = "Changes a checkbox setting of a feature. Allows you\n"
 	+ "to toggle checkboxes through keybinds.",

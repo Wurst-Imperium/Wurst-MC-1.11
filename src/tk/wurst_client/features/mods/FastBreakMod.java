@@ -8,9 +8,9 @@
 package tk.wurst_client.features.mods;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.ModeSetting;
-import tk.wurst_client.navigator.settings.SliderSetting;
-import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.settings.ModeSetting;
+import tk.wurst_client.settings.SliderSetting;
+import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
 	description = "Allows you to break blocks faster.\n"

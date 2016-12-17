@@ -14,7 +14,7 @@ import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.ModeSetting;
+import tk.wurst_client.settings.ModeSetting;
 
 @Mod.Info(
 	description = "Automatically leaves the server when your health is low.\n"

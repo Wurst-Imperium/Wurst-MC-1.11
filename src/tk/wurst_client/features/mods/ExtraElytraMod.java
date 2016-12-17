@@ -15,7 +15,7 @@ import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.util.math.MathHelper;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.settings.CheckboxSetting;
+import tk.wurst_client.settings.CheckboxSetting;
 
 @Mod.Info(description = "Eases the use of the Elytra.",
 	name = "ExtraElytra",

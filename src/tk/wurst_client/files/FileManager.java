@@ -35,9 +35,9 @@ import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.mods.*;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.navigator.Navigator;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
 import tk.wurst_client.options.FriendsList;
 import tk.wurst_client.options.OptionsManager;
+import tk.wurst_client.settings.NavigatorSetting;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.XRayUtils;
 

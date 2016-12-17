@@ -7,8 +7,8 @@
  */
 package tk.wurst_client.features.mods;
 
-import tk.wurst_client.navigator.settings.SliderSetting;
-import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.settings.SliderSetting;
+import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(description = "Changes the speed of almost everything.\n"
 	+ "Tip: Slow speeds make aiming easier and work well with\n" + "NoCheat+.",

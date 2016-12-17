@@ -25,9 +25,9 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.navigator.settings.CheckboxSetting;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
-import tk.wurst_client.navigator.settings.SliderSetting;
+import tk.wurst_client.settings.CheckboxSetting;
+import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.utils.MiscUtils;
 import tk.wurst_client.utils.RenderUtils;
 

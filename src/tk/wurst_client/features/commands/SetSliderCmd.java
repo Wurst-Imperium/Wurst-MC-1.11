@@ -10,8 +10,8 @@ package tk.wurst_client.features.commands;
 import java.util.Iterator;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
-import tk.wurst_client.navigator.settings.SliderSetting;
+import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Changes a slider setting of a feature. Allows you to\n"

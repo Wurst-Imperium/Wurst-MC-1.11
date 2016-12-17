@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 
 public abstract class Feature
 {

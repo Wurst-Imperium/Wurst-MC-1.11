@@ -13,7 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.navigator.settings.ModeSetting;
+import tk.wurst_client.settings.ModeSetting;
 
 @Mod.Info(
 	description = "Changes all your hits to critical hits.",

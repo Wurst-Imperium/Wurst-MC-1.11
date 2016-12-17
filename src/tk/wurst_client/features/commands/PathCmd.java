@@ -17,7 +17,7 @@ import tk.wurst_client.ai.PathFinder;
 import tk.wurst_client.ai.PathPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.settings.CheckboxSetting;
+import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 

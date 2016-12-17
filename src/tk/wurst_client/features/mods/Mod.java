@@ -20,7 +20,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 
 public abstract class Mod extends Feature
 {

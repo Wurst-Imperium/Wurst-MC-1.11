@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 
 public abstract class Spf extends Feature
 {

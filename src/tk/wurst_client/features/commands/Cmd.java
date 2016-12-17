@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.navigator.settings.NavigatorSetting;
+import tk.wurst_client.settings.NavigatorSetting;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;

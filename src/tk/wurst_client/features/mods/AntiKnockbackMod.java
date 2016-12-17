@@ -7,8 +7,8 @@
  */
 package tk.wurst_client.features.mods;
 
-import tk.wurst_client.navigator.settings.SliderSetting;
-import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.settings.SliderSetting;
+import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
 	description = "Protects you from getting pushed by players, mobs and\n"
