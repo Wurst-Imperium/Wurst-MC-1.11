@@ -24,17 +24,18 @@ public class FeaturesCmd extends Cmd
 		if(args.length != 0)
 			syntaxError();
 		
-		ChatUtils.message("> All features: "
-			+ wurst.navigator.countAllFeatures());
+		ChatUtils
+			.message("> All features: " + wurst.navigator.countAllFeatures());
 		ChatUtils.message("> Mods: " + wurst.mods.countMods());
 		ChatUtils.message("> Commands: " + wurst.commands.countCommands());
-		ChatUtils.message("> Special features: "
-			+ wurst.special.countFeatures());
+		ChatUtils
+			.message("> Special features: " + wurst.special.countFeatures());
 		int settings = 0, bypasses = 0;
 		for(Mod mod : wurst.mods.getAllMods())
 		{
 			settings += mod.getSettings().size();
-			if(mod.getClass().getAnnotation(Mod.Info.class).noCheatCompatible())
+			if(mod.getClass().getAnnotation(Mod.Bypasses.class)
+				.mineplexAntiCheat())
 				bypasses++;
 		}
 		ChatUtils.message("> NoCheat bypasses (mods only): " + bypasses);

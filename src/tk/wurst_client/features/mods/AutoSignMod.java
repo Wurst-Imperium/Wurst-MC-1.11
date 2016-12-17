@@ -14,10 +14,12 @@ import net.minecraft.util.text.ITextComponent;
 		+ "you place. Once activated, you can write normally on\n"
 		+ "one sign to specify the text for all other signs.",
 	name = "AutoSign",
-	noCheatCompatible = false,
 	tags = "auto sign",
 	help = "Mods/AutoSign")
-@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false, antiCheat = false)
+@Mod.Bypasses(ghostMode = false,
+	latestNCP = false,
+	olderNCP = false,
+	antiCheat = false)
 public class AutoSignMod extends Mod
 {
 	public ITextComponent[] signText;

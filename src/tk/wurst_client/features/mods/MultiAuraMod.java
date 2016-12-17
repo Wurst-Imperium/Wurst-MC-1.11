@@ -22,7 +22,6 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 @Mod.Info(
 	description = "Faster Killaura that attacks multiple entities at once.",
 	name = "MultiAura",
-	noCheatCompatible = false,
 	tags = "ForceField, multi aura, force field",
 	help = "Mods/MultiAura")
 @Mod.Bypasses(ghostMode = false,
@@ -108,9 +107,9 @@ public class MultiAuraMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf,
-			wurst.mods.killauraMod, wurst.mods.killauraLegitMod,
-			wurst.mods.clickAuraMod, wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
+			wurst.mods.killauraLegitMod, wurst.mods.clickAuraMod,
+			wurst.mods.triggerBotMod};
 	}
 	
 	@Override

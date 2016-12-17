@@ -13,7 +13,6 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	description = "Cancels slowness effects caused by water, soul sand and\n"
 		+ "using items.",
 	name = "NoSlowdown",
-	noCheatCompatible = false,
 	tags = "no slowdown, no slow down",
 	help = "Mods/NoSlowdown")
 @Mod.Bypasses(ghostMode = false,
