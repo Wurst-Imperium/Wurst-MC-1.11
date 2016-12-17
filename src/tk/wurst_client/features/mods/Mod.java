@@ -23,7 +23,7 @@ import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 
-public class Mod implements Feature
+public abstract class Mod extends Feature
 {
 	private final String name = getClass().getAnnotation(Info.class).name();
 	private final String description =

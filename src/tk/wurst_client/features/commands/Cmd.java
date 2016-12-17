@@ -23,7 +23,7 @@ import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.MiscUtils;
 
-public abstract class Cmd implements Feature
+public abstract class Cmd extends Feature
 {
 	private String name = getClass().getAnnotation(Info.class).name();
 	private String description =

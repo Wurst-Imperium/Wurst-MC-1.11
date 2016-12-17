@@ -12,29 +12,29 @@ import java.util.ArrayList;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 
-public interface Feature
+public abstract class Feature
 {
-	public String getName();
+	public abstract String getName();
 	
-	public String getType();
+	public abstract String getType();
 	
-	public String getDescription();
+	public abstract String getDescription();
 	
-	public boolean isEnabled();
+	public abstract boolean isEnabled();
 	
-	public boolean isBlocked();
+	public abstract boolean isBlocked();
 	
-	public String getTags();
+	public abstract String getTags();
 	
-	public ArrayList<NavigatorSetting> getSettings();
+	public abstract ArrayList<NavigatorSetting> getSettings();
 	
-	public ArrayList<PossibleKeybind> getPossibleKeybinds();
+	public abstract ArrayList<PossibleKeybind> getPossibleKeybinds();
 	
-	public String getPrimaryAction();
+	public abstract String getPrimaryAction();
 	
-	public void doPrimaryAction();
+	public abstract void doPrimaryAction();
 	
-	public String getHelpPage();
+	public abstract String getHelpPage();
 	
-	public Feature[] getSeeAlso();
+	public abstract Feature[] getSeeAlso();
 }
