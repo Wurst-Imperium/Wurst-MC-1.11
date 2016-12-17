@@ -25,7 +25,7 @@ public enum WurstClient
 {
 	INSTANCE;
 	
-	public static final String VERSION = "5.2";
+	public static final String VERSION = "5.3";
 	public static final String MINECRAFT_VERSION = "1.11";
 	public static final int PROTOCOL_VERSION = 315;
 	
