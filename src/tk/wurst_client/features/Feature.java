@@ -9,11 +9,16 @@ package tk.wurst_client.features;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.Minecraft;
+import tk.wurst_client.WurstClient;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 
 public abstract class Feature
 {
+	protected static final WurstClient wurst = WurstClient.INSTANCE;
+	protected static final Minecraft mc = Minecraft.getMinecraft();
+	
 	public abstract String getName();
 	
 	public abstract String getType();

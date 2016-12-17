@@ -11,8 +11,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
@@ -26,9 +24,6 @@ public abstract class Spf extends Feature
 	private final String help = getClass().getAnnotation(Info.class)
 		.help();
 	protected ArrayList<NavigatorSetting> settings = new ArrayList<>();
-	
-	protected static final WurstClient wurst = WurstClient.INSTANCE;
-	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info

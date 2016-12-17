@@ -12,7 +12,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
@@ -37,9 +36,6 @@ public abstract class Mod extends Feature
 	protected ArrayList<NavigatorSetting> settings = new ArrayList<>();
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
-	
-	protected static final WurstClient wurst = WurstClient.INSTANCE;
-	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info
