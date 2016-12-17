@@ -10,7 +10,7 @@ package tk.wurst_client.features.commands;
 import java.util.Iterator;
 
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -43,9 +43,9 @@ public class SetSliderCmd extends Cmd
 			error("A feature named \"" + featureName + "\" could not be found.");
 		
 		// find setting
-		NavigatorSetting setting = null;
+		Setting setting = null;
 		String settingName = args[1].replace("_", " ");
-		for(NavigatorSetting featureSetting : feature.getSettings())
+		for(Setting featureSetting : feature.getSettings())
 		{
 			if(featureSetting.getName().equalsIgnoreCase(settingName))
 			{

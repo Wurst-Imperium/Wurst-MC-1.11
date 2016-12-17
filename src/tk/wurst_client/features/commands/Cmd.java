@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
@@ -30,8 +30,8 @@ public abstract class Cmd extends Feature
 	private String[] syntax = getClass().getAnnotation(Info.class).syntax();
 	private String tags = getClass().getAnnotation(Info.class).tags();
 	private String help = getClass().getAnnotation(Info.class).help();
-	protected ArrayList<NavigatorSetting> settings =
-		new ArrayList<NavigatorSetting>();
+	protected ArrayList<Setting> settings =
+		new ArrayList<Setting>();
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info
@@ -125,7 +125,7 @@ public abstract class Cmd extends Feature
 	}
 	
 	@Override
-	public final ArrayList<NavigatorSetting> getSettings()
+	public final ArrayList<Setting> getSettings()
 	{
 		return settings;
 	}

@@ -15,7 +15,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 
-public class CheckboxSetting implements NavigatorSetting
+public class CheckboxSetting implements Setting
 {
 	private final String name;
 	private boolean checked;

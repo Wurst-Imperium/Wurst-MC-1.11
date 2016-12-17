@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 
 public abstract class Feature
 {
@@ -31,7 +31,7 @@ public abstract class Feature
 	
 	public abstract String getTags();
 	
-	public abstract ArrayList<NavigatorSetting> getSettings();
+	public abstract ArrayList<Setting> getSettings();
 	
 	public abstract ArrayList<PossibleKeybind> getPossibleKeybinds();
 	

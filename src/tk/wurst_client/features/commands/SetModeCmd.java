@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.ModeSetting;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 
 @Cmd.Info(description = "Changes a mode setting of a feature. Allows you to\n"
 	+ "switch modes through keybinds.",
@@ -42,9 +42,9 @@ public class SetModeCmd extends Cmd
 			error("A feature named \"" + featureName + "\" could not be found.");
 		
 		// find setting
-		NavigatorSetting setting = null;
+		Setting setting = null;
 		String settingName = args[1].replace("_", " ");
-		for(NavigatorSetting featureSetting : feature.getSettings())
+		for(Setting featureSetting : feature.getSettings())
 		{
 			if(featureSetting.getName().equalsIgnoreCase(settingName))
 			{

@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 
-public class SliderSetting implements NavigatorSetting
+public class SliderSetting implements Setting
 {
 	private final String name;
 	private double value;

@@ -37,7 +37,7 @@ import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.navigator.Navigator;
 import tk.wurst_client.options.FriendsList;
 import tk.wurst_client.options.OptionsManager;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.XRayUtils;
 
@@ -285,7 +285,7 @@ public class FileManager
 					if(!item.getSettings().isEmpty())
 					{
 						JsonObject jsonSettings = new JsonObject();
-						for(NavigatorSetting setting : item.getSettings())
+						for(Setting setting : item.getSettings())
 							try
 							{
 								setting.save(jsonSettings);
@@ -339,7 +339,7 @@ public class FileManager
 					{
 						JsonObject jsonSettings =
 							jsonFeature.get("settings").getAsJsonObject();
-						for(NavigatorSetting setting : item.getSettings())
+						for(Setting setting : item.getSettings())
 							try
 							{
 								setting.load(jsonSettings);

@@ -17,7 +17,7 @@ import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 import tk.wurst_client.utils.JsonUtils;
 
-public class ColorsSetting implements NavigatorSetting
+public class ColorsSetting implements Setting
 {
 	private String name;
 	private boolean[] selected;

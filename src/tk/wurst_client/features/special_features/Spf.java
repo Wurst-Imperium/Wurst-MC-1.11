@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 
 public abstract class Spf extends Feature
 {
@@ -23,7 +23,7 @@ public abstract class Spf extends Feature
 	private final String tags = getClass().getAnnotation(Info.class).tags();
 	private final String help = getClass().getAnnotation(Info.class)
 		.help();
-	protected ArrayList<NavigatorSetting> settings = new ArrayList<>();
+	protected ArrayList<Setting> settings = new ArrayList<>();
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info
@@ -74,7 +74,7 @@ public abstract class Spf extends Feature
 	}
 	
 	@Override
-	public final ArrayList<NavigatorSetting> getSettings()
+	public final ArrayList<Setting> getSettings()
 	{
 		return settings;
 	}
@@ -85,7 +85,7 @@ public abstract class Spf extends Feature
 		ArrayList<PossibleKeybind> possibleKeybinds = new ArrayList<>();
 		
 		// settings keybinds
-		for(NavigatorSetting setting : settings)
+		for(Setting setting : settings)
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;

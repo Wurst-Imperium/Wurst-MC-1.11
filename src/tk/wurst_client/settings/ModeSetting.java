@@ -17,7 +17,7 @@ import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen.ButtonData;
 
-public class ModeSetting implements NavigatorSetting
+public class ModeSetting implements Setting
 {
 	private String name;
 	private String[] modes;

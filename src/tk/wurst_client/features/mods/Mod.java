@@ -20,7 +20,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.navigator.PossibleKeybind;
-import tk.wurst_client.settings.NavigatorSetting;
+import tk.wurst_client.settings.Setting;
 
 public abstract class Mod extends Feature
 {
@@ -33,7 +33,7 @@ public abstract class Mod extends Feature
 	private boolean enabled;
 	private boolean blocked;
 	private boolean active;
-	protected ArrayList<NavigatorSetting> settings = new ArrayList<>();
+	protected ArrayList<Setting> settings = new ArrayList<>();
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
 	
@@ -93,7 +93,7 @@ public abstract class Mod extends Feature
 	}
 	
 	@Override
-	public final ArrayList<NavigatorSetting> getSettings()
+	public final ArrayList<Setting> getSettings()
 	{
 		return settings;
 	}
@@ -109,7 +109,7 @@ public abstract class Mod extends Feature
 				new PossibleKeybind(dotT + " off", "Disable " + name)));
 		
 		// settings keybinds
-		for(NavigatorSetting setting : settings)
+		for(Setting setting : settings)
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;
