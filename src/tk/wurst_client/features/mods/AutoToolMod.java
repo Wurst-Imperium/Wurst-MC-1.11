@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(
 	description = "Automatically uses the best tool in your hotbar to\n"
@@ -29,9 +29,9 @@ public class AutoToolMod extends Mod
 	private int oldSlot;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.autoSwordMod};
+		return new Feature[]{wurst.mods.autoSwordMod};
 	}
 	
 	@Override

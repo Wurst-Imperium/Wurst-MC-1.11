@@ -19,8 +19,8 @@ import net.minecraft.item.ItemStack;
 import tk.wurst_client.events.listeners.GUIRenderListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.font.Fonts;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.RenderUtils;
@@ -41,9 +41,9 @@ public class BowAimbotMod extends Mod
 	private TargetSettings targetSettings = new TargetSettings();
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.fastBowMod};
+		return new Feature[]{wurst.mods.fastBowMod};
 	}
 	
 	@Override

@@ -8,7 +8,7 @@
 package tk.wurst_client.features.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(
 	description = "Switches the item in your hand all the time.\n"
@@ -21,9 +21,9 @@ import tk.wurst_client.navigator.NavigatorItem;
 public class AutoSwitchMod extends Mod implements UpdateListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.buildRandomMod};
+		return new Feature[]{wurst.mods.buildRandomMod};
 	}
 	
 	@Override

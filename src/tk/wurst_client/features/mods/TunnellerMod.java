@@ -16,8 +16,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
@@ -36,9 +36,9 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	private int oldSlot = -1;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.nukerMod,
+		return new Feature[]{wurst.mods.nukerMod,
 			wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
 			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
 	}

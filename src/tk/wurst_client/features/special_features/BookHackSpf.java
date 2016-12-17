@@ -7,7 +7,7 @@
  */
 package tk.wurst_client.features.special_features;
 
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Spf.Info(description = "Allows you to insert links that execute commands into writable books. This can be used to\n"
 	+ "trick other people (including admins) into executing commands like \"/op YourName\" or\n"
@@ -18,9 +18,9 @@ import tk.wurst_client.navigator.NavigatorItem;
 public class BookHackSpf extends Spf
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.forceOpMod,
+		return new Feature[]{wurst.mods.forceOpMod,
 			wurst.special.sessionStealerSpf};
 	}
 }

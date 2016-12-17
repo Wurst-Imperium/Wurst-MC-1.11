@@ -12,7 +12,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.LeftClickListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.ModeSetting;
 
 @Mod.Info(
@@ -40,9 +40,9 @@ public class CriticalsMod extends Mod implements LeftClickListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.killauraMod,
+		return new Feature[]{wurst.mods.killauraMod,
 			wurst.mods.triggerBotMod};
 	}
 	

@@ -21,8 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.ModeSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
@@ -74,9 +74,9 @@ public class NukerMod extends Mod
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.nukerLegitMod,
+		return new Feature[]{wurst.mods.nukerLegitMod,
 			wurst.mods.speedNukerMod, wurst.mods.tunnellerMod,
 			wurst.mods.fastBreakMod, wurst.mods.autoMineMod,
 			wurst.mods.overlayMod};

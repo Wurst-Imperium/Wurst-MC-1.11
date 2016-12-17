@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 import tk.wurst_client.utils.ChatUtils;
@@ -23,7 +23,7 @@ import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.MiscUtils;
 
-public abstract class Cmd implements NavigatorItem
+public abstract class Cmd implements Feature
 {
 	private String name = getClass().getAnnotation(Info.class).name();
 	private String description =
@@ -159,9 +159,9 @@ public abstract class Cmd implements NavigatorItem
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[0];
+		return new Feature[0];
 	}
 	
 	public final void printHelp()

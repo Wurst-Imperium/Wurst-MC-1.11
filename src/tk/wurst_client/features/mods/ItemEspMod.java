@@ -10,7 +10,7 @@ package tk.wurst_client.features.mods;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Allows you to see items through walls.",
@@ -21,9 +21,9 @@ import tk.wurst_client.utils.RenderUtils;
 public class ItemEspMod extends Mod implements RenderListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.chestEspMod};
+		return new Feature[]{wurst.mods.chestEspMod};
 	}
 	
 	@Override

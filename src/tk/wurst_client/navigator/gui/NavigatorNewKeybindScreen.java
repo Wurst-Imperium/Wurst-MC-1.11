@@ -64,7 +64,8 @@ public class NavigatorNewKeybindScreen extends NavigatorScreen
 							possibleKeybinds.get(selectedCommand).getCommand());
 					wurst.files.saveKeybinds();
 					mc.displayGuiScreen(parent);
-					wurst.navigator.addPreference(parent.getItem().getName());
+					wurst.navigator
+						.addPreference(parent.getFeature().getName());
 					wurst.files.saveNavigatorData();
 				}else
 				{

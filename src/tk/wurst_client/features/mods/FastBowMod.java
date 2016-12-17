@@ -16,7 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(
 	description = "Turns your bow into a machine gun.\n"
@@ -28,9 +28,9 @@ import tk.wurst_client.navigator.NavigatorItem;
 public class FastBowMod extends Mod implements UpdateListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.bowAimbotMod};
+		return new Feature[]{wurst.mods.bowAimbotMod};
 	}
 	
 	@Override

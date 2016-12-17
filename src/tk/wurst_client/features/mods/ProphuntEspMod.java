@@ -12,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Allows you to see fake blocks in Prophunt.",
@@ -23,9 +23,9 @@ import tk.wurst_client.utils.RenderUtils;
 public class ProphuntEspMod extends Mod implements RenderListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.playerEspMod,
+		return new Feature[]{wurst.mods.playerEspMod,
 			wurst.mods.mobEspMod, wurst.mods.tracersMod};
 	}
 	

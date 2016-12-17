@@ -13,7 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.ModeSetting;
 
 @Mod.Info(
@@ -29,9 +29,9 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	private String[] modes = new String[]{"Quit", "Chars", "TP", "SelfHurt"};
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.commands.leaveCmd};
+		return new Feature[]{wurst.commands.leaveCmd};
 	}
 	
 	@Override

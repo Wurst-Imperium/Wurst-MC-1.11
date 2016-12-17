@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 
-public class Spf implements NavigatorItem
+public class Spf implements Feature
 {
 	private final String name = getClass().getAnnotation(Info.class).name();
 	private final String description = getClass().getAnnotation(Info.class)
@@ -115,8 +115,8 @@ public class Spf implements NavigatorItem
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[0];
+		return new Feature[0];
 	}
 }

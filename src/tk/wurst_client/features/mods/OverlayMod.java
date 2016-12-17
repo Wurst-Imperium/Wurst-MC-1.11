@@ -11,7 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Renders the Nuker animation when you mine a block.",
@@ -21,9 +21,9 @@ import tk.wurst_client.utils.RenderUtils;
 public class OverlayMod extends Mod implements RenderListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.nukerMod};
+		return new Feature[]{wurst.mods.nukerMod};
 	}
 	
 	@Override

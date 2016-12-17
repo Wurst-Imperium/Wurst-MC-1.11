@@ -15,7 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.ModeSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
@@ -84,9 +84,9 @@ public class SpeedNukerMod extends Mod
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.nukerMod,
+		return new Feature[]{wurst.mods.nukerMod,
 			wurst.mods.nukerLegitMod, wurst.mods.tunnellerMod,
 			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
 	}

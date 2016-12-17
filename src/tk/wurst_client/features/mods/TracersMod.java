@@ -10,7 +10,7 @@ package tk.wurst_client.features.mods;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Draws lines to players around you.",
@@ -20,9 +20,9 @@ import tk.wurst_client.utils.RenderUtils;
 public class TracersMod extends Mod implements RenderListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.playerEspMod,
+		return new Feature[]{wurst.mods.playerEspMod,
 			wurst.mods.playerFinderMod};
 	}
 	

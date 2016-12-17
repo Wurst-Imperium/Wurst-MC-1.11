@@ -9,7 +9,7 @@ package tk.wurst_client.features.commands;
 
 import java.util.Iterator;
 
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.utils.MiscUtils;
@@ -28,11 +28,11 @@ public class SetSliderCmd extends Cmd
 			syntaxError();
 		
 		// find feature
-		NavigatorItem feature = null;
+		Feature feature = null;
 		String featureName = args[0];
 		for(Iterator itr = wurst.navigator.iterator(); itr.hasNext();)
 		{
-			NavigatorItem item = (NavigatorItem)itr.next();
+			Feature item = (Feature)itr.next();
 			if(featureName.equalsIgnoreCase(item.getName()))
 			{
 				feature = item;

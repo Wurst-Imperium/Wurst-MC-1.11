@@ -9,8 +9,8 @@ package tk.wurst_client.features.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
 
@@ -35,9 +35,9 @@ public class FlightMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.boatFlyMod,
+		return new Feature[]{wurst.mods.boatFlyMod,
 			wurst.mods.extraElytraMod, wurst.mods.jetpackMod,
 			wurst.mods.glideMod, wurst.mods.noFallMod,
 			wurst.special.yesCheatSpf};

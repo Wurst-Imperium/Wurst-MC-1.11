@@ -5,13 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.navigator;
+package tk.wurst_client.features;
 
 import java.util.ArrayList;
 
+import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.settings.NavigatorSetting;
 
-public interface NavigatorItem
+public interface Feature
 {
 	public String getName();
 	
@@ -35,5 +36,5 @@ public interface NavigatorItem
 	
 	public String getHelpPage();
 	
-	public NavigatorItem[] getSeeAlso();
+	public Feature[] getSeeAlso();
 }

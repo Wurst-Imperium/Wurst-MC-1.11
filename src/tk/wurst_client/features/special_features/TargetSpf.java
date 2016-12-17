@@ -7,7 +7,7 @@
  */
 package tk.wurst_client.features.special_features;
 
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.ColorsSetting;
 
@@ -51,9 +51,9 @@ public class TargetSpf extends Spf
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.killauraMod,
+		return new Feature[]{wurst.mods.killauraMod,
 			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
 			wurst.mods.clickAuraMod, wurst.mods.triggerBotMod,
 			wurst.mods.bowAimbotMod};

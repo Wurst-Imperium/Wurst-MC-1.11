@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.ModeSetting;
 import tk.wurst_client.utils.BuildUtils;
 import tk.wurst_client.utils.RenderUtils;
@@ -61,9 +61,9 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.buildRandomMod,
+		return new Feature[]{wurst.mods.buildRandomMod,
 			wurst.mods.fastPlaceMod};
 	}
 	

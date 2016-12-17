@@ -18,7 +18,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(name = "Trajectories",
@@ -30,9 +30,9 @@ import tk.wurst_client.utils.RenderUtils;
 public class TrajectoriesMod extends Mod implements RenderListener
 {
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.bowAimbotMod,
+		return new Feature[]{wurst.mods.bowAimbotMod,
 			wurst.mods.fastBowMod, wurst.mods.throwMod};
 	}
 	

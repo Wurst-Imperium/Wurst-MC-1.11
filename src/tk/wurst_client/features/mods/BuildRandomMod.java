@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.BlockUtils;
 
 @Mod.Info(description = "Places random blocks around you.",
@@ -26,9 +26,9 @@ public class BuildRandomMod extends Mod implements UpdateListener
 	private float range = 6;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.autoBuildMod,
+		return new Feature[]{wurst.mods.autoBuildMod,
 			wurst.mods.fastPlaceMod, wurst.mods.autoSwitchMod};
 	}
 	

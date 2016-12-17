@@ -14,8 +14,8 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
@@ -88,9 +88,9 @@ public class FightBotMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.killauraMod,
+		return new Feature[]{wurst.mods.killauraMod,
 			wurst.special.targetSpf, wurst.special.yesCheatSpf};
 	}
 	

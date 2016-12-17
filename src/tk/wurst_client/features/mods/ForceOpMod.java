@@ -30,7 +30,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
@@ -81,9 +81,9 @@ public class ForceOpMod extends Mod implements ChatInputListener
 	private JLabel lAttempts;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.special.bookHackSpf,
+		return new Feature[]{wurst.special.bookHackSpf,
 			wurst.special.sessionStealerSpf};
 	}
 	

@@ -7,7 +7,7 @@
  */
 package tk.wurst_client.features.mods;
 
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.navigator.settings.ModeSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
@@ -41,9 +41,9 @@ public class FastBreakMod extends Mod
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.fastPlaceMod,
+		return new Feature[]{wurst.mods.fastPlaceMod,
 			wurst.mods.autoMineMod, wurst.mods.nukerMod};
 	}
 	

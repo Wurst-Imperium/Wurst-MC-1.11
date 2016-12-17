@@ -11,7 +11,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(description = "Automatically eats food when necessary.",
 	name = "AutoEat",
@@ -24,9 +24,9 @@ public class AutoEatMod extends Mod implements UpdateListener
 	private int bestSlot;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.autoSoupMod};
+		return new Feature[]{wurst.mods.autoSoupMod};
 	}
 	
 	@Override

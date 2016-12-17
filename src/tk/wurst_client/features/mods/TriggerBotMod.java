@@ -9,8 +9,8 @@ package tk.wurst_client.features.mods;
 
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
-import tk.wurst_client.navigator.NavigatorItem;
 import tk.wurst_client.navigator.settings.CheckboxSetting;
 import tk.wurst_client.navigator.settings.SliderSetting;
 import tk.wurst_client.navigator.settings.SliderSetting.ValueDisplay;
@@ -77,9 +77,9 @@ public class TriggerBotMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.special.targetSpf,
+		return new Feature[]{wurst.special.targetSpf,
 			wurst.mods.killauraMod, wurst.mods.killauraLegitMod,
 			wurst.mods.multiAuraMod, wurst.mods.clickAuraMod,
 			wurst.mods.criticalsMod};

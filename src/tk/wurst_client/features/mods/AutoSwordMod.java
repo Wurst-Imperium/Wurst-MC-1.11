@@ -13,7 +13,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(
 	description = "Automatically uses the best weapon in your hotbar to attack\n"
@@ -32,9 +32,9 @@ public class AutoSwordMod extends Mod
 	private int timer;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.autoToolMod};
+		return new Feature[]{wurst.mods.autoToolMod};
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.PacketInputEvent;
 import tk.wurst_client.events.listeners.PacketInputListener;
 import tk.wurst_client.events.listeners.RenderListener;
-import tk.wurst_client.navigator.NavigatorItem;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
@@ -32,9 +32,9 @@ public class PlayerFinderMod extends Mod
 	private BlockPos blockPos;
 	
 	@Override
-	public NavigatorItem[] getSeeAlso()
+	public Feature[] getSeeAlso()
 	{
-		return new NavigatorItem[]{wurst.mods.playerEspMod,
+		return new Feature[]{wurst.mods.playerEspMod,
 			wurst.mods.tracersMod};
 	}
 	
