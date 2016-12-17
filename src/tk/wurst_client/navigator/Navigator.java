@@ -16,9 +16,9 @@ import java.util.function.Consumer;
 
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.analytics.AnalyticsManager;
-import tk.wurst_client.commands.CmdManager;
-import tk.wurst_client.mods.ModManager;
-import tk.wurst_client.special.SpfManager;
+import tk.wurst_client.features.commands.CmdManager;
+import tk.wurst_client.features.mods.ModManager;
+import tk.wurst_client.features.special_features.SpfManager;
 
 public class Navigator
 {

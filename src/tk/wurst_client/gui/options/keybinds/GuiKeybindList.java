@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.mods.Mod;
+import tk.wurst_client.features.mods.Mod;
 
 public class GuiKeybindList extends GuiSlot
 {

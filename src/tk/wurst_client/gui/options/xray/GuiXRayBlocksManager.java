@@ -13,7 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.mods.XRayMod;
+import tk.wurst_client.features.mods.XRayMod;
 
 public class GuiXRayBlocksManager extends GuiScreen
 {

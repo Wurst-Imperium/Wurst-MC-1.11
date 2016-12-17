@@ -21,9 +21,9 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.events.GUIRenderEvent;
+import tk.wurst_client.features.mods.Mod;
+import tk.wurst_client.features.mods.NavigatorMod;
 import tk.wurst_client.font.Fonts;
-import tk.wurst_client.mods.Mod;
-import tk.wurst_client.mods.NavigatorMod;
 import tk.wurst_client.utils.RenderUtils;
 
 public class UIRenderer

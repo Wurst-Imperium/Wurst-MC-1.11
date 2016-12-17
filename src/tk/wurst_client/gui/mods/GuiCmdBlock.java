@@ -16,7 +16,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.mods.CmdBlockMod;
+import tk.wurst_client.features.mods.CmdBlockMod;
 
 public class GuiCmdBlock extends GuiScreen
 {

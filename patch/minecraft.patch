@@ -1,6 +1,6 @@
-From ed69afd59260558cf68cb3557b9a7ab4535ae3ac Mon Sep 17 00:00:00 2001
+From 37e174e72421534b161b05ee5cca27a63b1bafaa Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 16 Dec 2016 15:00:30 +0100
+Date: Sat, 17 Dec 2016 09:10:37 +0100
 Subject: [PATCH] mod
 
 ---
@@ -649,7 +649,7 @@ index 37e735f..5eec0c9 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..b98bd03 100644
+index 0728387..321c737 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -53,6 +53,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
@@ -667,7 +667,7 @@ index 0728387..b98bd03 100644
 +import tk.wurst_client.WurstClient;
 +import tk.wurst_client.events.ChatOutputEvent;
 +import tk.wurst_client.events.UpdateEvent;
-+import tk.wurst_client.mods.JesusMod;
++import tk.wurst_client.features.mods.JesusMod;
 +import tk.wurst_client.utils.EntityUtils;
  
  public class EntityPlayerSP extends AbstractClientPlayer
@@ -1749,7 +1749,7 @@ index 5dced78..7792953 100644
              {
                  this.mc.displayGuiScreen(this.parentScreen);
 diff --git a/net/minecraft/client/gui/inventory/GuiChest.java b/net/minecraft/client/gui/inventory/GuiChest.java
-index b5448d5..aecc068 100644
+index b5448d5..dc3c61e 100644
 --- a/net/minecraft/client/gui/inventory/GuiChest.java
 +++ b/net/minecraft/client/gui/inventory/GuiChest.java
 @@ -1,10 +1,15 @@
@@ -1764,7 +1764,7 @@ index b5448d5..aecc068 100644
 +import net.minecraft.inventory.Slot;
  import net.minecraft.util.ResourceLocation;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.special.YesCheatSpf.BypassLevel;
++import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
  
  public class GuiChest extends GuiContainer
  {
@@ -1872,7 +1872,7 @@ index 722cc99..2059b50 100644
          {
              this.inventorySlots.onContainerClosed(this.mc.player);
 diff --git a/net/minecraft/client/gui/inventory/GuiEditSign.java b/net/minecraft/client/gui/inventory/GuiEditSign.java
-index 45afaf7..cfee0bb 100644
+index 45afaf7..5a1672c 100644
 --- a/net/minecraft/client/gui/inventory/GuiEditSign.java
 +++ b/net/minecraft/client/gui/inventory/GuiEditSign.java
 @@ -13,6 +13,9 @@ import net.minecraft.network.play.client.CPacketUpdateSign;
@@ -1880,7 +1880,7 @@ index 45afaf7..cfee0bb 100644
  import net.minecraft.util.ChatAllowedCharacters;
  import net.minecraft.util.text.TextComponentString;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.mods.AutoSignMod;
++import tk.wurst_client.features.mods.AutoSignMod;
 +
  import org.lwjgl.input.Keyboard;
  
@@ -1913,7 +1913,7 @@ index 45afaf7..cfee0bb 100644
                  this.mc.displayGuiScreen((GuiScreen)null);
              }
 diff --git a/net/minecraft/client/multiplayer/PlayerControllerMP.java b/net/minecraft/client/multiplayer/PlayerControllerMP.java
-index 82169d6..b49df1f 100644
+index 82169d6..99b2a1e 100644
 --- a/net/minecraft/client/multiplayer/PlayerControllerMP.java
 +++ b/net/minecraft/client/multiplayer/PlayerControllerMP.java
 @@ -40,6 +40,8 @@ import net.minecraft.util.math.RayTraceResult;
@@ -1921,7 +1921,7 @@ index 82169d6..b49df1f 100644
  import net.minecraft.world.GameType;
  import net.minecraft.world.World;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.mods.FastBreakMod;
++import tk.wurst_client.features.mods.FastBreakMod;
  
  public class PlayerControllerMP
  {
@@ -2769,7 +2769,7 @@ index 217b744..687514a 100644
          try
          {
 diff --git a/net/minecraft/entity/Entity.java b/net/minecraft/entity/Entity.java
-index 4c8589d..aebdbf5 100644
+index 4c8589d..14a2411 100644
 --- a/net/minecraft/entity/Entity.java
 +++ b/net/minecraft/entity/Entity.java
 @@ -20,6 +20,7 @@ import net.minecraft.block.material.EnumPushReaction;
@@ -2785,7 +2785,7 @@ index 4c8589d..aebdbf5 100644
  import net.minecraft.world.World;
  import net.minecraft.world.WorldServer;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.mods.AntiKnockbackMod;
++import tk.wurst_client.features.mods.AntiKnockbackMod;
 +
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -3150,7 +3150,7 @@ index 4c8589d..aebdbf5 100644
  
      public void handleStatusUpdate(byte id)
 diff --git a/net/minecraft/entity/EntityLivingBase.java b/net/minecraft/entity/EntityLivingBase.java
-index 3c4bdd3..c717b92 100644
+index 3c4bdd3..39c7fcd 100644
 --- a/net/minecraft/entity/EntityLivingBase.java
 +++ b/net/minecraft/entity/EntityLivingBase.java
 @@ -71,6 +71,9 @@ import net.minecraft.util.math.MathHelper;
@@ -3158,7 +3158,7 @@ index 3c4bdd3..c717b92 100644
  import net.minecraft.world.World;
  import net.minecraft.world.WorldServer;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.mods.HighJumpMod;
++import tk.wurst_client.features.mods.HighJumpMod;
 +
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
@@ -3370,7 +3370,7 @@ index f52d2b2..2425498 100644
              itextcomponent.getStyle().setUnderlined(Boolean.valueOf(true));
              return new TextComponentTranslation("screenshot.success", new Object[] {itextcomponent});
 diff --git a/net/minecraft/util/Timer.java b/net/minecraft/util/Timer.java
-index f224815..94d8aea 100644
+index f224815..6750b43 100644
 --- a/net/minecraft/util/Timer.java
 +++ b/net/minecraft/util/Timer.java
 @@ -2,6 +2,8 @@ package net.minecraft.util;
@@ -3378,7 +3378,7 @@ index f224815..94d8aea 100644
  import net.minecraft.client.Minecraft;
  import net.minecraft.util.math.MathHelper;
 +import tk.wurst_client.WurstClient;
-+import tk.wurst_client.mods.TimerMod;
++import tk.wurst_client.features.mods.TimerMod;
  
  public class Timer
  {

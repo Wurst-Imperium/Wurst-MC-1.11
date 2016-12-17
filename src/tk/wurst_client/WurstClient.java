@@ -8,17 +8,17 @@
 package tk.wurst_client;
 
 import tk.wurst_client.analytics.AnalyticsManager;
-import tk.wurst_client.commands.CmdManager;
 import tk.wurst_client.events.EventManager;
+import tk.wurst_client.features.commands.CmdManager;
+import tk.wurst_client.features.mods.ModManager;
+import tk.wurst_client.features.special_features.SpfManager;
 import tk.wurst_client.files.FileManager;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.hooks.FrameHook;
-import tk.wurst_client.mods.ModManager;
 import tk.wurst_client.navigator.Navigator;
 import tk.wurst_client.options.FriendsList;
 import tk.wurst_client.options.KeybindManager;
 import tk.wurst_client.options.OptionsManager;
-import tk.wurst_client.special.SpfManager;
 import tk.wurst_client.update.Updater;
 
 public enum WurstClient
