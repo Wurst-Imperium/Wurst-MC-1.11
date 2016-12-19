@@ -161,9 +161,6 @@ public class ChestEspMod extends Mod implements RenderListener
 			emptyChests.remove(openChest);
 		}
 		
-		System.out.println(
-			empty + " " + nonEmptyChests.size() + " " + emptyChests.size());
-		
 		openChest = null;
 	}
 }
