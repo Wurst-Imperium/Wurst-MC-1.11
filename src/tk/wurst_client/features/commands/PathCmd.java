@@ -279,7 +279,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 		int renderedThings = 0;
 		
 		// GL settings
-		glBlendFunc(770, 771);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 		glEnable(GL_LINE_SMOOTH);
 		glDisable(GL_TEXTURE_2D);
