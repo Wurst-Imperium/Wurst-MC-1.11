@@ -144,8 +144,6 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onUpdate()
 	{
-		boolean advanced = templates[template.getSelected()][0].length == 4;
-		
 		// initialize on right click
 		if(!building && mc.gameSettings.keyBindUseItem.pressed
 			&& (mc.rightClickDelayTimer == 4
@@ -162,25 +160,10 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			
 			// set positions
 			positions.clear();
-			if(advanced)
-			{
-				startPos = startPos.down();
-				for(int[] pos : templates[template.getSelected()])
-				{
-					EnumFacing direction = EnumFacing.getFront(pos[3]);
-					
-					if(direction.getHorizontalIndex() != -1)
-						for(int i = 0; i < facing.getHorizontalIndex(); i++)
-							direction = direction.rotateY();
-						
-					positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-						.offset(facing2, pos[0]).offset(direction));
-				}
-			}else
-				for(int[] pos : templates[template.getSelected()])
-					positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-						.offset(facing2, pos[0]));
-				
+			for(int[] pos : templates[template.getSelected()])
+				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
+					.offset(facing2, pos[0]));
+			
 			if(wurst.special.yesCheatSpf.getBypassLevel()
 				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
 			{
