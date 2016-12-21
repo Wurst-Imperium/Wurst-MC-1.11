@@ -25,7 +25,7 @@ import tk.wurst_client.utils.RenderUtils;
 	name = "InstantBunker",
 	tags = "instant bunker",
 	help = "Mods/InstantBunker")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses
 public class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener
 {
