@@ -226,8 +226,8 @@ public class RenderUtils
 		GL11.glDepthMask(false);
 		if(mode == 0)// Enemy
 			GL11.glColor4d(
-				1 - Minecraft.getMinecraft().player
-					.getDistanceToEntity(entity) / 40,
+				1 - Minecraft.getMinecraft().player.getDistanceToEntity(entity)
+					/ 40,
 				Minecraft.getMinecraft().player.getDistanceToEntity(entity)
 					/ 40,
 				0, 0.5F);
@@ -450,8 +450,8 @@ public class RenderUtils
 		glDepthMask(false);
 		if(mode == 0)// Enemy
 			GL11.glColor4d(
-				1 - Minecraft.getMinecraft().player
-					.getDistanceToEntity(entity) / 40,
+				1 - Minecraft.getMinecraft().player.getDistanceToEntity(entity)
+					/ 40,
 				Minecraft.getMinecraft().player.getDistanceToEntity(entity)
 					/ 40,
 				0, 0.5F);
@@ -598,5 +598,85 @@ public class RenderUtils
 	{
 		glColor4f(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f,
 			c.getAlpha() / 255f);
+	}
+	
+	public static void drawSolidBox()
+	{
+		glBegin(GL_QUADS);
+		{
+			glVertex3d(0, 0, 0);
+			glVertex3d(1, 0, 0);
+			glVertex3d(1, 0, 1);
+			glVertex3d(0, 0, 1);
+			
+			glVertex3d(0, 1, 0);
+			glVertex3d(0, 1, 1);
+			glVertex3d(1, 1, 1);
+			glVertex3d(1, 1, 0);
+			
+			glVertex3d(0, 0, 0);
+			glVertex3d(0, 1, 0);
+			glVertex3d(1, 1, 0);
+			glVertex3d(1, 0, 0);
+			
+			glVertex3d(1, 0, 0);
+			glVertex3d(1, 1, 0);
+			glVertex3d(1, 1, 1);
+			glVertex3d(1, 0, 1);
+			
+			glVertex3d(0, 0, 1);
+			glVertex3d(1, 0, 1);
+			glVertex3d(1, 1, 1);
+			glVertex3d(0, 1, 1);
+			
+			glVertex3d(0, 0, 0);
+			glVertex3d(0, 0, 1);
+			glVertex3d(0, 1, 1);
+			glVertex3d(0, 1, 0);
+		}
+		glEnd();
+	}
+	
+	public static void drawOutlinedBox()
+	{
+		glBegin(GL_LINES);
+		{
+			glVertex3d(0, 0, 0);
+			glVertex3d(1, 0, 0);
+			
+			glVertex3d(1, 0, 0);
+			glVertex3d(1, 0, 1);
+			
+			glVertex3d(1, 0, 1);
+			glVertex3d(0, 0, 1);
+			
+			glVertex3d(0, 0, 1);
+			glVertex3d(0, 0, 0);
+			
+			glVertex3d(0, 0, 0);
+			glVertex3d(0, 1, 0);
+			
+			glVertex3d(1, 0, 0);
+			glVertex3d(1, 1, 0);
+			
+			glVertex3d(1, 0, 1);
+			glVertex3d(1, 1, 1);
+			
+			glVertex3d(0, 0, 1);
+			glVertex3d(0, 1, 1);
+			
+			glVertex3d(0, 1, 0);
+			glVertex3d(1, 1, 0);
+			
+			glVertex3d(1, 1, 0);
+			glVertex3d(1, 1, 1);
+			
+			glVertex3d(1, 1, 1);
+			glVertex3d(0, 1, 1);
+			
+			glVertex3d(0, 1, 1);
+			glVertex3d(0, 1, 0);
+		}
+		glEnd();
 	}
 }

@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import static org.lwjgl.opengl.GL11.glVertex3d;
-
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -24,6 +22,7 @@ import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.ModeSetting;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(
 	description = "Automatically builds the selected template whenever you place a block.\n"
@@ -113,45 +112,13 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			GL11.glTranslated(offset, offset, offset);
 			GL11.glScaled(scale, scale, scale);
 			
-			GL11.glBegin(GL11.GL_QUADS);
-			{
-				glVertex3d(0, 0, 0);
-				glVertex3d(1, 0, 0);
-				glVertex3d(1, 0, 1);
-				glVertex3d(0, 0, 1);
-				
-				glVertex3d(0, 1, 0);
-				glVertex3d(0, 1, 1);
-				glVertex3d(1, 1, 1);
-				glVertex3d(1, 1, 0);
-				
-				glVertex3d(0, 0, 0);
-				glVertex3d(0, 1, 0);
-				glVertex3d(1, 1, 0);
-				glVertex3d(1, 0, 0);
-				
-				glVertex3d(1, 0, 0);
-				glVertex3d(1, 1, 0);
-				glVertex3d(1, 1, 1);
-				glVertex3d(1, 0, 1);
-				
-				glVertex3d(0, 0, 1);
-				glVertex3d(1, 0, 1);
-				glVertex3d(1, 1, 1);
-				glVertex3d(0, 1, 1);
-				
-				glVertex3d(0, 0, 0);
-				glVertex3d(0, 0, 1);
-				glVertex3d(0, 1, 1);
-				glVertex3d(0, 1, 0);
-			}
-			GL11.glEnd();
+			RenderUtils.drawSolidBox();
 			
 			GL11.glPopMatrix();
 			GL11.glDepthMask(true);
 		}
 		
-		// black lines
+		// black outlines
 		GL11.glColor4f(0F, 0F, 0F, 0.5F);
 		for(int i = blockIndex; i < positions.size(); i++)
 		{
@@ -162,45 +129,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			GL11.glTranslated(offset, offset, offset);
 			GL11.glScaled(scale, scale, scale);
 			
-			GL11.glBegin(GL11.GL_LINES);
-			{
-				glVertex3d(0, 0, 0);
-				glVertex3d(1, 0, 0);
-				
-				glVertex3d(1, 0, 0);
-				glVertex3d(1, 0, 1);
-				
-				glVertex3d(1, 0, 1);
-				glVertex3d(0, 0, 1);
-				
-				glVertex3d(0, 0, 1);
-				glVertex3d(0, 0, 0);
-				
-				glVertex3d(0, 0, 0);
-				glVertex3d(0, 1, 0);
-				
-				glVertex3d(1, 0, 0);
-				glVertex3d(1, 1, 0);
-				
-				glVertex3d(1, 0, 1);
-				glVertex3d(1, 1, 1);
-				
-				glVertex3d(0, 0, 1);
-				glVertex3d(0, 1, 1);
-				
-				glVertex3d(0, 1, 0);
-				glVertex3d(1, 1, 0);
-				
-				glVertex3d(1, 1, 0);
-				glVertex3d(1, 1, 1);
-				
-				glVertex3d(1, 1, 1);
-				glVertex3d(0, 1, 1);
-				
-				glVertex3d(0, 1, 1);
-				glVertex3d(0, 1, 0);
-			}
-			GL11.glEnd();
+			RenderUtils.drawOutlinedBox();
 			
 			GL11.glPopMatrix();
 		}
