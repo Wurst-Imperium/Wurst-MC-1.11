@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
@@ -40,13 +41,13 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	public static ArrayList<int[][]> templates = new ArrayList<int[][]>();
 	private int template = 1;
 	
-	private float speed = 5;
 	private int blockIndex;
 	private boolean shouldBuild;
 	private float playerYaw;
 	private RayTraceResult mouseOver;
 	
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
+	private int timer;
 	
 	@Override
 	public String getRenderName()
@@ -87,6 +88,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		shouldBuild = false;
+		timer = 0;
 	}
 	
 	@Override
@@ -227,15 +229,9 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onUpdate()
 	{
-		if(templates.get(template)[0].length == 4)
-			buildAdvanced();
-		else
-			buildSimple();
-	}
-	
-	private void buildAdvanced()
-	{
-		updateMS();
+		boolean advanced = templates.get(template)[0].length == 4;
+		
+		// initialize on right click
 		if(!shouldBuild
 			&& (mc.rightClickDelayTimer == 4
 				|| wurst.mods.fastPlaceMod.isActive())
@@ -244,52 +240,62 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
 				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
 		{
-			// on right click
-			
 			// get start pos and facings
 			BlockPos startPos = mc.objectMouseOver.getBlockPos()
-				.offset(mc.objectMouseOver.sideHit).down();
+				.offset(mc.objectMouseOver.sideHit);
 			EnumFacing facing = mc.player.getHorizontalFacing();
 			EnumFacing facing2 = facing.rotateYCCW();
 			
 			// set positions
 			positions.clear();
-			for(int[] pos : templates.get(template))
+			if(advanced)
 			{
-				EnumFacing direction = EnumFacing.getFront(pos[3]);
-				
-				if(direction.getHorizontalIndex() != -1)
-					for(int i = 0; i < facing.getHorizontalIndex(); i++)
-						direction = direction.rotateY();
+				startPos = startPos.down();
+				for(int[] pos : templates.get(template))
+				{
+					EnumFacing direction = EnumFacing.getFront(pos[3]);
 					
-				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-					.offset(facing2, pos[0]).offset(direction));
-			}
-			
-			if(wurst.mods.fastPlaceMod.isActive())
-				speed = 1000000000;
-			else
-				speed = 5;
+					if(direction.getHorizontalIndex() != -1)
+						for(int i = 0; i < facing.getHorizontalIndex(); i++)
+							direction = direction.rotateY();
+						
+					positions.add(startPos.up(pos[1]).offset(facing, pos[2])
+						.offset(facing2, pos[0]).offset(direction));
+				}
+			}else
+				for(int[] pos : templates.get(template))
+					positions.add(startPos.up(pos[1]).offset(facing, pos[2])
+						.offset(facing2, pos[0]));
+				
 			if(wurst.special.yesCheatSpf.getBypassLevel()
 				.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
 			{
 				blockIndex = 0;
 				shouldBuild = true;
 				mouseOver = mc.objectMouseOver;
-				playerYaw = mc.player.rotationYaw;
-				while(playerYaw > 180)
-					playerYaw -= 360;
-				while(playerYaw < -180)
-					playerYaw += 360;
+				playerYaw = MathHelper.wrapDegrees(mc.player.rotationYaw);
+				timer = 4;
 			}else
-				BuildUtils.advancedBuild(templates.get(template));
-			updateLastMS();
+				BuildUtils.build(templates.get(template));
 			return;
 		}
+		
+		if(advanced)
+			buildAdvanced();
+		else
+			buildSimple();
+		
+		if(timer > 0)
+			timer--;
+	}
+	
+	private void buildAdvanced()
+	{
 		if(shouldBuild)
-			if((hasTimePassedS(speed) || wurst.mods.fastPlaceMod.isActive())
+			if((timer == 0 || wurst.mods.fastPlaceMod.isActive())
 				&& blockIndex < templates.get(template).length)
 			{
+				timer = 4;
 				BuildUtils.advancedBuildNext(templates.get(template), mouseOver,
 					playerYaw, blockIndex);
 				if(playerYaw > -45 && playerYaw <= 45)
@@ -364,60 +370,17 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 							blockIndex += 1;
 					}catch(NullPointerException e)
 					{}// If the current item is null.
-				updateLastMS();
 			}else if(blockIndex == templates.get(template).length)
 				shouldBuild = false;
 	}
 	
 	private void buildSimple()
 	{
-		updateMS();
-		if(!shouldBuild
-			&& (mc.rightClickDelayTimer == 4
-				|| wurst.mods.fastPlaceMod.isActive())
-			&& mc.gameSettings.keyBindUseItem.pressed
-			&& mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
-				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
-		{
-			// on right click
-			
-			// get start pos and facings
-			BlockPos startPos = mc.objectMouseOver.getBlockPos()
-				.offset(mc.objectMouseOver.sideHit);
-			EnumFacing facing = mc.player.getHorizontalFacing();
-			EnumFacing facing2 = facing.rotateYCCW();
-			
-			// set positions
-			positions.clear();
-			for(int[] pos : templates.get(template))
-				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-					.offset(facing2, pos[0]));
-			
-			if(wurst.mods.fastPlaceMod.isActive())
-				speed = 1000000000;
-			else
-				speed = 5;
-			if(wurst.special.yesCheatSpf.getBypassLevel()
-				.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
-			{
-				blockIndex = 0;
-				shouldBuild = true;
-				mouseOver = mc.objectMouseOver;
-				playerYaw = mc.player.rotationYaw;
-				while(playerYaw > 180)
-					playerYaw -= 360;
-				while(playerYaw < -180)
-					playerYaw += 360;
-			}else
-				BuildUtils.build(templates.get(template));
-			updateLastMS();
-			return;
-		}
 		if(shouldBuild)
-			if((hasTimePassedS(speed) || wurst.mods.fastPlaceMod.isActive())
+			if((timer == 0 || wurst.mods.fastPlaceMod.isActive())
 				&& blockIndex < templates.get(template).length)
 			{
+				timer = 4;
 				BuildUtils.buildNext(templates.get(template), mouseOver,
 					playerYaw, blockIndex);
 				if(playerYaw > -45 && playerYaw <= 45)
@@ -500,7 +463,6 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 							blockIndex += 1;
 					}catch(NullPointerException e)
 					{}// If the current item is null.
-				updateLastMS();
 			}else if(blockIndex == templates.get(template).length)
 				shouldBuild = false;
 	}
