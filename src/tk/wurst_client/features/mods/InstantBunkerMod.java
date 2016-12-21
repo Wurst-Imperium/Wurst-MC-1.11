@@ -29,21 +29,17 @@ import tk.wurst_client.utils.RenderUtils;
 public class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener
 {
-	// Bottom = 0, Top = 1, Front = 2, Back = 3, Right = 4, Left = 5.
-	private int[][] template = {{0, 1, 2, 1}, {1, 1, 2, 1}, {-1, 1, 2, 1},
-		{2, 1, 2, 1}, {-2, 1, 2, 1}, {2, 1, 1, 1}, {-2, 1, 1, 1}, {2, 1, 0, 1},
-		{-2, 1, 0, 1}, {2, 1, -1, 1}, {-2, 1, -1, 1}, {0, 1, -2, 1},
-		{1, 1, -2, 1}, {-1, 1, -2, 1}, {2, 1, -2, 1}, {-2, 1, -2, 1},
-		{0, 2, 2, 1}, {1, 2, 2, 1}, {-1, 2, 2, 1}, {2, 2, 2, 1}, {-2, 2, 2, 1},
-		{2, 2, 1, 1}, {-2, 2, 1, 1}, {2, 2, 0, 1}, {-2, 2, 0, 1}, {2, 2, -1, 1},
-		{-2, 2, -1, 1}, {0, 2, -2, 1}, {1, 2, -2, 1}, {-1, 2, -2, 1},
-		{2, 2, -2, 1}, {-2, 2, -2, 1}, {0, 3, 2, 1}, {1, 3, 2, 1},
-		{-1, 3, 2, 1}, {2, 3, 2, 1}, {-2, 3, 2, 1}, {2, 3, 1, 1}, {-2, 3, 1, 1},
-		{2, 3, 0, 1}, {-2, 3, 0, 1}, {2, 3, -1, 1}, {-2, 3, -1, 1},
-		{0, 3, -2, 1}, {1, 3, -2, 1}, {-1, 3, -2, 1}, {2, 3, -2, 1},
-		{-2, 3, -2, 1}, {0, 4, 2, 2}, {1, 4, 2, 2}, {-1, 4, 2, 2},
-		{0, 4, -2, 3}, {1, 4, -2, 3}, {-1, 4, -2, 3}, {2, 4, 0, 4},
-		{-2, 4, 0, 5}, {0, 4, 1, 2},};
+	private int[][] template = {{2, 0, 2}, {2, 0, 1}, {2, 0, 0}, {2, 0, -1},
+		{2, 0, -2}, {1, 0, 2}, {1, 0, -2}, {0, 0, 2}, {0, 0, -2}, {-1, 0, 2},
+		{-1, 0, -2}, {-2, 0, 2}, {-2, 0, 1}, {-2, 0, 0}, {-2, 0, -1},
+		{-2, 0, -2}, {2, 1, 2}, {2, 1, 1}, {2, 1, 0}, {2, 1, -1}, {2, 1, -2},
+		{1, 1, 2}, {1, 1, -2}, {0, 1, 2}, {0, 1, -2}, {-1, 1, 2}, {-1, 1, -2},
+		{-2, 1, 2}, {-2, 1, 1}, {-2, 1, 0}, {-2, 1, -1}, {-2, 1, -2}, {2, 2, 2},
+		{2, 2, 1}, {2, 2, 0}, {2, 2, -1}, {2, 2, -2}, {1, 2, 2}, {1, 2, 1},
+		{1, 2, 0}, {1, 2, -1}, {1, 2, -2}, {0, 2, 2}, {0, 2, 1}, {0, 2, 0},
+		{0, 2, -1}, {0, 2, -2}, {-1, 2, 2}, {-1, 2, 1}, {-1, 2, 0}, {-1, 2, -1},
+		{-1, 2, -2}, {-2, 2, 2}, {-2, 2, 1}, {-2, 2, 0}, {-2, 2, -1},
+		{-2, 2, -2}};
 	
 	private int blockIndex;
 	private boolean building;
@@ -56,7 +52,7 @@ public class InstantBunkerMod extends Mod
 		
 		// initialize
 		// get start pos and facings
-		BlockPos startPos = new BlockPos(mc.player).down();
+		BlockPos startPos = new BlockPos(mc.player);
 		EnumFacing facing = mc.player.getHorizontalFacing();
 		EnumFacing facing2 = facing.rotateYCCW();
 		
@@ -64,7 +60,7 @@ public class InstantBunkerMod extends Mod
 		positions.clear();
 		if(advanced)
 		{
-			startPos = startPos.down();
+			startPos = startPos.down().down();
 			for(int[] pos : template)
 			{
 				EnumFacing direction = EnumFacing.getFront(pos[3]);
