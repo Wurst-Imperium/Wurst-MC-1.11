@@ -13,28 +13,25 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.ModeSetting;
 import tk.wurst_client.utils.BlockUtils;
-import tk.wurst_client.utils.BuildUtils;
 
 @Mod.Info(
-	description = "Automatically builds the selected template whenever\n"
-		+ "you place a block.\n"
-		+ "This mod can bypass NoCheat+ while YesCheat+ is\n" + "enabled.",
+	description = "Automatically builds the selected template whenever you place a block.\n"
+		+ "Can fully bypass NoCheat+ while YesCheat+ is enabled.\n"
+		+ "Templates can be customized. Press the \"Help\" button for details.",
 	name = "AutoBuild",
 	tags = "AutoBridge, AutoFloor, AutoNazi, AutoPenis, AutoPillar, AutoWall, AutoWurst, auto build",
 	help = "Mods/AutoBuild")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses
 public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 {
 	public static ArrayList<String> names = new ArrayList<String>();
@@ -42,12 +39,9 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	private int template = 1;
 	
 	private int blockIndex;
-	private boolean shouldBuild;
-	private float playerYaw;
-	private RayTraceResult mouseOver;
+	private boolean building;
 	
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
-	private int timer;
 	
 	@Override
 	public String getRenderName()
@@ -87,14 +81,13 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	{
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
-		shouldBuild = false;
-		timer = 0;
+		building = false;
 	}
 	
 	@Override
 	public void onRender()
 	{
-		if(!shouldBuild || blockIndex >= positions.size())
+		if(!building || blockIndex >= positions.size())
 			return;
 		
 		// scale and offset
@@ -224,18 +217,15 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
-	// TODO: Clean up
-	
 	@Override
 	public void onUpdate()
 	{
 		boolean advanced = templates.get(template)[0].length == 4;
 		
 		// initialize on right click
-		if(!shouldBuild
+		if(!building && mc.gameSettings.keyBindUseItem.pressed
 			&& (mc.rightClickDelayTimer == 4
 				|| wurst.mods.fastPlaceMod.isActive())
-			&& mc.gameSettings.keyBindUseItem.pressed
 			&& mc.objectMouseOver != null
 			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
 				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
@@ -268,203 +258,45 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 						.offset(facing2, pos[0]));
 				
 			if(wurst.special.yesCheatSpf.getBypassLevel()
-				.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
+				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
 			{
-				blockIndex = 0;
-				shouldBuild = true;
-				mouseOver = mc.objectMouseOver;
-				playerYaw = MathHelper.wrapDegrees(mc.player.rotationYaw);
-				timer = 4;
+				// build instantly
+				for(BlockPos pos : positions)
+					if(BlockUtils.getMaterial(pos) == Material.AIR)
+						BlockUtils.placeBlockSimple(pos);
+				mc.player.swingArm(EnumHand.MAIN_HAND);
+				
+				// set timer to 3 to prevent AutoBuild from instantly building
+				// again next tick
+				// TODO: add right click event to fix this problem
+				mc.rightClickDelayTimer = 3;
 			}else
-				BuildUtils.build(templates.get(template));
+			{
+				// initialize building process
+				blockIndex = 0;
+				building = true;
+				mc.rightClickDelayTimer = 4;
+			}
+			
 			return;
 		}
 		
-		if(advanced)
-			buildAdvanced();
-		else
-			buildSimple();
-		
-		if(timer > 0)
-			timer--;
-	}
-	
-	private void buildAdvanced()
-	{
-		if(shouldBuild)
-			if((timer == 0 || wurst.mods.fastPlaceMod.isActive())
-				&& blockIndex < templates.get(template).length)
+		// place next block
+		if(building && blockIndex < positions.size()
+			&& (mc.rightClickDelayTimer == 0
+				|| wurst.mods.fastPlaceMod.isActive()))
+		{
+			BlockPos pos = positions.get(blockIndex);
+			
+			if(BlockUtils.getMaterial(pos) == Material.AIR)
+				BlockUtils.placeBlockLegit(pos);
+			else
 			{
-				timer = 4;
-				BuildUtils.advancedBuildNext(templates.get(template), mouseOver,
-					playerYaw, blockIndex);
-				if(playerYaw > -45 && playerYaw <= 45)
-					try
-					{
-						if(Block.getIdFromBlock(mc.world
-							.getBlockState(new BlockPos(BuildUtils
-								.convertPosNext(1, mouseOver)
-								+ BuildUtils.convertPosInAdvancedBuiling(1,
-									blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(2, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(2,
-										blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(3, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(3,
-										blockIndex, templates.get(template))))
-							.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > 45 && playerYaw <= 135)
-					try
-					{
-						if(Block.getIdFromBlock(mc.world
-							.getBlockState(new BlockPos(BuildUtils
-								.convertPosNext(1, mouseOver)
-								- BuildUtils.convertPosInAdvancedBuiling(3,
-									blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(2, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(2,
-										blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(3, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(1,
-										blockIndex, templates.get(template))))
-							.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > 135 || playerYaw <= -135)
-					try
-					{
-						if(Block.getIdFromBlock(mc.world
-							.getBlockState(new BlockPos(BuildUtils
-								.convertPosNext(1, mouseOver)
-								- BuildUtils.convertPosInAdvancedBuiling(1,
-									blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(2, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(2,
-										blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(3, mouseOver)
-									- BuildUtils.convertPosInAdvancedBuiling(3,
-										blockIndex, templates.get(template))))
-							.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > -135 && playerYaw <= -45)
-					try
-					{
-						if(Block.getIdFromBlock(mc.world
-							.getBlockState(new BlockPos(BuildUtils
-								.convertPosNext(1, mouseOver)
-								+ BuildUtils.convertPosInAdvancedBuiling(3,
-									blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(2, mouseOver)
-									+ BuildUtils.convertPosInAdvancedBuiling(2,
-										blockIndex, templates.get(template)),
-								BuildUtils.convertPosNext(3, mouseOver)
-									- BuildUtils.convertPosInAdvancedBuiling(1,
-										blockIndex, templates.get(template))))
-							.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-			}else if(blockIndex == templates.get(template).length)
-				shouldBuild = false;
-	}
-	
-	private void buildSimple()
-	{
-		if(shouldBuild)
-			if((timer == 0 || wurst.mods.fastPlaceMod.isActive())
-				&& blockIndex < templates.get(template).length)
-			{
-				timer = 4;
-				BuildUtils.buildNext(templates.get(template), mouseOver,
-					playerYaw, blockIndex);
-				if(playerYaw > -45 && playerYaw <= 45)
-					try
-					{
-						if(Block.getIdFromBlock(
-							mc.world
-								.getBlockState(new BlockPos(
-									mouseOver.getBlockPos().getX() + BuildUtils
-										.convertPosInBuiling(1, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getY() + BuildUtils
-										.convertPosInBuiling(2, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getZ()
-										+ BuildUtils.convertPosInBuiling(3,
-											blockIndex, templates.get(template),
-											mouseOver)))
-								.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > 45 && playerYaw <= 135)
-					try
-					{
-						if(Block.getIdFromBlock(
-							mc.world
-								.getBlockState(new BlockPos(
-									mouseOver.getBlockPos().getX() - BuildUtils
-										.convertPosInBuiling(3, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getY() + BuildUtils
-										.convertPosInBuiling(2, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getZ()
-										+ BuildUtils.convertPosInBuiling(1,
-											blockIndex, templates.get(template),
-											mouseOver)))
-								.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > 135 || playerYaw <= -135)
-					try
-					{
-						if(Block.getIdFromBlock(
-							mc.world
-								.getBlockState(new BlockPos(
-									mouseOver.getBlockPos().getX() - BuildUtils
-										.convertPosInBuiling(1, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getY() + BuildUtils
-										.convertPosInBuiling(2, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getZ()
-										- BuildUtils.convertPosInBuiling(3,
-											blockIndex, templates.get(template),
-											mouseOver)))
-								.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-				else if(playerYaw > -135 && playerYaw <= -45)
-					try
-					{
-						if(Block.getIdFromBlock(
-							mc.world
-								.getBlockState(new BlockPos(
-									mouseOver.getBlockPos().getX() + BuildUtils
-										.convertPosInBuiling(3, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getY() + BuildUtils
-										.convertPosInBuiling(2, blockIndex,
-											templates.get(template), mouseOver),
-									mouseOver.getBlockPos().getZ()
-										- BuildUtils.convertPosInBuiling(1,
-											blockIndex, templates.get(template),
-											mouseOver)))
-								.getBlock()) != 0)
-							blockIndex += 1;
-					}catch(NullPointerException e)
-					{}// If the current item is null.
-			}else if(blockIndex == templates.get(template).length)
-				shouldBuild = false;
+				blockIndex++;
+				if(blockIndex == positions.size())
+					building = false;
+			}
+		}
 	}
 	
 	public int getTemplate()
