@@ -108,9 +108,6 @@ public class FileManager
 		}else
 			loadXRayBlocks();
 		
-		File[] autobuildFiles = autobuildDir.listFiles();
-		if(autobuildFiles != null && autobuildFiles.length == 0)
-			createDefaultAutoBuildTemplates();
 		loadAutoBuildTemplates();
 	}
 	
@@ -572,25 +569,48 @@ public class FileManager
 	{
 		File[] files = autobuildDir.listFiles();
 		
+		boolean foundOldTemplates = false;
 		TreeMap<String, int[][]> templates = new TreeMap<>();
 		for(File file : files)
 		{
 			try
 			{
+				// read file
 				FileReader reader = new FileReader(file);
 				JsonObject json =
 					(JsonObject)JsonUtils.jsonParser.parse(reader);
 				reader.close();
-				templates.put(
-					file.getName().substring(0,
-						file.getName().lastIndexOf(".json")),
-					JsonUtils.gson.fromJson(json.get("blocks"), int[][].class));
+				
+				// get blocks
+				int[][] blocks =
+					JsonUtils.gson.fromJson(json.get("blocks"), int[][].class);
+				
+				// delete file if old template is found
+				if(blocks[0].length == 4)
+				{
+					foundOldTemplates = true;
+					file.delete();
+					continue;
+				}
+				
+				// add template
+				templates.put(file.getName().substring(0,
+					file.getName().lastIndexOf(".json")), blocks);
 			}catch(Exception e)
 			{
 				System.err
 					.println("Failed to load template: " + file.getName());
 				e.printStackTrace();
 			}
+		}
+		
+		// if directory is empty or contains old templates,
+		// add default templates and try again
+		if(foundOldTemplates || autobuildDir.listFiles().length == 0)
+		{
+			createDefaultAutoBuildTemplates();
+			loadAutoBuildTemplates();
+			return;
 		}
 		
 		if(templates.isEmpty())
