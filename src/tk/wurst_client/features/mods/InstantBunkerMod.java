@@ -48,8 +48,6 @@ public class InstantBunkerMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		boolean advanced = template[0].length == 4;
-		
 		// initialize
 		// get start pos and facings
 		BlockPos startPos = new BlockPos(mc.player);
@@ -58,25 +56,10 @@ public class InstantBunkerMod extends Mod
 		
 		// set positions
 		positions.clear();
-		if(advanced)
-		{
-			startPos = startPos.down().down();
-			for(int[] pos : template)
-			{
-				EnumFacing direction = EnumFacing.getFront(pos[3]);
-				
-				if(direction.getHorizontalIndex() != -1)
-					for(int i = 0; i < facing.getHorizontalIndex(); i++)
-						direction = direction.rotateY();
-					
-				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-					.offset(facing2, pos[0]).offset(direction));
-			}
-		}else
-			for(int[] pos : template)
-				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-					.offset(facing2, pos[0]));
-			
+		for(int[] pos : template)
+			positions.add(startPos.up(pos[1]).offset(facing, pos[2])
+				.offset(facing2, pos[0]));
+		
 		if(wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
 		{
