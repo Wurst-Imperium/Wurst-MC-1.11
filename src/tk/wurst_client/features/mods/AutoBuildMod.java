@@ -23,6 +23,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.ModeSetting;
+import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.BuildUtils;
 
 @Mod.Info(
@@ -232,7 +233,6 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			buildSimple();
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void buildAdvanced()
 	{
 		updateMS();
@@ -241,9 +241,8 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 				|| wurst.mods.fastPlaceMod.isActive())
 			&& mc.gameSettings.keyBindUseItem.pressed
 			&& mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null
-			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-				.getBlock().getMaterial(null) != Material.AIR)
+			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
+				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
 		{
 			// on right click
 			
@@ -370,7 +369,6 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 				shouldBuild = false;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void buildSimple()
 	{
 		updateMS();
@@ -379,9 +377,8 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 				|| wurst.mods.fastPlaceMod.isActive())
 			&& mc.gameSettings.keyBindUseItem.pressed
 			&& mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null
-			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-				.getBlock().getMaterial(null) != Material.AIR)
+			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
+				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
 		{
 			// on right click
 			
