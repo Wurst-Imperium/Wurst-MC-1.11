@@ -10,6 +10,7 @@ package tk.wurst_client.features.mods;
 import static org.lwjgl.opengl.GL11.glVertex3d;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import org.lwjgl.opengl.GL11;
 
@@ -34,32 +35,26 @@ import tk.wurst_client.utils.BlockUtils;
 @Mod.Bypasses
 public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 {
-	public static ArrayList<String> names = new ArrayList<String>();
-	public static ArrayList<int[][]> templates = new ArrayList<int[][]>();
-	private int template = 1;
+	public ModeSetting template;
 	
+	private int[][][] templates;
 	private int blockIndex;
 	private boolean building;
-	
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
 	
 	@Override
 	public String getRenderName()
 	{
-		return getName() + " [" + names.get(template) + "]";
+		return getName() + " [" + template.getSelectedMode() + "]";
 	}
 	
-	public void initTemplateSetting()
+	public void setTemplates(TreeMap<String, int[][]> templates)
 	{
-		settings.add(new ModeSetting("Template",
-			names.toArray(new String[names.size()]), template)
-		{
-			@Override
-			public void update()
-			{
-				template = getSelected();
-			}
-		});
+		this.templates =
+			templates.values().toArray(new int[templates.size()][][]);
+		template = new ModeSetting("Template",
+			templates.keySet().toArray(new String[templates.size()]), 0);
+		settings.add(template);
 	}
 	
 	@Override
@@ -220,7 +215,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onUpdate()
 	{
-		boolean advanced = templates.get(template)[0].length == 4;
+		boolean advanced = templates[template.getSelected()][0].length == 4;
 		
 		// initialize on right click
 		if(!building && mc.gameSettings.keyBindUseItem.pressed
@@ -241,7 +236,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			if(advanced)
 			{
 				startPos = startPos.down();
-				for(int[] pos : templates.get(template))
+				for(int[] pos : templates[template.getSelected()])
 				{
 					EnumFacing direction = EnumFacing.getFront(pos[3]);
 					
@@ -253,7 +248,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 						.offset(facing2, pos[0]).offset(direction));
 				}
 			}else
-				for(int[] pos : templates.get(template))
+				for(int[] pos : templates[template.getSelected()])
 					positions.add(startPos.up(pos[1]).offset(facing, pos[2])
 						.offset(facing2, pos[0]));
 				
@@ -297,15 +292,5 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 					building = false;
 			}
 		}
-	}
-	
-	public int getTemplate()
-	{
-		return template;
-	}
-	
-	public void setTemplate(int template)
-	{
-		((ModeSetting)settings.get(0)).setSelected(template);
 	}
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
@@ -24,6 +25,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
 import net.minecraft.block.Block;
@@ -105,17 +107,11 @@ public class FileManager
 			saveXRayBlocks();
 		}else
 			loadXRayBlocks();
+		
 		File[] autobuildFiles = autobuildDir.listFiles();
 		if(autobuildFiles != null && autobuildFiles.length == 0)
 			createDefaultAutoBuildTemplates();
 		loadAutoBuildTemplates();
-		AutoBuildMod autoBuildMod = WurstClient.INSTANCE.mods.autoBuildMod;
-		autoBuildMod.initTemplateSetting();
-		if(autoBuildMod.getTemplate() >= AutoBuildMod.names.size())
-		{
-			autoBuildMod.setTemplate(0);
-			saveNavigatorData();
-		}
 	}
 	
 	public void saveMods()
@@ -574,24 +570,33 @@ public class FileManager
 	
 	public void loadAutoBuildTemplates()
 	{
-		try
+		File[] files = autobuildDir.listFiles();
+		
+		TreeMap<String, int[][]> templates = new TreeMap<>();
+		for(File file : files)
 		{
-			File[] files = autobuildDir.listFiles();
-			if(files == null)
-				return;
-			for(File file : files)
+			try
 			{
-				BufferedReader load = new BufferedReader(new FileReader(file));
-				JsonObject json = (JsonObject)JsonUtils.jsonParser.parse(load);
-				load.close();
-				AutoBuildMod.templates.add(
+				FileReader reader = new FileReader(file);
+				JsonObject json =
+					(JsonObject)JsonUtils.jsonParser.parse(reader);
+				reader.close();
+				templates.put(
+					file.getName().substring(0,
+						file.getName().lastIndexOf(".json")),
 					JsonUtils.gson.fromJson(json.get("blocks"), int[][].class));
-				AutoBuildMod.names.add(file.getName().substring(0,
-					file.getName().indexOf(".json")));
+			}catch(Exception e)
+			{
+				System.err
+					.println("Failed to load template: " + file.getName());
+				e.printStackTrace();
 			}
-		}catch(Exception e)
-		{
-			e.printStackTrace();
 		}
+		
+		if(templates.isEmpty())
+			throw new JsonParseException(
+				"Couldn't load any AutoBuild templates.");
+		
+		WurstClient.INSTANCE.mods.autoBuildMod.setTemplates(templates);
 	}
 }
