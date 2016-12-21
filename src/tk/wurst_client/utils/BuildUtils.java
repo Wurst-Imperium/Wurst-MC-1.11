@@ -14,6 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 
+@Deprecated
 public class BuildUtils
 {
 	public static void build(int[][] building)
