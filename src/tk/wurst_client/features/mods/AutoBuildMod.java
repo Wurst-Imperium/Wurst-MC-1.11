@@ -79,69 +79,6 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public void onRender()
-	{
-		if(!building || blockIndex >= positions.size())
-			return;
-		
-		// scale and offset
-		double scale = 1D * 7D / 8D;
-		double offset = (1D - scale) / 2D;
-		
-		// GL settings
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		GL11.glLineWidth(2F);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(-mc.getRenderManager().renderPosX,
-			-mc.getRenderManager().renderPosY,
-			-mc.getRenderManager().renderPosZ);
-		
-		// green box
-		{
-			GL11.glDepthMask(false);
-			GL11.glColor4f(0F, 1F, 0F, 0.15F);
-			BlockPos pos = positions.get(blockIndex);
-			
-			GL11.glPushMatrix();
-			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
-			GL11.glTranslated(offset, offset, offset);
-			GL11.glScaled(scale, scale, scale);
-			
-			RenderUtils.drawSolidBox();
-			
-			GL11.glPopMatrix();
-			GL11.glDepthMask(true);
-		}
-		
-		// black outlines
-		GL11.glColor4f(0F, 0F, 0F, 0.5F);
-		for(int i = blockIndex; i < positions.size(); i++)
-		{
-			BlockPos pos = positions.get(i);
-			
-			GL11.glPushMatrix();
-			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
-			GL11.glTranslated(offset, offset, offset);
-			GL11.glScaled(scale, scale, scale);
-			
-			RenderUtils.drawOutlinedBox();
-			
-			GL11.glPopMatrix();
-		}
-		
-		GL11.glPopMatrix();
-		
-		// GL resets
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
-	}
-	
-	@Override
 	public void onUpdate()
 	{
 		// initialize on right click
@@ -204,5 +141,68 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 					building = false;
 			}
 		}
+	}
+
+	@Override
+	public void onRender()
+	{
+		if(!building || blockIndex >= positions.size())
+			return;
+		
+		// scale and offset
+		double scale = 1D * 7D / 8D;
+		double offset = (1D - scale) / 2D;
+		
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glLineWidth(2F);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-mc.getRenderManager().renderPosX,
+			-mc.getRenderManager().renderPosY,
+			-mc.getRenderManager().renderPosZ);
+		
+		// green box
+		{
+			GL11.glDepthMask(false);
+			GL11.glColor4f(0F, 1F, 0F, 0.15F);
+			BlockPos pos = positions.get(blockIndex);
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
+			GL11.glTranslated(offset, offset, offset);
+			GL11.glScaled(scale, scale, scale);
+			
+			RenderUtils.drawSolidBox();
+			
+			GL11.glPopMatrix();
+			GL11.glDepthMask(true);
+		}
+		
+		// black outlines
+		GL11.glColor4f(0F, 0F, 0F, 0.5F);
+		for(int i = blockIndex; i < positions.size(); i++)
+		{
+			BlockPos pos = positions.get(i);
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
+			GL11.glTranslated(offset, offset, offset);
+			GL11.glScaled(scale, scale, scale);
+			
+			RenderUtils.drawOutlinedBox();
+			
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 }
