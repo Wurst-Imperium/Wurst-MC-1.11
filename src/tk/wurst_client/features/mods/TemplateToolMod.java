@@ -439,8 +439,9 @@ public class TemplateToolMod extends Mod
 			JsonObject json = new JsonObject();
 			
 			// get facings
-			EnumFacing facing = mc.player.getHorizontalFacing().getOpposite();
-			EnumFacing facing2 = facing.rotateYCCW();
+			EnumFacing front = EnumFacing.getHorizontal(
+				4 - mc.player.getHorizontalFacing().getHorizontalIndex());
+			EnumFacing left = front.rotateYCCW();
 			
 			// add sorted blocks
 			JsonArray jsonBlocks = new JsonArray();
@@ -450,8 +451,8 @@ public class TemplateToolMod extends Mod
 				pos = pos.subtract(Step.FIRST_BLOCK.pos);
 				
 				// rotate
-				pos = new BlockPos(0, pos.getY(), 0).offset(facing, pos.getZ())
-					.offset(facing2, pos.getX());
+				pos = new BlockPos(0, pos.getY(), 0).offset(front, pos.getZ())
+					.offset(left, pos.getX());
 				
 				// add to json
 				jsonBlocks.add(JsonUtils.gson.toJsonTree(
