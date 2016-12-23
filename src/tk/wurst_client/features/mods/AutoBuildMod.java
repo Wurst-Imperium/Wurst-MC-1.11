@@ -49,10 +49,20 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	
 	public void setTemplates(TreeMap<String, int[][]> templates)
 	{
+		settings.clear();
+		
 		this.templates =
 			templates.values().toArray(new int[templates.size()][][]);
+		
+		int selected;
+		if(template != null && template.getSelected() < templates.size())
+			selected = template.getSelected();
+		else
+			selected = 0;
+		
 		template = new ModeSetting("Template",
-			templates.keySet().toArray(new String[templates.size()]), 0);
+			templates.keySet().toArray(new String[templates.size()]), selected);
+		
 		settings.add(template);
 	}
 	

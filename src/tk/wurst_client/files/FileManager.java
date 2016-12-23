@@ -578,7 +578,7 @@ public class FileManager
 				// read file
 				FileReader reader = new FileReader(file);
 				JsonObject json =
-					(JsonObject)JsonUtils.jsonParser.parse(reader);
+					JsonUtils.jsonParser.parse(reader).getAsJsonObject();
 				reader.close();
 				
 				// get blocks

@@ -14,8 +14,8 @@ import java.util.TreeMap;
 
 public class ModManager
 {
-	private final TreeMap<String, Mod> mods = new TreeMap<String, Mod>(
-		new Comparator<String>()
+	private final TreeMap<String, Mod> mods =
+		new TreeMap<String, Mod>(new Comparator<String>()
 		{
 			@Override
 			public int compare(String o1, String o2)
@@ -135,6 +135,7 @@ public class ModManager
 	public final SpeedNukerMod speedNukerMod = new SpeedNukerMod();
 	public final SpiderMod spiderMod = new SpiderMod();
 	public final StepMod stepMod = new StepMod();
+	public final TemplateToolMod templateToolMod = new TemplateToolMod();
 	public final ThrowMod throwMod = new ThrowMod();
 	public final TimerMod timerMod = new TimerMod();
 	public final TiredMod tiredMod = new TiredMod();
