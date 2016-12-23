@@ -20,7 +20,7 @@ If you want to edit Wurst and submit Pull Requests, follow these steps:
 
 3. Decompile Minecraft using the [MCP](http://www.modcoderpack.com/website/releases), create a folder named `mc` next to `src` and put the source code in there.
 
-4. Go to the [`patch` folder](/patch) and run `initialize.bat`.
+4. Go to the [`patch` folder](/patch) and run `initialize.bat` (requires git to be installed and added to the path so that the script can use it).
 
 5. Create a `lib` folder next to `src`, then add Minecraft's libraries to it.
 
