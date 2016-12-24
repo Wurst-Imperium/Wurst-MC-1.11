@@ -10,7 +10,7 @@ Wurst is a so-called "hacked client" for Minecraft - basically a mod that allows
 
 If you just want to use Wurst, [download it](https://www.wurst-client.tk/download/) from the official website and [install it](https://www.wurst-client.tk/wiki/Installation/) on your computer.
 
-### For Developers (Windows only)
+### For Developers
 
 If you want to edit Wurst and submit Pull Requests, follow these steps:
 
@@ -20,9 +20,9 @@ If you want to edit Wurst and submit Pull Requests, follow these steps:
 
 3. Decompile Minecraft using the [MCP](http://www.modcoderpack.com/website/releases), create a folder named `mc` next to `src` and put the source code in there.
 
-4. Go to the [`patch` folder](/patch) and run `initialize.bat` (requires git to be installed and added to the path so that the script can use it).
+4. Go to the [`patch` folder](/patch) and run `initialize.bat` (Windows) or `initialize.sh` (UNIX) (requires git to be installed and added to the path so that the script can use it).
 
-5. Create a `lib` folder next to `src`, then add Minecraft's libraries to it.
+5. Create a `lib` folder next to `src`, then add Minecraft's libraries to it. Add the missing windows libraries if on Windows in eclipse.
 
 All errors should have disappeared by now and you should be able to launch Wurst from the Eclipse project. If not, something is wrong.
 

@@ -965,7 +965,7 @@ index 69151c7..2eb563a 100644
 +				this.buttonList.add(new GuiButton(3, this.width / 2 - 100,
 +					this.height / 2 + this.textHeight / 2
 +						+ this.fontRendererObj.FONT_HEIGHT + 72,
-+					"§4Delete Server§r"));
++					"Â§4Delete ServerÂ§r"));
 +		if(WurstClient.INSTANCE.options.autoReconnect)
 +			this.autoReconnectTimer = 100;
 +    }
@@ -2600,20 +2600,20 @@ index 3e98276..5b564e4 100644
 +			// TODO: Client
 +			if(entityIn != null
 +				&& WurstClient.INSTANCE.friends.contains(entityIn.getName()))
-+				str = "§2" + (str.startsWith("§") ? str.substring(2) : str);
++				str = "Â§2" + (str.startsWith("Â§") ? str.substring(2) : str);
 +			if(entityIn instanceof EntityLivingBase
 +				&& WurstClient.INSTANCE.mods.healthTagsMod.isActive())
 +			{
 +				str += " ";
 +				int health = (int)((EntityLivingBase)entityIn).getHealth();
 +				if(health <= 5)
-+					str += "§4";
++					str += "Â§4";
 +				else if(health <= 10)
-+					str += "§6";
++					str += "Â§6";
 +				else if(health <= 15)
-+					str += "§e";
++					str += "Â§e";
 +				else
-+					str += "§a";
++					str += "Â§a";
 +				str += health;
 +			}
 +			
@@ -3259,9 +3259,9 @@ index 20fd7bb..a440c0d 100644
 +		{
 +			textcomponenttranslation =
 +				new TextComponentTranslation("disconnect.genericReason",
-+					"§c[§6Wurst§c]§r\n"
-+						+ "You are using a §ocracked§r alt on a §opremium§r server.\n"
-+						+ "§cDon't do that!");
++					"Â§c[Â§6WurstÂ§c]Â§r\n"
++						+ "You are using a Â§ocrackedÂ§r alt on a Â§opremiumÂ§r server.\n"
++						+ "Â§cDon't do that!");
 +			
          }
          else
