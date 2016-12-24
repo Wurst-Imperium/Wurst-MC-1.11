@@ -102,14 +102,14 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			// get start pos and facings
 			BlockPos startPos = mc.objectMouseOver.getBlockPos()
 				.offset(mc.objectMouseOver.sideHit);
-			EnumFacing facing = mc.player.getHorizontalFacing();
-			EnumFacing facing2 = facing.rotateYCCW();
+			EnumFacing front = mc.player.getHorizontalFacing();
+			EnumFacing left = front.rotateYCCW();
 			
 			// set positions
 			positions.clear();
 			for(int[] pos : templates[template.getSelected()])
-				positions.add(startPos.up(pos[1]).offset(facing, pos[2])
-					.offset(facing2, pos[0]));
+				positions.add(startPos.up(pos[1]).offset(front, pos[2])
+					.offset(left, pos[0]));
 			
 			if(wurst.special.yesCheatSpf.getBypassLevel()
 				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
@@ -152,7 +152,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 			}
 		}
 	}
-
+	
 	@Override
 	public void onRender()
 	{
