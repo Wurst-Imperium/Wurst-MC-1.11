@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -168,11 +168,9 @@ public class EntityUtils
 				
 				// invisible players
 			}else if(!settings.targetInvisiblePlayers())
-			{
 				if(((EntityPlayer)en).isInvisible())
 					return false;
-			}
-			
+				
 			// team players
 			if(settings.targetTeams() && !checkName(
 				((EntityPlayer)en).getDisplayName().getFormattedText(),
@@ -198,16 +196,16 @@ public class EntityUtils
 					return false;
 				
 				// animals
-			}else if((en instanceof EntityAgeable
+			}else if(en instanceof EntityAgeable
 				|| en instanceof EntityAmbientCreature
-				|| en instanceof EntityWaterMob))
+				|| en instanceof EntityWaterMob)
 			{
 				if(!settings.targetAnimals())
 					return false;
 				
 				// monsters
-			}else if((en instanceof EntityMob || en instanceof EntitySlime
-				|| en instanceof EntityFlying))
+			}else if(en instanceof EntityMob || en instanceof EntitySlime
+				|| en instanceof EntityFlying)
 			{
 				if(!settings.targetMonsters())
 					return false;

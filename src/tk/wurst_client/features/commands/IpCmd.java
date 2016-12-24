@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -14,7 +14,8 @@ import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.hooks.ServerHook;
 import tk.wurst_client.utils.ChatUtils;
 
-@Cmd.Info(description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
+@Cmd.Info(
+	description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
 	name = "ip",
 	syntax = {"[copy]"},
 	help = "Commands/ip")
@@ -27,11 +28,8 @@ public class IpCmd extends Cmd
 			ChatUtils.message("IP: " + ServerHook.getCurrentServerIP());
 		else if(args[0].toLowerCase().equals("copy"))
 		{
-			Toolkit
-				.getDefaultToolkit()
-				.getSystemClipboard()
-				.setContents(
-					new StringSelection(ServerHook.getCurrentServerIP()), null);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+				new StringSelection(ServerHook.getCurrentServerIP()), null);
 			ChatUtils.message("IP copied to clipboard.");
 		}else
 			syntaxError();

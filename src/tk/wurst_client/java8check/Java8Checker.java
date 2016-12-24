@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -42,9 +42,8 @@ public class Java8Checker
 					message += line;
 				reader.close();
 				
-				message =
-					message.replace("§currentjava",
-						System.getProperty("java.version"));
+				message = message.replace("§currentjava",
+					System.getProperty("java.version"));
 			}catch(IOException e1)
 			{
 				e1.printStackTrace();
@@ -53,18 +52,15 @@ public class Java8Checker
 			// message dialog
 			int action =
 				JOptionPane.showOptionDialog(null, message, "Outdated Java",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-					null, new String[]{"Get Help", "I know what to do"}, 0);
+					JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null,
+					new String[]{"Get Help", "I know what to do"}, 0);
 			
 			// learn more link
 			if(action == 0)
 				try
 				{
-					Desktop
-						.getDesktop()
-						.browse(
-							new URI(
-								"https://www.wurst-client.tk/redirect/outdated-java-help/"));
+					Desktop.getDesktop().browse(new URI(
+						"https://www.wurst-client.tk/redirect/outdated-java-help/"));
 				}catch(Exception e1)
 				{
 					System.err.println("Failed to open link");

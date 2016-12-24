@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,7 +18,8 @@ import tk.wurst_client.utils.MiscUtils;
 
 @Cmd.Info(description = "Modifies items in creative mode.",
 	name = "modify",
-	syntax = {"add <nbt>", "remove <nbt_path>", "set <nbt>", "metadata <value>"},
+	syntax = {"add <nbt>", "remove <nbt_path>", "set <nbt>",
+		"metadata <value>"},
 	help = "Commands/modify")
 public class ModifyCmd extends Cmd
 {

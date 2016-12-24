@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -23,7 +23,7 @@ import tk.wurst_client.utils.MiscUtils;
 	name = "potion",
 	syntax = {"add (<effect> <amplifier> <duration>)...",
 		"set (<effect> <amplifier> <duration>)...", "remove <effect>"},
-		help = "Commands/potion")
+	help = "Commands/potion")
 public class PotionCmd extends Cmd
 {
 	@Override
@@ -35,9 +35,8 @@ public class PotionCmd extends Cmd
 			error("Creative mode only.");
 		
 		ItemStack currentItem = mc.player.inventory.getCurrentItem();
-		if(currentItem == null
-			|| !(currentItem.getItem() instanceof ItemPotion || currentItem
-				.getItem() instanceof ItemSplashPotion))
+		if(currentItem == null || !(currentItem.getItem() instanceof ItemPotion
+			|| currentItem.getItem() instanceof ItemSplashPotion))
 			error("You are not holding a potion in your hand.");
 		
 		NBTTagList newEffects = new NBTTagList();
@@ -73,7 +72,8 @@ public class PotionCmd extends Cmd
 		// add
 		if(args[0].equalsIgnoreCase("add"))
 		{
-			List<PotionEffect> oldEffects = PotionUtils.getEffectsFromStack(currentItem);
+			List<PotionEffect> oldEffects =
+				PotionUtils.getEffectsFromStack(currentItem);
 			if(oldEffects != null)
 				for(int i = 0; i < oldEffects.size(); i++)
 				{
@@ -123,9 +123,8 @@ public class PotionCmd extends Cmd
 		{
 			try
 			{
-				id =
-					Potion.getIdFromPotion(Potion
-						.getPotionFromResourceLocation(input));
+				id = Potion.getIdFromPotion(
+					Potion.getPotionFromResourceLocation(input));
 			}catch(NullPointerException e)
 			{
 				syntaxError();

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -67,23 +67,22 @@ public class ModeSetting implements Setting
 					break;
 			}
 			final int iFinal = i;
-			ButtonData button =
-				featureScreen.new ButtonData(x, y, 97, 14, modes[i],
-					i == getSelected() ? 0x00ff00 : 0x404040)
+			ButtonData button = featureScreen.new ButtonData(x, y, 97, 14,
+				modes[i], i == getSelected() ? 0x00ff00 : 0x404040)
+			{
+				@Override
+				public void press()
 				{
-					@Override
-					public void press()
-					{
-						setSelected(iFinal);
-						WurstClient.INSTANCE.files.saveNavigatorData();
-					}
-					
-					@Override
-					public boolean isLocked()
-					{
-						return locked;
-					}
-				};
+					setSelected(iFinal);
+					WurstClient.INSTANCE.files.saveNavigatorData();
+				}
+				
+				@Override
+				public boolean isLocked()
+				{
+					return locked;
+				}
+			};
 			buttons[i] = button;
 			featureScreen.addButton(button);
 		}
@@ -94,19 +93,19 @@ public class ModeSetting implements Setting
 	{
 		ArrayList<PossibleKeybind> possibleKeybinds = new ArrayList<>();
 		String fullName = featureName + " " + name;
-		String command =
-			".setmode " + featureName.toLowerCase() + " "
-				+ name.toLowerCase().replace(" ", "_") + " ";
+		String command = ".setmode " + featureName.toLowerCase() + " "
+			+ name.toLowerCase().replace(" ", "_") + " ";
 		String description = "Set " + fullName + " to ";
 		
-		possibleKeybinds.add(new PossibleKeybind(command + "next", "Next "
-			+ fullName));
-		possibleKeybinds.add(new PossibleKeybind(command + "prev", "Previous "
-			+ fullName));
+		possibleKeybinds
+			.add(new PossibleKeybind(command + "next", "Next " + fullName));
+		possibleKeybinds
+			.add(new PossibleKeybind(command + "prev", "Previous " + fullName));
 		
 		for(String mode : modes)
-			possibleKeybinds.add(new PossibleKeybind(command
-				+ mode.toLowerCase().replace(" ", "_"), description + mode));
+			possibleKeybinds.add(new PossibleKeybind(
+				command + mode.toLowerCase().replace(" ", "_"),
+				description + mode));
 		
 		return possibleKeybinds;
 	}
@@ -123,9 +122,8 @@ public class ModeSetting implements Setting
 			this.selected = selected;
 			if(buttons != null)
 				for(int i = 0; i < buttons.length; i++)
-					buttons[i].color =
-						i == selected ? new Color(0x00ff00) : new Color(
-							0x404040);
+					buttons[i].color = i == selected ? new Color(0x00ff00)
+						: new Color(0x404040);
 			update();
 		}
 	}
@@ -161,7 +159,7 @@ public class ModeSetting implements Setting
 		for(int i = 0; i < modes.length; i++)
 			if(modes[i].equalsIgnoreCase(mode))
 				return i;
-		
+			
 		return -1;
 	}
 	
@@ -170,9 +168,8 @@ public class ModeSetting implements Setting
 		this.lockSelected = lockSelected;
 		if(buttons != null)
 			for(int i = 0; i < buttons.length; i++)
-				buttons[i].color =
-					i == lockSelected ? new Color(0x00ff00) : new Color(
-						0x404040);
+				buttons[i].color = i == lockSelected ? new Color(0x00ff00)
+					: new Color(0x404040);
 		locked = true;
 		update();
 	}
@@ -202,7 +199,7 @@ public class ModeSetting implements Setting
 	
 	@Override
 	public void update()
-	{	
+	{
 		
 	}
 }

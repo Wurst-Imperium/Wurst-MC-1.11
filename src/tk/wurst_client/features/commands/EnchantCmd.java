@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -36,7 +36,7 @@ public class EnchantCmd extends Cmd
 						continue;
 					currentItem.addEnchantment(enchantment, 127);
 				}catch(Exception e)
-				{	
+				{
 					
 				}
 		}else if(args[0].equals("all"))
@@ -44,8 +44,7 @@ public class EnchantCmd extends Cmd
 			int items = 0;
 			for(int i = 0; i < 40; i++)
 			{
-				ItemStack currentItem =
-					mc.player.inventory.getStackInSlot(i);
+				ItemStack currentItem = mc.player.inventory.getStackInSlot(i);
 				if(currentItem == null)
 					continue;
 				items++;
@@ -56,7 +55,7 @@ public class EnchantCmd extends Cmd
 							continue;
 						currentItem.addEnchantment(enchantment, 127);
 					}catch(Exception e)
-					{	
+					{
 						
 					}
 			}

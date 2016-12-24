@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -25,9 +25,10 @@ public class AltRenderer
 	{
 		try
 		{
-			AbstractClientPlayer.getDownloadImageSkin(
-				AbstractClientPlayer.getLocationSkin(name), name).loadTexture(
-				Minecraft.getMinecraft().getResourceManager());
+			AbstractClientPlayer
+				.getDownloadImageSkin(
+					AbstractClientPlayer.getLocationSkin(name), name)
+				.loadTexture(Minecraft.getMinecraft().getResourceManager());
 			Minecraft.getMinecraft().getTextureManager()
 				.bindTexture(AbstractClientPlayer.getLocationSkin(name));
 			glEnable(GL_BLEND);
@@ -59,15 +60,14 @@ public class AltRenderer
 	{
 		try
 		{
-			AbstractClientPlayer.getDownloadImageSkin(
-				AbstractClientPlayer.getLocationSkin(name), name).loadTexture(
-				Minecraft.getMinecraft().getResourceManager());
+			AbstractClientPlayer
+				.getDownloadImageSkin(
+					AbstractClientPlayer.getLocationSkin(name), name)
+				.loadTexture(Minecraft.getMinecraft().getResourceManager());
 			Minecraft.getMinecraft().getTextureManager()
 				.bindTexture(AbstractClientPlayer.getLocationSkin(name));
-			boolean slim =
-				DefaultPlayerSkin
-					.getSkinType(EntityPlayer.getOfflineUUID(name)).equals(
-						"slim");
+			boolean slim = DefaultPlayerSkin
+				.getSkinType(EntityPlayer.getOfflineUUID(name)).equals("slim");
 			glEnable(GL_BLEND);
 			glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			
@@ -193,15 +193,14 @@ public class AltRenderer
 	{
 		try
 		{
-			AbstractClientPlayer.getDownloadImageSkin(
-				AbstractClientPlayer.getLocationSkin(name), name).loadTexture(
-				Minecraft.getMinecraft().getResourceManager());
+			AbstractClientPlayer
+				.getDownloadImageSkin(
+					AbstractClientPlayer.getLocationSkin(name), name)
+				.loadTexture(Minecraft.getMinecraft().getResourceManager());
 			Minecraft.getMinecraft().getTextureManager()
 				.bindTexture(AbstractClientPlayer.getLocationSkin(name));
-			boolean slim =
-				DefaultPlayerSkin
-					.getSkinType(EntityPlayer.getOfflineUUID(name)).equals(
-						"slim");
+			boolean slim = DefaultPlayerSkin
+				.getSkinType(EntityPlayer.getOfflineUUID(name)).equals("slim");
 			glEnable(GL_BLEND);
 			glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			

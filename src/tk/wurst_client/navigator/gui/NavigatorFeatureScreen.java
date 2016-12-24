@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -151,7 +151,6 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 			boolean noKeybindsSet = true;
 			for(Entry<String, TreeSet<String>> entry : WurstClient.INSTANCE.keybinds
 				.entrySet())
-			{
 				for(String command : entry.getValue())
 				{
 					String keybindDescription =
@@ -166,7 +165,6 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 							new PossibleKeybind(command, keybindDescription));
 					}
 				}
-			}
 			if(noKeybindsSet)
 				text += "\nNone";
 			else
@@ -193,10 +191,9 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		if(seeAlso.length != 0)
 		{
 			text += "\n\nSee also:";
-			for(int i = 0; i < seeAlso.length; i++)
+			for(Feature seeAlsoFeature : seeAlso)
 			{
 				int y = 60 + getTextHeight() + 2;
-				Feature seeAlsoFeature = seeAlso[i];
 				String name = seeAlsoFeature.getName();
 				text += "\n- " + name;
 				buttonDatas.add(new ButtonData(middleX - 148, y,
@@ -345,8 +342,8 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 			drawEngravedBox(x1, y1, x2, y2);
 			
 			// lock
-			boolean renderAsDisabled = slider.isDisabled() || (slider.isLocked()
-				&& slider.getLockMinX() == slider.getLockMaxX());
+			boolean renderAsDisabled = slider.isDisabled() || slider.isLocked()
+				&& slider.getLockMinX() == slider.getLockMaxX();
 			if(!renderAsDisabled && slider.isLocked())
 			{
 				glColor4f(0.75F, 0.125F, 0.125F, 0.25F);
@@ -483,7 +480,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		// buttons below scissor box
 		for(int i = 0; i < buttonList.size(); i++)
 		{
-			GuiButton button = (GuiButton)buttonList.get(i);
+			GuiButton button = buttonList.get(i);
 			
 			// positions
 			int x1 = button.xPosition;

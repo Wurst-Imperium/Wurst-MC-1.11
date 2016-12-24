@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,23 +18,24 @@ import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.events.listeners.GUIRenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Cmd.Info(description = "Spawns a dancing taco on your hotbar.\n"
-	+ "\"I love that little guy. So cute!\" -WiZARD",
+@Cmd.Info(
+	description = "Spawns a dancing taco on your hotbar.\n"
+		+ "\"I love that little guy. So cute!\" -WiZARD",
 	name = "taco",
 	syntax = {},
 	help = "Commands/taco")
 public class TacoCmd extends Cmd implements GUIRenderListener, UpdateListener
 {
-	private static final ResourceLocation tacoTexture1 = new ResourceLocation(
-		"wurst/dancingtaco1.png");
-	private static final ResourceLocation tacoTexture2 = new ResourceLocation(
-		"wurst/dancingtaco2.png");
-	private static final ResourceLocation tacoTexture3 = new ResourceLocation(
-		"wurst/dancingtaco3.png");
-	private static final ResourceLocation tacoTexture4 = new ResourceLocation(
-		"wurst/dancingtaco4.png");
-	private static final ResourceLocation[] tacoTextures = {tacoTexture1,
-		tacoTexture2, tacoTexture3, tacoTexture4};
+	private static final ResourceLocation tacoTexture1 =
+		new ResourceLocation("wurst/dancingtaco1.png");
+	private static final ResourceLocation tacoTexture2 =
+		new ResourceLocation("wurst/dancingtaco2.png");
+	private static final ResourceLocation tacoTexture3 =
+		new ResourceLocation("wurst/dancingtaco3.png");
+	private static final ResourceLocation tacoTexture4 =
+		new ResourceLocation("wurst/dancingtaco4.png");
+	private static final ResourceLocation[] tacoTextures =
+		{tacoTexture1, tacoTexture2, tacoTexture3, tacoTexture4};
 	private int ticks = 0;
 	private boolean toggled;
 	

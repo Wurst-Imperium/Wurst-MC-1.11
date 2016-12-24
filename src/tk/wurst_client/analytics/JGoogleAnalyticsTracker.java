@@ -44,7 +44,8 @@ import java.util.regex.MatchResult;
  * <ul>
  * <li>If you are tracking an event,
  * {@link AnalyticsRequestData#setEventCategory(String)} and
- * {@link AnalyticsRequestData#setEventAction(String)} must both be populated.</li>
+ * {@link AnalyticsRequestData#setEventAction(String)} must both be
+ * populated.</li>
  * <li>If you are not tracking an event,
  * {@link AnalyticsRequestData#setPageURL(String)} must be populated</li>
  * </ul>
@@ -99,13 +100,13 @@ public class JGoogleAnalyticsTracker
 		SINGLE_THREAD
 	}
 	
-	private static Logger logger = Logger
-		.getLogger(JGoogleAnalyticsTracker.class.getName());
-	private static final ThreadGroup asyncThreadGroup = new ThreadGroup(
-		"Async Google Analytics Threads");
+	private static Logger logger =
+		Logger.getLogger(JGoogleAnalyticsTracker.class.getName());
+	private static final ThreadGroup asyncThreadGroup =
+		new ThreadGroup("Async Google Analytics Threads");
 	private static long asyncThreadsRunning = 0;
 	private static Proxy proxy = Proxy.NO_PROXY;
-	private static LinkedList<String> fifo = new LinkedList<String>();
+	private static LinkedList<String> fifo = new LinkedList<>();
 	private static volatile Thread backgroundThread = null; // the thread used
 	// in
 	// 'queued' mode.
@@ -433,7 +434,8 @@ public class JGoogleAnalyticsTracker
 	 * @param argAction
 	 * @param argLabel
 	 */
-	public void trackEvent(String argCategory, String argAction, String argLabel)
+	public void trackEvent(String argCategory, String argAction,
+		String argLabel)
 	{
 		trackEvent(argCategory, argAction, argLabel, null);
 	}
@@ -488,29 +490,28 @@ public class JGoogleAnalyticsTracker
 		switch(mode)
 		{
 			case MULTI_THREAD:
-				Thread t =
-					new Thread(asyncThreadGroup, "AnalyticsThread-"
-						+ asyncThreadGroup.activeCount())
+				Thread t = new Thread(asyncThreadGroup,
+					"AnalyticsThread-" + asyncThreadGroup.activeCount())
+				{
+					@Override
+					public void run()
 					{
-						@Override
-						public void run()
+						synchronized(JGoogleAnalyticsTracker.class)
+						{
+							asyncThreadsRunning++;
+						}
+						try
+						{
+							dispatchRequest(url, userAgent);
+						}finally
 						{
 							synchronized(JGoogleAnalyticsTracker.class)
 							{
-								asyncThreadsRunning++;
-							}
-							try
-							{
-								dispatchRequest(url, userAgent);
-							}finally
-							{
-								synchronized(JGoogleAnalyticsTracker.class)
-								{
-									asyncThreadsRunning--;
-								}
+								asyncThreadsRunning--;
 							}
 						}
-					};
+					}
+				};
 				t.setDaemon(true);
 				t.start();
 				break;
@@ -524,11 +525,9 @@ public class JGoogleAnalyticsTracker
 					fifo.notify();
 				}
 				if(!backgroundThreadMayRun)
-					logger
-						.log(
-							Level.SEVERE,
-							"A tracker request has been added to the queue but the background thread isn't running.",
-							url);
+					logger.log(Level.SEVERE,
+						"A tracker request has been added to the queue but the background thread isn't running.",
+						url);
 				break;
 		}
 	}

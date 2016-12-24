@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,9 +9,12 @@ package tk.wurst_client.features.commands;
 
 import tk.wurst_client.utils.MiscUtils;
 
-@Cmd.Info(description = "Teleports you up/down. Can glitch you through floors & "
-	+ "ceilings.\nThe maximum distance is 100 blocks on vanilla servers and "
-	+ "10 blocks on Bukkit servers.", name = "vclip", syntax = {"<height>"},
+@Cmd.Info(
+	description = "Teleports you up/down. Can glitch you through floors & "
+		+ "ceilings.\nThe maximum distance is 100 blocks on vanilla servers and "
+		+ "10 blocks on Bukkit servers.",
+	name = "vclip",
+	syntax = {"<height>"},
 	help = "Commands/vclip")
 public class VClipCmd extends Cmd
 {
@@ -21,8 +24,8 @@ public class VClipCmd extends Cmd
 		if(args.length != 1)
 			syntaxError();
 		if(MiscUtils.isInteger(args[0]))
-			mc.player.setPosition(mc.player.posX, mc.player.posY
-				+ Integer.valueOf(args[0]), mc.player.posZ);
+			mc.player.setPosition(mc.player.posX,
+				mc.player.posY + Integer.valueOf(args[0]), mc.player.posZ);
 		else
 			syntaxError();
 	}

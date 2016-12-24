@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,7 +9,8 @@ package tk.wurst_client.features.commands;
 
 import net.minecraft.network.play.client.CPacketChatMessage;
 
-@Cmd.Info(description = "Sends a chat message, even if the message starts with a dot.",
+@Cmd.Info(
+	description = "Sends a chat message, even if the message starts with a dot.",
 	name = "say",
 	syntax = {"<message>"},
 	tags = ".legit, dots in chat, command bypass, prefix",
@@ -24,8 +25,7 @@ public class SayCmd extends Cmd
 			String message = args[0];
 			for(int i = 1; i < args.length; i++)
 				message += " " + args[i];
-			mc.player.connection.sendPacket(new CPacketChatMessage(
-				message));
+			mc.player.connection.sendPacket(new CPacketChatMessage(message));
 		}else
 			syntaxError("Message required.");
 	}

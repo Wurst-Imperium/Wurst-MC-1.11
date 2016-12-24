@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -159,10 +159,8 @@ public class TemplateToolMod extends Mod
 		{
 			// initialize template
 			if(template == null)
-			{
 				template =
 					new Template(Step.FIRST_BLOCK.pos, area.blocksFound.size());
-			}
 			
 			// sort blocks by distance
 			if(!area.blocksFound.isEmpty())
@@ -321,7 +319,6 @@ public class TemplateToolMod extends Mod
 		
 		// sorted blocks
 		if(template != null)
-		{
 			for(BlockPos pos : template.sortedBlocks)
 			{
 				GL11.glPushMatrix();
@@ -334,7 +331,6 @@ public class TemplateToolMod extends Mod
 				
 				GL11.glPopMatrix();
 			}
-		}
 		
 		// selected positions
 		for(Step step : Step.SELECT_POSITION_STEPS)

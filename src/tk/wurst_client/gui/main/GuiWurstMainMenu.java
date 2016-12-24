@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -103,19 +103,18 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		
 		// adjust position of options, quit & language buttons
 		for(int i = 3; i <= 5; i++)
-			((GuiButton)buttonList.get(i)).yPosition =
-				Math.min(((GuiButton)buttonList.get(i)).yPosition, height - 56);
+			buttonList.get(i).yPosition =
+				Math.min(buttonList.get(i).yPosition, height - 56);
 		
 		// notice
-		this.noticeWidth1 =
-			this.fontRendererObj.getStringWidth(this.noticeText);
-		this.noticeWidth2 =
-			this.fontRendererObj.getStringWidth(GuiMainMenu.MORE_INFO_TEXT);
-		int noticeWidth = Math.max(this.noticeWidth1, this.noticeWidth2);
-		this.noticeX1 = (this.width - noticeWidth) / 2;
-		this.noticeY1 = ((GuiButton)this.buttonList.get(0)).yPosition - 24;
-		this.noticeX2 = this.noticeX1 + noticeWidth;
-		this.noticeY2 = this.noticeY1 + 24;
+		noticeWidth1 = fontRendererObj.getStringWidth(noticeText);
+		noticeWidth2 =
+			fontRendererObj.getStringWidth(GuiMainMenu.MORE_INFO_TEXT);
+		int noticeWidth = Math.max(noticeWidth1, noticeWidth2);
+		noticeX1 = (width - noticeWidth) / 2;
+		noticeY1 = buttonList.get(0).yPosition - 24;
+		noticeX2 = noticeX1 + noticeWidth;
+		noticeY2 = noticeY1 + 24;
 		
 		// news
 		newsTicker = "";
@@ -281,7 +280,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		if(GuiMainMenu.splashText.equals("umop-apisdn!"))
 		{
 			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(-width, (float)(-h - 60), 0.0F);
+			GL11.glTranslatef(-width, -h - 60, 0.0F);
 		}
 		drawModalRectWithCustomSizedTexture(x, y, u, v, w, h, fw, fh);
 		if(Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER)
@@ -300,7 +299,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		if(GuiMainMenu.splashText.equals("umop-apisdn!"))
 		{
 			GL11.glRotatef(-180.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(-width, (float)(-h - 60), 0.0F);
+			GL11.glTranslatef(-width, -h - 60, 0.0F);
 		}
 		
 		// splash text
@@ -352,7 +351,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		// tooltips
 		for(int i = 0; i < buttonList.size(); i++)
 		{
-			GuiButton button = (GuiButton)buttonList.get(i);
+			GuiButton button = buttonList.get(i);
 			if(button.isMouseOver())
 			{
 				ArrayList<String> tooltip = new ArrayList<>();
@@ -383,15 +382,14 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		}
 		
 		// notice
-		if(this.noticeText != null && this.noticeText.length() > 0)
+		if(noticeText != null && noticeText.length() > 0)
 		{
-			drawRect(this.noticeX1 - 2, this.noticeY1 - 2, this.noticeX2 + 2,
-				this.noticeY2 - 1, 1428160512);
-			this.drawString(this.fontRendererObj, this.noticeText,
-				this.noticeX1, this.noticeY1, -1);
-			this.drawString(this.fontRendererObj, GuiMainMenu.MORE_INFO_TEXT,
-				(this.width - this.noticeWidth2) / 2,
-				((GuiButton)this.buttonList.get(0)).yPosition - 12, -1);
+			drawRect(noticeX1 - 2, noticeY1 - 2, noticeX2 + 2, noticeY2 - 1,
+				1428160512);
+			drawString(fontRendererObj, noticeText, noticeX1, noticeY1, -1);
+			drawString(fontRendererObj, GuiMainMenu.MORE_INFO_TEXT,
+				(width - noticeWidth2) / 2, buttonList.get(0).yPosition - 12,
+				-1);
 		}
 	}
 	
@@ -418,9 +416,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		}
 		
 		// notice
-		if(this.noticeText.length() > 0 && mouseX >= this.noticeX1
-			&& mouseX <= this.noticeX2 && mouseY >= this.noticeY1
-			&& mouseY <= this.noticeY2)
+		if(noticeText.length() > 0 && mouseX >= noticeX1 && mouseX <= noticeX2
+			&& mouseY >= noticeY1 && mouseY <= noticeY2)
 			MiscUtils.openLink(noticeLink);
 	}
 }

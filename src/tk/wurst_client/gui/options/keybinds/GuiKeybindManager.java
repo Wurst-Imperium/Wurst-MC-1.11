@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -34,17 +34,17 @@ public class GuiKeybindManager extends GuiScreen
 		bindList.registerScrollButtons(7, 8);
 		bindList.elementClicked(-1, false, 0, 0);
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 102, height - 52, 100, 20,
-			"Add"));
-		buttonList.add(new GuiButton(1, width / 2 + 2, height - 52, 100, 20,
-			"Edit"));
-		buttonList.add(new GuiButton(2, width / 2 - 102, height - 28, 100, 20,
-			"Remove"));
-		buttonList.add(new GuiButton(3, width / 2 + 2, height - 28, 100, 20,
-			"Back"));
+		buttonList.add(
+			new GuiButton(0, width / 2 - 102, height - 52, 100, 20, "Add"));
+		buttonList
+			.add(new GuiButton(1, width / 2 + 2, height - 52, 100, 20, "Edit"));
+		buttonList.add(
+			new GuiButton(2, width / 2 - 102, height - 28, 100, 20, "Remove"));
+		buttonList
+			.add(new GuiButton(3, width / 2 + 2, height - 28, 100, 20, "Back"));
 		buttonList.add(new GuiButton(4, 8, 8, 100, 20, "Reset Keybinds"));
-		WurstClient.INSTANCE.analytics.trackPageView(
-			"/options/keybind-manager", "Keybind Manager");
+		WurstClient.INSTANCE.analytics.trackPageView("/options/keybind-manager",
+			"Keybind Manager");
 	}
 	
 	/**
@@ -53,10 +53,8 @@ public class GuiKeybindManager extends GuiScreen
 	@Override
 	public void updateScreen()
 	{
-		((GuiButton)buttonList.get(1)).enabled =
-			bindList.getSelectedSlot() != -1;
-		((GuiButton)buttonList.get(2)).enabled =
-			bindList.getSelectedSlot() != -1;
+		buttonList.get(1).enabled = bindList.getSelectedSlot() != -1;
+		buttonList.get(2).enabled = bindList.getSelectedSlot() != -1;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -81,16 +79,16 @@ public class GuiKeybindManager extends GuiScreen
 				if(clickedButton.id == 1)
 				{
 					Entry<String, TreeSet<String>> entry =
-						WurstClient.INSTANCE.keybinds.entrySet().toArray(
-							new Entry[WurstClient.INSTANCE.keybinds.size()])[bindList
-							.getSelectedSlot()];
+						WurstClient.INSTANCE.keybinds.entrySet()
+							.toArray(new Entry[WurstClient.INSTANCE.keybinds
+								.size()])[bindList.getSelectedSlot()];
 					mc.displayGuiScreen(new GuiKeybindChange(this, entry));
 				}else if(clickedButton.id == 2)
 				{
 					Entry<String, String> entry =
-						WurstClient.INSTANCE.keybinds.entrySet().toArray(
-							new Entry[WurstClient.INSTANCE.keybinds.size()])[bindList
-							.getSelectedSlot()];
+						WurstClient.INSTANCE.keybinds.entrySet()
+							.toArray(new Entry[WurstClient.INSTANCE.keybinds
+								.size()])[bindList.getSelectedSlot()];
 					WurstClient.INSTANCE.keybinds.remove(entry.getKey());
 					WurstClient.INSTANCE.files.saveKeybinds();
 					WurstClient.INSTANCE.analytics.trackEvent("keybinds",
@@ -119,7 +117,7 @@ public class GuiKeybindManager extends GuiScreen
 	protected void keyTyped(char par1, int par2)
 	{
 		if(par2 == 28 || par2 == 156)
-			actionPerformed((GuiButton)buttonList.get(0));
+			actionPerformed(buttonList.get(0));
 	}
 	
 	/**
@@ -128,8 +126,7 @@ public class GuiKeybindManager extends GuiScreen
 	 * @throws IOException
 	 */
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3)
-		throws IOException
+	protected void mouseClicked(int par1, int par2, int par3) throws IOException
 	{
 		if(par2 >= 36 && par2 <= height - 57)
 			if(par1 >= width / 2 + 140 || par1 <= width / 2 - 126)
@@ -154,8 +151,9 @@ public class GuiKeybindManager extends GuiScreen
 		bindList.drawScreen(par1, par2, par3);
 		drawCenteredString(fontRendererObj, "Keybind Manager", width / 2, 8,
 			16777215);
-		drawCenteredString(fontRendererObj, "Keybinds: "
-			+ WurstClient.INSTANCE.keybinds.size(), width / 2, 20, 16777215);
+		drawCenteredString(fontRendererObj,
+			"Keybinds: " + WurstClient.INSTANCE.keybinds.size(), width / 2, 20,
+			16777215);
 		super.drawScreen(par1, par2, par3);
 	}
 }

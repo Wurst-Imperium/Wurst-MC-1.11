@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -110,14 +110,10 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 			ItemStack stack =
 				mc.player.inventoryContainer.getSlot(i).getStack();
 			if(stack != null && stack.getItem() == Items.SPLASH_POTION)
-			{
 				for(PotionEffect effect : PotionUtils
 					.getEffectsFromStack(stack))
-				{
 					if(effect.getPotion() == MobEffects.INSTANT_HEALTH)
 						return i;
-				}
-			}
 		}
 		return -1;
 	}

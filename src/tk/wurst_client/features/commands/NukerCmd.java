@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -34,7 +34,7 @@ public class NukerCmd extends Cmd
 			for(int i = 0; i < modeNames.length; i++)
 				if(newModeName.equals(modeNames[i].toLowerCase()))
 					newMode = i;
-			
+				
 			// syntax error if mode does not exist
 			if(newMode == -1)
 				syntaxError("Invalid mode");
@@ -71,8 +71,8 @@ public class NukerCmd extends Cmd
 				error("The block \"" + args[1] + "\" could not be found.");
 			
 			NukerMod.id = newId;
-			ChatUtils.message("Nuker ID set to " + newId + " (" + args[1]
-				+ ").");
+			ChatUtils
+				.message("Nuker ID set to " + newId + " (" + args[1] + ").");
 		}else
 			syntaxError();
 	}

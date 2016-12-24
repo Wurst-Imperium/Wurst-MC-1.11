@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -90,8 +90,8 @@ public class FightBotMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.killauraMod,
-			wurst.special.targetSpf, wurst.special.yesCheatSpf};
+		return new Feature[]{wurst.mods.killauraMod, wurst.special.targetSpf,
+			wurst.special.yesCheatSpf};
 	}
 	
 	@Override
@@ -139,13 +139,11 @@ public class FightBotMod extends Mod implements UpdateListener
 			&& Math.sqrt(Math.pow(mc.player.posX - entity.posX, 2)
 				+ Math.pow(mc.player.posZ - entity.posZ, 2)) <= range
 					.getValue())
-		{
 			if(mc.player.posY > entity.posY + 1D)
 				mc.gameSettings.keyBindSneak.pressed = true;
 			else if(mc.player.posY < entity.posY - 1D)
 				mc.gameSettings.keyBindJump.pressed = true;
-		}
-		
+			
 		// follow entity
 		mc.gameSettings.keyBindForward.pressed =
 			mc.player.getDistanceToEntity(entity) > distance.getValueF();

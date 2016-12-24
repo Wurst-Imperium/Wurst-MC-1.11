@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -34,13 +34,10 @@ import tk.wurst_client.spam.exceptions.UnreadableTagException;
 import tk.wurst_client.spam.tag.Tag;
 import tk.wurst_client.utils.MiscUtils;
 
-@Mod.Info(
-	description = "It's called Spammer, but it's a lot more.\n"
-		+ "Special features:\n" + ">ASCII art\n" + ">Run any Wurst command\n"
-		+ ">Variables\n" + ">HTML-like tags & comments\n"
-		+ ">Integrated help system",
-	name = "Spammer",
-	help = "Mods/Spammer")
+@Mod.Info(description = "It's called Spammer, but it's a lot more.\n"
+	+ "Special features:\n" + ">ASCII art\n" + ">Run any Wurst command\n"
+	+ ">Variables\n" + ">HTML-like tags & comments\n"
+	+ ">Integrated help system", name = "Spammer", help = "Mods/Spammer")
 @Mod.Bypasses
 public class SpammerMod extends Mod
 {
@@ -96,15 +93,14 @@ public class SpammerMod extends Mod
 						fileChooser
 							.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fileChooser.setAcceptAllFileFilterUsed(false);
-						fileChooser
-							.addChoosableFileFilter(new FileNameExtensionFilter(
-								"All supported files", "wspam", "txt"));
-						fileChooser
-							.addChoosableFileFilter(new FileNameExtensionFilter(
-								"WSPAM files", "wspam"));
-						fileChooser
-							.addChoosableFileFilter(new FileNameExtensionFilter(
-								"TXT files", "txt"));
+						fileChooser.addChoosableFileFilter(
+							new FileNameExtensionFilter("All supported files",
+								"wspam", "txt"));
+						fileChooser.addChoosableFileFilter(
+							new FileNameExtensionFilter("WSPAM files",
+								"wspam"));
+						fileChooser.addChoosableFileFilter(
+							new FileNameExtensionFilter("TXT files", "txt"));
 						int action = fileChooser.showOpenDialog(dialog);
 						if(action == JFileChooser.APPROVE_OPTION)
 							try
@@ -114,7 +110,8 @@ public class SpammerMod extends Mod
 									new BufferedReader(new InputStreamReader(
 										new FileInputStream(file), "UTF-8"));
 								String newspam = load.readLine();
-								for(String line = ""; (line = load.readLine()) != null;)
+								for(String line =
+									""; (line = load.readLine()) != null;)
 									newspam += "\n" + line;
 								load.close();
 								spamArea.setText(newspam);
@@ -148,9 +145,9 @@ public class SpammerMod extends Mod
 						fileChooser
 							.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fileChooser.setAcceptAllFileFilterUsed(false);
-						fileChooser
-							.addChoosableFileFilter(new FileNameExtensionFilter(
-								"WSPAM files", "wspam"));
+						fileChooser.addChoosableFileFilter(
+							new FileNameExtensionFilter("WSPAM files",
+								"wspam"));
 						int action = fileChooser.showSaveDialog(dialog);
 						if(action == JFileChooser.APPROVE_OPTION)
 							try
@@ -191,8 +188,8 @@ public class SpammerMod extends Mod
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
-						MiscUtils
-							.openLink("https://www.wurst-client.tk/downloads/wspam/");
+						MiscUtils.openLink(
+							"https://www.wurst-client.tk/downloads/wspam/");
 					}
 				});
 				fileMenu.add(fileOpenLink);
@@ -208,8 +205,8 @@ public class SpammerMod extends Mod
 						final JDialog editDialog =
 							new JDialog(dialog, "New variable");
 						JPanel mainPanel = new JPanel();
-						mainPanel.setLayout(new BoxLayout(mainPanel,
-							BoxLayout.Y_AXIS));
+						mainPanel.setLayout(
+							new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 						JPanel namePanel = new JPanel();
 						JLabel nameLabel = new JLabel("Variable name");
 						namePanel.add(nameLabel);
@@ -253,9 +250,8 @@ public class SpammerMod extends Mod
 				menubar.add(editMenu);
 				
 				JMenu viewMenu = new JMenu("View");
-				JCheckBoxMenuItem viewFont =
-					new JCheckBoxMenuItem("Simulate ingame font",
-						wurst.options.spamFont);
+				JCheckBoxMenuItem viewFont = new JCheckBoxMenuItem(
+					"Simulate ingame font", wurst.options.spamFont);
 				viewFont.addActionListener(new ActionListener()
 				{
 					@Override
@@ -277,8 +273,8 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						JOptionPane.showOptionDialog(dialog,
-							new UnreadableTagException("", 0).getHelp(),
-							"Help", JOptionPane.DEFAULT_OPTION,
+							new UnreadableTagException("", 0).getHelp(), "Help",
+							JOptionPane.DEFAULT_OPTION,
 							JOptionPane.INFORMATION_MESSAGE, null,
 							new String[]{"OK"}, 0);
 					}
@@ -292,9 +288,8 @@ public class SpammerMod extends Mod
 					{
 						JDialog helpDialog =
 							new JDialog(dialog, "Available tags");
-						Object[][] rowData =
-							new Object[SpamProcessor.tagManager.getActiveTags()
-								.size()][3];
+						Object[][] rowData = new Object[SpamProcessor.tagManager
+							.getActiveTags().size()][3];
 						Iterator itr =
 							SpamProcessor.tagManager.getActiveTags().iterator();
 						for(int i = 0; itr.hasNext(); i++)
@@ -304,9 +299,8 @@ public class SpammerMod extends Mod
 							rowData[i][1] = tag.getDescription();
 							rowData[i][2] = tag.getSyntax();
 						}
-						JTable table =
-							new JTable(rowData, new Object[]{"Name",
-								"Description", "Syntax"});
+						JTable table = new JTable(rowData,
+							new Object[]{"Name", "Description", "Syntax"});
 						table.setDefaultEditor(Object.class, null);
 						table.setFillsViewportHeight(true);
 						table.setCellSelectionEnabled(true);
@@ -327,12 +321,10 @@ public class SpammerMod extends Mod
 					{
 						JDialog helpDialog =
 							new JDialog(dialog, "Pre-defined variables");
-						Object[][] rowData =
-							new Object[SpamProcessor.varManager
-								.getSpammerVars().size()][2];
-						Iterator itr =
-							SpamProcessor.varManager.getSpammerVars()
-								.entrySet().iterator();
+						Object[][] rowData = new Object[SpamProcessor.varManager
+							.getSpammerVars().size()][2];
+						Iterator itr = SpamProcessor.varManager.getSpammerVars()
+							.entrySet().iterator();
 						for(int i = 0; itr.hasNext(); i++)
 						{
 							Map.Entry var = (Map.Entry)itr.next();
@@ -368,8 +360,8 @@ public class SpammerMod extends Mod
 				JLabel delayLabel = new JLabel("Delay between messages:");
 				delayPanel.add(delayLabel);
 				delaySpinner =
-					new JSpinner(new SpinnerNumberModel(
-						wurst.options.spamDelay, 0, 3600000, 50));
+					new JSpinner(new SpinnerNumberModel(wurst.options.spamDelay,
+						0, 3600000, 50));
 				delaySpinner.addChangeListener(new ChangeListener()
 				{
 					@Override
@@ -380,14 +372,14 @@ public class SpammerMod extends Mod
 						wurst.files.saveOptions();
 					}
 				});
-				delaySpinner.setEditor(new JSpinner.NumberEditor(delaySpinner,
-					"#'ms'"));
+				delaySpinner.setEditor(
+					new JSpinner.NumberEditor(delaySpinner, "#'ms'"));
 				delayPanel.add(delaySpinner);
 				panel.add(delayPanel);
 				
 				spamArea = new JTextArea();
-				spamArea.getDocument().addDocumentListener(
-					new DocumentListener()
+				spamArea.getDocument()
+					.addDocumentListener(new DocumentListener()
 					{
 						@Override
 						public void removeUpdate(DocumentEvent e)
@@ -414,8 +406,8 @@ public class SpammerMod extends Mod
 				
 				JButton startButton = new JButton("Spam");
 				startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-				startButton.setFont(new Font(startButton.getFont().getFamily(),
-					Font.BOLD, 18));
+				startButton.setFont(
+					new Font(startButton.getFont().getFamily(), Font.BOLD, 18));
 				startButton.addActionListener(new ActionListener()
 				{
 					@Override
@@ -429,14 +421,14 @@ public class SpammerMod extends Mod
 								try
 								{
 									updateSpam();
-									SpamProcessor.process(spam,
-										SpammerMod.this, true);
-									spam =
-										SpamProcessor.process(spam,
-											SpammerMod.this, false);
+									SpamProcessor.process(spam, SpammerMod.this,
+										true);
+									spam = SpamProcessor.process(spam,
+										SpammerMod.this, false);
 									if(spam == null)
 										return;
-									for(int i = 0; i < spam.split("\n").length; i++)
+									for(int i =
+										0; i < spam.split("\n").length; i++)
 									{
 										String message = spam.split("\n")[i];
 										mc.player
@@ -483,9 +475,8 @@ public class SpammerMod extends Mod
 	{
 		try
 		{
-			spam =
-				spamArea.getDocument().getText(0,
-					spamArea.getDocument().getLength());
+			spam = spamArea.getDocument().getText(0,
+				spamArea.getDocument().getLength());
 		}catch(BadLocationException e)
 		{
 			e.printStackTrace();
@@ -496,12 +487,9 @@ public class SpammerMod extends Mod
 	{
 		try
 		{
-			Font mcfont =
-				Font.createFont(
-					Font.TRUETYPE_FONT,
-					this.getClass()
-						.getClassLoader()
-						.getResourceAsStream("assets/minecraft/font/mcfont.ttf"));
+			Font mcfont = Font.createFont(Font.TRUETYPE_FONT,
+				this.getClass().getClassLoader()
+					.getResourceAsStream("assets/minecraft/font/mcfont.ttf"));
 			mcfont = mcfont.deriveFont(12F);
 			Font defaultFont = new Font("Monospaced", Font.PLAIN, 14);
 			spamArea.setFont(wurst.options.spamFont ? mcfont : defaultFont);

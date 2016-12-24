@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,9 +13,9 @@ public class EmailAllowedCharacters
 	 * Array of the special characters that are allowed in any text drawing of
 	 * Minecraft.
 	 */
-	public static final char[] allowedCharactersArray = new char[]{'/', '\n',
-		'\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"',
-		':'};
+	public static final char[] allowedCharactersArray =
+		new char[]{'/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\',
+			'<', '>', '|', '\"', ':'};
 	
 	public static boolean isAllowedCharacter(char character)
 	{

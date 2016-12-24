@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -35,7 +35,7 @@ public class GuiXRayBlocksList extends GuiSlot
 	
 	private int selectedSlot;
 	private Minecraft mc;
-	public static ArrayList<Block> blocks = new ArrayList<Block>();
+	public static ArrayList<Block> blocks = new ArrayList<>();
 	
 	public static void sortBlocks()
 	{
@@ -45,11 +45,11 @@ public class GuiXRayBlocksList extends GuiSlot
 			@Override
 			public int compare(Block o1, Block o2)
 			{
-				return o1.getLocalizedName().compareToIgnoreCase(
-					o2.getLocalizedName());
+				return o1.getLocalizedName()
+					.compareToIgnoreCase(o2.getLocalizedName());
 			}
 		});
-		ArrayList<Block> newBlocks = new ArrayList<Block>();
+		ArrayList<Block> newBlocks = new ArrayList<>();
 		for(Block block : blocks)
 			if(XRayMod.xrayBlocks.contains(block))
 				newBlocks.add(block);
@@ -106,18 +106,17 @@ public class GuiXRayBlocksList extends GuiSlot
 			}
 		else
 			mc.fontRendererObj.drawString("?", x + 10, y + 9, 10526880);
-		Minecraft
-			.getMinecraft()
-			.getRenderItem()
-			.renderItemOverlays(Minecraft.getMinecraft().fontRendererObj,
-				itemStack, x + 4, y + 4);
+		Minecraft.getMinecraft().getRenderItem().renderItemOverlays(
+			Minecraft.getMinecraft().fontRendererObj, itemStack, x + 4, y + 4);
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.disableBlend();
 		glDisable(GL_LIGHTING);
-		mc.fontRendererObj.drawString("Name: "
-			+ (itemStack.getItem() == null ? block.getLocalizedName()
-				: itemStack.getDisplayName()), x + 31, y + 3, 10526880);
+		mc.fontRendererObj
+			.drawString(
+				"Name: " + (itemStack.getItem() == null
+					? block.getLocalizedName() : itemStack.getDisplayName()),
+				x + 31, y + 3, 10526880);
 		int blockID = Block.getIdFromBlock(block);
 		mc.fontRendererObj.drawString("ID: " + blockID, x + 31, y + 15,
 			10526880);

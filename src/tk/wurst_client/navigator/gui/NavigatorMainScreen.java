@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -85,10 +85,9 @@ public class NavigatorMainScreen extends NavigatorScreen
 			if(button == 0
 				&& (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || hoveringArrow)
 				|| button == 2)
-			{
 				// arrow click, shift click, wheel click
 				expanding = true;
-			}else if(button == 0)
+			else if(button == 0)
 			{
 				// left click
 				Feature feature = navigatorDisplayList.get(hoveredFeature);

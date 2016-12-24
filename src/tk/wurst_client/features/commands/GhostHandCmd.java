@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -38,14 +38,14 @@ public class GhostHandCmd extends Cmd
 					Block.getIdFromBlock(Block.getBlockFromName(args[1]));
 				if(newID == -1)
 				{
-					ChatUtils.message("The block \"" + args[1]
-						+ "\" could not be found.");
+					ChatUtils.message(
+						"The block \"" + args[1] + "\" could not be found.");
 					return;
 				}
 				wurst.options.ghostHandID = newID;
 				wurst.files.saveOptions();
-				ChatUtils.message("GhostHand ID set to " + newID + " ("
-					+ args[1] + ").");
+				ChatUtils.message(
+					"GhostHand ID set to " + newID + " (" + args[1] + ").");
 			}else
 				syntaxError();
 		}else

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -42,14 +42,14 @@ public class DamageCmd extends Cmd
 		NetHandlerPlayClient connection = mc.player.connection;
 		
 		// apply damage
-		for(int i = 0; (double)i < 80 + 20 * (dmg - 1D); ++i)
+		for(int i = 0; i < 80 + 20 * (dmg - 1D); ++i)
 		{
-			connection.sendPacket(new CPacketPlayer.Position(posX,
-				posY + 0.049D, posZ, false));
-			connection.sendPacket(new CPacketPlayer.Position(posX, posY,
-				posZ, false));
+			connection.sendPacket(
+				new CPacketPlayer.Position(posX, posY + 0.049D, posZ, false));
+			connection.sendPacket(
+				new CPacketPlayer.Position(posX, posY, posZ, false));
 		}
-		connection.sendPacket(new CPacketPlayer.Position(posX, posY, posZ,
-			true));
+		connection
+			.sendPacket(new CPacketPlayer.Position(posX, posY, posZ, true));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -32,10 +32,10 @@ public class HelpCmd extends Cmd
 			int page = Integer.valueOf(args[0]);
 			if(page > pages || page < 1)
 				syntaxError("Invalid page: " + page);
-			ChatUtils.message("Available commands: "
-				+ wurst.commands.countCommands());
-			ChatUtils.message("Command list (page " + page + "/" + pages
-				+ "):");
+			ChatUtils.message(
+				"Available commands: " + wurst.commands.countCommands());
+			ChatUtils
+				.message("Command list (page " + page + "/" + pages + "):");
 			Iterator<Cmd> itr = wurst.commands.getAllCommands().iterator();
 			for(int i = 0; itr.hasNext(); i++)
 			{

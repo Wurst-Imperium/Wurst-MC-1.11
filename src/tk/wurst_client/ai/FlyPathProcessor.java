@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -43,7 +43,6 @@ public class FlyPathProcessor extends PathProcessor
 					BlockPos prevPos = path.get(index - 1);
 					if(!path.get(index).subtract(prevPos)
 						.equals(prevPos.subtract(path.get(index - 2))))
-					{
 						if(!stopped)
 						{
 							mc.player.motionX /=
@@ -54,7 +53,6 @@ public class FlyPathProcessor extends PathProcessor
 								Math.max(Math.abs(mc.player.motionZ) * 50, 1);
 							stopped = true;
 						}
-					}
 				}
 				
 				// disable when done
@@ -94,12 +92,10 @@ public class FlyPathProcessor extends PathProcessor
 			
 			// vertical movement
 		}else if(pos.getY() != nextPos.getY())
-		{
 			if(pos.getY() < nextPos.getY())
 				mc.gameSettings.keyBindJump.pressed = true;
 			else
 				mc.gameSettings.keyBindSneak.pressed = true;
-		}
 	}
 	
 	@Override

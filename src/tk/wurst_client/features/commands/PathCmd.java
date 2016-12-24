@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -294,12 +294,12 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 			glLineWidth(2.0F);
 			glColor4f(1F, 1F, 0F, 0.75F);
 			PathPos[] queue = pathFinder.getQueuedBlocks();
-			for(int i = 0; i < queue.length; i++)
+			for(PathPos element : queue)
 			{
 				if(renderedThings >= 5000)
 					break;
 				
-				renderer.renderNode(queue[i]);
+				renderer.renderNode(element);
 				renderedThings++;
 			}
 			

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -52,10 +52,9 @@ public class CapeFetcher implements Runnable
 		try
 		{
 			response =
-				MiscUtils.post(
-					new URL("https://www.wurst-capes.tk/cosmetics/"),
-					JsonUtils.gson.toJson(JsonUtils.gson.toJsonTree(
-						callbacks.keySet()).getAsJsonArray()),
+				MiscUtils.post(new URL("https://www.wurst-capes.tk/cosmetics/"),
+					JsonUtils.gson.toJson(JsonUtils.gson
+						.toJsonTree(callbacks.keySet()).getAsJsonArray()),
 					"application/json");
 			JsonObject cosmetics =
 				JsonUtils.jsonParser.parse(response).getAsJsonObject();
@@ -72,15 +71,17 @@ public class CapeFetcher implements Runnable
 							Minecraft.getMinecraft().getSkinManager();
 						if(playerCosmetics.has("skin"))
 							
-							skinManager.loadSkin(
-								new MinecraftProfileTexture(playerCosmetics
-									.get("skin").getAsString(), null),
-								Type.SKIN, callbacks.get(entry.getKey()));
+							skinManager
+								.loadSkin(
+									new MinecraftProfileTexture(playerCosmetics
+										.get("skin").getAsString(), null),
+									Type.SKIN, callbacks.get(entry.getKey()));
 						if(playerCosmetics.has("cape"))
-							skinManager.loadSkin(
-								new MinecraftProfileTexture(playerCosmetics
-									.get("cape").getAsString(), null),
-								Type.CAPE, callbacks.get(entry.getKey()));
+							skinManager
+								.loadSkin(
+									new MinecraftProfileTexture(playerCosmetics
+										.get("cape").getAsString(), null),
+									Type.CAPE, callbacks.get(entry.getKey()));
 					}
 				});
 			}

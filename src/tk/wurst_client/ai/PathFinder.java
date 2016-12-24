@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -226,9 +226,9 @@ public class PathFinder
 	{
 		Material material = getMaterial(pos);
 		Block block = getBlock(pos);
-		return (material.blocksMovement() && !(block instanceof BlockSign))
-			|| block instanceof BlockLadder || (jesus
-				&& (material == Material.WATER || material == Material.LAVA));
+		return material.blocksMovement() && !(block instanceof BlockSign)
+			|| block instanceof BlockLadder || jesus
+				&& (material == Material.WATER || material == Material.LAVA);
 	}
 	
 	private boolean canGoThrough(BlockPos pos)
@@ -398,8 +398,7 @@ public class PathFinder
 		float dx = Math.abs(pos.getX() - goal.getX());
 		float dy = Math.abs(pos.getY() - goal.getY());
 		float dz = Math.abs(pos.getZ() - goal.getZ());
-		return 1.001F
-			* ((dx + dy + dz) - 0.5857864376269049F * Math.min(dx, dz));
+		return 1.001F * (dx + dy + dz - 0.5857864376269049F * Math.min(dx, dz));
 	}
 	
 	protected Block getBlock(BlockPos pos)

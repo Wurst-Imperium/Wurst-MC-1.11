@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -22,7 +22,7 @@ import tk.wurst_client.utils.RenderUtils;
 @Mod.Bypasses
 public class SearchMod extends Mod implements UpdateListener, RenderListener
 {
-	private ArrayList<BlockPos> matchingBlocks = new ArrayList<BlockPos>();
+	private ArrayList<BlockPos> matchingBlocks = new ArrayList<>();
 	private int range = 50;
 	private int maxBlocks = 1000;
 	public boolean notify = true;

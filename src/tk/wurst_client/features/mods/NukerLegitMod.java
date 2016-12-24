@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -95,9 +95,9 @@ public class NukerLegitMod extends Mod
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.nukerMod,
-			wurst.mods.speedNukerMod, wurst.mods.tunnellerMod,
-			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
+		return new Feature[]{wurst.mods.nukerMod, wurst.mods.speedNukerMod,
+			wurst.mods.tunnellerMod, wurst.mods.fastBreakMod,
+			wurst.mods.autoMineMod};
 	}
 	
 	@Override
@@ -226,8 +226,8 @@ public class NukerLegitMod extends Mod
 	@SuppressWarnings("deprecation")
 	private BlockPos find()
 	{
-		LinkedList<BlockPos> queue = new LinkedList<BlockPos>();
-		HashSet<BlockPos> alreadyProcessed = new HashSet<BlockPos>();
+		LinkedList<BlockPos> queue = new LinkedList<>();
+		HashSet<BlockPos> alreadyProcessed = new HashSet<>();
 		queue.add(new BlockPos(mc.player));
 		while(!queue.isEmpty())
 		{

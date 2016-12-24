@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,8 +13,9 @@ import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.Setting;
 
-@Cmd.Info(description = "Changes a checkbox setting of a feature. Allows you\n"
-	+ "to toggle checkboxes through keybinds.",
+@Cmd.Info(
+	description = "Changes a checkbox setting of a feature. Allows you\n"
+		+ "to toggle checkboxes through keybinds.",
 	name = "setcheckbox",
 	syntax = {"<feature> <checkbox_setting> (on|off|toggle)"},
 	help = "Commands/setcheckbox")
@@ -39,19 +40,18 @@ public class SetCheckboxCmd extends Cmd
 			}
 		}
 		if(feature == null)
-			error("A feature named \"" + featureName + "\" could not be found.");
+			error(
+				"A feature named \"" + featureName + "\" could not be found.");
 		
 		// find setting
 		Setting setting = null;
 		String settingName = args[1].replace("_", " ");
 		for(Setting featureSetting : feature.getSettings())
-		{
 			if(featureSetting.getName().equalsIgnoreCase(settingName))
 			{
 				setting = featureSetting;
 				break;
 			}
-		}
 		if(setting == null)
 			error("A setting named \"" + settingName
 				+ "\" could not be found in " + feature.getName() + ".");

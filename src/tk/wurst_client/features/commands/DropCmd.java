@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -51,13 +51,12 @@ public class DropCmd extends Cmd implements UpdateListener
 			Item item = null;
 			while(item == null)
 				item = Item.getItemById(new Random().nextInt(431));
-			mc.player.connection
-				.sendPacket(new CPacketCreativeInventoryAction(-1,
-					new ItemStack(item, 64)));
+			mc.player.connection.sendPacket(new CPacketCreativeInventoryAction(
+				-1, new ItemStack(item, 64)));
 			return;
 		}
-		if(wurst.special.yesCheatSpf.getBypassLevel().ordinal() >= BypassLevel.OLDER_NCP
-			.ordinal())
+		if(wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
 		{
 			timer++;
 			if(timer >= 5)

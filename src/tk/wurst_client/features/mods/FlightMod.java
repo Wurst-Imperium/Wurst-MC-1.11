@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -37,9 +37,8 @@ public class FlightMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.boatFlyMod,
-			wurst.mods.extraElytraMod, wurst.mods.jetpackMod,
-			wurst.mods.glideMod, wurst.mods.noFallMod,
+		return new Feature[]{wurst.mods.boatFlyMod, wurst.mods.extraElytraMod,
+			wurst.mods.jetpackMod, wurst.mods.glideMod, wurst.mods.noFallMod,
 			wurst.special.yesCheatSpf};
 	}
 	

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -18,11 +18,10 @@ import tk.wurst_client.settings.Setting;
 public abstract class Spf extends Feature
 {
 	private final String name = getClass().getAnnotation(Info.class).name();
-	private final String description = getClass().getAnnotation(Info.class)
-		.description();
+	private final String description =
+		getClass().getAnnotation(Info.class).description();
 	private final String tags = getClass().getAnnotation(Info.class).tags();
-	private final String help = getClass().getAnnotation(Info.class)
-		.help();
+	private final String help = getClass().getAnnotation(Info.class).help();
 	protected ArrayList<Setting> settings = new ArrayList<>();
 	
 	@Retention(RetentionPolicy.RUNTIME)
@@ -99,7 +98,7 @@ public abstract class Spf extends Feature
 	
 	@Override
 	public void doPrimaryAction()
-	{	
+	{
 		
 	}
 	

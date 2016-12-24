@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -19,8 +19,8 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses(ghostMode = false)
 public class AntiKnockbackMod extends Mod
 {
-	public final SliderSetting strength = new SliderSetting("Strength", 1, 0.01, 1,
-		0.01, ValueDisplay.PERCENTAGE);
+	public final SliderSetting strength = new SliderSetting("Strength", 1, 0.01,
+		1, 0.01, ValueDisplay.PERCENTAGE);
 	
 	@Override
 	public void initSettings()

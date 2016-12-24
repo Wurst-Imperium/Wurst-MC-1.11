@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,8 +9,10 @@ package tk.wurst_client.features.commands;
 
 import tk.wurst_client.features.mods.Mod;
 
-@Cmd.Info(description = "Toggles a mod.", name = "t", syntax = {"<mod> [(on|off)]"},
-help = "Commands/t")
+@Cmd.Info(description = "Toggles a mod.",
+	name = "t",
+	syntax = {"<mod> [(on|off)]"},
+	help = "Commands/t")
 public class TCmd extends Cmd
 {
 	@Override

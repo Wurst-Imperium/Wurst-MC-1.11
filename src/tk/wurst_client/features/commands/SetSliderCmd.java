@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -14,8 +14,9 @@ import tk.wurst_client.settings.Setting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.utils.MiscUtils;
 
-@Cmd.Info(description = "Changes a slider setting of a feature. Allows you to\n"
-	+ "move sliders through keybinds.",
+@Cmd.Info(
+	description = "Changes a slider setting of a feature. Allows you to\n"
+		+ "move sliders through keybinds.",
 	name = "setslider",
 	syntax = {"<feature> <slider_setting> (<value>|more|less)"},
 	help = "Commands/setslider")
@@ -40,19 +41,18 @@ public class SetSliderCmd extends Cmd
 			}
 		}
 		if(feature == null)
-			error("A feature named \"" + featureName + "\" could not be found.");
+			error(
+				"A feature named \"" + featureName + "\" could not be found.");
 		
 		// find setting
 		Setting setting = null;
 		String settingName = args[1].replace("_", " ");
 		for(Setting featureSetting : feature.getSettings())
-		{
 			if(featureSetting.getName().equalsIgnoreCase(settingName))
 			{
 				setting = featureSetting;
 				break;
 			}
-		}
 		if(setting == null)
 			error("A setting named \"" + settingName
 				+ "\" could not be found in " + feature.getName() + ".");

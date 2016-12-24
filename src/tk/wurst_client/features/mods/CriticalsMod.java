@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,8 +15,7 @@ import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.ModeSetting;
 
-@Mod.Info(
-	description = "Changes all your hits to critical hits.",
+@Mod.Info(description = "Changes all your hits to critical hits.",
 	name = "Criticals",
 	tags = "Crits",
 	help = "Mods/Criticals")
@@ -42,8 +41,7 @@ public class CriticalsMod extends Mod implements LeftClickListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.killauraMod,
-			wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.mods.killauraMod, wurst.mods.triggerBotMod};
 	}
 	
 	@Override
@@ -73,7 +71,6 @@ public class CriticalsMod extends Mod implements LeftClickListener
 		if(!mc.player.isInWater()
 			&& !mc.player.isInsideOfMaterial(Material.LAVA)
 			&& mc.player.onGround)
-		{
 			switch(mode)
 			{
 				case 0:
@@ -89,15 +86,13 @@ public class CriticalsMod extends Mod implements LeftClickListener
 					
 					connection.sendPacket(new CPacketPlayer.Position(posX,
 						posY + 0.0625D, posZ, true));
-					connection.sendPacket(new CPacketPlayer.Position(posX,
-						posY, posZ, false));
+					connection.sendPacket(
+						new CPacketPlayer.Position(posX, posY, posZ, false));
 					connection.sendPacket(new CPacketPlayer.Position(posX,
 						posY + 1.1E-5D, posZ, false));
-					connection.sendPacket(new CPacketPlayer.Position(posX,
-						posY, posZ, false));
+					connection.sendPacket(
+						new CPacketPlayer.Position(posX, posY, posZ, false));
 					break;
 			}
-			
-		}
 	}
 }

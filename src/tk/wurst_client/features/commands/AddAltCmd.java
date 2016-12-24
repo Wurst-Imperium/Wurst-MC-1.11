@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,7 +15,8 @@ import tk.wurst_client.alts.Alt;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.utils.ChatUtils;
 
-@Cmd.Info(description = "Adds a player or all players on a server to your alt list.",
+@Cmd.Info(
+	description = "Adds a player or all players on a server to your alt list.",
 	name = "addalt",
 	syntax = {"<player>", "all"},
 	help = "Commands/addalt")
@@ -36,8 +37,8 @@ public class AddAltCmd extends Cmd
 				String crackedName =
 					StringUtils.stripControlCodes(info.getPlayerNameForReal());
 				if(crackedName.equals(mc.player.getName())
-					|| crackedName.equals("Alexander01998")
-					|| GuiAltList.alts.contains(new Alt(crackedName, null, null)))
+					|| crackedName.equals("Alexander01998") || GuiAltList.alts
+						.contains(new Alt(crackedName, null, null)))
 					continue;
 				GuiAltList.alts.add(new Alt(crackedName, null, null));
 				alts++;

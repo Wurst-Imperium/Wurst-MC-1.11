@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,7 +13,6 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
@@ -71,7 +70,7 @@ public class ChestEspMod extends Mod implements RenderListener
 			if(tileEntity instanceof TileEntityChest)
 			{
 				chests++;
-				TileEntityChest chest = ((TileEntityChest)tileEntity);
+				TileEntityChest chest = (TileEntityChest)tileEntity;
 				boolean trapped = chest.getChestType() == BlockChest.Type.TRAP;
 				
 				if(emptyChests.contains(tileEntity))
@@ -135,7 +134,7 @@ public class ChestEspMod extends Mod implements RenderListener
 		
 		boolean empty = true;
 		for(int i = 0; i < inventorySlots.inventorySlots.size() - 36; i++)
-			if(((Slot)inventorySlots.inventorySlots.get(i)).getStack() != null)
+			if(inventorySlots.inventorySlots.get(i).getStack() != null)
 			{
 				empty = false;
 				break;

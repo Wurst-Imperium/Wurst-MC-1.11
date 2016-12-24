@@ -1,6 +1,6 @@
 /*
  * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -136,7 +136,7 @@ public class GuiCleanUp extends GuiScreen
 						&& server.serverMOTD.equals(
 							TextFormatting.DARK_RED + "Can\'t resolve hostname")
 						|| WurstClient.INSTANCE.options.cleanupOutdated
-							&& (server.version != WurstClient.PROTOCOL_VERSION)
+							&& server.version != WurstClient.PROTOCOL_VERSION
 						|| WurstClient.INSTANCE.options.cleanupFailed
 							&& server.pingToServer != -2L
 							&& server.pingToServer < 0L
@@ -232,7 +232,7 @@ public class GuiCleanUp extends GuiScreen
 	protected void keyTyped(char par1, int par2)
 	{
 		if(par2 == 28 || par2 == 156)
-			actionPerformed((GuiButton)buttonList.get(0));
+			actionPerformed(buttonList.get(0));
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class GuiCleanUp extends GuiScreen
 		super.drawScreen(par1, par2, par3);
 		for(int i = 0; i < buttonList.size(); i++)
 		{
-			GuiButton button = (GuiButton)buttonList.get(i);
+			GuiButton button = buttonList.get(i);
 			if(button.isMouseOver() && !toolTips[button.id].isEmpty())
 			{
 				drawHoveringText(Arrays.asList(toolTips[button.id].split("\n")),

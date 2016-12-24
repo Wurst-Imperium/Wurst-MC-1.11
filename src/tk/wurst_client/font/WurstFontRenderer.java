@@ -471,7 +471,7 @@ public class WurstFontRenderer extends FontRenderer
 	
 	public List<String> wrapWords(final String text, final double width)
 	{
-		final List<String> finalWords = new ArrayList<String>();
+		final List<String> finalWords = new ArrayList<>();
 		if(getStringWidth(text) > width)
 		{
 			final String[] words = text.split(" ");
@@ -512,7 +512,7 @@ public class WurstFontRenderer extends FontRenderer
 	
 	public List<String> formatString(final String s, final double width)
 	{
-		final List<String> finalWords = new ArrayList<String>();
+		final List<String> finalWords = new ArrayList<>();
 		String currentWord = "";
 		char lastColorCode = (char)-1;
 		for(int i = 0; i < s.toCharArray().length; i++)
