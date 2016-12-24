@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2016 | Wurst-Imperium | All rights reserved.
+ * Copyright Â© 2014 - 2016 | Wurst-Imperium | All rights reserved.
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -40,8 +40,9 @@ public class MenuWalkMod extends Mod
 			|| mc.currentScreen instanceof NavigatorScreen)
 			return false;
 		
-		// check if inventory key is pressed
-		if(Keyboard.isKeyDown(mc.gameSettings.keyBindInventory.getKeyCode()))
+		// check if inventory key is pressed and if escape key is pressed
+		if(Keyboard.isKeyDown(mc.gameSettings.keyBindInventory.getKeyCode()) || Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+
 			return false;
 		
 		return true;
