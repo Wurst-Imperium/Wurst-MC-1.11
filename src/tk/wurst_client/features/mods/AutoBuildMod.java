@@ -14,9 +14,11 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import tk.wurst_client.events.RightClickEvent;
 import tk.wurst_client.events.listeners.RenderListener;
+import tk.wurst_client.events.listeners.RightClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -32,7 +34,8 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "AutoBridge, AutoFloor, AutoNazi, AutoPenis, AutoPillar, AutoWall, AutoWurst, auto build",
 	help = "Mods/AutoBuild")
 @Mod.Bypasses
-public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
+public class AutoBuildMod extends Mod
+	implements RightClickListener, UpdateListener, RenderListener
 {
 	public ModeSetting template;
 	
@@ -76,6 +79,7 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onEnable()
 	{
+		wurst.events.add(RightClickListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
@@ -83,58 +87,57 @@ public class AutoBuildMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onDisable()
 	{
+		wurst.events.remove(RightClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		building = false;
 	}
 	
 	@Override
+	public void onRightClick(RightClickEvent event)
+	{
+		// ignore if already building
+		if(building)
+			return;
+		
+		// check hitResult
+		if(mc.objectMouseOver == null
+			|| mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK
+			|| mc.objectMouseOver.getBlockPos() == null && BlockUtils
+				.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			return;
+		
+		// get start pos and facings
+		BlockPos startPos =
+			mc.objectMouseOver.getBlockPos().offset(mc.objectMouseOver.sideHit);
+		EnumFacing front = mc.player.getHorizontalFacing();
+		EnumFacing left = front.rotateYCCW();
+		
+		// set positions
+		positions.clear();
+		for(int[] pos : templates[template.getSelected()])
+			positions.add(
+				startPos.up(pos[1]).offset(front, pos[2]).offset(left, pos[0]));
+		
+		if(wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() < BypassLevel.ANTICHEAT.ordinal())
+		{
+			// build instantly
+			for(BlockPos pos : positions)
+				if(BlockUtils.getMaterial(pos) == Material.AIR)
+					BlockUtils.placeBlockSimple(pos);
+				
+		}else
+		{
+			// initialize building process
+			blockIndex = 0;
+			building = true;
+		}
+	}
+	
+	@Override
 	public void onUpdate()
 	{
-		// initialize on right click
-		if(!building && mc.gameSettings.keyBindUseItem.pressed
-			&& (mc.rightClickDelayTimer == 4
-				|| wurst.mods.fastPlaceMod.isActive())
-			&& mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null && BlockUtils
-				.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR)
-		{
-			// get start pos and facings
-			BlockPos startPos = mc.objectMouseOver.getBlockPos()
-				.offset(mc.objectMouseOver.sideHit);
-			EnumFacing front = mc.player.getHorizontalFacing();
-			EnumFacing left = front.rotateYCCW();
-			
-			// set positions
-			positions.clear();
-			for(int[] pos : templates[template.getSelected()])
-				positions.add(startPos.up(pos[1]).offset(front, pos[2])
-					.offset(left, pos[0]));
-			
-			if(wurst.special.yesCheatSpf.getBypassLevel()
-				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
-			{
-				// build instantly
-				for(BlockPos pos : positions)
-					if(BlockUtils.getMaterial(pos) == Material.AIR)
-						BlockUtils.placeBlockSimple(pos);
-				mc.player.swingArm(EnumHand.MAIN_HAND);
-				
-				// set timer to 3 to prevent AutoBuild from instantly building
-				// again next tick
-				// TODO: add right click event to fix this problem
-				mc.rightClickDelayTimer = 3;
-			}else
-			{
-				// initialize building process
-				blockIndex = 0;
-				building = true;
-				mc.rightClickDelayTimer = 4;
-			}
-			
-			return;
-		}
-		
 		// place next block
 		if(building && blockIndex < positions.size()
 			&& (mc.rightClickDelayTimer == 0
