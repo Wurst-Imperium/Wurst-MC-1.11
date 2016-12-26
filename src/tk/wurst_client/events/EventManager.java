@@ -32,6 +32,8 @@ public final class EventManager
 			new ArrayList<GUIRenderListener>());
 		listenerMap.put(LeftClickListener.class,
 			new ArrayList<LeftClickListener>());
+		listenerMap.put(RightClickListener.class,
+			new ArrayList<RightClickListener>());
 		listenerMap.put(PacketInputListener.class,
 			new ArrayList<PacketInputListener>());
 		listenerMap.put(PacketOutputListener.class,
