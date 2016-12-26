@@ -103,7 +103,7 @@ public class AutoBuildMod extends Mod
 		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK
-			|| mc.objectMouseOver.getBlockPos() == null && BlockUtils
+			|| mc.objectMouseOver.getBlockPos() == null || BlockUtils
 				.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
 			return;
 		
