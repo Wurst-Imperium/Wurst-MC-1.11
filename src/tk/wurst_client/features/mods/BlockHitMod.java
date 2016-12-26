@@ -10,6 +10,7 @@ package tk.wurst_client.features.mods;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
 
 @Mod.Info(
@@ -35,7 +36,7 @@ public class BlockHitMod extends Mod implements LeftClickListener
 	}
 	
 	@Override
-	public void onLeftClick()
+	public void onLeftClick(LeftClickEvent event)
 	{
 		ItemStack stack = mc.player.inventory.getCurrentItem();
 		

@@ -1,6 +1,6 @@
-From 37e174e72421534b161b05ee5cca27a63b1bafaa Mon Sep 17 00:00:00 2001
+From 765b721ec876ce616568f2a62ed134cb0d1c35eb Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sat, 17 Dec 2016 09:10:37 +0100
+Date: Mon, 26 Dec 2016 17:13:37 +0100
 Subject: [PATCH] mod
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockLiquid.java               |  13 +-
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
- net/minecraft/client/Minecraft.java                | 212 ++++++++++-----------
+ net/minecraft/client/Minecraft.java                | 215 ++++++++++-----------
  net/minecraft/client/entity/EntityPlayerSP.java    | 141 +++++++++++++-
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
@@ -21,7 +21,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 +++++-
  net/minecraft/client/gui/GuiMainMenu.java          |  22 ++-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
- net/minecraft/client/gui/GuiMultiplayer.java       |  85 ++++++++-
+ net/minecraft/client/gui/GuiMultiplayer.java       |  85 +++++++-
  net/minecraft/client/gui/GuiNewChat.java           |  11 ++
  net/minecraft/client/gui/GuiScreen.java            |   6 +-
  net/minecraft/client/gui/GuiScreenBook.java        |  62 ++++++
@@ -54,8 +54,8 @@ Subject: [PATCH] mod
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
- net/minecraft/world/World.java                     |  32 +++-
- 51 files changed, 1204 insertions(+), 419 deletions(-)
+ net/minecraft/world/World.java                     |  32 ++-
+ 51 files changed, 1207 insertions(+), 419 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -254,7 +254,7 @@ index b48d9bd..ea9d052 100644
          entityIn.motionZ *= 0.4D;
      }
 diff --git a/net/minecraft/client/Minecraft.java b/net/minecraft/client/Minecraft.java
-index 37e735f..5eec0c9 100644
+index 37e735f..9319219 100644
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
 @@ -1,18 +1,5 @@
@@ -543,17 +543,20 @@ index 37e735f..5eec0c9 100644
          {
              this.gameSettings.showDebugInfo = false;
              this.ingameGUI.getChatGUI().clearChatMessages(true);
-@@ -1534,6 +1499,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1534,6 +1499,12 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      {
          if (this.leftClickCounter <= 0)
          {
 +			// TODO: Client
-+			WurstClient.INSTANCE.events.fire(LeftClickEvent.INSTANCE);
++			LeftClickEvent event = new LeftClickEvent();
++			WurstClient.INSTANCE.events.fire(event);
++			if(event.isCancelled())
++				return;
 +			
              if (this.objectMouseOver == null)
              {
                  LOGGER.error("Null returned as \'hitResult\', this shouldn\'t happen!");
-@@ -1574,12 +1542,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1574,12 +1545,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          }
      }
  
@@ -568,7 +571,7 @@ index 37e735f..5eec0c9 100644
      {
          if (!this.playerController.getIsHittingBlock())
          {
-@@ -1798,8 +1765,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1798,8 +1768,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              this.leftClickCounter = 10000;
          }
  
@@ -581,7 +584,7 @@ index 37e735f..5eec0c9 100644
              try
              {
                  this.currentScreen.handleInput();
-@@ -1840,8 +1810,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1840,8 +1813,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
          }
  
@@ -594,7 +597,7 @@ index 37e735f..5eec0c9 100644
              this.mcProfiler.endStartSection("mouse");
              this.runTickMouse();
  
-@@ -1934,8 +1907,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1934,8 +1910,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
              this.mcProfiler.endStartSection("animateTick");
  
@@ -607,7 +610,7 @@ index 37e735f..5eec0c9 100644
                  this.world.doVoidFogParticles(MathHelper.floor(this.player.posX), MathHelper.floor(this.player.posY), MathHelper.floor(this.player.posZ));
              }
  
-@@ -2000,6 +1976,18 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2000,6 +1979,18 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
                  if (this.currentScreen == null)
                  {
@@ -626,7 +629,7 @@ index 37e735f..5eec0c9 100644
                      if (i == 1)
                      {
                          this.displayInGameMenu();
-@@ -2442,6 +2430,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2442,6 +2433,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          networkmanager.sendPacket(new C00Handshake(315, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
          networkmanager.sendPacket(new CPacketLoginStart(this.getSession().getProfile()));
          this.myNetworkManager = networkmanager;
@@ -637,7 +640,7 @@ index 37e735f..5eec0c9 100644
      }
  
      /**
-@@ -2647,6 +2639,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2647,6 +2642,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
              else
              {

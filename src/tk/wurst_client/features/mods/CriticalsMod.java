@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
+import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.ModeSetting;
@@ -57,7 +58,7 @@ public class CriticalsMod extends Mod implements LeftClickListener
 	}
 	
 	@Override
-	public void onLeftClick()
+	public void onLeftClick(LeftClickEvent event)
 	{
 		if(mc.objectMouseOver != null
 			&& mc.objectMouseOver.entityHit instanceof EntityLivingBase)

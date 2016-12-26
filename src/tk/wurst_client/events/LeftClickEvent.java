@@ -11,15 +11,17 @@ import java.util.ArrayList;
 
 import tk.wurst_client.events.listeners.LeftClickListener;
 
-public class LeftClickEvent extends Event<LeftClickListener>
+public class LeftClickEvent extends CancellableEvent<LeftClickListener>
 {
-	public static final LeftClickEvent INSTANCE = new LeftClickEvent();
-	
 	@Override
 	public void fire(ArrayList<LeftClickListener> listeners)
 	{
 		for(int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onLeftClick();
+		{
+			listeners.get(i).onLeftClick(this);
+			if(isCancelled())
+				break;
+		}
 	}
 	
 	@Override
