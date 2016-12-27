@@ -83,9 +83,7 @@ public class FlyPathProcessor extends PathProcessor
 		BlockUtils.faceBlockClientHorizontally(nextPos);
 		
 		// limit vertical speed
-		if(Math.abs(pos.getY() - nextPos.getY()) < 1)
-			mc.player.motionY =
-				MathHelper.clamp(mc.player.motionY, -0.25, 0.25);
+		mc.player.motionY = MathHelper.clamp(mc.player.motionY, -0.25, 0.25);
 		
 		// horizontal movement
 		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())
@@ -107,7 +105,10 @@ public class FlyPathProcessor extends PathProcessor
 				mc.gameSettings.keyBindSneak.pressed = true;
 			
 			if(mc.player.isCollidedVertically)
+			{
+				mc.gameSettings.keyBindSneak.pressed = false;
 				mc.gameSettings.keyBindForward.pressed = true;
+			}
 		}
 	}
 	
