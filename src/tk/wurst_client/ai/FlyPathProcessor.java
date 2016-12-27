@@ -83,7 +83,7 @@ public class FlyPathProcessor extends PathProcessor
 		BlockUtils.faceBlockClientHorizontally(nextPos);
 		
 		// limit vertical speed
-		if(Math.abs(pos.getY() - nextPos.getY()) <= 1)
+		if(Math.abs(pos.getY() - nextPos.getY()) < 1)
 			mc.player.motionY =
 				MathHelper.clamp(mc.player.motionY, -0.25, 0.25);
 		
