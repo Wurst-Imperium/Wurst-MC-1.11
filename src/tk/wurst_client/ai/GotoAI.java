@@ -83,4 +83,9 @@ public class GotoAI
 	{
 		return failed;
 	}
+	
+	public BlockPos getGoal()
+	{
+		return pathFinder.getGoal();
+	}
 }

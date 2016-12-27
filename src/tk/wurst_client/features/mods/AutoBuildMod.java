@@ -16,12 +16,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import tk.wurst_client.ai.GotoAI;
 import tk.wurst_client.events.RightClickEvent;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.RightClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
+import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.ModeSetting;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
@@ -39,11 +42,26 @@ public class AutoBuildMod extends Mod
 {
 	public ModeSetting mode =
 		new ModeSetting("Mode", new String[]{"Fast", "Legit"}, 0);
+	public CheckboxSetting useAi =
+		new CheckboxSetting("Use AI (experimental)", false)
+		{
+			@Override
+			public void update()
+			{
+				if(!isChecked() && ai != null)
+				{
+					ai.stop();
+					ai = null;
+				}
+			}
+		};
 	public ModeSetting template;
 	
 	private int[][][] templates;
 	private int blockIndex;
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
+	
+	private GotoAI ai;
 	
 	@Override
 	public String getRenderName()
@@ -55,6 +73,7 @@ public class AutoBuildMod extends Mod
 	{
 		settings.clear();
 		settings.add(mode);
+		settings.add(useAi);
 		
 		this.templates =
 			templates.values().toArray(new int[templates.size()][][]);
@@ -90,6 +109,12 @@ public class AutoBuildMod extends Mod
 		wurst.events.remove(RightClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
+		
+		if(ai != null)
+		{
+			ai.stop();
+			ai = null;
+		}
 	}
 	
 	@Override
@@ -149,6 +174,32 @@ public class AutoBuildMod extends Mod
 				return;
 			}else
 				pos = positions.get(blockIndex);
+		}
+		
+		// move automatically
+		if(useAi.isChecked())
+		{
+			Vec3d eyesPos = new Vec3d(mc.player.posX,
+				mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+			if(eyesPos.squareDistanceTo(new Vec3d(pos).addVector(0.5, 0.5,
+				0.5)) > (mode.getSelected() == 0 ? 30.25 : 14.0625))
+			{
+				if(ai != null && (ai.isFailed() || !ai.getGoal().equals(pos)))
+				{
+					ai.stop();
+					ai = null;
+				}
+				
+				if(ai == null)
+					ai = new GotoAI(pos);
+				
+				ai.update();
+				
+			}else if(ai != null)
+			{
+				ai.stop();
+				ai = null;
+			}
 		}
 		
 		// fast mode
