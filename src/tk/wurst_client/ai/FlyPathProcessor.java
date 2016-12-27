@@ -86,10 +86,12 @@ public class FlyPathProcessor extends PathProcessor
 		{
 			mc.gameSettings.keyBindForward.pressed = true;
 			
-			if(mc.player.isCollidedHorizontally
-				&& mc.player.posY > nextPos.getY() + 0.2)
-				mc.gameSettings.keyBindSneak.pressed = true;
-			
+			if(mc.player.isCollidedHorizontally)
+				if(mc.player.posY > nextPos.getY() + 0.2)
+					mc.gameSettings.keyBindSneak.pressed = true;
+				else if(mc.player.posY < nextPos.getY())
+					mc.gameSettings.keyBindJump.pressed = true;
+				
 			// vertical movement
 		}else if(pos.getY() != nextPos.getY())
 		{
