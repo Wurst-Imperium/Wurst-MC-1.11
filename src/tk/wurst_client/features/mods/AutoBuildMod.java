@@ -37,6 +37,8 @@ import tk.wurst_client.utils.RenderUtils;
 public class AutoBuildMod extends Mod
 	implements RightClickListener, UpdateListener, RenderListener
 {
+	public ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Fast", "Legit"}, 0);
 	public ModeSetting template;
 	
 	private int[][][] templates;
@@ -53,6 +55,7 @@ public class AutoBuildMod extends Mod
 	public void setTemplates(TreeMap<String, int[][]> templates)
 	{
 		settings.clear();
+		settings.add(mode);
 		
 		this.templates =
 			templates.values().toArray(new int[templates.size()][][]);
@@ -119,8 +122,7 @@ public class AutoBuildMod extends Mod
 			positions.add(
 				startPos.up(pos[1]).offset(front, pos[2]).offset(left, pos[0]));
 		
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() < BypassLevel.ANTICHEAT.ordinal())
+		if(mode.getSelected() == 0 && positions.size() <= 64)
 		{
 			// build instantly
 			for(BlockPos pos : positions)
@@ -138,28 +140,48 @@ public class AutoBuildMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		// place next block
-		if(building && blockIndex < positions.size()
-			&& (mc.rightClickDelayTimer == 0
-				|| wurst.mods.fastPlaceMod.isActive()))
+		if(!building)
+			return;
+		
+		// wait for right click timer
+		if(mc.rightClickDelayTimer > 0)
+			return;
+		
+		// get next block
+		BlockPos pos = positions.get(blockIndex);
+		
+		// skip already placed blocks
+		while(BlockUtils.getMaterial(pos) != Material.AIR)
 		{
-			BlockPos pos = positions.get(blockIndex);
-			
-			if(BlockUtils.getMaterial(pos) == Material.AIR)
-				BlockUtils.placeBlockLegit(pos);
-			else
+			blockIndex++;
+			if(blockIndex == positions.size())
 			{
-				blockIndex++;
-				if(blockIndex == positions.size())
-					building = false;
-			}
+				building = false;
+				return;
+			}else
+				pos = positions.get(blockIndex);
 		}
+		
+		// place fast
+		if(mode.getSelected() == 0)
+		{
+			for(int i = blockIndex; i < positions.size()
+				&& i < blockIndex + 64; i++)
+			{
+				pos = positions.get(i);
+				if(BlockUtils.getMaterial(pos) == Material.AIR)
+					BlockUtils.placeBlockSimple(pos);
+			}
+			
+			// place legit
+		}else if(mode.getSelected() == 1)
+			BlockUtils.placeBlockLegit(pos);
 	}
 	
 	@Override
 	public void onRender()
 	{
-		if(!building || blockIndex >= positions.size())
+		if(!building)
 			return;
 		
 		// scale and offset
@@ -217,5 +239,14 @@ public class AutoBuildMod extends Mod
 		// GL resets
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	@Override
+	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	{
+		if(bypassLevel.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
+			mode.lock(1);
+		else
+			mode.unlock();
 	}
 }
