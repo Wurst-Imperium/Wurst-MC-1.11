@@ -143,10 +143,6 @@ public class AutoBuildMod extends Mod
 		if(!building)
 			return;
 		
-		// wait for right click timer
-		if(mc.rightClickDelayTimer > 0)
-			return;
-		
 		// get next block
 		BlockPos pos = positions.get(blockIndex);
 		
@@ -162,9 +158,10 @@ public class AutoBuildMod extends Mod
 				pos = positions.get(blockIndex);
 		}
 		
-		// place fast
+		// fast mode
 		if(mode.getSelected() == 0)
 		{
+			// place next 64 blocks
 			for(int i = blockIndex; i < positions.size()
 				&& i < blockIndex + 64; i++)
 			{
@@ -173,9 +170,16 @@ public class AutoBuildMod extends Mod
 					BlockUtils.placeBlockSimple(pos);
 			}
 			
-			// place legit
+			// legit mode
 		}else if(mode.getSelected() == 1)
+		{
+			// wait for right click timer
+			if(mc.rightClickDelayTimer > 0)
+				return;
+			
+			// place next block
 			BlockUtils.placeBlockLegit(pos);
+		}
 	}
 	
 	@Override
