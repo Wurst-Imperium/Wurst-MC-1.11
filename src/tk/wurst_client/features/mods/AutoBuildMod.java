@@ -43,7 +43,6 @@ public class AutoBuildMod extends Mod
 	
 	private int[][][] templates;
 	private int blockIndex;
-	private boolean building;
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
 	
 	@Override
@@ -83,8 +82,6 @@ public class AutoBuildMod extends Mod
 	public void onEnable()
 	{
 		wurst.events.add(RightClickListener.class, this);
-		wurst.events.add(UpdateListener.class, this);
-		wurst.events.add(RenderListener.class, this);
 	}
 	
 	@Override
@@ -93,16 +90,11 @@ public class AutoBuildMod extends Mod
 		wurst.events.remove(RightClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
-		building = false;
 	}
 	
 	@Override
 	public void onRightClick(RightClickEvent event)
 	{
-		// ignore if already building
-		if(building)
-			return;
-		
 		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK
@@ -133,16 +125,15 @@ public class AutoBuildMod extends Mod
 		{
 			// initialize building process
 			blockIndex = 0;
-			building = true;
+			wurst.events.add(UpdateListener.class, this);
+			wurst.events.add(RenderListener.class, this);
+			wurst.events.remove(RightClickListener.class, this);
 		}
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		if(!building)
-			return;
-		
 		// get next block
 		BlockPos pos = positions.get(blockIndex);
 		
@@ -152,7 +143,9 @@ public class AutoBuildMod extends Mod
 			blockIndex++;
 			if(blockIndex == positions.size())
 			{
-				building = false;
+				wurst.events.remove(UpdateListener.class, this);
+				wurst.events.remove(RenderListener.class, this);
+				wurst.events.add(RightClickListener.class, this);
 				return;
 			}else
 				pos = positions.get(blockIndex);
@@ -185,9 +178,6 @@ public class AutoBuildMod extends Mod
 	@Override
 	public void onRender()
 	{
-		if(!building)
-			return;
-		
 		// scale and offset
 		double scale = 1D * 7D / 8D;
 		double offset = (1D - scale) / 2D;
