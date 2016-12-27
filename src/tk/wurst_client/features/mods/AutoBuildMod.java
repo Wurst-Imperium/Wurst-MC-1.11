@@ -17,7 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import tk.wurst_client.ai.GotoAI;
+import tk.wurst_client.ai.AutoBuildAI;
 import tk.wurst_client.events.RightClickEvent;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.RightClickListener;
@@ -61,7 +61,7 @@ public class AutoBuildMod extends Mod
 	private int blockIndex;
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
 	
-	private GotoAI ai;
+	private AutoBuildAI ai;
 	
 	@Override
 	public String getRenderName()
@@ -191,7 +191,7 @@ public class AutoBuildMod extends Mod
 				}
 				
 				if(ai == null)
-					ai = new GotoAI(pos);
+					ai = new AutoBuildAI(pos);
 				
 				ai.update();
 				

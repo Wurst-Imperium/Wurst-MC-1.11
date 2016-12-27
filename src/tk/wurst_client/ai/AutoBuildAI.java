@@ -9,7 +9,7 @@ package tk.wurst_client.ai;
 
 import net.minecraft.util.math.BlockPos;
 
-public class GotoAI
+public class AutoBuildAI
 {
 	private PathFinder pathFinder;
 	private PathProcessor processor;
@@ -17,44 +17,36 @@ public class GotoAI
 	private boolean done;
 	private boolean failed;
 	
-	public GotoAI(BlockPos goal)
+	public AutoBuildAI(BlockPos goal)
 	{
-		System.out.println("Finding path...");
 		pathFinder = new PathFinder(goal);
+		pathFinder.setThinkTime(10);
 	}
 	
 	public void update()
 	{
 		// find path
-		if(!pathFinder.isDone())
+		if(!pathFinder.isDone() && !pathFinder.isFailed())
 		{
 			if(processor != null)
 				processor.lockControls();
 			
 			pathFinder.think();
 			
-			if(!pathFinder.isDone())
-			{
-				if(pathFinder.isFailed())
-					failed = true;
-				
+			if(!pathFinder.isDone() && !pathFinder.isFailed())
 				return;
-			}
 			
 			pathFinder.formatPath();
 			
 			// set processor
 			processor = pathFinder.getProcessor();
-			
-			System.out.println("Done");
 		}
 		
 		// check path
 		if(processor != null
 			&& !pathFinder.isPathStillValid(processor.getIndex()))
 		{
-			System.out.println("Updating path...");
-			pathFinder = new PathFinder(pathFinder.getGoal());
+			pathFinder = new PathFinder(pathFinder);
 			return;
 		}
 		
@@ -82,5 +74,10 @@ public class GotoAI
 	public final boolean isFailed()
 	{
 		return failed;
+	}
+	
+	public BlockPos getGoal()
+	{
+		return pathFinder.getGoal();
 	}
 }
