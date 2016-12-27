@@ -207,8 +207,8 @@ public class AutoBuildMod extends Mod
 		
 		// green box
 		{
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthMask(false);
-			GL11.glColor4f(0F, 1F, 0F, 0.15F);
 			BlockPos pos = positions.get(blockIndex);
 			
 			GL11.glPushMatrix();
@@ -216,15 +216,20 @@ public class AutoBuildMod extends Mod
 			GL11.glTranslated(offset, offset, offset);
 			GL11.glScaled(scale, scale, scale);
 			
+			GL11.glColor4f(0F, 1F, 0F, 0.15F);
 			RenderUtils.drawSolidBox();
+			
+			GL11.glColor4f(0F, 0F, 0F, 0.5F);
+			RenderUtils.drawOutlinedBox();
 			
 			GL11.glPopMatrix();
 			GL11.glDepthMask(true);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		}
 		
 		// black outlines
-		GL11.glColor4f(0F, 0F, 0F, 0.5F);
-		for(int i = blockIndex; i < positions.size(); i++)
+		for(int i = blockIndex + 1; i < positions.size()
+			&& i < blockIndex + 1024; i++)
 		{
 			BlockPos pos = positions.get(i);
 			
