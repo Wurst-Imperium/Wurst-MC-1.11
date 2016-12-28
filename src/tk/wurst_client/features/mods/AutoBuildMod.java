@@ -174,12 +174,22 @@ public class AutoBuildMod extends Mod
 		while(BlockUtils.getMaterial(pos) != Material.AIR)
 		{
 			blockIndex++;
+			
+			// stop if done
 			if(blockIndex == positions.size())
 			{
 				wurst.events.remove(UpdateListener.class, this);
 				wurst.events.remove(RenderListener.class, this);
 				wurst.events.add(RightClickListener.class, this);
+				
 				blockIndex = 0;
+
+				if(ai != null)
+				{
+					ai.stop();
+					ai = null;
+				}
+				
 				return;
 			}else
 				pos = positions.get(blockIndex);
