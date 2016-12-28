@@ -183,7 +183,7 @@ public class AutoBuildMod extends Mod
 				wurst.events.add(RightClickListener.class, this);
 				
 				blockIndex = 0;
-
+				
 				if(ai != null)
 				{
 					ai.stop();
@@ -198,10 +198,12 @@ public class AutoBuildMod extends Mod
 		// move automatically
 		if(useAi.isChecked())
 		{
+			BlockPos playerPos = new BlockPos(mc.player);
 			Vec3d eyesPos = new Vec3d(mc.player.posX,
 				mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
-			if(eyesPos.squareDistanceTo(new Vec3d(pos).addVector(0.5, 0.5,
-				0.5)) > (mode.getSelected() == 0 ? 30.25 : 14.0625))
+			if(playerPos.equals(pos) || playerPos.equals(pos.down())
+				|| eyesPos.squareDistanceTo(new Vec3d(pos).addVector(0.5, 0.5,
+					0.5)) > (mode.getSelected() == 0 ? 30.25 : 14.0625))
 			{
 				if(ai != null && (ai.isFailed() || ai.isDone()
 					|| !ai.getGoal().equals(pos)))

@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class AutoBuildAI
 {
-	private PathFinder pathFinder;
+	private AutoBuildPathFinder pathFinder;
 	private PathProcessor processor;
 	
 	private boolean done;
@@ -19,7 +19,7 @@ public class AutoBuildAI
 	
 	public AutoBuildAI(BlockPos goal)
 	{
-		pathFinder = new PathFinder(goal);
+		pathFinder = new AutoBuildPathFinder(goal);
 		pathFinder.setThinkTime(10);
 	}
 	
@@ -46,7 +46,7 @@ public class AutoBuildAI
 		if(processor != null
 			&& !pathFinder.isPathStillValid(processor.getIndex()))
 		{
-			pathFinder = new PathFinder(pathFinder);
+			pathFinder = new AutoBuildPathFinder(pathFinder);
 			return;
 		}
 		
@@ -79,5 +79,29 @@ public class AutoBuildAI
 	public BlockPos getGoal()
 	{
 		return pathFinder.getGoal();
+	}
+	
+	private class AutoBuildPathFinder extends PathFinder
+	{
+		public AutoBuildPathFinder(BlockPos goal)
+		{
+			super(goal);
+		}
+		
+		public AutoBuildPathFinder(AutoBuildPathFinder pathFinder)
+		{
+			super(pathFinder);
+		}
+		
+		@Override
+		protected boolean checkDone()
+		{
+			BlockPos goal = getGoal();
+			
+			return done = goal.down(2).equals(current)
+				|| goal.up().equals(current) || goal.north().equals(current)
+				|| goal.south().equals(current) || goal.west().equals(current)
+				|| goal.east().equals(current);
+		}
 	}
 }
