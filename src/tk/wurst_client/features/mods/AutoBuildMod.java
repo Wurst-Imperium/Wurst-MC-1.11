@@ -66,7 +66,14 @@ public class AutoBuildMod extends Mod
 	@Override
 	public String getRenderName()
 	{
-		return getName() + " [" + template.getSelectedMode() + "]";
+		String name = getName() + " [" + template.getSelectedMode() + "]";
+		
+		if(blockIndex > 0)
+			name +=
+				" " + (int)((float)blockIndex / (float)positions.size() * 100)
+					+ "%";
+		
+		return name;
 	}
 	
 	public void setTemplates(TreeMap<String, int[][]> templates)
@@ -110,6 +117,8 @@ public class AutoBuildMod extends Mod
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		
+		blockIndex = 0;
+		
 		if(ai != null)
 		{
 			ai.stop();
@@ -149,7 +158,6 @@ public class AutoBuildMod extends Mod
 		}else
 		{
 			// initialize building process
-			blockIndex = 0;
 			wurst.events.add(UpdateListener.class, this);
 			wurst.events.add(RenderListener.class, this);
 			wurst.events.remove(RightClickListener.class, this);
@@ -171,6 +179,7 @@ public class AutoBuildMod extends Mod
 				wurst.events.remove(UpdateListener.class, this);
 				wurst.events.remove(RenderListener.class, this);
 				wurst.events.add(RightClickListener.class, this);
+				blockIndex = 0;
 				return;
 			}else
 				pos = positions.get(blockIndex);
