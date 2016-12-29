@@ -368,8 +368,12 @@ public class FileManager
 		try
 		{
 			BufferedReader load = new BufferedReader(new FileReader(options));
-			WurstClient.INSTANCE.options =
+			
+			OptionsManager newOptions =
 				JsonUtils.gson.fromJson(load, OptionsManager.class);
+			if(newOptions != null)
+				WurstClient.INSTANCE.options = newOptions;
+			
 			load.close();
 		}catch(Exception e)
 		{
