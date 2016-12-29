@@ -7,6 +7,10 @@
  */
 package tk.wurst_client;
 
+import java.util.Collections;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
 import tk.wurst_client.analytics.AnalyticsManager;
 import tk.wurst_client.events.EventManager;
 import tk.wurst_client.features.commands.CmdManager;
@@ -27,7 +31,15 @@ public enum WurstClient
 	
 	public static final String VERSION = "5.4";
 	public static final String MINECRAFT_VERSION = "1.11";
-	public static final int PROTOCOL_VERSION = 315;
+	
+	public static final NavigableMap<Integer, String> PROTOCOLS;
+	static
+	{
+		TreeMap<Integer, String> protocols = new TreeMap<>();
+		protocols.put(315, "1.11");
+		protocols.put(316, "1.11.1/2");
+		PROTOCOLS = Collections.unmodifiableNavigableMap(protocols);
+	}
 	
 	public AnalyticsManager analytics;
 	public CmdManager commands;

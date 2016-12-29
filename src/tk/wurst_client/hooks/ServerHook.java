@@ -35,6 +35,7 @@ public class ServerHook
 {
 	private static String currentServerIP = "127.0.0.1:25565";
 	private static ServerListEntryNormal lastServer;
+	private static int protocolVersion = WurstClient.PROTOCOLS.firstKey();
 	
 	public static void importServers(GuiMultiplayer guiMultiplayer)
 	{
@@ -202,5 +203,23 @@ public class ServerHook
 	public static ServerData getLastServerData()
 	{
 		return lastServer.getServerData();
+	}
+	
+	public static void switchProtocolVersion()
+	{
+		if(protocolVersion == WurstClient.PROTOCOLS.lastKey())
+			protocolVersion = WurstClient.PROTOCOLS.firstKey();
+		else
+			protocolVersion = WurstClient.PROTOCOLS.higherKey(protocolVersion);
+	}
+	
+	public static String getVersionButtonText()
+	{
+		return "Version: " + WurstClient.PROTOCOLS.get(protocolVersion);
+	}
+	
+	public static int getProtocolVersion()
+	{
+		return protocolVersion;
 	}
 }

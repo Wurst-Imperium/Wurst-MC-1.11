@@ -1,6 +1,6 @@
-From 9ae31d71438f30a74112a4a13be6721f64a4411c Mon Sep 17 00:00:00 2001
+From 5c99df5bd5df30e6bfd804abf3e0f30fd5afbf2e Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 26 Dec 2016 17:28:21 +0100
+Date: Thu, 29 Dec 2016 18:51:41 +0100
 Subject: [PATCH] mod
 
 ---
@@ -21,7 +21,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 ++++-
  net/minecraft/client/gui/GuiMainMenu.java          |  22 +-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
- net/minecraft/client/gui/GuiMultiplayer.java       |  85 +++++++-
+ net/minecraft/client/gui/GuiMultiplayer.java       |  95 ++++++++-
  net/minecraft/client/gui/GuiNewChat.java           |  11 +
  net/minecraft/client/gui/GuiScreen.java            |   6 +-
  net/minecraft/client/gui/GuiScreenBook.java        |  62 ++++++
@@ -31,6 +31,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/inventory/GuiChest.java   |  78 ++++++++
  .../client/gui/inventory/GuiContainer.java         |   5 +
  .../client/gui/inventory/GuiEditSign.java          |  16 ++
+ .../client/multiplayer/GuiConnecting.java          |   9 +-
  .../client/multiplayer/PlayerControllerMP.java     |  34 +++-
  net/minecraft/client/multiplayer/ServerList.java   |   6 +
  .../client/network/NetHandlerPlayClient.java       | 186 +++--------------
@@ -55,7 +56,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 51 files changed, 1214 insertions(+), 419 deletions(-)
+ 52 files changed, 1232 insertions(+), 420 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1351,7 +1352,7 @@ index 27d32e9..4f611eb 100644
          else if (button.id == 1)
          {
 diff --git a/net/minecraft/client/gui/GuiMultiplayer.java b/net/minecraft/client/gui/GuiMultiplayer.java
-index 9a4b028..ee66679 100644
+index 9a4b028..e7e80ac 100644
 --- a/net/minecraft/client/gui/GuiMultiplayer.java
 +++ b/net/minecraft/client/gui/GuiMultiplayer.java
 @@ -11,6 +11,13 @@ import net.minecraft.client.network.LanServerDetector;
@@ -1390,7 +1391,7 @@ index 9a4b028..ee66679 100644
          this.serverListSelector.handleMouseInput();
      }
  
-@@ -99,6 +110,24 @@ public class GuiMultiplayer extends GuiScreen
+@@ -99,6 +110,26 @@ public class GuiMultiplayer extends GuiScreen
          this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add", new Object[0])));
          this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh", new Object[0])));
          this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel", new Object[0])));
@@ -1410,25 +1411,32 @@ index 9a4b028..ee66679 100644
 +				this.height - 52, 100, 20, "Server Finder"));
 +			this.buttonList.add(new GuiButton(13, this.width / 2 + 154 + 4,
 +				this.height - 28, 100, 20, "Clean Up"));
++			this.buttonList.add(new GuiButton(14, this.width / 2 + 154 + 4, 10,
++				100, 20, "Version: null"));
 +		}
 +		
          this.selectServer(this.serverListSelector.getSelected());
      }
  
-@@ -117,6 +146,12 @@ public class GuiMultiplayer extends GuiScreen
+@@ -117,6 +148,17 @@ public class GuiMultiplayer extends GuiScreen
          }
  
          this.oldServerPinger.pingPendingNetworks();
 +        
 +		// TODO: Client
-+		// Enable/disable "Last Server" button
 +		if(WurstClient.INSTANCE.isEnabled())
-+			((GuiButton)this.buttonList.get(7)).enabled =
-+				ServerHook.hasLastServer();
++		{
++			// Enable/disable "Last Server" button
++			buttonList.get(7).enabled = ServerHook.hasLastServer();
++			// Update "Version" button
++			buttonList.get(13).visible = WurstClient.PROTOCOLS.size() > 1;
++			buttonList.get(13).displayString =
++				ServerHook.getVersionButtonText();
++		}
      }
  
      /**
-@@ -190,11 +225,32 @@ public class GuiMultiplayer extends GuiScreen
+@@ -190,11 +232,35 @@ public class GuiMultiplayer extends GuiScreen
              else if (button.id == 8)
              {
                  this.refreshServerList();
@@ -1458,6 +1466,9 @@ index 9a4b028..ee66679 100644
 +			else if(button.id == 13)
 +				// Clean Up
 +				mc.displayGuiScreen(new GuiCleanUp(this));
++			else if(button.id == 14)
++				// Version
++				ServerHook.switchProtocolVersion();
 +        }
 +    }
 +
@@ -1465,7 +1476,7 @@ index 9a4b028..ee66679 100644
      {
          this.mc.displayGuiScreen(new GuiMultiplayer(this.parentScreen));
      }
-@@ -373,7 +429,12 @@ public class GuiMultiplayer extends GuiScreen
+@@ -373,7 +439,12 @@ public class GuiMultiplayer extends GuiScreen
          this.hoveringText = null;
          this.drawDefaultBackground();
          this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
@@ -1479,7 +1490,7 @@ index 9a4b028..ee66679 100644
          super.drawScreen(mouseX, mouseY, partialTicks);
  
          if (this.hoveringText != null)
-@@ -386,6 +447,10 @@ public class GuiMultiplayer extends GuiScreen
+@@ -386,6 +457,10 @@ public class GuiMultiplayer extends GuiScreen
      {
          GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.getSelected() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.getSelected());
  
@@ -1490,7 +1501,7 @@ index 9a4b028..ee66679 100644
          if (guilistextended$iguilistentry instanceof ServerListEntryNormal)
          {
              this.connectToServer(((ServerListEntryNormal)guilistextended$iguilistentry).getServerData());
-@@ -397,9 +462,13 @@ public class GuiMultiplayer extends GuiScreen
+@@ -397,9 +472,13 @@ public class GuiMultiplayer extends GuiScreen
          }
      }
  
@@ -1925,6 +1936,33 @@ index 45afaf7..5a1672c 100644
                  this.tileSign.markDirty();
                  this.mc.displayGuiScreen((GuiScreen)null);
              }
+diff --git a/net/minecraft/client/multiplayer/GuiConnecting.java b/net/minecraft/client/multiplayer/GuiConnecting.java
+index 9947969..099e711 100644
+--- a/net/minecraft/client/multiplayer/GuiConnecting.java
++++ b/net/minecraft/client/multiplayer/GuiConnecting.java
+@@ -16,6 +16,8 @@ import net.minecraft.network.handshake.client.C00Handshake;
+ import net.minecraft.network.login.client.CPacketLoginStart;
+ import net.minecraft.util.text.TextComponentString;
+ import net.minecraft.util.text.TextComponentTranslation;
++import tk.wurst_client.hooks.ServerHook;
++
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+@@ -64,7 +66,12 @@ public class GuiConnecting extends GuiScreen
+                     inetaddress = InetAddress.getByName(ip);
+                     GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port, GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
+                     GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
+-                    GuiConnecting.this.networkManager.sendPacket(new C00Handshake(315, ip, port, EnumConnectionState.LOGIN));
++
++					// TODO: Client
++					GuiConnecting.this.networkManager.sendPacket(
++						new C00Handshake(ServerHook.getProtocolVersion(), ip,
++							port, EnumConnectionState.LOGIN));
++                    
+                     GuiConnecting.this.networkManager.sendPacket(new CPacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
+                 }
+                 catch (UnknownHostException unknownhostexception)
 diff --git a/net/minecraft/client/multiplayer/PlayerControllerMP.java b/net/minecraft/client/multiplayer/PlayerControllerMP.java
 index 82169d6..99b2a1e 100644
 --- a/net/minecraft/client/multiplayer/PlayerControllerMP.java
