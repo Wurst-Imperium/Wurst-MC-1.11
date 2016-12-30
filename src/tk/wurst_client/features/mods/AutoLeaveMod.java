@@ -41,8 +41,7 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	@Override
 	public String getRenderName()
 	{
-		String name = getName() + "[" + mode.getSelectedMode() + "]";
-		return name;
+		return getName() + " [" + mode.getSelectedMode() + "]";
 	}
 	
 	@Override
