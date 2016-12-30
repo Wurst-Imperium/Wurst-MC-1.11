@@ -15,6 +15,8 @@ import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.ModeSetting;
+import tk.wurst_client.settings.SliderSetting;
+import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
 	description = "Automatically leaves the server when your health is low.\n"
@@ -25,6 +27,8 @@ import tk.wurst_client.settings.ModeSetting;
 @Mod.Bypasses
 public class AutoLeaveMod extends Mod implements UpdateListener
 {
+	public SliderSetting health =
+		new SliderSetting("Health", 4, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
 	public ModeSetting mode = new ModeSetting("Mode",
 		new String[]{"Quit", "Chars", "TP", "SelfHurt"}, 0);
 	
@@ -44,6 +48,7 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
+		settings.add(health);
 		settings.add(mode);
 	}
 	
@@ -72,7 +77,7 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 			return;
 		
 		// check health
-		if(mc.player.getHealth() > 8F)
+		if(mc.player.getHealth() > health.getValueF() * 2F)
 			return;
 		
 		// leave server
