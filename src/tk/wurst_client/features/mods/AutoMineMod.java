@@ -7,8 +7,9 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.BlockUtils;
 
 @Mod.Info(
 	description = "Automatically mines a block as soon as you look at it.",
@@ -21,7 +22,6 @@ public class AutoMineMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		mc.gameSettings.keyBindAttack.pressed = false;
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -29,20 +29,29 @@ public class AutoMineMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		
+		// release attack key
 		mc.gameSettings.keyBindAttack.pressed = false;
 	}
 	
 	@Override
 	public void onUpdate()
 	{
+		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.getBlockPos() == null)
 			return;
-		if(Block.getIdFromBlock(mc.world
-			.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock()) != 0)
-			mc.gameSettings.keyBindAttack.pressed = true;
-		else
-			mc.gameSettings.keyBindAttack.pressed = false;
 		
+		// if attack key is down but nothing happens, release it for one tick
+		if(mc.gameSettings.keyBindAttack.pressed
+			&& !mc.playerController.getIsHittingBlock())
+		{
+			mc.gameSettings.keyBindAttack.pressed = false;
+			return;
+		}
+		
+		// press attack key if looking at block
+		mc.gameSettings.keyBindAttack.pressed = BlockUtils
+			.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR;
 	}
 }
