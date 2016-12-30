@@ -25,8 +25,8 @@ import tk.wurst_client.settings.ModeSetting;
 @Mod.Bypasses
 public class AutoLeaveMod extends Mod implements UpdateListener
 {
-	private int mode = 0;
-	private String[] modes = new String[]{"Quit", "Chars", "TP", "SelfHurt"};
+	public ModeSetting mode = new ModeSetting("Mode",
+		new String[]{"Quit", "Chars", "TP", "SelfHurt"}, 0);
 	
 	@Override
 	public Feature[] getSeeAlso()
@@ -37,21 +37,14 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	@Override
 	public String getRenderName()
 	{
-		String name = getName() + "[" + modes[mode] + "]";
+		String name = getName() + "[" + mode.getSelectedMode() + "]";
 		return name;
 	}
 	
 	@Override
 	public void initSettings()
 	{
-		settings.add(new ModeSetting("Mode", modes, mode)
-		{
-			@Override
-			public void update()
-			{
-				mode = getSelected();
-			}
-		});
+		settings.add(mode);
 	}
 	
 	@Override
@@ -69,48 +62,42 @@ public class AutoLeaveMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.getHealth() <= 8.0
-			&& !mc.player.capabilities.isCreativeMode
-			&& (!mc.isIntegratedServerRunning()
-				|| Minecraft.getMinecraft().player.connection.getPlayerInfoMap()
-					.size() > 1))
+		// check gamemode
+		if(mc.player.capabilities.isCreativeMode)
+			return;
+		
+		// check for other players
+		if(mc.isSingleplayer() || Minecraft.getMinecraft().player.connection
+			.getPlayerInfoMap().size() == 1)
+			return;
+		
+		// check health
+		if(mc.player.getHealth() > 8F)
+			return;
+		
+		// leave server
+		switch(mode.getSelected())
 		{
-			switch(mode)
-			{
-				case 0:
-					mc.world.sendQuittingDisconnectingPacket();
-					break;
-				case 1:
-					mc.player.connection
-						.sendPacket(new CPacketChatMessage("§"));
-					break;
-				case 2:
-					mc.player.connection.sendPacket(
-						new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
-					break;
-				case 3:
-					mc.player.connection.sendPacket(
-						new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
-					break;
-				default:
-					break;
-			}
-			setEnabled(false);
+			case 0:
+				mc.world.sendQuittingDisconnectingPacket();
+				break;
+			
+			case 1:
+				mc.player.connection.sendPacket(new CPacketChatMessage("§"));
+				break;
+			
+			case 2:
+				mc.player.connection.sendPacket(
+					new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
+				break;
+			
+			case 3:
+				mc.player.connection.sendPacket(
+					new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
+				break;
 		}
-	}
-	
-	public int getMode()
-	{
-		return mode;
-	}
-	
-	public void setMode(int mode)
-	{
-		((ModeSetting)settings.get(1)).setSelected(mode);
-	}
-	
-	public String[] getModes()
-	{
-		return modes;
+		
+		// disable
+		setEnabled(false);
 	}
 }
