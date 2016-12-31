@@ -231,7 +231,8 @@ public class SliderSetting implements Setting
 	@Override
 	public final void load(JsonObject json)
 	{
-		value = json.get(name).getAsDouble();
+		value =
+			Math.min(Math.max(minimum, json.get(name).getAsDouble()), maximum);
 		update();
 	}
 	
