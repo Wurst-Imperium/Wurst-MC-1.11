@@ -25,7 +25,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
-	description = "Automatically eats soup if your health is below the set value.\n"
+	description = "Automatically eats soup if your health is lower than or equal to the set value.\n"
 		+ "Note: This mod ignores hunger and assumes that eating soup directly refills your health.\n"
 		+ "If the server you are playing on is not configured to do that, use AutoEat instead.",
 	name = "AutoSoup",
@@ -35,7 +35,7 @@ import tk.wurst_client.utils.InventoryUtils;
 public class AutoSoupMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
-		new SliderSetting("Health", 20, 2, 20, 1, ValueDisplay.INTEGER);
+		new SliderSetting("Health", 6.5, 0.5, 10, 0.5, ValueDisplay.DECIMAL);
 	public CheckboxSetting ignoreScreen =
 		new CheckboxSetting("Ignore screen", true);
 	
@@ -167,7 +167,7 @@ public class AutoSoupMod extends Mod implements UpdateListener
 	private boolean shouldEatSoup()
 	{
 		// check health
-		if(mc.player.getHealth() >= health.getValueF())
+		if(mc.player.getHealth() > health.getValueF() * 2F)
 			return false;
 		
 		// check screen
