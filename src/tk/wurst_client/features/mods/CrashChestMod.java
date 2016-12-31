@@ -27,8 +27,7 @@ public class CrashChestMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		if(mc.player.inventory.getStackInSlot(36)
-			.getItem() != InventoryUtils.NULL_ITEM)
+		if(!InventoryUtils.isSlotEmpty(36))
 		{
 			if(mc.player.inventory.getStackInSlot(36).getDisplayName()
 				.equals("§6§lCOPY ME"))

@@ -16,13 +16,12 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 public class InventoryUtils
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	
-	public static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
+	private static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
 	
 	public static boolean placeStackInHotbar(ItemStack stack)
 	{
 		for(int i = 0; i < 9; i++)
-			if(mc.player.inventory.getStackInSlot(i).getItem() == NULL_ITEM)
+			if(isSlotEmpty(i))
 			{
 				mc.player.connection.sendPacket(
 					new CPacketCreativeInventoryAction(36 + i, stack));
@@ -30,5 +29,15 @@ public class InventoryUtils
 			}
 		
 		return false;
+	}
+	
+	public static boolean isSlotEmpty(int slot)
+	{
+		return mc.player.inventory.getStackInSlot(slot).getItem() == NULL_ITEM;
+	}
+	
+	public static boolean isEmptySlot(ItemStack slot)
+	{
+		return slot.getItem() == NULL_ITEM;
 	}
 }

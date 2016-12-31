@@ -7,44 +7,52 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
+import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
-	description = "Automatically eats soup if your health is below the set value.",
+	description = "Automatically eats soup if your health is below the set value.\n"
+		+ "Note: This mod ignores hunger and assumes that eating soup directly refills your health.\n"
+		+ "If the server you are playing on is not configured to do that, use AutoEat instead.",
 	name = "AutoSoup",
-	tags = "auto soup",
+	tags = "AutoStew, auto soup, auto stew",
 	help = "Mods/AutoSoup")
 @Mod.Bypasses
 public class AutoSoupMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
 		new SliderSetting("Health", 20, 2, 20, 1, ValueDisplay.INTEGER);
+	public CheckboxSetting ignoreScreen =
+		new CheckboxSetting("Ignore screen", true);
+	
+	private int oldSlot = -1;
 	
 	@Override
 	public void initSettings()
 	{
 		settings.add(health);
+		settings.add(ignoreScreen);
 	}
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.autoEatMod};
+		return new Feature[]{wurst.mods.autoSplashPotMod,
+			wurst.mods.autoEatMod};
 	}
 	
 	@Override
@@ -57,67 +65,145 @@ public class AutoSoupMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		
+		stopIfEating();
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		// check if no container is open
-		if(mc.currentScreen instanceof GuiContainer
-			&& !(mc.currentScreen instanceof GuiInventory))
-			return;
-		
-		EntityPlayerSP player = mc.player;
-		
-		// check if health is low
-		if(player.getHealth() >= health.getValueF())
-			return;
-		
-		// find soup
-		int soupInInventory = findSoup(9, 36);
-		int soupInHotbar = findSoup(36, 45);
-		
-		// check if any soup was found
-		if(soupInInventory == -1 && soupInHotbar == -1)
-			return;
-		
-		Container inventoryContainer = player.inventoryContainer;
-		PlayerControllerMP playerController = mc.playerController;
-		
 		// sort empty bowls
-		for(int i = 10; i < 45; i++)
+		for(int i = 0; i < 36; i++)
 		{
-			ItemStack stack = inventoryContainer.getSlot(i).getStack();
-			if(stack != null && stack.getItem() == Items.BOWL)
-			{
-				playerController.windowClick(0, i, 0, ClickType.PICKUP, player);
-				playerController.windowClick(0, 9, 0, ClickType.PICKUP, player);
-			}
+			// filter out non-bowl items and empty bowl slot
+			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			if(stack == null || stack.getItem() != Items.BOWL || i == 9)
+				continue;
+			
+			// check if empty bowl slot contains a non-bowl item
+			ItemStack emptyBowlStack = mc.player.inventory.getStackInSlot(9);
+			boolean swap = !InventoryUtils.isEmptySlot(emptyBowlStack)
+				&& emptyBowlStack.getItem() != Items.BOWL;
+			
+			// place bowl in empty bowl slot
+			mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
+				ClickType.PICKUP, mc.player);
+			mc.playerController.windowClick(0, 9, 0, ClickType.PICKUP,
+				mc.player);
+			
+			// place non-bowl item from empty bowl slot in current slot
+			if(swap)
+				mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
+					ClickType.PICKUP, mc.player);
 		}
 		
+		// search soup in hotbar
+		int soupInHotbar = findSoup(0, 9);
+		
+		// check if any soup was found
 		if(soupInHotbar != -1)
 		{
-			// eat soup in hotbar
-			NetHandlerPlayClient connection = player.connection;
-			connection.sendPacket(new CPacketHeldItemChange(soupInHotbar - 36));
-			connection
-				.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-			playerController.updateController();
-		}else
-			// move soup in inventory to hotbar
-			playerController.windowClick(0, soupInInventory, 0,
-				ClickType.QUICK_MOVE, player);
+			// check if player should eat soup
+			if(!shouldEatSoup())
+			{
+				stopIfEating();
+				return;
+			}
+			
+			// save old slot
+			if(oldSlot == -1)
+				oldSlot = mc.player.inventory.currentItem;
+			
+			// set slot
+			mc.player.inventory.currentItem = soupInHotbar;
+			
+			// eat soup
+			mc.gameSettings.keyBindUseItem.pressed = true;
+			mc.playerController.processRightClick(mc.player, mc.world,
+				EnumHand.MAIN_HAND);
+			
+			return;
+		}
+		
+		stopIfEating();
+		
+		// search soup in inventory
+		int soupInInventory = findSoup(9, 36);
+		
+		// move soup in inventory to hotbar
+		if(soupInInventory != -1)
+			mc.playerController.windowClick(0, soupInInventory, 0,
+				ClickType.QUICK_MOVE, mc.player);
+	}
+	
+	@Override
+	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	{
+		switch(bypassLevel)
+		{
+			case GHOST_MODE:
+				ignoreScreen.lock(false);
+				break;
+			
+			default:
+				ignoreScreen.unlock();
+				break;
+		}
 	}
 	
 	private int findSoup(int startSlot, int endSlot)
 	{
 		for(int i = startSlot; i < endSlot; i++)
 		{
-			ItemStack stack =
-				mc.player.inventoryContainer.getSlot(i).getStack();
-			if(stack != null && stack.getItem() == Items.MUSHROOM_STEW)
+			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			
+			if(stack != null && stack.getItem() instanceof ItemSoup)
 				return i;
 		}
+		
 		return -1;
+	}
+	
+	private boolean shouldEatSoup()
+	{
+		// check health
+		if(mc.player.getHealth() >= health.getValueF())
+			return false;
+		
+		// check screen
+		if(!ignoreScreen.isChecked() && mc.currentScreen != null)
+			return false;
+		
+		// check for clickable objects
+		if(mc.currentScreen == null && mc.objectMouseOver != null)
+		{
+			// clickable entities
+			Entity entity = mc.objectMouseOver.entityHit;
+			if(entity instanceof EntityVillager
+				|| entity instanceof EntityTameable)
+				return false;
+			
+			// clickable blocks
+			if(mc.objectMouseOver.getBlockPos() != null
+				&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
+					.getBlock() instanceof BlockContainer)
+				return false;
+		}
+		
+		return true;
+	}
+	
+	private void stopIfEating()
+	{
+		// check if eating
+		if(oldSlot == -1)
+			return;
+		
+		// stop eating
+		mc.gameSettings.keyBindUseItem.pressed = false;
+		
+		// reset slot
+		mc.player.inventory.currentItem = oldSlot;
+		oldSlot = -1;
 	}
 }

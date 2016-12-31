@@ -94,8 +94,7 @@ public class AutoArmorMod extends Mod implements UpdateListener
 			// check if armor can be swapped
 			// needs 1 free slot where it can put the old armor
 			ItemStack oldArmor = mc.player.inventory.armorItemInSlot(armorType);
-			if(oldArmor == null
-				|| !(oldArmor.getItem() == InventoryUtils.NULL_ITEM)
+			if(oldArmor == null || !InventoryUtils.isEmptySlot(oldArmor)
 				|| mc.player.inventory.getFirstEmptyStack() != -1)
 			{
 				// hotbar fix
