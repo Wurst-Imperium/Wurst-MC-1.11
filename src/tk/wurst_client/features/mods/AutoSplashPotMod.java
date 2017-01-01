@@ -21,6 +21,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
@@ -39,6 +40,12 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		settings.add(health);
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.potionSaverMod, wurst.mods.autoSoupMod};
 	}
 	
 	@Override
