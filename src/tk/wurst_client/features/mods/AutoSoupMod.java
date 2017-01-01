@@ -35,7 +35,7 @@ import tk.wurst_client.utils.InventoryUtils;
 public class AutoSoupMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
-		new SliderSetting("Health", 6.5, 0.5, 10, 0.5, ValueDisplay.DECIMAL);
+		new SliderSetting("Health", 6.5, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
 	public CheckboxSetting ignoreScreen =
 		new CheckboxSetting("Ignore screen", true);
 	
