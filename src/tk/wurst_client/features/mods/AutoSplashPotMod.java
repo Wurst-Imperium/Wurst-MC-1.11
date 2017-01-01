@@ -7,26 +7,24 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
+import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
-	description = "Automatically throws splash healing potions if your health is below the set value.",
+	description = "Automatically throws instant health splash potions if your health is lower than or equal to\n"
+		+ "the set value.",
 	name = "AutoSplashPot",
 	tags = "AutoPotion,auto potion,auto splash potion",
 	help = "Mods/AutoSplashPot")
@@ -34,12 +32,17 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 public class AutoSplashPotMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
-		new SliderSetting("Health", 18, 2, 20, 1, ValueDisplay.INTEGER);
+		new SliderSetting("Health", 8, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
+	public CheckboxSetting ignoreScreen =
+		new CheckboxSetting("Ignore screen", true);
+	
+	private int timer;
 	
 	@Override
 	public void initSettings()
 	{
 		settings.add(health);
+		settings.add(ignoreScreen);
 	}
 	
 	@Override
@@ -58,70 +61,95 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		timer = 0;
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		// update timer
-		updateMS();
-		
-		// check if no container is open
-		if(mc.currentScreen instanceof GuiContainer
-			&& !(mc.currentScreen instanceof GuiInventory))
-			return;
-		
-		// check if health is low
-		if(mc.player.getHealth() >= health.getValueF())
-			return;
-		
-		// find health potions
-		int potionInInventory = findPotion(9, 36);
-		int potionInHotbar = findPotion(36, 45);
+		// search potion in hotbar
+		int potionInHotbar = findPotion(0, 9);
 		
 		// check if any potion was found
-		if(potionInInventory == -1 && potionInHotbar == -1)
-			return;
-		
-		if(hasTimePassedM(500))
-			if(potionInHotbar != -1)
+		if(potionInHotbar != -1)
+		{
+			// check timer
+			if(timer > 0)
 			{
-				// throw potion in hotbar
-				int oldSlot = mc.player.inventory.currentItem;
-				NetHandlerPlayClient connection = mc.player.connection;
-				connection.sendPacket(new CPacketPlayer.Rotation(
-					mc.player.rotationYaw, 90.0F, mc.player.onGround));
-				connection
-					.sendPacket(new CPacketHeldItemChange(potionInHotbar - 36));
-				mc.playerController.updateController();
-				connection.sendPacket(
-					new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-				connection.sendPacket(new CPacketHeldItemChange(oldSlot));
-				connection.sendPacket(
-					new CPacketPlayer.Rotation(mc.player.rotationYaw,
-						mc.player.rotationPitch, mc.player.onGround));
-				
-				// reset timer
-				updateLastMS();
-			}else
-				// move potion in inventory to hotbar
-				mc.playerController.windowClick(0, potionInInventory, 0,
-					ClickType.QUICK_MOVE, mc.player);
+				timer--;
+				return;
+			}
+			
+			// check health
+			if(mc.player.getHealth() > health.getValueF() * 2F)
+				return;
+			
+			// check screen
+			if(!ignoreScreen.isChecked() && mc.currentScreen != null)
+				return;
+			
+			// save old slot
+			int oldSlot = mc.player.inventory.currentItem;
+			
+			// throw potion in hotbar
+			mc.player.inventory.currentItem = potionInHotbar;
+			mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
+				mc.player.rotationYaw, 90.0F, mc.player.onGround));
+			mc.playerController.processRightClick(mc.player, mc.world,
+				EnumHand.MAIN_HAND);
+			
+			// reset slot and rotation
+			mc.player.inventory.currentItem = oldSlot;
+			mc.player.connection
+				.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw,
+					mc.player.rotationPitch, mc.player.onGround));
+			
+			// reset timer
+			timer = 10;
+			
+			return;
+		}
 		
+		// search potion in inventory
+		int potionInInventory = findPotion(9, 36);
+		
+		// move potion in inventory to hotbar
+		if(potionInInventory != -1)
+			mc.playerController.windowClick(0, potionInInventory, 0,
+				ClickType.QUICK_MOVE, mc.player);
+	}
+	
+	@Override
+	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	{
+		switch(bypassLevel)
+		{
+			case GHOST_MODE:
+				ignoreScreen.lock(false);
+				break;
+			
+			default:
+				ignoreScreen.unlock();
+				break;
+		}
 	}
 	
 	private int findPotion(int startSlot, int endSlot)
 	{
 		for(int i = startSlot; i < endSlot; i++)
 		{
-			ItemStack stack =
-				mc.player.inventoryContainer.getSlot(i).getStack();
-			if(stack != null && stack.getItem() == Items.SPLASH_POTION)
-				for(PotionEffect effect : PotionUtils
-					.getEffectsFromStack(stack))
-					if(effect.getPotion() == MobEffects.INSTANT_HEALTH)
-						return i;
+			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			
+			// filter out non-splash potion items
+			if(stack == null || stack.getItem() != Items.SPLASH_POTION)
+				continue;
+			
+			// search for instant health effects
+			for(PotionEffect effect : PotionUtils.getEffectsFromStack(stack))
+				if(effect.getPotion() == MobEffects.INSTANT_HEALTH)
+					return i;
 		}
+		
 		return -1;
 	}
 }
