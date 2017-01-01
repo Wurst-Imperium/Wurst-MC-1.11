@@ -32,7 +32,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 public class AutoSplashPotMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
-		new SliderSetting("Health", 8, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
+		new SliderSetting("Health", 6, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
 	public CheckboxSetting ignoreScreen =
 		new CheckboxSetting("Ignore screen", true);
 	
