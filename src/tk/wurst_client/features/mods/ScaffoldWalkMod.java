@@ -11,6 +11,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.InventoryUtils;
 
@@ -20,6 +21,12 @@ import tk.wurst_client.utils.InventoryUtils;
 @Mod.Bypasses(ghostMode = false)
 public class ScaffoldWalkMod extends Mod implements UpdateListener
 {
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.safeWalkMod, wurst.mods.buildRandomMod};
+	}
+	
 	@Override
 	public void onEnable()
 	{
