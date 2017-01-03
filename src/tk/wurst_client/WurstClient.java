@@ -41,6 +41,8 @@ public enum WurstClient
 		PROTOCOLS = Collections.unmodifiableNavigableMap(protocols);
 	}
 	
+	public static final boolean ENABLE_REALMS = false;
+	
 	public AnalyticsManager analytics;
 	public CmdManager commands;
 	public EventManager events;
