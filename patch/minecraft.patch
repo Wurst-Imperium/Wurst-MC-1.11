@@ -1,6 +1,6 @@
-From a2e5fa86d6cfaed09fe889e90bb62c5a4ffdb542 Mon Sep 17 00:00:00 2001
+From f41f3a2d6543cec57842ea514515c46a9db58f1c Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 29 Dec 2016 20:26:33 +0100
+Date: Tue, 3 Jan 2017 14:22:37 +0100
 Subject: [PATCH] mod
 
 ---
@@ -50,13 +50,15 @@ Subject: [PATCH] mod
  net/minecraft/entity/Entity.java                   | 186 +++++++++--------
  net/minecraft/entity/EntityLivingBase.java         |  16 +-
  net/minecraft/entity/player/EntityPlayer.java      |  12 +-
+ net/minecraft/item/ItemSword.java                  |   2 +-
+ net/minecraft/item/ItemTool.java                   |   2 +-
  net/minecraft/network/NetworkManager.java          |  26 +++
  net/minecraft/realms/Realms.java                   |  12 +-
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 52 files changed, 1233 insertions(+), 420 deletions(-)
+ 54 files changed, 1235 insertions(+), 422 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -3286,6 +3288,32 @@ index 67d29e5..da4a5f2 100644
      }
  
      public Scoreboard getWorldScoreboard()
+diff --git a/net/minecraft/item/ItemSword.java b/net/minecraft/item/ItemSword.java
+index aad852c..babf178 100644
+--- a/net/minecraft/item/ItemSword.java
++++ b/net/minecraft/item/ItemSword.java
+@@ -15,7 +15,7 @@ import net.minecraft.world.World;
+ 
+ public class ItemSword extends Item
+ {
+-    private final float attackDamage;
++    public final float attackDamage;
+     private final Item.ToolMaterial material;
+ 
+     public ItemSword(Item.ToolMaterial material)
+diff --git a/net/minecraft/item/ItemTool.java b/net/minecraft/item/ItemTool.java
+index 27cb20a..c89b552 100644
+--- a/net/minecraft/item/ItemTool.java
++++ b/net/minecraft/item/ItemTool.java
+@@ -18,7 +18,7 @@ public class ItemTool extends Item
+     protected float efficiencyOnProperMaterial;
+ 
+     /** Damage versus entities. */
+-    protected float damageVsEntity;
++    public float damageVsEntity;
+     protected float attackSpeed;
+ 
+     /** The material this tool is made from. */
 diff --git a/net/minecraft/network/NetworkManager.java b/net/minecraft/network/NetworkManager.java
 index 20fd7bb..a440c0d 100644
 --- a/net/minecraft/network/NetworkManager.java

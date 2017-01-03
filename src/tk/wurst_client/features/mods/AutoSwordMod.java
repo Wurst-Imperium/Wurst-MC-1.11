@@ -7,18 +7,18 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
-	description = "Automatically uses the best weapon in your hotbar to attack\n"
-		+ "entities. Tip: This works with Killaura.",
+	description = "Automatically uses the best weapon in your hotbar to attack entities.\n"
+		+ "Tip: This works with Killaura.",
 	name = "AutoSword",
 	tags = "auto sword",
 	help = "Mods/AutoSword")
@@ -35,13 +35,12 @@ public class AutoSwordMod extends Mod
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.autoToolMod};
+		return new Feature[]{wurst.mods.autoToolMod, wurst.mods.killauraMod};
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		oldSlot = -1;
 		wurst.events.add(LeftClickListener.class, this);
 	}
 	
@@ -54,11 +53,14 @@ public class AutoSwordMod extends Mod
 	@Override
 	public void onUpdate()
 	{
+		// update timer
 		if(timer > 0)
 		{
 			timer--;
 			return;
 		}
+		
+		// reset slot
 		mc.player.inventory.currentItem = oldSlot;
 		wurst.events.remove(UpdateListener.class, this);
 	}
@@ -66,40 +68,59 @@ public class AutoSwordMod extends Mod
 	@Override
 	public void onLeftClick(LeftClickEvent event)
 	{
-		if(mc.objectMouseOver != null
-			&& mc.objectMouseOver.entityHit instanceof EntityLivingBase)
-			setSlot();
+		// check hitResult
+		if(mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null)
+			return;
+		
+		setSlot();
 	}
 	
-	public static void setSlot()
+	public void setSlot()
 	{
+		// check if active
+		if(!isActive())
+			return;
+		
+		// wait for AutoEat
 		if(wurst.mods.autoEatMod.isEating())
 			return;
-		float bestSpeed = 1F;
+		
+		// find best weapon
+		float bestDamage = 0;
 		int bestSlot = -1;
 		for(int i = 0; i < 9; i++)
 		{
-			ItemStack item = mc.player.inventory.getStackInSlot(i);
-			if(item == null)
+			// skip empty slots
+			if(InventoryUtils.isSlotEmpty(i))
 				continue;
-			float speed = 0;
-			if(item.getItem() instanceof ItemSword)
-				speed = ((ItemSword)item.getItem()).getDamageVsEntity();
-			else if(item.getItem() instanceof ItemTool)
-				speed = ((ItemTool)item.getItem()).getToolMaterial()
-					.getDamageVsEntity();
-			if(speed > bestSpeed)
+			
+			Item item = mc.player.inventory.getStackInSlot(i).getItem();
+			
+			// get damage
+			float damage = 0;
+			if(item instanceof ItemSword)
+				damage = ((ItemSword)item).attackDamage;
+			else if(item instanceof ItemTool)
+				damage = ((ItemTool)item).damageVsEntity;
+			
+			// compare with previous best weapon
+			if(damage > bestDamage)
 			{
-				bestSpeed = speed;
+				bestDamage = damage;
 				bestSlot = i;
 			}
 		}
-		if(bestSlot != -1 && bestSlot != mc.player.inventory.currentItem)
-		{
-			wurst.mods.autoSwordMod.oldSlot = mc.player.inventory.currentItem;
-			mc.player.inventory.currentItem = bestSlot;
-			wurst.mods.autoSwordMod.timer = 4;
-			wurst.events.add(UpdateListener.class, wurst.mods.autoSwordMod);
-		}
+		
+		// check if any weapon was found
+		if(bestSlot == -1)
+			return;
+		
+		// set slot
+		oldSlot = mc.player.inventory.currentItem;
+		mc.player.inventory.currentItem = bestSlot;
+		
+		// start timer
+		timer = 4;
+		wurst.events.add(UpdateListener.class, this);
 	}
 }
