@@ -50,6 +50,7 @@ public class AntiAfkMod extends Mod implements UpdateListener
 			return;
 		}
 		
+		// update timer
 		if(timer > 0)
 		{
 			timer--;
