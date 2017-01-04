@@ -74,6 +74,7 @@ public class AutoToolMod extends Mod implements UpdateListener
 		
 		// update timer
 		if(!mc.gameSettings.keyBindAttack.pressed
+			|| mc.player.capabilities.isCreativeMode
 			|| !BlockUtils.canBeClicked(pos))
 			timer--;
 	}
