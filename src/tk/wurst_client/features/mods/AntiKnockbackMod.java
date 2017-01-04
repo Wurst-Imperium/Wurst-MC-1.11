@@ -11,8 +11,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
-	description = "Protects you from getting pushed by players, mobs and\n"
-		+ "fluids.",
+	description = "Protects you from getting pushed by players, mobs and fluids.",
 	name = "AntiKnockback",
 	tags = "AntiVelocity, NoKnockback, AntiKB, anti knockback, anti velocity, no knockback, anti kb",
 	help = "Mods/AntiKnockback")
