@@ -14,6 +14,7 @@ import java.util.Random;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
+import tk.wurst_client.utils.BlockUtils;
 
 public class RandomPathFinder extends PathFinder
 {
@@ -87,7 +88,7 @@ public class RandomPathFinder extends PathFinder
 			setCurrentToRandomNode();
 		while(center.distanceSq(current) > rangeSq
 			|| !flying && !canBeSolid(current.down())
-			|| getBlock(current.up()) instanceof BlockLiquid);
+			|| BlockUtils.getBlock(current.up()) instanceof BlockLiquid);
 		
 		return super.formatPath();
 	}
