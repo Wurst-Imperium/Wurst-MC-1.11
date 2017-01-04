@@ -147,10 +147,9 @@ public class SpeedNukerMod extends Mod
 		if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
 			oldSlot = mc.player.inventory.currentItem;
 		if(!mc.player.capabilities.isCreativeMode
-			&& wurst.mods.autoToolMod.isActive()
 			&& currentBlock.getPlayerRelativeBlockHardness(
 				mc.world.getBlockState(pos), mc.player, mc.world, pos) < 1)
-			AutoToolMod.setSlot(pos);
+			wurst.mods.autoToolMod.setSlot(pos);
 		nukeAll();
 	}
 	

@@ -175,8 +175,7 @@ public class NukerMod extends Mod
 				return;
 			}
 		}
-		if(wurst.mods.autoToolMod.isActive())
-			AutoToolMod.setSlot(pos);
+		wurst.mods.autoToolMod.setSlot(pos);
 		mc.player.connection
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		shouldRenderESP = true;

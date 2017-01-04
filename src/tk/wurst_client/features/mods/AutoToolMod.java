@@ -7,99 +7,127 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import tk.wurst_client.events.LeftClickEvent;
-import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
-	description = "Automatically uses the best tool in your hotbar to\n"
-		+ "mine blocks. Tip: This works with Nuker.",
+	description = "Automatically uses the best tool in your hotbar to mine blocks.\n"
+		+ "Tip: This works with Nuker.",
 	name = "AutoTool",
 	tags = "auto tool",
 	help = "Mods/AutoTool")
 @Mod.Bypasses
-public class AutoToolMod extends Mod
-	implements LeftClickListener, UpdateListener
+public class AutoToolMod extends Mod implements UpdateListener
 {
-	private boolean isActive = false;
 	private int oldSlot;
+	private BlockPos pos;
+	private int timer;
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.autoSwordMod};
+		return new Feature[]{wurst.mods.autoSwordMod, wurst.mods.nukerMod};
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		wurst.events.add(LeftClickListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		wurst.events.remove(LeftClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
-		isActive = false;
-		mc.player.inventory.currentItem = oldSlot;
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onUpdate()
-	{
-		if(!mc.gameSettings.keyBindAttack.pressed && isActive)
+		
+		// reset slot
+		if(oldSlot != -1)
 		{
-			isActive = false;
 			mc.player.inventory.currentItem = oldSlot;
-		}else if(isActive && mc.objectMouseOver != null
-			&& mc.objectMouseOver.getBlockPos() != null
-			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-				.getBlock().getMaterial(null) != Material.AIR)
-			setSlot(mc.objectMouseOver.getBlockPos());
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onLeftClick(LeftClickEvent event)
-	{
-		if(mc.objectMouseOver == null
-			|| mc.objectMouseOver.getBlockPos() == null)
-			return;
-		if(mc.world.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock()
-			.getMaterial(null) != Material.AIR)
-		{
-			isActive = true;
-			oldSlot = mc.player.inventory.currentItem;
-			setSlot(mc.objectMouseOver.getBlockPos());
+			oldSlot = -1;
 		}
 	}
 	
-	public static void setSlot(BlockPos blockPos)
+	@Override
+	public void onUpdate()
 	{
-		float bestSpeed = 1F;
+		// set slot if mining
+		if(mc.gameSettings.keyBindAttack.pressed && mc.objectMouseOver != null
+			&& mc.objectMouseOver.getBlockPos() != null)
+			setSlot(mc.objectMouseOver.getBlockPos());
+		
+		// check if slot is set
+		if(oldSlot == -1)
+			return;
+		
+		// reset slot
+		if(timer <= 0)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+			return;
+		}
+		
+		// update timer
+		if(!mc.gameSettings.keyBindAttack.pressed
+			|| !BlockUtils.canBeClicked(pos))
+			timer--;
+	}
+	
+	public void setSlot(BlockPos pos)
+	{
+		// check if active
+		if(!isActive())
+			return;
+		
+		// check gamemode
+		if(mc.player.capabilities.isCreativeMode)
+			return;
+		
+		// check if block can be clicked
+		if(!BlockUtils.canBeClicked(pos))
+			return;
+		
+		// find best tool
+		float bestSpeed = 0;
 		int bestSlot = -1;
-		IBlockState blockState = mc.world.getBlockState(blockPos);
 		for(int i = 0; i < 9; i++)
 		{
-			ItemStack item = mc.player.inventory.getStackInSlot(i);
-			if(item == null)
+			// skip empty slots
+			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			if(InventoryUtils.isEmptySlot(stack))
 				continue;
-			float speed = item.getStrVsBlock(blockState);
+			
+			// get speed
+			float speed = stack.getStrVsBlock(BlockUtils.getState(pos));
+			
+			// compare with best tool
 			if(speed > bestSpeed)
 			{
 				bestSpeed = speed;
 				bestSlot = i;
 			}
 		}
-		if(bestSlot != -1)
-			mc.player.inventory.currentItem = bestSlot;
+		
+		// check if any tool was found
+		if(bestSlot == -1)
+			return;
+		
+		// save old slot
+		if(oldSlot == -1)
+			oldSlot = mc.player.inventory.currentItem;
+		
+		// set slot
+		mc.player.inventory.currentItem = bestSlot;
+		
+		// save position
+		this.pos = pos;
+		
+		// start timer
+		timer = 4;
 	}
 }
