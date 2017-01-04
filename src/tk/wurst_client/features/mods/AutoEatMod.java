@@ -18,6 +18,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.CheckboxSetting;
+import tk.wurst_client.utils.BlockUtils;
 
 @Mod.Info(description = "Automatically eats food when necessary.",
 	name = "AutoEat",
@@ -140,9 +141,8 @@ public class AutoEatMod extends Mod implements UpdateListener
 				return false;
 			
 			// clickable blocks
-			if(mc.objectMouseOver.getBlockPos() != null
-				&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-					.getBlock() instanceof BlockContainer)
+			if(mc.objectMouseOver.getBlockPos() != null && BlockUtils.getBlock(
+				mc.objectMouseOver.getBlockPos()) instanceof BlockContainer)
 				return false;
 		}
 		
