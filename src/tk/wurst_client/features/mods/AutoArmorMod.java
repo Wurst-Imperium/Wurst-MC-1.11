@@ -20,7 +20,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "AutoArmor",
 	tags = "auto armor",
 	help = "Mods/AutoArmor")
-@Mod.Bypasses(ghostMode = false, latestNCP = false)
+@Mod.Bypasses(ghostMode = false)
 public class AutoArmorMod extends Mod implements UpdateListener
 {
 	@Override
@@ -42,7 +42,7 @@ public class AutoArmorMod extends Mod implements UpdateListener
 		updateMS();
 		
 		// check timer
-		if(!hasTimePassedM(1000))
+		if(!hasTimePassedM(100))
 			return;
 		
 		// check screen
@@ -106,6 +106,8 @@ public class AutoArmorMod extends Mod implements UpdateListener
 					ClickType.QUICK_MOVE, mc.player);
 				mc.playerController.windowClick(0, slot, 0,
 					ClickType.QUICK_MOVE, Minecraft.getMinecraft().player);
+				
+				break;
 			}
 		}
 		
