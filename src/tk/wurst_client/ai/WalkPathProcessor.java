@@ -58,36 +58,40 @@ public class WalkPathProcessor extends PathProcessor
 			// go up
 			if(pos.getY() < nextPos.getY())
 			{
-			// climb up
-			// TODO: vines and spider
-			if(mc.world.getBlockState(pos).getBlock() instanceof BlockLadder)
-			{
-			BlockUtils.faceBlockClientHorizontally(pos.offset(mc.world.getBlockState(pos).getValue(BlockHorizontal.FACING).getOpposite()));
-			mc.gameSettings.keyBindForward.pressed = true;
-			
-			// jump up
+				// climb up
+				// TODO: vines and spider
+				if(BlockUtils.getBlock(pos) instanceof BlockLadder)
+				{
+					BlockUtils.faceBlockClientHorizontally(
+						pos.offset(BlockUtils.getState(pos)
+							.getValue(BlockHorizontal.FACING).getOpposite()));
+					mc.gameSettings.keyBindForward.pressed = true;
+					
+					// jump up
+				}else
+				{
+					mc.gameSettings.keyBindJump.pressed = true;
+					
+					// directional jump
+					if(index < path.size() - 1)
+					{
+						BlockUtils
+							.faceBlockClientHorizontally(path.get(index + 1));
+						mc.gameSettings.keyBindForward.pressed = true;
+					}
+				}
+				
+				// go down
 			}else
 			{
-			mc.gameSettings.keyBindJump.pressed = true;
-			
-			// directional jump
-			if(index < path.size() - 1)
-			{
-			BlockUtils.faceBlockClientHorizontally(path.get(index + 1));
-			mc.gameSettings.keyBindForward.pressed = true;
-			}
-			}
-			
-			// go down
-			}else
-			{
-			// skip mid-air nodes and go straight to the bottom
-			while(index < path.size() - 1 && path.get(index).down().equals(path.get(index + 1)))
-			index++;
-		
-			// walk off the edge
-			if(mc.player.onGround)
-			mc.gameSettings.keyBindForward.pressed = true;
+				// skip mid-air nodes and go straight to the bottom
+				while(index < path.size() - 1
+					&& path.get(index).down().equals(path.get(index + 1)))
+					index++;
+				
+				// walk off the edge
+				if(mc.player.onGround)
+					mc.gameSettings.keyBindForward.pressed = true;
 			}
 	}
 	
