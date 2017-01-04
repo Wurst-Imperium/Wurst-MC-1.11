@@ -7,6 +7,8 @@
  */
 package tk.wurst_client.features.mods;
 
+import org.lwjgl.input.Keyboard;
+
 import tk.wurst_client.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Automatically walks all the time.",
@@ -26,13 +28,16 @@ public class AutoWalkMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		mc.gameSettings.keyBindForward.pressed = false;
+		
+		// reset forward key
+		mc.gameSettings.keyBindForward.pressed =
+			Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode());
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		if(!mc.gameSettings.keyBindForward.pressed)
-			mc.gameSettings.keyBindForward.pressed = true;
+		// force-press forward key
+		mc.gameSettings.keyBindForward.pressed = true;
 	}
 }
