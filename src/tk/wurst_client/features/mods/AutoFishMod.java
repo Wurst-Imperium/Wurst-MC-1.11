@@ -66,8 +66,8 @@ public class AutoFishMod extends Mod
 			return;
 		
 		// check sound type
-		if(((SPacketSoundEffect)event.getPacket())
-			.getSound() != SoundEvents.ENTITY_BOBBER_SPLASH)
+		if(!SoundEvents.ENTITY_BOBBER_SPLASH
+			.equals(((SPacketSoundEffect)event.getPacket()).getSound()))
 			return;
 		
 		rightClick();
