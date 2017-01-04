@@ -29,7 +29,7 @@ import tk.wurst_client.utils.InventoryUtils;
 public class AutoSwordMod extends Mod
 	implements LeftClickListener, UpdateListener
 {
-	private int oldSlot;
+	private int oldSlot = -1;
 	private int timer;
 	
 	@Override
@@ -48,6 +48,13 @@ public class AutoSwordMod extends Mod
 	public void onDisable()
 	{
 		wurst.events.remove(LeftClickListener.class, this);
+		
+		// reset slot
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+		}
 	}
 	
 	@Override
@@ -61,7 +68,11 @@ public class AutoSwordMod extends Mod
 		}
 		
 		// reset slot
-		mc.player.inventory.currentItem = oldSlot;
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
+		}
 		wurst.events.remove(UpdateListener.class, this);
 	}
 	
@@ -115,8 +126,11 @@ public class AutoSwordMod extends Mod
 		if(bestSlot == -1)
 			return;
 		
+		// save old slot
+		if(oldSlot == -1)
+			oldSlot = mc.player.inventory.currentItem;
+		
 		// set slot
-		oldSlot = mc.player.inventory.currentItem;
 		mc.player.inventory.currentItem = bestSlot;
 		
 		// start timer
