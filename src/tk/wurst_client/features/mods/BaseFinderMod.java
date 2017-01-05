@@ -8,16 +8,23 @@
 package tk.wurst_client.features.mods;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.ChatUtils;
-import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(
 	description = "Finds player bases by searching for man-made blocks.\n"
+		+ "The blocks that it finds will be highlighted in red.\n"
 		+ "Good for finding faction bases.",
 	name = "BaseFinder",
 	tags = "base finder, factions",
@@ -25,21 +32,52 @@ import tk.wurst_client.utils.RenderUtils;
 @Mod.Bypasses
 public class BaseFinderMod extends Mod implements UpdateListener, RenderListener
 {
-	public BaseFinderMod()
-	{
-		initBlocks();
-	}
+	private static final List<Block> NATURAL_BLOCKS = Arrays.<Block> asList(
+		Blocks.AIR, Blocks.STONE, Blocks.DIRT, Blocks.GRASS, Blocks.GRAVEL,
+		Blocks.SAND, Blocks.CLAY, Blocks.SANDSTONE, Blocks.FLOWING_WATER,
+		Blocks.WATER, Blocks.FLOWING_LAVA, Blocks.LAVA, Blocks.LOG, Blocks.LOG2,
+		Blocks.LEAVES, Blocks.LEAVES2, Blocks.DEADBUSH, Blocks.IRON_ORE,
+		Blocks.COAL_ORE, Blocks.GOLD_ORE, Blocks.DIAMOND_ORE,
+		Blocks.EMERALD_ORE, Blocks.REDSTONE_ORE, Blocks.LAPIS_ORE,
+		Blocks.BEDROCK, Blocks.MOB_SPAWNER, Blocks.MOSSY_COBBLESTONE,
+		Blocks.TALLGRASS, Blocks.YELLOW_FLOWER, Blocks.RED_FLOWER, Blocks.WEB,
+		Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM, Blocks.SNOW_LAYER,
+		Blocks.VINE, Blocks.WATERLILY, Blocks.DOUBLE_PLANT,
+		Blocks.HARDENED_CLAY, Blocks.RED_SANDSTONE, Blocks.ICE,
+		Blocks.QUARTZ_ORE, Blocks.OBSIDIAN, Blocks.MONSTER_EGG,
+		Blocks.RED_MUSHROOM_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK);
 	
-	private ArrayList<Block> naturalBlocks = new ArrayList<>();
-	private ArrayList<BlockPos> matchingBlocks = new ArrayList<>();
-	private int range = 50;
-	private int maxBlocks = 1024;
-	private boolean shouldInform = true;
+	private final HashSet<BlockPos> matchingBlocks = new HashSet<>();
+	private final ArrayList<int[]> vertices = new ArrayList<>();
+	
+	private int messageTimer = 0;
+	private int counter;
+	
+	@Override
+	public String getRenderName()
+	{
+		String name = getName() + " [";
+		
+		// counter
+		if(counter >= 10000)
+			name += "10000+ blocks";
+		else if(counter == 1)
+			name += "1 block";
+		else if(counter == 0)
+			name += "nothing";
+		else
+			name += counter + " blocks";
+		
+		name += " found]";
+		return name;
+	}
 	
 	@Override
 	public void onEnable()
 	{
-		shouldInform = true;
+		// reset timer
+		messageTimer = 0;
+		
 		wurst.events.add(UpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
@@ -54,97 +92,144 @@ public class BaseFinderMod extends Mod implements UpdateListener, RenderListener
 	@Override
 	public void onRender()
 	{
-		for(BlockPos blockPos : matchingBlocks)
-			RenderUtils.blockEspBox(blockPos, 1F, 0F, 0F);
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glColor4f(1F, 0F, 0F, 0.15F);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-mc.getRenderManager().renderPosX,
+			-mc.getRenderManager().renderPosY,
+			-mc.getRenderManager().renderPosZ);
+		
+		// vertices
+		GL11.glBegin(GL11.GL_QUADS);
+		{
+			for(int[] vertex : vertices)
+				GL11.glVertex3d(vertex[0], vertex[1], vertex[2]);
+		}
+		GL11.glEnd();
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		updateMS();
-		if(hasTimePassedM(3000))
-		{
+		int modulo = mc.player.ticksExisted % 64;
+		
+		// reset matching blocks
+		if(modulo == 0)
 			matchingBlocks.clear();
-			for(int y = range; y >= -range; y--)
-			{
-				for(int x = range; x >= -range; x--)
+		
+		int startY = 255 - modulo * 4;
+		int endY = startY - 4;
+		
+		BlockPos playerPos = new BlockPos(mc.player.posX, 0, mc.player.posZ);
+		
+		// search matching blocks
+		loop: for(int y = startY; y > endY; y--)
+			for(int x = 64; x > -64; x--)
+				for(int z = 64; z > -64; z--)
 				{
-					for(int z = range; z >= -range; z--)
-					{
-						int posX = (int)(mc.player.posX + x);
-						int posY = (int)(mc.player.posY + y);
-						int posZ = (int)(mc.player.posZ + z);
-						BlockPos pos = new BlockPos(posX, posY, posZ);
-						if(!naturalBlocks
-							.contains(mc.world.getBlockState(pos).getBlock()))
-							matchingBlocks.add(pos);
-						if(matchingBlocks.size() >= maxBlocks)
-							break;
-					}
-					if(matchingBlocks.size() >= maxBlocks)
-						break;
+					if(matchingBlocks.size() >= 10000)
+						break loop;
+					
+					BlockPos pos = playerPos.add(x, y, z);
+					
+					if(NATURAL_BLOCKS.contains(BlockUtils.getBlock(pos)))
+						continue;
+					
+					matchingBlocks.add(pos);
 				}
-				if(matchingBlocks.size() >= maxBlocks)
-					break;
-			}
-			if(matchingBlocks.size() >= maxBlocks && shouldInform)
+			
+		if(modulo != 63)
+			return;
+		
+		// update timer
+		if(matchingBlocks.size() < 10000)
+			messageTimer--;
+		else
+		{
+			// show message
+			if(messageTimer <= 0)
 			{
-				ChatUtils.warning(getName() + " found §lA LOT§r of blocks.");
-				ChatUtils.message("To prevent lag, it will only show the first "
-					+ maxBlocks + " blocks.");
-				shouldInform = false;
-			}else if(matchingBlocks.size() < maxBlocks)
-				shouldInform = true;
-			updateLastMS();
+				ChatUtils.warning("BaseFinder found §lA LOT§r of blocks.");
+				ChatUtils.message(
+					"To prevent lag, it will only show the first 10000 blocks.");
+			}
+			
+			// reset timer
+			messageTimer = 3;
+		}
+		
+		// update counter
+		counter = matchingBlocks.size();
+		
+		// calculate vertices
+		vertices.clear();
+		for(BlockPos pos : matchingBlocks)
+		{
+			if(!matchingBlocks.contains(pos.down()))
+			{
+				addVertex(pos, 0, 0, 0);
+				addVertex(pos, 1, 0, 0);
+				addVertex(pos, 1, 0, 1);
+				addVertex(pos, 0, 0, 1);
+			}
+			
+			if(!matchingBlocks.contains(pos.up()))
+			{
+				addVertex(pos, 0, 1, 0);
+				addVertex(pos, 0, 1, 1);
+				addVertex(pos, 1, 1, 1);
+				addVertex(pos, 1, 1, 0);
+			}
+			
+			if(!matchingBlocks.contains(pos.north()))
+			{
+				addVertex(pos, 0, 0, 0);
+				addVertex(pos, 0, 1, 0);
+				addVertex(pos, 1, 1, 0);
+				addVertex(pos, 1, 0, 0);
+			}
+			
+			if(!matchingBlocks.contains(pos.east()))
+			{
+				addVertex(pos, 1, 0, 0);
+				addVertex(pos, 1, 1, 0);
+				addVertex(pos, 1, 1, 1);
+				addVertex(pos, 1, 0, 1);
+			}
+			
+			if(!matchingBlocks.contains(pos.south()))
+			{
+				addVertex(pos, 0, 0, 1);
+				addVertex(pos, 1, 0, 1);
+				addVertex(pos, 1, 1, 1);
+				addVertex(pos, 0, 1, 1);
+			}
+			
+			if(!matchingBlocks.contains(pos.west()))
+			{
+				addVertex(pos, 0, 0, 0);
+				addVertex(pos, 0, 0, 1);
+				addVertex(pos, 0, 1, 1);
+				addVertex(pos, 0, 1, 0);
+			}
 		}
 	}
 	
-	private void initBlocks()
+	private void addVertex(BlockPos pos, int x, int y, int z)
 	{
-		naturalBlocks.add(Block.getBlockFromName("air"));
-		naturalBlocks.add(Block.getBlockFromName("stone"));
-		naturalBlocks.add(Block.getBlockFromName("dirt"));
-		naturalBlocks.add(Block.getBlockFromName("grass"));
-		naturalBlocks.add(Block.getBlockFromName("gravel"));
-		naturalBlocks.add(Block.getBlockFromName("sand"));
-		naturalBlocks.add(Block.getBlockFromName("clay"));
-		naturalBlocks.add(Block.getBlockFromName("sandstone"));
-		naturalBlocks.add(Block.getBlockById(8));
-		naturalBlocks.add(Block.getBlockById(9));
-		naturalBlocks.add(Block.getBlockById(10));
-		naturalBlocks.add(Block.getBlockById(11));
-		naturalBlocks.add(Block.getBlockFromName("log"));
-		naturalBlocks.add(Block.getBlockFromName("log2"));
-		naturalBlocks.add(Block.getBlockFromName("leaves"));
-		naturalBlocks.add(Block.getBlockFromName("leaves2"));
-		naturalBlocks.add(Block.getBlockFromName("deadbush"));
-		naturalBlocks.add(Block.getBlockFromName("iron_ore"));
-		naturalBlocks.add(Block.getBlockFromName("coal_ore"));
-		naturalBlocks.add(Block.getBlockFromName("gold_ore"));
-		naturalBlocks.add(Block.getBlockFromName("diamond_ore"));
-		naturalBlocks.add(Block.getBlockFromName("emerald_ore"));
-		naturalBlocks.add(Block.getBlockFromName("redstone_ore"));
-		naturalBlocks.add(Block.getBlockFromName("lapis_ore"));
-		naturalBlocks.add(Block.getBlockFromName("bedrock"));
-		naturalBlocks.add(Block.getBlockFromName("mob_spawner"));
-		naturalBlocks.add(Block.getBlockFromName("mossy_cobblestone"));
-		naturalBlocks.add(Block.getBlockFromName("tallgrass"));
-		naturalBlocks.add(Block.getBlockFromName("yellow_flower"));
-		naturalBlocks.add(Block.getBlockFromName("red_flower"));
-		naturalBlocks.add(Block.getBlockFromName("cobweb"));
-		naturalBlocks.add(Block.getBlockFromName("brown_mushroom"));
-		naturalBlocks.add(Block.getBlockFromName("red_mushroom"));
-		naturalBlocks.add(Block.getBlockFromName("snow_layer"));
-		naturalBlocks.add(Block.getBlockFromName("vine"));
-		naturalBlocks.add(Block.getBlockFromName("waterlily"));
-		naturalBlocks.add(Block.getBlockFromName("double_plant"));
-		naturalBlocks.add(Block.getBlockFromName("hardened_clay"));
-		naturalBlocks.add(Block.getBlockFromName("red_sandstone"));
-		naturalBlocks.add(Block.getBlockFromName("ice"));
-		naturalBlocks.add(Block.getBlockFromName("quartz_ore"));
-		naturalBlocks.add(Block.getBlockFromName("obsidian"));
-		naturalBlocks.add(Block.getBlockFromName("monster_egg"));
-		naturalBlocks.add(Block.getBlockFromName("red_mushroom_block"));
-		naturalBlocks.add(Block.getBlockFromName("brown_mushroom_block"));
+		vertices.add(new int[]{pos.getX() + x, pos.getY() + y, pos.getZ() + z});
 	}
 }
