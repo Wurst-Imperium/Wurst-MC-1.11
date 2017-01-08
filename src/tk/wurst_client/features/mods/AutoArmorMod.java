@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.ClickType;
@@ -20,12 +19,17 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "AutoArmor",
 	tags = "auto armor",
 	help = "Mods/AutoArmor")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses
 public class AutoArmorMod extends Mod implements UpdateListener
 {
+	private int timer;
+	
 	@Override
 	public void onEnable()
 	{
+		// reset timer
+		timer = 0;
+		
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -38,12 +42,12 @@ public class AutoArmorMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		// update timer
-		updateMS();
-		
-		// check timer
-		if(!hasTimePassedM(100))
+		// wait for timer
+		if(timer > 0)
+		{
+			timer--;
 			return;
+		}
 		
 		// check screen
 		if(mc.currentScreen instanceof GuiContainer
@@ -105,13 +109,13 @@ public class AutoArmorMod extends Mod implements UpdateListener
 				mc.playerController.windowClick(0, 8 - armorType, 0,
 					ClickType.QUICK_MOVE, mc.player);
 				mc.playerController.windowClick(0, slot, 0,
-					ClickType.QUICK_MOVE, Minecraft.getMinecraft().player);
+					ClickType.QUICK_MOVE, mc.player);
 				
 				break;
 			}
 		}
 		
-		// reset timer
-		updateLastMS();
+		// set timer
+		timer = 2;
 	}
 }
