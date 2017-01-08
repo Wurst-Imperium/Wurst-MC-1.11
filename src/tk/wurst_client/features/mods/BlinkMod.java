@@ -9,7 +9,6 @@ package tk.wurst_client.features.mods;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -29,8 +28,8 @@ public class BlinkMod extends Mod implements PacketOutputListener
 	private double oldX;
 	private double oldY;
 	private double oldZ;
-	private static long blinkTime;
-	private static long lastTime;
+	private long blinkTime;
+	private long lastTime;
 	
 	@Override
 	public String getRenderName()
@@ -76,8 +75,8 @@ public class BlinkMod extends Mod implements PacketOutputListener
 		if(packet instanceof CPacketPlayer)
 		{
 			if(mc.player.posX != mc.player.prevPosX
-				|| mc.player.posZ != Minecraft.getMinecraft().player.prevPosZ
-				|| mc.player.posY != Minecraft.getMinecraft().player.prevPosY)
+				|| mc.player.posZ != mc.player.prevPosZ
+				|| mc.player.posY != mc.player.prevPosY)
 			{
 				blinkTime += System.currentTimeMillis() - lastTime;
 				packets.add(packet);
