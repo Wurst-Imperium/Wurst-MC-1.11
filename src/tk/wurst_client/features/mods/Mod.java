@@ -14,7 +14,6 @@ import java.util.Arrays;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.crash.ICrashReportDetail;
 import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
@@ -171,29 +170,15 @@ public abstract class Mod extends Feature
 				onDisable();
 		}catch(Throwable e)
 		{
-			CrashReport crashReport =
+			CrashReport report =
 				CrashReport.makeCrashReport(e, "Toggling Wurst mod");
-			CrashReportCategory crashreportcategory =
-				crashReport.makeCategory("Affected mod");
-			crashreportcategory.setDetail("Mod name",
-				new ICrashReportDetail<String>()
-				{
-					@Override
-					public String call() throws Exception
-					{
-						return name;
-					}
-				});
-			crashreportcategory.setDetail("Attempted action",
-				new ICrashReportDetail<String>()
-				{
-					@Override
-					public String call() throws Exception
-					{
-						return enabled ? "Enable" : "Disable";
-					}
-				});
-			throw new ReportedException(crashReport);
+			
+			CrashReportCategory category = report.makeCategory("Affected mod");
+			category.setDetail("Mod name", () -> name);
+			category.setDetail("Attempted action",
+				() -> enabled ? "Enable" : "Disable");
+			
+			throw new ReportedException(report);
 		}
 		
 		if(!WurstClient.INSTANCE.files.isModBlacklisted(this))
@@ -211,29 +196,14 @@ public abstract class Mod extends Feature
 			onEnable();
 		}catch(Throwable e)
 		{
-			CrashReport crashReport =
+			CrashReport report =
 				CrashReport.makeCrashReport(e, "Toggling Wurst mod");
-			CrashReportCategory crashreportcategory =
-				crashReport.makeCategory("Affected mod");
-			crashreportcategory.setDetail("Mod name",
-				new ICrashReportDetail<String>()
-				{
-					@Override
-					public String call() throws Exception
-					{
-						return name;
-					}
-				});
-			crashreportcategory.setDetail("Attempted action",
-				new ICrashReportDetail<String>()
-				{
-					@Override
-					public String call() throws Exception
-					{
-						return "Enable on startup";
-					}
-				});
-			throw new ReportedException(crashReport);
+			
+			CrashReportCategory category = report.makeCategory("Affected mod");
+			category.setDetail("Mod name", () -> name);
+			category.setDetail("Attempted action", () -> "Enable on startup");
+			
+			throw new ReportedException(report);
 		}
 	}
 	
@@ -262,29 +232,16 @@ public abstract class Mod extends Feature
 					onEnable();
 			}catch(Throwable e)
 			{
-				CrashReport crashReport =
+				CrashReport report =
 					CrashReport.makeCrashReport(e, "Toggling Wurst mod");
-				CrashReportCategory crashreportcategory =
-					crashReport.makeCategory("Affected mod");
-				crashreportcategory.setDetail("Mod name",
-					new ICrashReportDetail<String>()
-					{
-						@Override
-						public String call() throws Exception
-						{
-							return name;
-						}
-					});
-				crashreportcategory.setDetail("Attempted action",
-					new ICrashReportDetail<String>()
-					{
-						@Override
-						public String call() throws Exception
-						{
-							return blocked ? "Block" : "Unblock";
-						}
-					});
-				throw new ReportedException(crashReport);
+				
+				CrashReportCategory category =
+					report.makeCategory("Affected mod");
+				category.setDetail("Mod name", () -> name);
+				category.setDetail("Attempted action",
+					() -> blocked ? "Block" : "Unblock");
+				
+				throw new ReportedException(report);
 			}
 	}
 	
