@@ -35,7 +35,7 @@ public class FeaturesCmd extends Cmd
 		{
 			settings += mod.getSettings().size();
 			if(mod.getClass().getAnnotation(Mod.Bypasses.class)
-				.mineplexAntiCheat())
+				.mineplex())
 				bypasses++;
 		}
 		ChatUtils.message("> NoCheat bypasses (mods only): " + bypasses);

@@ -51,7 +51,7 @@ public abstract class Mod extends Feature
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Bypasses
 	{
-		boolean mineplexAntiCheat() default true;
+		boolean mineplex() default true;
 		
 		boolean antiCheat() default true;
 		

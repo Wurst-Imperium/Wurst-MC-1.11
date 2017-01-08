@@ -18,7 +18,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false,
-	mineplexAntiCheat = false)
+	mineplex = false)
 public class HighJumpMod extends Mod
 {
 	public final SliderSetting height =

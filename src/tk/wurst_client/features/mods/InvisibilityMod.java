@@ -22,7 +22,7 @@ import tk.wurst_client.utils.ChatUtils;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false,
-	mineplexAntiCheat = false)
+	mineplex = false)
 public class InvisibilityMod extends Mod implements UpdateListener
 {
 	@Override

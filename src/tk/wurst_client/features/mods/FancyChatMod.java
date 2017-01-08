@@ -17,7 +17,7 @@ import tk.wurst_client.events.listeners.ChatOutputListener;
 	name = "FancyChat",
 	tags = "fancy chat",
 	help = "Mods/FancyChat")
-@Mod.Bypasses(ghostMode = false, mineplexAntiCheat = false)
+@Mod.Bypasses(ghostMode = false, mineplex = false)
 public class FancyChatMod extends Mod implements ChatOutputListener
 {
 	private final String blacklist = "(){}[]|";

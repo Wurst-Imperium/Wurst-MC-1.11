@@ -49,7 +49,7 @@ public class FlightMod extends Mod implements UpdateListener
 			wurst.mods.jetpackMod.setEnabled(false);
 		
 		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.MINEPLEX_ANTICHEAT.ordinal())
+			.ordinal() >= BypassLevel.MINEPLEX.ordinal())
 		{
 			double startX = mc.player.posX;
 			startY = mc.player.posY;
@@ -88,7 +88,7 @@ public class FlightMod extends Mod implements UpdateListener
 				break;
 			
 			case ANTICHEAT:
-			case MINEPLEX_ANTICHEAT:
+			case MINEPLEX:
 				updateMS();
 				if(!mc.player.onGround)
 					if(mc.gameSettings.keyBindJump.pressed && hasTimePassedS(2))

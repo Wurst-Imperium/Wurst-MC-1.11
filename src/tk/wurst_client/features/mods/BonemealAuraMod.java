@@ -105,7 +105,7 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 		{
 			default:
 			case OFF:
-			case MINEPLEX_ANTICHEAT:
+			case MINEPLEX:
 				range.unlock();
 				break;
 			case ANTICHEAT:

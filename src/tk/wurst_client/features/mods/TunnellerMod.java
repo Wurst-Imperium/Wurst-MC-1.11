@@ -121,7 +121,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 				currentDamage = 0;
 				if(mc.player.capabilities.isCreativeMode
 					&& wurst.special.yesCheatSpf.getBypassLevel()
-						.ordinal() <= BypassLevel.MINEPLEX_ANTICHEAT.ordinal())
+						.ordinal() <= BypassLevel.MINEPLEX.ordinal())
 					nukeAll();
 				else
 				{
