@@ -253,9 +253,6 @@ public class KillauraMod extends Mod implements UpdateListener
 		// Criticals
 		wurst.mods.criticalsMod.doCritical();
 		
-		// BlockHit
-		wurst.mods.blockHitMod.doBlock();
-		
 		// face entity
 		if(!EntityUtils.faceEntityPacket(entity))
 			return;

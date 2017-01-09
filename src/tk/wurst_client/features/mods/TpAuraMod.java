@@ -168,9 +168,6 @@ public class TpAuraMod extends Mod implements UpdateListener
 		// Criticals
 		wurst.mods.criticalsMod.doCritical();
 		
-		// BlockHit
-		wurst.mods.blockHitMod.doBlock();
-		
 		// face entity
 		EntityUtils.faceEntityPacket(entity);
 		

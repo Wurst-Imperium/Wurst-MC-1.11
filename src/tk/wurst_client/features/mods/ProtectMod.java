@@ -193,9 +193,6 @@ public class ProtectMod extends Mod implements UpdateListener
 			// Criticals
 			wurst.mods.criticalsMod.doCritical();
 			
-			// BlockHit
-			wurst.mods.blockHitMod.doBlock();
-			
 			// attack enemy
 			mc.playerController.attackEntity(mc.player, enemy);
 			mc.player.swingArm(EnumHand.MAIN_HAND);

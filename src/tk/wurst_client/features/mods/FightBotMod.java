@@ -165,9 +165,6 @@ public class FightBotMod extends Mod implements UpdateListener
 		// Criticals
 		wurst.mods.criticalsMod.doCritical();
 		
-		// BlockHit
-		wurst.mods.blockHitMod.doBlock();
-		
 		// attack entity
 		mc.playerController.attackEntity(mc.player, entity);
 		mc.player.swingArm(EnumHand.MAIN_HAND);
