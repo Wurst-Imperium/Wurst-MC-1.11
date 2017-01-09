@@ -9,9 +9,7 @@ package tk.wurst_client.features.mods;
 
 import tk.wurst_client.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Allows you to fly with boats and rideable entities.\n"
-		+ "Bypasses NoCheat+, at least for now.",
+@Mod.Info(description = "Allows you to fly with boats",
 	name = "BoatFly",
 	tags = "BoatFlight, boat fly, boat flight",
 	help = "Mods/BoatFly")
@@ -33,9 +31,11 @@ public class BoatFlyMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
+		// check if riding
 		if(!mc.player.isRiding())
 			return;
 		
+		// fly
 		mc.player.getRidingEntity().motionY =
 			mc.gameSettings.keyBindJump.pressed ? 0.3 : 0;
 	}
