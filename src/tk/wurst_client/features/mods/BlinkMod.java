@@ -23,13 +23,9 @@ import tk.wurst_client.events.listeners.PacketOutputListener;
 @Mod.Bypasses
 public class BlinkMod extends Mod implements PacketOutputListener
 {
-	private static ArrayList<Packet> packets = new ArrayList<>();
-	private EntityOtherPlayerMP fakePlayer = null;
-	private double oldX;
-	private double oldY;
-	private double oldZ;
-	private long blinkTime;
-	private long lastTime;
+	private final ArrayList<Packet> packets = new ArrayList<>();
+	private EntityOtherPlayerMP fakePlayer;
+	private int blinkTime;
 	
 	@Override
 	public String getRenderName()
@@ -40,57 +36,78 @@ public class BlinkMod extends Mod implements PacketOutputListener
 	@Override
 	public void onEnable()
 	{
-		lastTime = System.currentTimeMillis();
+		// reset timer
+		blinkTime = 0;
 		
-		oldX = mc.player.posX;
-		oldY = mc.player.posY;
-		oldZ = mc.player.posZ;
+		// create fake player
 		fakePlayer =
 			new EntityOtherPlayerMP(mc.world, mc.player.getGameProfile());
-		fakePlayer.clonePlayer(mc.player, true);
 		fakePlayer.copyLocationAndAnglesFrom(mc.player);
-		fakePlayer.rotationYawHead = mc.player.rotationYawHead;
-		mc.world.addEntityToWorld(-69, fakePlayer);
+		mc.world.addEntityToWorld(fakePlayer.getEntityId(), fakePlayer);
 		
+		// fix inventory
+		fakePlayer.clonePlayer(mc.player, true);
+		
+		// fix rotation
+		fakePlayer.rotationYawHead = mc.player.rotationYawHead;
+		fakePlayer.renderYawOffset = mc.player.renderYawOffset;
+		
+		// fix cape movement
+		fakePlayer.chasingPosX = fakePlayer.posX;
+		fakePlayer.chasingPosY = fakePlayer.posY;
+		fakePlayer.chasingPosZ = fakePlayer.posZ;
+		
+		// add listener
 		wurst.events.add(PacketOutputListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
+		// remove listener
 		wurst.events.remove(PacketOutputListener.class, this);
 		
+		// send & delete saved packets
 		for(Packet packet : packets)
 			mc.player.connection.sendPacket(packet);
 		packets.clear();
-		mc.world.removeEntityFromWorld(-69);
-		fakePlayer = null;
-		blinkTime = 0;
+		
+		// delete fake player
+		mc.world.removeEntityFromWorld(fakePlayer.getEntityId());
 	}
 	
 	@Override
 	public void onSentPacket(PacketOutputEvent event)
 	{
 		Packet packet = event.getPacket();
-		if(packet instanceof CPacketPlayer)
-		{
-			if(mc.player.posX != mc.player.prevPosX
-				|| mc.player.posZ != mc.player.prevPosZ
-				|| mc.player.posY != mc.player.prevPosY)
-			{
-				blinkTime += System.currentTimeMillis() - lastTime;
-				packets.add(packet);
-			}
-			lastTime = System.currentTimeMillis();
-			event.cancel();
-		}
+		
+		// check for player packets
+		if(!(packet instanceof CPacketPlayer))
+			return;
+		
+		// cancel player packets
+		event.cancel();
+		
+		// check for movement packets
+		if(!(packet instanceof CPacketPlayer.Position)
+			&& !(packet instanceof CPacketPlayer.PositionRotation))
+			return;
+		
+		// save movement packets
+		packets.add(packet);
+		blinkTime += 50;
 	}
 	
 	public void cancel()
 	{
+		// delete saved packets
 		packets.clear();
-		mc.player.setPositionAndRotation(oldX, oldY, oldZ,
-			mc.player.rotationYaw, mc.player.rotationPitch);
+		
+		// reset player position
+		mc.player.setPositionAndRotation(fakePlayer.posX, fakePlayer.posY,
+			fakePlayer.posZ, fakePlayer.rotationYaw, fakePlayer.rotationPitch);
+		
+		// disable Blink
 		setEnabled(false);
 	}
 }
