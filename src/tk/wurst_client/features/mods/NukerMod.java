@@ -200,21 +200,26 @@ public class NukerMod extends Mod
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onLeftClick(LeftClickEvent event)
 	{
+		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.getBlockPos() == null)
 			return;
-		if(mode.getSelected() == 1
-			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
-				.getBlock().getMaterial(null) != Material.AIR)
-		{
-			id = Block.getIdFromBlock(mc.world
-				.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock());
-			wurst.files.saveOptions();
-		}
+		
+		// check mode
+		if(mode.getSelected() != 1)
+			return;
+		
+		// check material
+		if(BlockUtils
+			.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			return;
+		
+		// set id
+		id = Block.getIdFromBlock(
+			BlockUtils.getBlock(mc.objectMouseOver.getBlockPos()));
 	}
 	
 	@Override
