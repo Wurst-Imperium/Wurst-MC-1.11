@@ -14,7 +14,6 @@ import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -27,6 +26,7 @@ import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
 	description = "Automatically uses bone meal on specific types of plants.\n"
@@ -38,13 +38,12 @@ import tk.wurst_client.utils.BlockUtils;
 public class BonemealAuraMod extends Mod implements UpdateListener
 {
 	public final SliderSetting range =
-		new SliderSetting("Range", 5, 1, 6, 0.05, ValueDisplay.DECIMAL);
+		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	
 	private final CheckboxSetting saplings =
 		new CheckboxSetting("Saplings", true);
-	private final CheckboxSetting crops =
-		new CheckboxSetting("Carrots, Potatoes & Wheat", true);
-	private final CheckboxSetting stems =
-		new CheckboxSetting("Melons & Pumpkins", true);
+	private final CheckboxSetting crops = new CheckboxSetting("Crops", true);
+	private final CheckboxSetting stems = new CheckboxSetting("Stems", true);
 	private final CheckboxSetting cocoa = new CheckboxSetting("Cocoa", true);
 	private final CheckboxSetting other = new CheckboxSetting("Other", false);
 	
@@ -74,26 +73,26 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		ItemStack item =
-			mc.player.inventory.getStackInSlot(mc.player.inventory.currentItem);
-		if(item == null || !(item.getItem() instanceof ItemDye)
-			|| item.getMetadata() != 15)
+		// check held item
+		ItemStack stack = mc.player.inventory.getCurrentItem();
+		if(InventoryUtils.isEmptySlot(stack)
+			|| !(stack.getItem() instanceof ItemDye)
+			|| stack.getMetadata() != 15)
 			return;
 		
-		BlockPos pos = mc.player.getPosition();
-		for(int y = -range.getValueI() - 1; y < range.getValueI() + 1; y++)
-			for(int x = -range.getValueI() - 1; x < range.getValueI() + 1; x++)
-				for(int z = -range.getValueI() - 1; z < range.getValueI()
-					+ 1; z++)
+		BlockPos playerPos = new BlockPos(mc.player);
+		for(int y = -range.getValueI() + 1; y < range.getValueI() + 2; y++)
+			for(int x = -range.getValueI(); x < range.getValueI() + 1; x++)
+				for(int z = -range.getValueI(); z < range.getValueI() + 1; z++)
 				{
-					BlockPos currentPos = pos.add(x, y, z);
-					if(BlockUtils.getPlayerBlockDistance(currentPos) > range
-						.getValueF() || !isCorrectBlock(currentPos))
+					BlockPos pos = playerPos.add(x, y, z);
+					if(BlockUtils.getPlayerBlockDistance(pos) > range
+						.getValueF() || !isCorrectBlock(pos))
 						continue;
 					
-					BlockUtils.faceBlockPacket(currentPos);
-					mc.player.connection.sendPacket(
-						new CPacketPlayerTryUseItemOnBlock(currentPos,
+					BlockUtils.faceBlockPacket(pos);
+					mc.player.connection
+						.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos,
 							EnumFacing.UP, EnumHand.MAIN_HAND, 0.5F, 1F, 0.5F));
 				}
 	}
@@ -119,11 +118,11 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	
 	private boolean isCorrectBlock(BlockPos pos)
 	{
-		IBlockState state = mc.world.getBlockState(pos);
-		Block block = state.getBlock();
+		Block block = BlockUtils.getBlock(pos);
 		
 		if(!(block instanceof IGrowable) || block instanceof BlockGrass
-			|| !((IGrowable)block).canGrow(mc.world, pos, state, false))
+			|| !((IGrowable)block).canGrow(mc.world, pos,
+				BlockUtils.getState(pos), false))
 			return false;
 		
 		if(block instanceof BlockSapling)
