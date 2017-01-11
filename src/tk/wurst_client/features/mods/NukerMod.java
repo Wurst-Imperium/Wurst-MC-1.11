@@ -42,7 +42,7 @@ public class NukerMod extends Mod
 	private static Block currentBlock;
 	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
-	private byte blockHitDelay = 0;
+	private int blockHitDelay = 0;
 	public static int id = 0;
 	private BlockPos pos;
 	private boolean shouldRenderESP;
@@ -126,76 +126,124 @@ public class NukerMod extends Mod
 				RenderUtils.nukerBox(pos, 1);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onUpdate()
 	{
+		// disable rendering
 		shouldRenderESP = false;
+		
+		// find position to nuke
 		BlockPos newPos = find();
+		
+		// check if any block was found
 		if(newPos == null)
 		{
+			// reset slot
 			if(oldSlot != -1)
 			{
 				mc.player.inventory.currentItem = oldSlot;
 				oldSlot = -1;
 			}
+			
 			return;
 		}
-		if(pos == null || !pos.equals(newPos))
+		
+		// reset damage
+		if(!newPos.equals(pos))
 			currentDamage = 0;
+		
+		// set current pos & block
 		pos = newPos;
-		currentBlock = mc.world.getBlockState(pos).getBlock();
+		currentBlock = BlockUtils.getBlock(pos);
+		
+		// wait for timer
 		if(blockHitDelay > 0)
 		{
 			blockHitDelay--;
 			return;
 		}
+		
+		// face block
 		BlockUtils.faceBlockPacket(pos);
+		
 		if(currentDamage == 0)
 		{
+			// start breaking the block
 			mc.player.connection.sendPacket(new CPacketPlayerDigging(
 				Action.START_DESTROY_BLOCK, pos, side));
+			
+			// save old slot
 			if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
 				oldSlot = mc.player.inventory.currentItem;
-			if(mc.player.capabilities.isCreativeMode
-				|| currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world, pos) >= 1)
+			
+			// check if block can be destroyed instantly
+			if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
+				.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
 			{
+				// reset damage
 				currentDamage = 0;
+				
+				// nuke all
 				if(mc.player.capabilities.isCreativeMode
 					&& wurst.special.yesCheatSpf.getBypassLevel()
 						.ordinal() <= BypassLevel.MINEPLEX.ordinal())
 					nukeAll();
 				else
 				{
+					// enable rendering
 					shouldRenderESP = true;
+					
+					// swing arm
 					mc.player.swingArm(EnumHand.MAIN_HAND);
+					
+					// destroy block
 					mc.playerController.onPlayerDestroyBlock(pos);
 				}
+				
 				return;
 			}
 		}
+		
+		// AutoTool
 		wurst.mods.autoToolMod.setSlot(pos);
+		
+		// swing arm
 		mc.player.connection
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+		
+		// enable rendering
 		shouldRenderESP = true;
-		BlockUtils.faceBlockPacket(pos);
-		currentDamage += currentBlock.getPlayerRelativeBlockHardness(
-			mc.world.getBlockState(pos), mc.player, mc.world, pos)
+		
+		// update damage
+		currentDamage += BlockUtils.getState(pos)
+			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos)
 			* (wurst.mods.fastBreakMod.isActive()
 				&& wurst.mods.fastBreakMod.getMode() == 0
 					? wurst.mods.fastBreakMod.speed.getValueF() : 1);
+		
+		// send damage to server
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
-			(int)(currentDamage * 10.0F) - 1);
+			(int)(currentDamage * 10) - 1);
+		
+		// check if block is ready to be destroyed
 		if(currentDamage >= 1)
 		{
+			// destroy block
 			mc.player.connection.sendPacket(
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 			mc.playerController.onPlayerDestroyBlock(pos);
-			blockHitDelay = (byte)4;
+			
+			// reset delay
+			blockHitDelay = 4;
+			
+			// reset damage
 			currentDamage = 0;
+			
+			// FastBreak instant mode
 		}else if(wurst.mods.fastBreakMod.isActive()
 			&& wurst.mods.fastBreakMod.getMode() == 1)
+			
+			// try to destroy block
 			mc.player.connection.sendPacket(
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 	}
