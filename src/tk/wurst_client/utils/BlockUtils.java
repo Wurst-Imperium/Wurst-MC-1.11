@@ -42,6 +42,12 @@ public final class BlockUtils
 		return getBlock(pos).canCollideCheck(getState(pos), false);
 	}
 	
+	public static float getHardness(BlockPos pos)
+	{
+		return getState(pos).getPlayerRelativeBlockHardness(mc.player, mc.world,
+			pos);
+	}
+	
 	public static boolean placeBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = new Vec3d(mc.player.posX,

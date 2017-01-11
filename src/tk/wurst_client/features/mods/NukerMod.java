@@ -207,10 +207,9 @@ public class NukerMod extends Mod
 				oldSlot = mc.player.inventory.currentItem;
 			
 			// check if block can be destroyed instantly
-			if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
-				.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
+			if(mc.player.capabilities.isCreativeMode
+				|| BlockUtils.getHardness(pos) >= 1)
 			{
-				
 				// swing arm
 				mc.player.swingArm(EnumHand.MAIN_HAND);
 				
@@ -229,9 +228,8 @@ public class NukerMod extends Mod
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		
 		// update damage
-		currentDamage += BlockUtils.getState(pos)
-			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos)
-			* (wurst.mods.fastBreakMod.isActive()
+		currentDamage +=
+			BlockUtils.getHardness(pos) * (wurst.mods.fastBreakMod.isActive()
 				&& wurst.mods.fastBreakMod.getMode() == 0
 					? wurst.mods.fastBreakMod.speed.getValueF() : 1);
 		
@@ -273,8 +271,8 @@ public class NukerMod extends Mod
 			return;
 		
 		// check if block can be destroyed instantly
-		if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
-			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
+		if(mc.player.capabilities.isCreativeMode
+			|| BlockUtils.getHardness(pos) >= 1)
 			RenderUtils.nukerBox(pos, 1);
 		else
 			RenderUtils.nukerBox(pos, currentDamage);
@@ -343,9 +341,7 @@ public class NukerMod extends Mod
 							return current;
 						break;
 					case 3:
-						if(BlockUtils.getState(current)
-							.getPlayerRelativeBlockHardness(mc.player, mc.world,
-								current) >= 1)
+						if(BlockUtils.getHardness(current) >= 1)
 							return current;
 						break;
 					default:
@@ -417,9 +413,7 @@ public class NukerMod extends Mod
 								continue;
 							break;
 						case 3:
-							if(BlockUtils.getState(pos)
-								.getPlayerRelativeBlockHardness(mc.player,
-									mc.world, pos) < 1)
+							if(BlockUtils.getHardness(pos) < 1)
 								continue;
 							break;
 					}
