@@ -228,10 +228,7 @@ public class NukerMod extends Mod
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		
 		// update damage
-		currentDamage +=
-			BlockUtils.getHardness(pos) * (wurst.mods.fastBreakMod.isActive()
-				&& wurst.mods.fastBreakMod.getMode() == 0
-					? wurst.mods.fastBreakMod.speed.getValueF() : 1);
+		currentDamage += BlockUtils.getHardness(pos);
 		
 		// send damage to server
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
@@ -252,10 +249,7 @@ public class NukerMod extends Mod
 			currentDamage = 0;
 			
 			// FastBreak instant mode
-		}else if(wurst.mods.fastBreakMod.isActive()
-			&& wurst.mods.fastBreakMod.getMode() == 1)
-			
-			// try to destroy block
+		}else if(wurst.mods.fastBreakMod.shouldSpamPackets())
 			mc.player.connection.sendPacket(
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 	}

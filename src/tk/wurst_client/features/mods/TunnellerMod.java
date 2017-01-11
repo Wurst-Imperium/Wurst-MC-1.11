@@ -137,11 +137,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 		shouldRenderESP = true;
 		BlockUtils.faceBlockPacket(pos);
-		currentDamage += currentBlock.getPlayerRelativeBlockHardness(
-			mc.world.getBlockState(pos), mc.player, mc.world, pos)
-			* (wurst.mods.fastBreakMod.isActive()
-				&& wurst.mods.fastBreakMod.getMode() == 0
-					? wurst.mods.fastBreakMod.speed.getValueF() : 1);
+		currentDamage += BlockUtils.getHardness(pos);
 		mc.world.sendBlockBreakProgress(mc.player.getEntityId(), pos,
 			(int)(currentDamage * 10.0F) - 1);
 		if(currentDamage >= 1)
@@ -151,8 +147,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			mc.playerController.onPlayerDestroyBlock(pos);
 			blockHitDelay = (byte)4;
 			currentDamage = 0;
-		}else if(wurst.mods.fastBreakMod.isActive()
-			&& wurst.mods.fastBreakMod.getMode() == 1)
+		}else if(wurst.mods.fastBreakMod.shouldSpamPackets())
 			mc.player.connection.sendPacket(
 				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
 	}

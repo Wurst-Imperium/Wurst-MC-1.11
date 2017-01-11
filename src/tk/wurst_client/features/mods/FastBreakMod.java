@@ -21,23 +21,23 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses
 public class FastBreakMod extends Mod
 {
-	public final SliderSetting speed =
-		new SliderSetting("Speed", 2, 1, 5, 0.05, ValueDisplay.DECIMAL);
-	private int mode = 0;
-	private String[] modes = new String[]{"Normal", "Instant"};
-	
-	@Override
-	public void initSettings()
-	{
-		settings.add(speed);
-		settings.add(new ModeSetting("Mode", modes, mode)
+	public final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Normal", "Instant"}, 1)
 		{
 			@Override
 			public void update()
 			{
-				mode = getSelected();
+				speed.setDisabled(getSelected() == 1);
 			}
-		});
+		};
+	public final SliderSetting speed =
+		new SliderSetting("Speed", 2, 1, 5, 0.05, ValueDisplay.DECIMAL);
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(mode);
+		settings.add(speed);
 	}
 	
 	@Override
@@ -47,8 +47,19 @@ public class FastBreakMod extends Mod
 			wurst.mods.nukerMod};
 	}
 	
-	public int getMode()
+	public float getHardnessModifier()
 	{
-		return mode;
+		if(!isActive())
+			return 1;
+		
+		if(mode.getSelected() != 0)
+			return 1;
+		
+		return speed.getValueF();
+	}
+	
+	public boolean shouldSpamPackets()
+	{
+		return isActive() && mode.getSelected() == 1;
 	}
 }
