@@ -45,7 +45,6 @@ public class NukerMod extends Mod
 	private int blockHitDelay = 0;
 	public int id = 0;
 	private BlockPos pos;
-	private boolean shouldRenderESP;
 	private int oldSlot = -1;
 	
 	public final SliderSetting range =
@@ -117,8 +116,8 @@ public class NukerMod extends Mod
 		// reset damage
 		currentDamage = 0;
 		
-		// disable rendering
-		shouldRenderESP = false;
+		// reset pos
+		pos = null;
 		
 		// reset ID
 		id = 0;
@@ -157,9 +156,6 @@ public class NukerMod extends Mod
 			return;
 		}
 		
-		// disable rendering
-		shouldRenderESP = false;
-		
 		// find closest valid block
 		BlockPos newPos = find();
 		
@@ -173,6 +169,7 @@ public class NukerMod extends Mod
 				oldSlot = -1;
 			}
 			
+			pos = null;
 			return;
 		}
 		
@@ -182,9 +179,6 @@ public class NukerMod extends Mod
 			blockHitDelay--;
 			return;
 		}
-		
-		// enable rendering
-		shouldRenderESP = true;
 		
 		// face block
 		BlockUtils.faceBlockPacket(newPos);
@@ -257,11 +251,7 @@ public class NukerMod extends Mod
 	@Override
 	public void onRender()
 	{
-		if(!shouldRenderESP)
-			return;
-		
-		// wait for timer
-		if(blockHitDelay != 0)
+		if(pos == null)
 			return;
 		
 		// check if block can be destroyed instantly
@@ -369,7 +359,6 @@ public class NukerMod extends Mod
 		
 		// reset current pos
 		pos = null;
-		shouldRenderESP = false;
 		double closestDistanceSq = Double.POSITIVE_INFINITY;
 		
 		// prepare range check
@@ -415,9 +404,8 @@ public class NukerMod extends Mod
 					// update closest valid pos
 					if(distanceSq < closestDistanceSq)
 					{
-						closestDistanceSq = distanceSq;
 						this.pos = pos;
-						shouldRenderESP = true;
+						closestDistanceSq = distanceSq;
 					}
 					
 					// break block
