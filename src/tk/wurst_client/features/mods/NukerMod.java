@@ -202,10 +202,6 @@ public class NukerMod extends Mod
 			mc.player.connection.sendPacket(new CPacketPlayerDigging(
 				Action.START_DESTROY_BLOCK, pos, side));
 			
-			// save old slot
-			if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
-				oldSlot = mc.player.inventory.currentItem;
-			
 			// check if block can be destroyed instantly
 			if(mc.player.capabilities.isCreativeMode
 				|| BlockUtils.getHardness(pos) >= 1)
@@ -218,6 +214,10 @@ public class NukerMod extends Mod
 				
 				return;
 			}
+			
+			// save old slot
+			if(wurst.mods.autoToolMod.isActive() && oldSlot == -1)
+				oldSlot = mc.player.inventory.currentItem;
 		}
 		
 		// AutoTool
