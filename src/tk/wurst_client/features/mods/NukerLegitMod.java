@@ -87,7 +87,7 @@ public class NukerLegitMod extends Mod
 			case 0:
 				return "NukerLegit";
 			case 1:
-				return "IDNukerLegit [" + NukerMod.id + "]";
+				return "IDNukerLegit [" + wurst.mods.nukerMod.id + "]";
 			default:
 				return mode.getSelectedMode() + "NukerLegit";
 		}
@@ -128,7 +128,7 @@ public class NukerLegitMod extends Mod
 		}
 		currentDamage = 0;
 		shouldRenderESP = false;
-		NukerMod.id = 0;
+		wurst.mods.nukerMod.id = 0;
 		wurst.files.saveOptions();
 	}
 	
@@ -217,7 +217,7 @@ public class NukerLegitMod extends Mod
 			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
 				.getBlock().getMaterial(null) != Material.AIR)
 		{
-			NukerMod.id = Block.getIdFromBlock(mc.world
+			wurst.mods.nukerMod.id = Block.getIdFromBlock(mc.world
 				.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock());
 			wurst.files.saveOptions();
 		}
@@ -244,7 +244,7 @@ public class NukerLegitMod extends Mod
 				switch(mode.getSelected())
 				{
 					case 1:
-						if(currentID == NukerMod.id)
+						if(currentID == wurst.mods.nukerMod.id)
 							return currentPos;
 						break;
 					case 2:

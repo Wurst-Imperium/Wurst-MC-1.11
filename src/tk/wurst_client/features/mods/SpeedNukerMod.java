@@ -78,7 +78,7 @@ public class SpeedNukerMod extends Mod
 			case 0:
 				return "SpeedNuker";
 			case 1:
-				return "IDSpeedNuker [" + NukerMod.id + "]";
+				return "IDSpeedNuker [" + wurst.mods.nukerMod.id + "]";
 			default:
 				return mode.getSelectedMode() + "SpeedNuker";
 		}
@@ -115,7 +115,7 @@ public class SpeedNukerMod extends Mod
 			mc.player.inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
-		NukerMod.id = 0;
+		wurst.mods.nukerMod.id = 0;
 		wurst.files.saveOptions();
 	}
 	
@@ -164,7 +164,7 @@ public class SpeedNukerMod extends Mod
 			&& mc.world.getBlockState(mc.objectMouseOver.getBlockPos())
 				.getBlock().getMaterial(null) != Material.AIR)
 		{
-			NukerMod.id = Block.getIdFromBlock(mc.world
+			wurst.mods.nukerMod.id = Block.getIdFromBlock(mc.world
 				.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock());
 			wurst.files.saveOptions();
 		}
@@ -200,8 +200,8 @@ public class SpeedNukerMod extends Mod
 					if(Block.getIdFromBlock(block) != 0 && posY >= 0
 						&& currentDistance <= range.getValueF())
 					{
-						if(nukerMode == 1
-							&& Block.getIdFromBlock(block) != NukerMod.id)
+						if(nukerMode == 1 && Block
+							.getIdFromBlock(block) != wurst.mods.nukerMod.id)
 							continue;
 						if(nukerMode == 3
 							&& block.getPlayerRelativeBlockHardness(
@@ -248,8 +248,8 @@ public class SpeedNukerMod extends Mod
 					if(Block.getIdFromBlock(block) != 0 && posY >= 0
 						&& currentDistance <= range.getValueF())
 					{
-						if(nukerMode == 1
-							&& Block.getIdFromBlock(block) != NukerMod.id)
+						if(nukerMode == 1 && Block
+							.getIdFromBlock(block) != wurst.mods.nukerMod.id)
 							continue;
 						if(nukerMode == 3
 							&& block.getPlayerRelativeBlockHardness(

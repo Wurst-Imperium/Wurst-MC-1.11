@@ -43,7 +43,7 @@ public class NukerMod extends Mod
 	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
 	private int blockHitDelay = 0;
-	public static int id = 0;
+	public int id = 0;
 	private BlockPos pos;
 	private boolean shouldRenderESP;
 	private int oldSlot = -1;
