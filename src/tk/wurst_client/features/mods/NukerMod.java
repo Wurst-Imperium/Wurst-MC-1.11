@@ -7,8 +7,8 @@
  */
 package tk.wurst_client.features.mods;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,6 +18,7 @@ import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.RenderListener;
@@ -147,7 +148,7 @@ public class NukerMod extends Mod
 		// disable rendering
 		shouldRenderESP = false;
 		
-		// find position to nuke
+		// find closest valid block
 		BlockPos newPos = find();
 		
 		// check if any block was found
@@ -303,57 +304,76 @@ public class NukerMod extends Mod
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	private BlockPos find()
 	{
-		LinkedList<BlockPos> queue = new LinkedList<>();
-		HashSet<BlockPos> alreadyProcessed = new HashSet<>();
-		queue.add(new BlockPos(mc.player));
+		// abort if using IDNuker without an ID being set
+		if(mode.getSelected() == 1 && id == 0)
+			return null;
+		
+		// initialize queue
+		ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+		HashSet<BlockPos> visited = new HashSet<>();
+		
+		// prepare range check
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		double rangeSq = Math.pow(range.getValue(), 2);
+		
+		// add start pos
+		queue.add(new BlockPos(mc.player).up());
+		
+		// find block using breadth first search
 		while(!queue.isEmpty())
 		{
-			BlockPos currentPos = queue.poll();
-			if(alreadyProcessed.contains(currentPos))
+			BlockPos current = queue.pop();
+			
+			// check range
+			if(eyesPos.squareDistanceTo(
+				new Vec3d(current).addVector(0.5, 0.5, 0.5)) > rangeSq)
 				continue;
-			alreadyProcessed.add(currentPos);
-			if(BlockUtils.getPlayerBlockDistance(currentPos) > range
-				.getValueF())
-				continue;
-			int currentID = Block
-				.getIdFromBlock(mc.world.getBlockState(currentPos).getBlock());
-			if(currentID != 0)
+			
+			boolean canBeClicked = BlockUtils.canBeClicked(current);
+			
+			// check if block is valid
+			if(canBeClicked)
 				switch(mode.getSelected())
 				{
 					case 1:
-						if(currentID == id)
-							return currentPos;
+						if(id == Block
+							.getIdFromBlock(BlockUtils.getBlock(current)))
+							return current;
 						break;
 					case 2:
-						if(currentPos.getY() >= mc.player.posY)
-							return currentPos;
+						if(current.getY() >= mc.player.posY)
+							return current;
 						break;
 					case 3:
-						if(mc.world.getBlockState(currentPos).getBlock()
-							.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(pos), mc.player,
-								mc.world, currentPos) >= 1)
-							return currentPos;
+						if(BlockUtils.getState(current)
+							.getPlayerRelativeBlockHardness(mc.player, mc.world,
+								current) >= 1)
+							return current;
 						break;
 					default:
-						return currentPos;
+						return current;
 				}
-			if(wurst.special.yesCheatSpf.getBypassLevel()
-				.ordinal() <= BypassLevel.MINEPLEX.ordinal()
-				|| !mc.world.getBlockState(currentPos).getBlock()
-					.getMaterial(null).blocksMovement())
+			
+			if(!canBeClicked || wurst.special.yesCheatSpf.getBypassLevel()
+				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
 			{
-				queue.add(currentPos.add(0, 0, -1));// north
-				queue.add(currentPos.add(0, 0, 1));// south
-				queue.add(currentPos.add(-1, 0, 0));// west
-				queue.add(currentPos.add(1, 0, 0));// east
-				queue.add(currentPos.add(0, -1, 0));// down
-				queue.add(currentPos.add(0, 1, 0));// up
+				// add neighbors
+				for(EnumFacing facing : EnumFacing.values())
+				{
+					BlockPos next = current.offset(facing);
+					
+					if(visited.contains(next))
+						continue;
+					
+					queue.add(next);
+					visited.add(next);
+				}
 			}
 		}
+		
 		return null;
 	}
 	
