@@ -149,6 +149,14 @@ public class NukerMod extends Mod
 	@Override
 	public void onUpdate()
 	{
+		// nuke all
+		if(mc.player.capabilities.isCreativeMode && wurst.special.yesCheatSpf
+			.getBypassLevel().ordinal() <= BypassLevel.MINEPLEX.ordinal())
+		{
+			nukeAll();
+			return;
+		}
+		
 		// disable rendering
 		shouldRenderESP = false;
 		
@@ -172,15 +180,18 @@ public class NukerMod extends Mod
 		if(!newPos.equals(pos))
 			currentDamage = 0;
 		
-		// set current pos & block
-		pos = newPos;
-		
 		// wait for timer
 		if(blockHitDelay > 0)
 		{
 			blockHitDelay--;
 			return;
 		}
+		
+		// set current pos
+		pos = newPos;
+		
+		// enable rendering
+		shouldRenderESP = true;
 		
 		// face block
 		BlockUtils.faceBlockPacket(pos);
@@ -199,25 +210,12 @@ public class NukerMod extends Mod
 			if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
 				.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
 			{
-				// reset damage
-				currentDamage = 0;
 				
-				// nuke all
-				if(mc.player.capabilities.isCreativeMode
-					&& wurst.special.yesCheatSpf.getBypassLevel()
-						.ordinal() <= BypassLevel.MINEPLEX.ordinal())
-					nukeAll();
-				else
-				{
-					// enable rendering
-					shouldRenderESP = true;
-					
-					// swing arm
-					mc.player.swingArm(EnumHand.MAIN_HAND);
-					
-					// destroy block
-					mc.playerController.onPlayerDestroyBlock(pos);
-				}
+				// swing arm
+				mc.player.swingArm(EnumHand.MAIN_HAND);
+				
+				// destroy block
+				mc.playerController.onPlayerDestroyBlock(pos);
 				
 				return;
 			}
@@ -229,9 +227,6 @@ public class NukerMod extends Mod
 		// swing arm
 		mc.player.connection
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
-		
-		// enable rendering
-		shouldRenderESP = true;
 		
 		// update damage
 		currentDamage += BlockUtils.getState(pos)
@@ -379,8 +374,13 @@ public class NukerMod extends Mod
 	
 	private void nukeAll()
 	{
-		// enable rendering
-		shouldRenderESP = true;
+		// reset timer
+		blockHitDelay = 0;
+		
+		// reset current pos
+		pos = null;
+		shouldRenderESP = false;
+		double closestDistanceSq = Double.POSITIVE_INFINITY;
 		
 		// prepare range check
 		Vec3d eyesPos = new Vec3d(mc.player.posX,
@@ -400,9 +400,12 @@ public class NukerMod extends Mod
 					if(BlockUtils.getMaterial(pos) == Material.AIR)
 						continue;
 					
+					// get square distance
+					double distanceSq = eyesPos.squareDistanceTo(
+						new Vec3d(pos).addVector(0.5, 0.5, 0.5));
+					
 					// check range
-					if(eyesPos.squareDistanceTo(
-						new Vec3d(pos).addVector(0.5, 0.5, 0.5)) > rangeSq)
+					if(distanceSq > rangeSq)
 						continue;
 					
 					// check if block is valid
@@ -419,6 +422,14 @@ public class NukerMod extends Mod
 									mc.world, pos) < 1)
 								continue;
 							break;
+					}
+					
+					// update closest valid pos
+					if(distanceSq < closestDistanceSq)
+					{
+						closestDistanceSq = distanceSq;
+						this.pos = pos;
+						shouldRenderESP = true;
 					}
 					
 					// break block
