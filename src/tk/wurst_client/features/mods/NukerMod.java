@@ -84,12 +84,15 @@ public class NukerMod extends Mod
 	@Override
 	public void onEnable()
 	{
+		// disable other nukers
 		if(wurst.mods.nukerLegitMod.isEnabled())
 			wurst.mods.nukerLegitMod.setEnabled(false);
 		if(wurst.mods.speedNukerMod.isEnabled())
 			wurst.mods.speedNukerMod.setEnabled(false);
 		if(wurst.mods.tunnellerMod.isEnabled())
 			wurst.mods.tunnellerMod.setEnabled(false);
+		
+		// add listeners
 		wurst.events.add(LeftClickListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
@@ -98,18 +101,26 @@ public class NukerMod extends Mod
 	@Override
 	public void onDisable()
 	{
+		// remove listeners
 		wurst.events.remove(LeftClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
+		
+		// reset slot
 		if(oldSlot != -1)
 		{
 			mc.player.inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
+		
+		// reset damage
 		currentDamage = 0;
+		
+		// disable rendering
 		shouldRenderESP = false;
+		
+		// reset ID
 		id = 0;
-		wurst.files.saveOptions();
 	}
 	
 	@Override
