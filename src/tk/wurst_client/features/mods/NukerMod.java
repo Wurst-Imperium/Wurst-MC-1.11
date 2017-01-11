@@ -39,7 +39,6 @@ import tk.wurst_client.utils.RenderUtils;
 public class NukerMod extends Mod
 	implements LeftClickListener, RenderListener, UpdateListener
 {
-	private static Block currentBlock;
 	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
 	private int blockHitDelay = 0;
@@ -113,17 +112,22 @@ public class NukerMod extends Mod
 		wurst.files.saveOptions();
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onRender()
 	{
-		if(blockHitDelay == 0 && shouldRenderESP)
-			if(!mc.player.capabilities.isCreativeMode
-				&& currentBlock.getPlayerRelativeBlockHardness(
-					mc.world.getBlockState(pos), mc.player, mc.world, pos) < 1)
-				RenderUtils.nukerBox(pos, currentDamage);
-			else
-				RenderUtils.nukerBox(pos, 1);
+		if(!shouldRenderESP)
+			return;
+		
+		// wait for timer
+		if(blockHitDelay != 0)
+			return;
+		
+		// check if block can be destroyed instantly
+		if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
+			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
+			RenderUtils.nukerBox(pos, 1);
+		else
+			RenderUtils.nukerBox(pos, currentDamage);
 	}
 	
 	@Override
@@ -154,7 +158,6 @@ public class NukerMod extends Mod
 		
 		// set current pos & block
 		pos = newPos;
-		currentBlock = BlockUtils.getBlock(pos);
 		
 		// wait for timer
 		if(blockHitDelay > 0)
