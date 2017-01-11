@@ -38,7 +38,7 @@ import tk.wurst_client.utils.RenderUtils;
 	help = "Mods/Nuker")
 @Mod.Bypasses
 public class NukerMod extends Mod
-	implements LeftClickListener, RenderListener, UpdateListener
+	implements LeftClickListener, UpdateListener, RenderListener
 {
 	private float currentDamage;
 	private EnumFacing side = EnumFacing.UP;
@@ -54,6 +54,13 @@ public class NukerMod extends Mod
 		new String[]{"Normal", "ID", "Flat", "Smash"}, 0);
 	
 	@Override
+	public void initSettings()
+	{
+		settings.add(range);
+		settings.add(mode);
+	}
+	
+	@Override
 	public String getRenderName()
 	{
 		switch(mode.getSelected())
@@ -65,13 +72,6 @@ public class NukerMod extends Mod
 			default:
 				return mode.getSelectedMode() + "Nuker";
 		}
-	}
-	
-	@Override
-	public void initSettings()
-	{
-		settings.add(range);
-		settings.add(mode);
 	}
 	
 	@Override
@@ -125,21 +125,25 @@ public class NukerMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
+	public void onLeftClick(LeftClickEvent event)
 	{
-		if(!shouldRenderESP)
+		// check hitResult
+		if(mc.objectMouseOver == null
+			|| mc.objectMouseOver.getBlockPos() == null)
 			return;
 		
-		// wait for timer
-		if(blockHitDelay != 0)
+		// check mode
+		if(mode.getSelected() != 1)
 			return;
 		
-		// check if block can be destroyed instantly
-		if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
-			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
-			RenderUtils.nukerBox(pos, 1);
-		else
-			RenderUtils.nukerBox(pos, currentDamage);
+		// check material
+		if(BlockUtils
+			.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			return;
+		
+		// set id
+		id = Block.getIdFromBlock(
+			BlockUtils.getBlock(mc.objectMouseOver.getBlockPos()));
 	}
 	
 	@Override
@@ -264,25 +268,21 @@ public class NukerMod extends Mod
 	}
 	
 	@Override
-	public void onLeftClick(LeftClickEvent event)
+	public void onRender()
 	{
-		// check hitResult
-		if(mc.objectMouseOver == null
-			|| mc.objectMouseOver.getBlockPos() == null)
+		if(!shouldRenderESP)
 			return;
 		
-		// check mode
-		if(mode.getSelected() != 1)
+		// wait for timer
+		if(blockHitDelay != 0)
 			return;
 		
-		// check material
-		if(BlockUtils
-			.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
-			return;
-		
-		// set id
-		id = Block.getIdFromBlock(
-			BlockUtils.getBlock(mc.objectMouseOver.getBlockPos()));
+		// check if block can be destroyed instantly
+		if(mc.player.capabilities.isCreativeMode || BlockUtils.getState(pos)
+			.getPlayerRelativeBlockHardness(mc.player, mc.world, pos) >= 1)
+			RenderUtils.nukerBox(pos, 1);
+		else
+			RenderUtils.nukerBox(pos, currentDamage);
 	}
 	
 	@Override
