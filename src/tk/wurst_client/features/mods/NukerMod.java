@@ -176,10 +176,6 @@ public class NukerMod extends Mod
 			return;
 		}
 		
-		// reset damage
-		if(!newPos.equals(pos))
-			currentDamage = 0;
-		
 		// wait for timer
 		if(blockHitDelay > 0)
 		{
@@ -187,22 +183,26 @@ public class NukerMod extends Mod
 			return;
 		}
 		
-		// set current pos
-		pos = newPos;
-		
 		// enable rendering
 		shouldRenderESP = true;
 		
 		// face block
-		BlockUtils.faceBlockPacket(pos);
+		BlockUtils.faceBlockPacket(newPos);
 		
-		if(currentDamage == 0)
+		// start breaking new block
+		if(!newPos.equals(pos))
 		{
-			// start breaking the block
+			// reset damage
+			currentDamage = 0;
+			
+			// set current pos
+			pos = newPos;
+			
+			// start breaking
 			mc.player.connection.sendPacket(new CPacketPlayerDigging(
 				Action.START_DESTROY_BLOCK, pos, side));
 			
-			// check if block can be destroyed instantly
+			// check if block can be broken instantly
 			if(mc.player.capabilities.isCreativeMode
 				|| BlockUtils.getHardness(pos) >= 1)
 			{
@@ -220,7 +220,7 @@ public class NukerMod extends Mod
 				oldSlot = mc.player.inventory.currentItem;
 		}
 		
-		// AutoTool
+		// set slot
 		wurst.mods.autoToolMod.setSlot(pos);
 		
 		// swing arm
