@@ -377,46 +377,55 @@ public class NukerMod extends Mod
 		return null;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void nukeAll()
 	{
-		for(int y = (int)range.getValueF(); y >= (mode.getSelected() == 2 ? 0
-			: -range.getValueF()); y--)
-			for(int x = (int)range.getValueF(); x >= -range.getValueF()
-				- 1; x--)
-				for(int z =
-					(int)range.getValueF(); z >= -range.getValueF(); z--)
+		// enable rendering
+		shouldRenderESP = true;
+		
+		// prepare range check
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		double rangeSq = Math.pow(range.getValue(), 2);
+		
+		BlockPos playerPos = new BlockPos(mc.player);
+		int minY = mode.getSelected() == 2 ? 0 : -range.getValueI() + 1;
+		
+		for(int y = minY; y < range.getValueI() + 2; y++)
+			for(int x = -range.getValueI(); x < range.getValueI() + 1; x++)
+				for(int z = -range.getValueI(); z < range.getValueI() + 1; z++)
 				{
-					int posX = (int)(Math.floor(mc.player.posX) + x);
-					int posY = (int)(Math.floor(mc.player.posY) + y);
-					int posZ = (int)(Math.floor(mc.player.posZ) + z);
-					BlockPos blockPos = new BlockPos(posX, posY, posZ);
-					Block block = mc.world.getBlockState(blockPos).getBlock();
-					float xDiff = (float)(mc.player.posX - posX);
-					float yDiff = (float)(mc.player.posY - posY);
-					float zDiff = (float)(mc.player.posZ - posZ);
-					float currentDistance =
-						BlockUtils.getBlockDistance(xDiff, yDiff, zDiff);
-					if(Block.getIdFromBlock(block) != 0 && posY >= 0
-						&& currentDistance <= range.getValueF())
+					BlockPos pos = playerPos.add(x, y, z);
+					
+					// skip air blocks
+					if(BlockUtils.getMaterial(pos) == Material.AIR)
+						continue;
+					
+					// check range
+					if(eyesPos.squareDistanceTo(
+						new Vec3d(pos).addVector(0.5, 0.5, 0.5)) > rangeSq)
+						continue;
+					
+					// check if block is valid
+					switch(mode.getSelected())
 					{
-						if(mode.getSelected() == 1
-							&& Block.getIdFromBlock(block) != id)
-							continue;
-						if(mode.getSelected() == 3
-							&& block.getPlayerRelativeBlockHardness(
-								mc.world.getBlockState(blockPos), mc.player,
-								mc.world, blockPos) < 1)
-							continue;
-						side = mc.objectMouseOver.sideHit;
-						shouldRenderESP = true;
-						BlockUtils.faceBlockPacket(pos);
-						mc.player.connection.sendPacket(
-							new CPacketPlayerDigging(Action.START_DESTROY_BLOCK,
-								blockPos, side));
-						block.onBlockDestroyedByPlayer(mc.world, blockPos,
-							mc.world.getBlockState(blockPos));
+						case 1:
+							if(id != Block
+								.getIdFromBlock(BlockUtils.getBlock(pos)))
+								continue;
+							break;
+						case 3:
+							if(BlockUtils.getState(pos)
+								.getPlayerRelativeBlockHardness(mc.player,
+									mc.world, pos) < 1)
+								continue;
+							break;
 					}
+					
+					// break block
+					mc.player.connection.sendPacket(new CPacketPlayerDigging(
+						Action.START_DESTROY_BLOCK, pos, EnumFacing.UP));
+					mc.player.connection.sendPacket(new CPacketPlayerDigging(
+						Action.STOP_DESTROY_BLOCK, pos, EnumFacing.UP));
 				}
 	}
 }
