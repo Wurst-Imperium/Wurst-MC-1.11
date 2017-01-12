@@ -57,7 +57,8 @@ public class RotationUtils
 		yaw = limitAngleChange(oldYaw, rotations[0], 30);
 		pitch = rotations[1];
 		
-		return oldYaw == rotations[0] && oldPitch == rotations[1];
+		return Math.abs(oldYaw - rotations[0])
+			+ Math.abs(oldPitch - rotations[1]) < 1F;
 	}
 	
 	public static boolean faceVectorClient(Vec3d vec)
@@ -72,7 +73,8 @@ public class RotationUtils
 		mc.player.rotationYaw = limitAngleChange(oldYaw, rotations[0], 30);
 		mc.player.rotationPitch = rotations[1];
 		
-		return oldYaw == rotations[0] && oldPitch == rotations[1];
+		return Math.abs(oldYaw - rotations[0])
+			+ Math.abs(oldPitch - rotations[1]) < 1F;
 	}
 	
 	public static boolean faceEntityClient(Entity entity)
