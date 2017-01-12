@@ -102,17 +102,7 @@ public class NukerMod extends Mod
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		
-		// reset slot
-		if(oldSlot != -1)
-		{
-			mc.player.inventory.currentItem = oldSlot;
-			oldSlot = -1;
-		}
-		
-		// reset position, damage, etc.
-		pos = null;
-		mc.playerController.resetBlockRemoving();
-		RotationUtils.lookChanged = false;
+		resetBlockBreaking();
 		
 		// reset ID
 		id = 0;
@@ -157,16 +147,7 @@ public class NukerMod extends Mod
 		// check if any block was found
 		if(newPos == null)
 		{
-			// reset slot
-			if(oldSlot != -1)
-			{
-				mc.player.inventory.currentItem = oldSlot;
-				oldSlot = -1;
-			}
-			
-			pos = null;
-			mc.playerController.resetBlockRemoving();
-			RotationUtils.lookChanged = false;
+			resetBlockBreaking();
 			return;
 		}
 		
@@ -181,11 +162,7 @@ public class NukerMod extends Mod
 		wurst.mods.autoToolMod.setSlot(pos);
 		
 		if(!BlockUtils.breakBlockLegit(pos))
-		{
-			pos = null;
-			mc.playerController.resetBlockRemoving();
-			RotationUtils.lookChanged = false;
-		}
+			resetBlockBreaking();
 	}
 	
 	@Override
@@ -218,6 +195,21 @@ public class NukerMod extends Mod
 			case GHOST_MODE:
 				range.lockToMax(4.25);
 				break;
+		}
+	}
+	
+	private void resetBlockBreaking()
+	{
+		mc.playerController.resetBlockRemoving();
+		RotationUtils.lookChanged = false;
+		
+		pos = null;
+		
+		// reset slot
+		if(oldSlot != -1)
+		{
+			mc.player.inventory.currentItem = oldSlot;
+			oldSlot = -1;
 		}
 	}
 	
@@ -294,10 +286,7 @@ public class NukerMod extends Mod
 	
 	private void nukeAll()
 	{
-		// reset pos & damage
-		pos = null;
-		mc.playerController.resetBlockRemoving();
-		RotationUtils.lookChanged = false;
+		resetBlockBreaking();
 		
 		double closestDistanceSq = Double.POSITIVE_INFINITY;
 		
