@@ -1,6 +1,6 @@
-From c5a337c7f18503215fefcc904dd037b05d23e538 Mon Sep 17 00:00:00 2001
+From b997c405e2978d5c46f92a2d1fbab3cf459434c5 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Wed, 11 Jan 2017 22:09:03 +0100
+Date: Thu, 12 Jan 2017 17:05:23 +0100
 Subject: [PATCH] mod
 
 ---
@@ -12,7 +12,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
  net/minecraft/client/Minecraft.java                | 222 +++++++++++----------
- net/minecraft/client/entity/EntityPlayerSP.java    | 141 ++++++++++++-
+ net/minecraft/client/entity/EntityPlayerSP.java    | 167 +++++++++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1242 insertions(+), 422 deletions(-)
+ 54 files changed, 1247 insertions(+), 443 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -681,18 +681,58 @@ index 37e735f..cef13ef 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..321c737 100644
+index 0728387..48ad167 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
-@@ -53,6 +53,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
- import net.minecraft.network.play.client.CPacketPlayerAbilities;
- import net.minecraft.network.play.client.CPacketPlayerDigging;
- import net.minecraft.network.play.client.CPacketVehicleMove;
+@@ -1,7 +1,9 @@
+ package net.minecraft.client.entity;
+ 
+ import java.util.List;
++
+ import javax.annotation.Nullable;
++
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.audio.ElytraSound;
+@@ -14,17 +16,7 @@ import net.minecraft.client.gui.GuiMerchant;
+ import net.minecraft.client.gui.GuiRepair;
+ import net.minecraft.client.gui.GuiScreen;
+ import net.minecraft.client.gui.GuiScreenBook;
+-import net.minecraft.client.gui.inventory.GuiBeacon;
+-import net.minecraft.client.gui.inventory.GuiBrewingStand;
+-import net.minecraft.client.gui.inventory.GuiChest;
+-import net.minecraft.client.gui.inventory.GuiCrafting;
+-import net.minecraft.client.gui.inventory.GuiDispenser;
+-import net.minecraft.client.gui.inventory.GuiEditCommandBlockMinecart;
+-import net.minecraft.client.gui.inventory.GuiEditSign;
+-import net.minecraft.client.gui.inventory.GuiEditStructure;
+-import net.minecraft.client.gui.inventory.GuiFurnace;
+-import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
+-import net.minecraft.client.gui.inventory.GuiShulkerBox;
++import net.minecraft.client.gui.inventory.*;
+ import net.minecraft.client.network.NetHandlerPlayClient;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.IJumpingMount;
+@@ -43,16 +35,8 @@ import net.minecraft.item.Item;
+ import net.minecraft.item.ItemElytra;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.network.datasync.DataParameter;
+-import net.minecraft.network.play.client.CPacketAnimation;
+-import net.minecraft.network.play.client.CPacketChatMessage;
+-import net.minecraft.network.play.client.CPacketClientStatus;
+-import net.minecraft.network.play.client.CPacketCloseWindow;
+-import net.minecraft.network.play.client.CPacketEntityAction;
+-import net.minecraft.network.play.client.CPacketInput;
+-import net.minecraft.network.play.client.CPacketPlayer;
+-import net.minecraft.network.play.client.CPacketPlayerAbilities;
+-import net.minecraft.network.play.client.CPacketPlayerDigging;
+-import net.minecraft.network.play.client.CPacketVehicleMove;
++import net.minecraft.network.play.client.*;
 +import net.minecraft.network.play.client.CPacketEntityAction.Action;
  import net.minecraft.potion.Potion;
  import net.minecraft.potion.PotionEffect;
  import net.minecraft.stats.StatBase;
-@@ -75,6 +76,11 @@ import net.minecraft.util.math.Vec3d;
+@@ -75,6 +59,11 @@ import net.minecraft.util.math.Vec3d;
  import net.minecraft.util.text.ITextComponent;
  import net.minecraft.world.IInteractionObject;
  import net.minecraft.world.World;
@@ -700,11 +740,11 @@ index 0728387..321c737 100644
 +import tk.wurst_client.events.ChatOutputEvent;
 +import tk.wurst_client.events.UpdateEvent;
 +import tk.wurst_client.features.mods.JesusMod;
-+import tk.wurst_client.utils.EntityUtils;
++import tk.wurst_client.utils.RotationUtils;
  
  public class EntityPlayerSP extends AbstractClientPlayer
  {
-@@ -226,6 +232,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -226,6 +215,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
      {
          if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
          {
@@ -714,7 +754,7 @@ index 0728387..321c737 100644
              super.onUpdate();
  
              if (this.isRiding())
-@@ -243,6 +252,17 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -243,6 +235,17 @@ public class EntityPlayerSP extends AbstractClientPlayer
              {
                  this.onUpdateWalkingPlayer();
              }
@@ -732,25 +772,26 @@ index 0728387..321c737 100644
          }
      }
  
-@@ -285,24 +305,104 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -285,24 +288,105 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
          if (this.isCurrentViewEntity())
          {
-+        	// TODO: Client
-+        	float yaw;
-+        	float pitch;
-+        	if(EntityUtils.lookChanged)
-+        	{
-+        		yaw = EntityUtils.yaw;
-+        		pitch = EntityUtils.pitch;
-+        	}else
-+        	{
-+        		EntityUtils.yaw = EntityUtils.limitAngleChange(EntityUtils.yaw, rotationYaw, 30);
-+        		EntityUtils.pitch = rotationPitch;
-+        		
-+        		yaw = EntityUtils.yaw;
-+        		pitch = EntityUtils.pitch;
-+        	}
++			// TODO: Client
++			float yaw;
++			float pitch;
++			if(RotationUtils.lookChanged)
++			{
++				yaw = RotationUtils.yaw;
++				pitch = RotationUtils.pitch;
++			}else
++			{
++				RotationUtils.yaw = RotationUtils
++					.limitAngleChange(RotationUtils.yaw, rotationYaw, 30);
++				RotationUtils.pitch = rotationPitch;
++				
++				yaw = RotationUtils.yaw;
++				pitch = RotationUtils.pitch;
++			}
 +        	
              AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
              double d0 = this.posX - this.lastReportedPosX;
@@ -809,8 +850,7 @@ index 0728387..321c737 100644
 +								new CPacketPlayer.PositionRotation(x, y + 0.05,
 +									z, yaw2, pitch2, true));
 +					}else if(flag2 && flag3)
- 					{
--                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
++					{
 +						this.connection.sendPacket(
 +							new CPacketPlayer.PositionRotation(this.posX,
 +								this.getEntityBoundingBox().minY, this.posZ,
@@ -824,7 +864,8 @@ index 0728387..321c737 100644
 +				}
 +				
 +			}else if (this.isRiding())
-+            {
+             {
+-                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 +				// TODO: Client
 +				this.connection
 +					.sendPacket(new CPacketPlayer.PositionRotation(this.motionX,
@@ -842,7 +883,7 @@ index 0728387..321c737 100644
              }
              else if (flag2)
              {
-@@ -310,7 +410,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -310,7 +394,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
              }
              else if (flag3)
              {
@@ -853,7 +894,7 @@ index 0728387..321c737 100644
              }
              else if (this.prevOnGround != this.onGround)
              {
-@@ -359,7 +461,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -359,7 +445,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
       */
      public void sendChatMessage(String message)
      {
@@ -882,7 +923,7 @@ index 0728387..321c737 100644
  	}
  
      public void swingArm(EnumHand hand)
-@@ -1146,7 +1268,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -1146,7 +1252,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
      public boolean isAutoJumpEnabled()
      {

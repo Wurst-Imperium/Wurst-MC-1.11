@@ -16,6 +16,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Slower Killaura that bypasses any AntiCheat plugins.\n"
@@ -139,7 +140,7 @@ public class KillauraLegitMod extends Mod implements UpdateListener
 			return;
 		
 		// face entity
-		if(!EntityUtils.faceEntityClient(entity))
+		if(!RotationUtils.faceEntityClient(entity))
 			return;
 		
 		// Criticals

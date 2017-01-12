@@ -18,6 +18,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Faster Killaura that attacks multiple entities at once.",
@@ -133,7 +134,7 @@ public class MultiAuraMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		EntityUtils.lookChanged = false;
+		RotationUtils.lookChanged = false;
 	}
 	
 	@Override
@@ -152,8 +153,8 @@ public class MultiAuraMod extends Mod implements UpdateListener
 			EntityUtils.getValidEntities(targetSettings);
 		
 		// head rotation
-		EntityUtils.lookChanged = !entities.isEmpty();
-		if(!EntityUtils.lookChanged)
+		RotationUtils.lookChanged = !entities.isEmpty();
+		if(!RotationUtils.lookChanged)
 			return;
 		
 		// AutoSword
@@ -165,7 +166,7 @@ public class MultiAuraMod extends Mod implements UpdateListener
 		// attack entities
 		for(Entity entity : entities)
 		{
-			EntityUtils.faceEntityPacket(entity);
+			RotationUtils.faceEntityPacket(entity);
 			mc.playerController.attackEntity(mc.player, entity);
 			mc.player.swingArm(EnumHand.MAIN_HAND);
 		}

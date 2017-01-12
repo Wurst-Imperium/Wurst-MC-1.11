@@ -22,80 +22,13 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.WurstClient;
 
 public class EntityUtils
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
-	public static boolean lookChanged;
-	public static float yaw;
-	public static float pitch;
-	
 	public static final TargetSettings DEFAULT_SETTINGS = new TargetSettings();
-	
-	public static boolean faceEntityClient(Entity entity)
-	{
-		float[] rotations = getRotationsNeeded(entity);
-		
-		mc.player.rotationYaw =
-			limitAngleChange(mc.player.prevRotationYaw, rotations[0], 30);
-		mc.player.rotationPitch = rotations[1];
-		
-		return mc.player.rotationYaw == rotations[0];
-	}
-	
-	public static boolean faceEntityPacket(Entity entity)
-	{
-		float[] rotations = getRotationsNeeded(entity);
-		
-		yaw = limitAngleChange(yaw, rotations[0], 30);
-		pitch = rotations[1];
-		
-		return yaw == rotations[0];
-	}
-	
-	private static float[] getRotationsNeeded(Entity entity)
-	{
-		Vec3d vec = entity.boundingBox.getCenter();
-		
-		double diffX = vec.xCoord - mc.player.posX;
-		double diffY = vec.yCoord - (mc.player.posY + mc.player.getEyeHeight());
-		double diffZ = vec.zCoord - mc.player.posZ;
-		
-		double dist = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
-		
-		float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
-		float pitch = (float)-Math.toDegrees(Math.atan2(diffY, dist));
-		
-		return new float[]{MathHelper.wrapDegrees(yaw),
-			MathHelper.wrapDegrees(pitch)};
-	}
-	
-	public final static float limitAngleChange(float current, float intended,
-		float maxChange)
-	{
-		float change = intended - current;
-		
-		change = MathHelper.clamp(change, -maxChange, maxChange);
-		
-		return current + change;
-	}
-	
-	private static float getDistanceFromMouse(Entity entity)
-	{
-		float[] needed = getRotationsNeeded(entity);
-		
-		float diffYaw = mc.player.rotationYaw - needed[0];
-		float diffPitch = mc.player.rotationPitch - needed[1];
-		
-		float distance =
-			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
-		
-		return distance;
-	}
 	
 	public static boolean isCorrectEntity(Entity en, TargetSettings settings)
 	{
@@ -113,8 +46,8 @@ public class EntityUtils
 			return false;
 		
 		// entities outside the FOV
-		if(settings.getFOV() < 360F
-			&& getDistanceFromMouse(en) > settings.getFOV() / 2F)
+		if(settings.getFOV() < 360F && RotationUtils.getDistanceFromRotation(
+			en.boundingBox.getCenter()) > settings.getFOV() / 2F)
 			return false;
 		
 		// entities behind walls

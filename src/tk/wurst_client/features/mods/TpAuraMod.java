@@ -18,6 +18,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Automatically attacks the closest valid entity while teleporting around it.",
@@ -136,7 +137,7 @@ public class TpAuraMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		EntityUtils.lookChanged = false;
+		RotationUtils.lookChanged = false;
 	}
 	
 	@Override
@@ -149,8 +150,8 @@ public class TpAuraMod extends Mod implements UpdateListener
 		Entity entity = EntityUtils.getClosestEntity(targetSettings);
 		
 		// head rotation
-		EntityUtils.lookChanged = entity != null;
-		if(!EntityUtils.lookChanged)
+		RotationUtils.lookChanged = entity != null;
+		if(!RotationUtils.lookChanged)
 			return;
 		
 		// teleport
@@ -169,7 +170,7 @@ public class TpAuraMod extends Mod implements UpdateListener
 		wurst.mods.criticalsMod.doCritical();
 		
 		// face entity
-		EntityUtils.faceEntityPacket(entity);
+		RotationUtils.faceEntityPacket(entity);
 		
 		// attack entity
 		mc.playerController.attackEntity(mc.player, entity);

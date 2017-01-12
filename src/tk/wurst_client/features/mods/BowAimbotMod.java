@@ -24,6 +24,7 @@ import tk.wurst_client.font.Fonts;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 import tk.wurst_client.utils.RenderUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Automatically aims your bow at the closest entity.\n"
@@ -139,7 +140,7 @@ public class BowAimbotMod extends Mod
 		if(velocity < 0.1)
 		{
 			if(target instanceof EntityLivingBase)
-				EntityUtils.faceEntityClient(target);
+				RotationUtils.faceEntityClient(target);
 			return;
 		}
 		

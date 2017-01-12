@@ -21,6 +21,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "A bot that automatically fights for you.\n"
@@ -147,7 +148,7 @@ public class FightBotMod extends Mod implements UpdateListener
 		// follow entity
 		mc.gameSettings.keyBindForward.pressed =
 			mc.player.getDistanceToEntity(entity) > distance.getValueF();
-		if(!EntityUtils.faceEntityClient(entity))
+		if(!RotationUtils.faceEntityClient(entity))
 			return;
 		
 		// check timer / cooldown

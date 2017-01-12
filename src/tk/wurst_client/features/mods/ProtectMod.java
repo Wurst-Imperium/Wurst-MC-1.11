@@ -12,6 +12,7 @@ import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "A bot that follows the closest entity and protects it from other entities.\n"
@@ -171,13 +172,13 @@ public class ProtectMod extends Mod implements UpdateListener
 		if(enemy == null)
 		{
 			// follow friend
-			EntityUtils.faceEntityClient(friend);
+			RotationUtils.faceEntityClient(friend);
 			mc.gameSettings.keyBindForward.pressed =
 				mc.player.getDistanceToEntity(friend) > distanceF;
 		}else
 		{
 			// follow enemy
-			EntityUtils.faceEntityClient(enemy);
+			RotationUtils.faceEntityClient(enemy);
 			mc.gameSettings.keyBindForward.pressed =
 				mc.player.getDistanceToEntity(enemy) > distanceE;
 			
