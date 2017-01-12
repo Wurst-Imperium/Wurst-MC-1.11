@@ -20,28 +20,7 @@ public class RotationUtils
 	public static float yaw;
 	public static float pitch;
 	
-	public static boolean faceEntityClient(Entity entity)
-	{
-		float[] rotations = getRotationsNeeded(entity.boundingBox.getCenter());
-		
-		mc.player.rotationYaw =
-			limitAngleChange(mc.player.prevRotationYaw, rotations[0], 30);
-		mc.player.rotationPitch = rotations[1];
-		
-		return mc.player.rotationYaw == rotations[0];
-	}
-	
-	public static boolean faceEntityPacket(Entity entity)
-	{
-		float[] rotations = getRotationsNeeded(entity.boundingBox.getCenter());
-		
-		yaw = limitAngleChange(yaw, rotations[0], 30);
-		pitch = rotations[1];
-		
-		return yaw == rotations[0];
-	}
-	
-	private static float[] getRotationsNeeded(Vec3d vec)
+	private static float[] getNeededRotations(Vec3d vec)
 	{
 		double diffX = vec.xCoord - mc.player.posX;
 		double diffY = vec.yCoord - (mc.player.posY + mc.player.getEyeHeight());
@@ -56,7 +35,7 @@ public class RotationUtils
 			MathHelper.wrapDegrees(pitch)};
 	}
 	
-	public final static float limitAngleChange(float current, float intended,
+	public static float limitAngleChange(float current, float intended,
 		float maxChange)
 	{
 		float change = intended - current;
@@ -66,9 +45,49 @@ public class RotationUtils
 		return current + change;
 	}
 	
+	public static boolean faceVectorPacket(Vec3d vec)
+	{
+		lookChanged = true;
+		
+		float[] rotations = getNeededRotations(vec);
+		
+		float oldYaw = yaw;
+		float oldPitch = pitch;
+		
+		yaw = limitAngleChange(oldYaw, rotations[0], 30);
+		pitch = rotations[1];
+		
+		return oldYaw == rotations[0] && oldPitch == rotations[1];
+	}
+	
+	public static boolean faceVectorClient(Vec3d vec)
+	{
+		lookChanged = false;
+		
+		float[] rotations = getNeededRotations(vec);
+		
+		float oldYaw = mc.player.prevRotationYaw;
+		float oldPitch = mc.player.prevRotationPitch;
+		
+		mc.player.rotationYaw = limitAngleChange(oldYaw, rotations[0], 30);
+		mc.player.rotationPitch = rotations[1];
+		
+		return oldYaw == rotations[0] && oldPitch == rotations[1];
+	}
+	
+	public static boolean faceEntityClient(Entity entity)
+	{
+		return faceVectorClient(entity.boundingBox.getCenter());
+	}
+	
+	public static boolean faceEntityPacket(Entity entity)
+	{
+		return faceVectorPacket(entity.boundingBox.getCenter());
+	}
+	
 	public static float getDistanceFromRotation(Vec3d vec)
 	{
-		float[] needed = RotationUtils.getRotationsNeeded(vec);
+		float[] needed = getNeededRotations(vec);
 		
 		float diffYaw = mc.player.rotationYaw - needed[0];
 		float diffPitch = mc.player.rotationPitch - needed[1];

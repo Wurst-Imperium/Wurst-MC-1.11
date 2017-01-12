@@ -28,6 +28,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Destroys blocks around you.\n"
@@ -108,11 +109,10 @@ public class NukerMod extends Mod
 			oldSlot = -1;
 		}
 		
-		// reset damage
-		mc.playerController.resetBlockRemoving();
-		
-		// reset pos
+		// reset position, damage, etc.
 		pos = null;
+		mc.playerController.resetBlockRemoving();
+		RotationUtils.lookChanged = false;
 		
 		// reset ID
 		id = 0;
@@ -166,6 +166,7 @@ public class NukerMod extends Mod
 			
 			pos = null;
 			mc.playerController.resetBlockRemoving();
+			RotationUtils.lookChanged = false;
 			return;
 		}
 		
@@ -183,6 +184,7 @@ public class NukerMod extends Mod
 		{
 			pos = null;
 			mc.playerController.resetBlockRemoving();
+			RotationUtils.lookChanged = false;
 		}
 	}
 	
@@ -295,6 +297,7 @@ public class NukerMod extends Mod
 		// reset pos & damage
 		pos = null;
 		mc.playerController.resetBlockRemoving();
+		RotationUtils.lookChanged = false;
 		
 		double closestDistanceSq = Double.POSITIVE_INFINITY;
 		
