@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -116,6 +117,49 @@ public final class BlockUtils
 			// place block
 			mc.playerController.processRightClickBlock(mc.player, mc.world,
 				neighbor, side2, hitVec, EnumHand.MAIN_HAND);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean breakBlockLegit(BlockPos pos)
+	{
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			
+			// check if hitVec is within range (4.25 blocks)
+			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+				continue;
+			
+			// check if neighbor can be clicked (blocks vision)
+			if(canBeClicked(pos.offset(side)))
+				continue;
+			
+			// check if side is facing towards player
+			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
+				.squareDistanceTo(hitVec))
+				continue;
+			
+			// TODO: actual line-of-sight check
+			
+			// FIXME: Too many packets
+			faceVectorPacket(hitVec);
+			
+			// damage block
+			if(!mc.playerController.onPlayerDamageBlock(pos, side))
+				return false;
+			
+			// swing arm
+			mc.player.connection
+				.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 			
 			return true;
 		}
