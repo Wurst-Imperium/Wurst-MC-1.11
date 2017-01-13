@@ -1,6 +1,6 @@
-From b997c405e2978d5c46f92a2d1fbab3cf459434c5 Mon Sep 17 00:00:00 2001
+From d66cf99a909caf68ddb9a31cd40d87c97eaca790 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 12 Jan 2017 17:05:23 +0100
+Date: Fri, 13 Jan 2017 12:23:02 +0100
 Subject: [PATCH] mod
 
 ---
@@ -12,7 +12,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
  net/minecraft/client/Minecraft.java                | 222 +++++++++++----------
- net/minecraft/client/entity/EntityPlayerSP.java    | 167 +++++++++++++---
+ net/minecraft/client/entity/EntityPlayerSP.java    | 154 +++++++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1247 insertions(+), 443 deletions(-)
+ 54 files changed, 1234 insertions(+), 443 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -681,7 +681,7 @@ index 37e735f..cef13ef 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..48ad167 100644
+index 0728387..20fd85b 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -772,26 +772,14 @@ index 0728387..48ad167 100644
          }
      }
  
-@@ -285,24 +288,105 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -285,24 +288,92 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
          if (this.isCurrentViewEntity())
          {
 +			// TODO: Client
-+			float yaw;
-+			float pitch;
-+			if(RotationUtils.lookChanged)
-+			{
-+				yaw = RotationUtils.yaw;
-+				pitch = RotationUtils.pitch;
-+			}else
-+			{
-+				RotationUtils.yaw = RotationUtils
-+					.limitAngleChange(RotationUtils.yaw, rotationYaw, 30);
-+				RotationUtils.pitch = rotationPitch;
-+				
-+				yaw = RotationUtils.yaw;
-+				pitch = RotationUtils.pitch;
-+			}
++			RotationUtils.updateServerRotation();
++			float yaw = RotationUtils.getServerYaw();
++			float pitch = RotationUtils.getServerPitch();
 +        	
              AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
              double d0 = this.posX - this.lastReportedPosX;
@@ -809,7 +797,6 @@ index 0728387..48ad167 100644
              boolean flag3 = d3 != 0.0D || d4 != 0.0D;
  
 -            if (this.isRiding())
-+
 +			// TODO: Client
 +			// Stops motion updates
 +			if(WurstClient.INSTANCE.mods.remoteViewMod.isActive()
@@ -856,7 +843,8 @@ index 0728387..48ad167 100644
 +								this.getEntityBoundingBox().minY, this.posZ,
 +								yaw, pitch, this.onGround));
 +					}else
-+					{
+ 					{
+-                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 +						this.connection.sendPacket(new CPacketPlayer.Position(
 +							this.posX, this.getEntityBoundingBox().minY,
 +							this.posZ, this.onGround));
@@ -864,8 +852,7 @@ index 0728387..48ad167 100644
 +				}
 +				
 +			}else if (this.isRiding())
-             {
--                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
++            {
 +				// TODO: Client
 +				this.connection
 +					.sendPacket(new CPacketPlayer.PositionRotation(this.motionX,
@@ -883,7 +870,7 @@ index 0728387..48ad167 100644
              }
              else if (flag2)
              {
-@@ -310,7 +394,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -310,7 +381,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
              }
              else if (flag3)
              {
@@ -894,7 +881,7 @@ index 0728387..48ad167 100644
              }
              else if (this.prevOnGround != this.onGround)
              {
-@@ -359,7 +445,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -359,7 +432,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
       */
      public void sendChatMessage(String message)
      {
@@ -923,7 +910,7 @@ index 0728387..48ad167 100644
  	}
  
      public void swingArm(EnumHand hand)
-@@ -1146,7 +1252,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -1146,7 +1239,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
      public boolean isAutoJumpEnabled()
      {

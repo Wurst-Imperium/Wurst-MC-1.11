@@ -212,7 +212,6 @@ public class NukerMod extends Mod
 	private void resetBlockBreaking()
 	{
 		mc.playerController.resetBlockRemoving();
-		RotationUtils.lookChanged = false;
 		
 		pos = null;
 		

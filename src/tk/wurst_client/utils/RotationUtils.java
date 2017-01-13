@@ -17,9 +17,9 @@ public class RotationUtils
 {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
-	public static boolean lookChanged;
-	public static float yaw;
-	public static float pitch;
+	private static boolean fakeRotation;
+	private static float serverYaw;
+	private static float serverPitch;
 	
 	public static Vec3d getEyesPos()
 	{
@@ -29,10 +29,10 @@ public class RotationUtils
 	
 	public static Vec3d getLookVecServer()
 	{
-		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
-		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
-		float f3 = MathHelper.sin(-pitch * 0.017453292F);
+		float f = MathHelper.cos(-serverYaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper.sin(-serverYaw * 0.017453292F - (float)Math.PI);
+		float f2 = -MathHelper.cos(-serverPitch * 0.017453292F);
+		float f3 = MathHelper.sin(-serverPitch * 0.017453292F);
 		return new Vec3d(f1 * f2, f3, f * f2);
 	}
 	
@@ -65,15 +65,16 @@ public class RotationUtils
 	
 	public static boolean faceVectorPacket(Vec3d vec)
 	{
-		lookChanged = true;
+		// use fake rotation in next packet
+		fakeRotation = true;
 		
 		float[] rotations = getNeededRotations(vec);
 		
-		float oldYaw = yaw;
-		float oldPitch = pitch;
+		float oldYaw = serverYaw;
+		float oldPitch = serverPitch;
 		
-		yaw = limitAngleChange(oldYaw, rotations[0], 30);
-		pitch = rotations[1];
+		serverYaw = limitAngleChange(oldYaw, rotations[0], 30);
+		serverPitch = rotations[1];
 		
 		return Math.abs(oldYaw - rotations[0])
 			+ Math.abs(oldPitch - rotations[1]) < 1F;
@@ -81,8 +82,6 @@ public class RotationUtils
 	
 	public static boolean faceVectorClient(Vec3d vec)
 	{
-		lookChanged = false;
-		
 		float[] rotations = getNeededRotations(vec);
 		
 		float oldYaw = mc.player.prevRotationYaw;
@@ -138,5 +137,29 @@ public class RotationUtils
 			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
 		
 		return distance;
+	}
+	
+	public static void updateServerRotation()
+	{
+		// disable fake rotation in next packet unless manually enabled again
+		if(fakeRotation)
+		{
+			fakeRotation = false;
+			return;
+		}
+		
+		// slowly synchronize server rotation with client
+		serverYaw = limitAngleChange(serverYaw, mc.player.rotationYaw, 30);
+		serverPitch = mc.player.rotationPitch;
+	}
+	
+	public static float getServerYaw()
+	{
+		return serverYaw;
+	}
+	
+	public static float getServerPitch()
+	{
+		return serverPitch;
 	}
 }
