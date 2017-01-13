@@ -51,8 +51,7 @@ public final class BlockUtils
 	
 	public static boolean placeBlockLegit(BlockPos pos)
 	{
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
@@ -98,8 +97,7 @@ public final class BlockUtils
 	
 	public static boolean placeBlockSimple(BlockPos pos)
 	{
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
@@ -129,8 +127,7 @@ public final class BlockUtils
 	
 	public static boolean breakBlockLegit(BlockPos pos)
 	{
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
@@ -172,8 +169,7 @@ public final class BlockUtils
 	
 	public static boolean breakBlockSimple(BlockPos pos)
 	{
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		
 		for(EnumFacing side : EnumFacing.values())
 		{

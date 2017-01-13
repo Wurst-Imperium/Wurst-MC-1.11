@@ -21,16 +21,33 @@ public class RotationUtils
 	public static float yaw;
 	public static float pitch;
 	
+	public static Vec3d getEyesPos()
+	{
+		return new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+	}
+	
+	public static Vec3d getLookVecServer()
+	{
+		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+		float f3 = MathHelper.sin(-pitch * 0.017453292F);
+		return new Vec3d(f1 * f2, f3, f * f2);
+	}
+	
 	private static float[] getNeededRotations(Vec3d vec)
 	{
-		double diffX = vec.xCoord - mc.player.posX;
-		double diffY = vec.yCoord - (mc.player.posY + mc.player.getEyeHeight());
-		double diffZ = vec.zCoord - mc.player.posZ;
+		Vec3d eyesPos = getEyesPos();
 		
-		double dist = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
+		double diffX = vec.xCoord - eyesPos.xCoord;
+		double diffY = vec.yCoord - eyesPos.yCoord;
+		double diffZ = vec.zCoord - eyesPos.zCoord;
+		
+		double diffXZ = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
 		
 		float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
-		float pitch = (float)-Math.toDegrees(Math.atan2(diffY, dist));
+		float pitch = (float)-Math.toDegrees(Math.atan2(diffY, diffXZ));
 		
 		return new float[]{MathHelper.wrapDegrees(yaw),
 			MathHelper.wrapDegrees(pitch)};
@@ -80,16 +97,9 @@ public class RotationUtils
 	
 	public static boolean faceEntityClient(Entity entity)
 	{
-		// get eyesPos
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
-		
-		// get lookVec
-		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
-		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
-		float f3 = MathHelper.sin(-pitch * 0.017453292F);
-		Vec3d lookVec = new Vec3d(f1 * f2, f3, f * f2);
+		// get position & rotation
+		Vec3d eyesPos = getEyesPos();
+		Vec3d lookVec = getLookVecServer();
 		
 		// try to face center of boundingBox
 		AxisAlignedBB bb = entity.boundingBox;
@@ -103,16 +113,9 @@ public class RotationUtils
 	
 	public static boolean faceEntityPacket(Entity entity)
 	{
-		// get eyesPos
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
-		
-		// get lookVec
-		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
-		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
-		float f3 = MathHelper.sin(-pitch * 0.017453292F);
-		Vec3d lookVec = new Vec3d(f1 * f2, f3, f * f2);
+		// get position & rotation
+		Vec3d eyesPos = getEyesPos();
+		Vec3d lookVec = getLookVecServer();
 		
 		// try to face center of boundingBox
 		AxisAlignedBB bb = entity.boundingBox;

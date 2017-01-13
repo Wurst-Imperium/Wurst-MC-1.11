@@ -28,6 +28,7 @@ import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.ModeSetting;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Automatically builds the selected template whenever you place a block.\n"
@@ -199,8 +200,7 @@ public class AutoBuildMod extends Mod
 		if(useAi.isChecked())
 		{
 			BlockPos playerPos = new BlockPos(mc.player);
-			Vec3d eyesPos = new Vec3d(mc.player.posX,
-				mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+			Vec3d eyesPos = RotationUtils.getEyesPos();
 			if(playerPos.equals(pos) || playerPos.equals(pos.down())
 				|| eyesPos.squareDistanceTo(new Vec3d(pos).addVector(0.5, 0.5,
 					0.5)) > (mode.getSelected() == 0 ? 30.25 : 14.0625))

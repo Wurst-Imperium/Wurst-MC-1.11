@@ -235,8 +235,7 @@ public class NukerMod extends Mod
 		HashSet<BlockPos> visited = new HashSet<>();
 		
 		// prepare range check
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		double rangeSq = Math.pow(range.getValue(), 2);
 		
 		// add start pos
@@ -302,8 +301,7 @@ public class NukerMod extends Mod
 		double closestDistanceSq = Double.POSITIVE_INFINITY;
 		
 		// prepare range check
-		Vec3d eyesPos = new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
 		double rangeSq = Math.pow(range.getValue(), 2);
 		
 		BlockPos playerPos = new BlockPos(mc.player);
