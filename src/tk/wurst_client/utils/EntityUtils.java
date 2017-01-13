@@ -46,7 +46,7 @@ public class EntityUtils
 			return false;
 		
 		// entities outside the FOV
-		if(settings.getFOV() < 360F && RotationUtils.getDistanceFromRotation(
+		if(settings.getFOV() < 360F && RotationUtils.getAngleToClientRotation(
 			en.boundingBox.getCenter()) > settings.getFOV() / 2F)
 			return false;
 		

@@ -27,7 +27,7 @@ public class RotationUtils
 			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
 	}
 	
-	public static Vec3d getLookVecServer()
+	public static Vec3d getServerLookVec()
 	{
 		float f = MathHelper.cos(-serverYaw * 0.017453292F - (float)Math.PI);
 		float f1 = MathHelper.sin(-serverYaw * 0.017453292F - (float)Math.PI);
@@ -98,7 +98,7 @@ public class RotationUtils
 	{
 		// get position & rotation
 		Vec3d eyesPos = getEyesPos();
-		Vec3d lookVec = getLookVecServer();
+		Vec3d lookVec = getServerLookVec();
 		
 		// try to face center of boundingBox
 		AxisAlignedBB bb = entity.boundingBox;
@@ -114,7 +114,7 @@ public class RotationUtils
 	{
 		// get position & rotation
 		Vec3d eyesPos = getEyesPos();
-		Vec3d lookVec = getLookVecServer();
+		Vec3d lookVec = getServerLookVec();
 		
 		// try to face center of boundingBox
 		AxisAlignedBB bb = entity.boundingBox;
@@ -126,17 +126,17 @@ public class RotationUtils
 			eyesPos.add(lookVec.scale(6))) != null;
 	}
 	
-	public static float getDistanceFromRotation(Vec3d vec)
+	public static float getAngleToClientRotation(Vec3d vec)
 	{
 		float[] needed = getNeededRotations(vec);
 		
 		float diffYaw = mc.player.rotationYaw - needed[0];
 		float diffPitch = mc.player.rotationPitch - needed[1];
 		
-		float distance =
+		float angle =
 			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
 		
-		return distance;
+		return angle;
 	}
 	
 	public static void updateServerRotation()
