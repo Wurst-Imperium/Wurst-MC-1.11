@@ -133,9 +133,11 @@ public class NukerMod extends Mod
 	@Override
 	public void onUpdate()
 	{
+		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		
 		// nuke all
-		if(mc.player.capabilities.isCreativeMode && wurst.special.yesCheatSpf
-			.getBypassLevel().ordinal() <= BypassLevel.MINEPLEX.ordinal())
+		if(mc.player.capabilities.isCreativeMode && !legit)
 		{
 			nukeAll();
 			return;
@@ -161,7 +163,16 @@ public class NukerMod extends Mod
 		// set slot
 		wurst.mods.autoToolMod.setSlot(pos);
 		
-		if(!BlockUtils.breakBlockLegit(pos))
+		boolean successful;
+		
+		// break block
+		if(legit)
+			successful = BlockUtils.breakBlockLegit(pos);
+		else
+			successful = BlockUtils.breakBlockSimple(pos);
+		
+		// reset if failed
+		if(!successful)
 			resetBlockBreaking();
 	}
 	

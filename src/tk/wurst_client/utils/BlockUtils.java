@@ -170,6 +170,43 @@ public final class BlockUtils
 		return false;
 	}
 	
+	public static boolean breakBlockSimple(BlockPos pos)
+	{
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			
+			// check if hitVec is within range (6 blocks)
+			if(eyesPos.squareDistanceTo(hitVec) > 36)
+				continue;
+			
+			// check if side is facing towards player
+			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
+				.squareDistanceTo(hitVec))
+				continue;
+			
+			// face block
+			RotationUtils.faceVectorPacket(hitVec);
+			
+			// damage block
+			if(!mc.playerController.onPlayerDamageBlock(pos, side))
+				return false;
+			
+			// swing arm
+			mc.player.connection
+				.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Deprecated
 	public static void faceBlockClient(BlockPos blockPos)
 	{
