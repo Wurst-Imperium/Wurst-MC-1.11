@@ -57,26 +57,27 @@ public final class BlockUtils
 		for(EnumFacing side : EnumFacing.values())
 		{
 			BlockPos neighbor = pos.offset(side);
-			EnumFacing side2 = side.getOpposite();
+			
+			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
 			
 			// check if side is visible (facing away from player)
-			// TODO: actual line-of-sight check
-			if(eyesPos.squareDistanceTo(
-				new Vec3d(pos).addVector(0.5, 0.5, 0.5)) >= eyesPos
-					.squareDistanceTo(
-						new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)))
+			if(eyesPos.squareDistanceTo(posVec) >= eyesPos
+				.squareDistanceTo(hitVec))
 				continue;
 			
 			// check if neighbor can be right clicked
-			if(!getBlock(neighbor)
-				.canCollideCheck(mc.world.getBlockState(neighbor), false))
+			if(!canBeClicked(neighbor))
 				continue;
-			
-			Vec3d hitVec = new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)
-				.add(new Vec3d(side2.getDirectionVec()).scale(0.5));
 			
 			// check if hitVec is within range (4.25 blocks)
 			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+				continue;
+			
+			// check line of sight
+			if(mc.world.rayTraceBlocks(eyesPos, hitVec, false, true,
+				false) != null)
 				continue;
 			
 			// face block
@@ -85,7 +86,7 @@ public final class BlockUtils
 			
 			// place block
 			mc.playerController.processRightClickBlock(mc.player, mc.world,
-				neighbor, side2, hitVec, EnumHand.MAIN_HAND);
+				neighbor, side.getOpposite(), hitVec, EnumHand.MAIN_HAND);
 			mc.player.swingArm(EnumHand.MAIN_HAND);
 			mc.rightClickDelayTimer = 4;
 			
@@ -106,8 +107,7 @@ public final class BlockUtils
 			EnumFacing side2 = side.getOpposite();
 			
 			// check if neighbor can be right clicked
-			if(!getBlock(neighbor)
-				.canCollideCheck(mc.world.getBlockState(neighbor), false))
+			if(!canBeClicked(neighbor))
 				continue;
 			
 			Vec3d hitVec = new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)
