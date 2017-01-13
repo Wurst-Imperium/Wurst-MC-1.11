@@ -16,9 +16,6 @@ import net.minecraft.block.BlockStem;
 import net.minecraft.block.IGrowable;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -73,6 +70,10 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
+		// wait for right click timer
+		if(mc.rightClickDelayTimer > 0)
+			return;
+		
 		// check held item
 		ItemStack stack = mc.player.inventory.getCurrentItem();
 		if(InventoryUtils.isEmptySlot(stack)
@@ -80,20 +81,23 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 			|| stack.getMetadata() != 15)
 			return;
 		
+		// use bone meal
 		BlockPos playerPos = new BlockPos(mc.player);
 		for(int y = -range.getValueI() + 1; y < range.getValueI() + 2; y++)
 			for(int x = -range.getValueI(); x < range.getValueI() + 1; x++)
 				for(int z = -range.getValueI(); z < range.getValueI() + 1; z++)
 				{
 					BlockPos pos = playerPos.add(x, y, z);
-					if(BlockUtils.getPlayerBlockDistance(pos) > range
-						.getValueF() || !isCorrectBlock(pos))
+					
+					// check block type
+					if(!isCorrectBlock(pos))
 						continue;
 					
-					BlockUtils.faceBlockPacket(pos);
-					mc.player.connection
-						.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos,
-							EnumFacing.UP, EnumHand.MAIN_HAND, 0.5F, 1F, 0.5F));
+					// right click block
+					if(!BlockUtils.rightClickBlockLegit(pos))
+						continue;
+					
+					return;
 				}
 	}
 	
