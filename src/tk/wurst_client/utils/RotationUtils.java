@@ -9,6 +9,7 @@ package tk.wurst_client.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -79,12 +80,48 @@ public class RotationUtils
 	
 	public static boolean faceEntityClient(Entity entity)
 	{
-		return faceVectorClient(entity.boundingBox.getCenter());
+		// get eyesPos
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		
+		// get lookVec
+		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+		float f3 = MathHelper.sin(-pitch * 0.017453292F);
+		Vec3d lookVec = new Vec3d(f1 * f2, f3, f * f2);
+		
+		// try to face center of boundingBox
+		AxisAlignedBB bb = entity.boundingBox;
+		if(faceVectorClient(bb.getCenter()))
+			return true;
+		
+		// if not facing center, check if facing anything in boundingBox
+		return bb.calculateIntercept(eyesPos,
+			eyesPos.add(lookVec.scale(6))) != null;
 	}
 	
 	public static boolean faceEntityPacket(Entity entity)
 	{
-		return faceVectorPacket(entity.boundingBox.getCenter());
+		// get eyesPos
+		Vec3d eyesPos = new Vec3d(mc.player.posX,
+			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		
+		// get lookVec
+		float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+		float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+		float f3 = MathHelper.sin(-pitch * 0.017453292F);
+		Vec3d lookVec = new Vec3d(f1 * f2, f3, f * f2);
+		
+		// try to face center of boundingBox
+		AxisAlignedBB bb = entity.boundingBox;
+		if(faceVectorPacket(bb.getCenter()))
+			return true;
+		
+		// if not facing center, check if facing anything in boundingBox
+		return bb.calculateIntercept(eyesPos,
+			eyesPos.add(lookVec.scale(6))) != null;
 	}
 	
 	public static float getDistanceFromRotation(Vec3d vec)
