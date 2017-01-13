@@ -38,11 +38,11 @@ public class RotationUtils
 	public static float limitAngleChange(float current, float intended,
 		float maxChange)
 	{
-		float change = intended - current;
+		float change = MathHelper.wrapDegrees(intended - current);
 		
 		change = MathHelper.clamp(change, -maxChange, maxChange);
 		
-		return current + change;
+		return MathHelper.wrapDegrees(current + change);
 	}
 	
 	public static boolean faceVectorPacket(Vec3d vec)
