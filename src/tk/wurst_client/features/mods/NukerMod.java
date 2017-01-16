@@ -33,7 +33,7 @@ public class NukerMod extends Mod
 	implements LeftClickListener, UpdateListener, RenderListener
 {
 	public int id = 0;
-	private BlockPos pos;
+	private BlockPos currentBlock;
 	private BlockValidator validator;
 	
 	public final SliderSetting range =
@@ -124,9 +124,9 @@ public class NukerMod extends Mod
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		
-		resetBlockBreaking();
-		
-		// reset ID
+		// resets
+		mc.playerController.resetBlockRemoving();
+		currentBlock = null;
 		id = 0;
 	}
 	
@@ -163,23 +163,20 @@ public class NukerMod extends Mod
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
 		// find closest valid block
-		BlockPos newPos = BlockUtils.findClosestValidBlock(range.getValue(),
+		currentBlock = BlockUtils.findClosestValidBlock(range.getValue(),
 			!legit, validator);
 		
 		// check if any block was found
-		if(newPos == null)
+		if(currentBlock == null)
 		{
-			resetBlockBreaking();
+			mc.playerController.resetBlockRemoving();
 			return;
 		}
 		
 		// nuke all
 		if(mc.player.capabilities.isCreativeMode && !legit)
 		{
-			resetBlockBreaking();
-			
-			// set current pos
-			pos = newPos;
+			mc.playerController.resetBlockRemoving();
 			
 			// break blocks
 			BlockUtils.forEachValidBlock(range.getValue(), validator,
@@ -188,34 +185,35 @@ public class NukerMod extends Mod
 			return;
 		}
 		
-		// set current pos
-		pos = newPos;
-		
 		boolean successful;
 		
 		// break block
 		if(legit)
-			successful = BlockUtils.breakBlockLegit(pos);
+			successful = BlockUtils.breakBlockLegit(currentBlock);
 		else
-			successful = BlockUtils.breakBlockSimple(pos);
+			successful = BlockUtils.breakBlockSimple(currentBlock);
 		
 		// reset if failed
 		if(!successful)
-			resetBlockBreaking();
+		{
+			mc.playerController.resetBlockRemoving();
+			currentBlock = null;
+		}
 	}
 	
 	@Override
 	public void onRender()
 	{
-		if(pos == null)
+		if(currentBlock == null)
 			return;
 		
 		// check if block can be destroyed instantly
 		if(mc.player.capabilities.isCreativeMode
-			|| BlockUtils.getHardness(pos) >= 1)
-			RenderUtils.nukerBox(pos, 1);
+			|| BlockUtils.getHardness(currentBlock) >= 1)
+			RenderUtils.nukerBox(currentBlock, 1);
 		else
-			RenderUtils.nukerBox(pos, mc.playerController.curBlockDamageMP);
+			RenderUtils.nukerBox(currentBlock,
+				mc.playerController.curBlockDamageMP);
 	}
 	
 	@Override
@@ -235,12 +233,5 @@ public class NukerMod extends Mod
 				range.lockToMax(4.25);
 				break;
 		}
-	}
-	
-	private void resetBlockBreaking()
-	{
-		mc.playerController.resetBlockRemoving();
-		
-		pos = null;
 	}
 }
