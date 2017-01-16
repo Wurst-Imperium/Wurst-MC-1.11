@@ -9,7 +9,8 @@ package tk.wurst_client.utils;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.function.Consumer;
+
+import com.google.common.collect.AbstractIterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -332,7 +333,7 @@ public final class BlockUtils
 		return false;
 	}
 	
-	public static BlockPos findClosestValidBlock(double range,
+	public static Iterable<BlockPos> getValidBlocksByDistance(double range,
 		boolean ignoreVisibility, BlockValidator validator)
 	{
 		// initialize queue
@@ -346,55 +347,101 @@ public final class BlockUtils
 		// add start pos
 		queue.add(new BlockPos(RotationUtils.getEyesPos()));
 		
-		// find block using breadth first search
-		while(!queue.isEmpty())
+		return () -> new AbstractIterator<BlockPos>()
 		{
-			BlockPos current = queue.pop();
-			
-			// check range
-			if(eyesPos.squareDistanceTo(new Vec3d(current)) > rangeSq)
-				continue;
-			
-			boolean canBeClicked = canBeClicked(current);
-			
-			// check if block is valid
-			if(canBeClicked && validator.isValid(current))
-				return current;
-			
-			if(ignoreVisibility || !canBeClicked)
+			@Override
+			protected BlockPos computeNext()
 			{
-				// add neighbors
-				for(EnumFacing facing : EnumFacing.values())
+				// find block using breadth first search
+				while(!queue.isEmpty())
 				{
-					BlockPos next = current.offset(facing);
+					BlockPos current = queue.pop();
 					
-					if(visited.contains(next))
+					// check range
+					if(eyesPos.squareDistanceTo(new Vec3d(current)) > rangeSq)
 						continue;
 					
-					queue.add(next);
-					visited.add(next);
+					boolean canBeClicked = canBeClicked(current);
+					
+					// check if block is valid
+					if(canBeClicked && validator.isValid(current))
+						return current;
+					
+					if(ignoreVisibility || !canBeClicked)
+					{
+						// add neighbors
+						for(EnumFacing facing : EnumFacing.values())
+						{
+							BlockPos next = current.offset(facing);
+							
+							if(visited.contains(next))
+								continue;
+							
+							queue.add(next);
+							visited.add(next);
+						}
+					}
 				}
+				
+				return endOfData();
 			}
-		}
-		
-		return null;
+		};
 	}
 	
-	public static void forEachValidBlock(double range, BlockValidator validator,
-		Consumer<BlockPos> action)
+	public static Iterable<BlockPos> getValidBlocks(double range,
+		BlockValidator validator)
 	{
+		BlockPos playerPos = new BlockPos(RotationUtils.getEyesPos());
+		int blockRange = (int)Math.ceil(range);
+		
+		BlockPos min = playerPos.add(-blockRange, -blockRange, -blockRange);
+		BlockPos max =
+			playerPos.add(blockRange + 1, blockRange + 1, blockRange + 1);
+		
 		// prepare range check
 		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double rangeSq = Math.pow(range + 0.5, 2);
-		int blockRange = (int)Math.ceil(range);
 		
-		BlockPos playerPos = new BlockPos(RotationUtils.getEyesPos());
-		for(int y = -blockRange; y < blockRange + 1; y++)
-			for(int x = -blockRange; x < blockRange + 1; x++)
-				for(int z = -blockRange; z < blockRange + 1; z++)
+		return () -> new AbstractIterator<BlockPos>()
+		{
+			private BlockPos last;
+			
+			private BlockPos computeNextUnchecked()
+			{
+				if(last == null)
 				{
-					BlockPos pos = playerPos.add(x, y, z);
-					
+					last = min;
+					return last;
+				}
+				
+				int x = last.getX();
+				int y = last.getY();
+				int z = last.getZ();
+				
+				if(z < max.getZ())
+					z++;
+				else if(x < max.getX())
+				{
+					z = min.getZ();
+					x++;
+				}else if(y < max.getY())
+				{
+					z = min.getZ();
+					x = min.getX();
+					y++;
+				}else
+					return null;
+				
+				last = new BlockPos(x, y, z);
+				return last;
+			}
+			
+			@Override
+			protected BlockPos computeNext()
+			{
+				BlockPos pos;
+				while((pos = computeNextUnchecked()) != null)
+				{
 					// skip air blocks
 					if(getMaterial(pos) == Material.AIR)
 						continue;
@@ -407,9 +454,12 @@ public final class BlockUtils
 					if(!validator.isValid(pos))
 						continue;
 					
-					// do action
-					action.accept(pos);
+					return pos;
 				}
+				
+				return endOfData();
+			}
+		};
 	}
 	
 	public static interface BlockValidator

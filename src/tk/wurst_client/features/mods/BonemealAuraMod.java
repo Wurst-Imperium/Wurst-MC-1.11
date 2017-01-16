@@ -16,6 +16,7 @@ import net.minecraft.block.BlockStem;
 import net.minecraft.block.IGrowable;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -86,23 +87,29 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 		
 		if(legit)
 		{
-			// find closest valid block
-			BlockPos pos = BlockUtils.findClosestValidBlock(range.getValue(),
-				false, (p) -> isCorrectBlock(p));
-			
-			// check if any block was found
-			if(pos == null)
-				return;
-			
-			// use bone meal
-			BlockUtils.rightClickBlockLegit(pos);
+			// use bone meal on closest valid block
+			for(BlockPos pos : BlockUtils.getValidBlocksByDistance(
+				range.getValue(), false, (p) -> isCorrectBlock(p)))
+			{
+				BlockUtils.rightClickBlockLegit(pos);
+				break;
+			}
 			
 		}else
 		{
+			boolean shouldSwing = false;
+			
 			// use bone meal on all valid blocks
-			BlockUtils.forEachValidBlock(range.getValue(),
-				(p) -> isCorrectBlock(p),
-				(p) -> BlockUtils.rightClickBlockSimple(p));
+			for(BlockPos pos : BlockUtils.getValidBlocks(range.getValue(),
+				(p) -> isCorrectBlock(p)))
+			{
+				shouldSwing = true;
+				BlockUtils.rightClickBlockSimple(pos);
+			}
+			
+			// swing arm
+			if(shouldSwing)
+				mc.player.swingArm(EnumHand.MAIN_HAND);
 		}
 	}
 	

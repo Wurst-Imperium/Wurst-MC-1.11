@@ -163,8 +163,13 @@ public class NukerMod extends Mod
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
 		// find closest valid block
-		currentBlock = BlockUtils.findClosestValidBlock(range.getValue(),
-			!legit, validator);
+		currentBlock = null;
+		for(BlockPos pos : BlockUtils.getValidBlocksByDistance(range.getValue(),
+			!legit, validator))
+		{
+			currentBlock = pos;
+			break;
+		}
 		
 		// check if any block was found
 		if(currentBlock == null)
@@ -178,9 +183,9 @@ public class NukerMod extends Mod
 		{
 			mc.playerController.resetBlockRemoving();
 			
-			// break blocks
-			BlockUtils.forEachValidBlock(range.getValue(), validator,
-				(pos) -> BlockUtils.breakBlockPacketSpam(pos));
+			// break all blocks
+			BlockUtils.getValidBlocks(range.getValue(), validator)
+				.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
 			
 			return;
 		}
