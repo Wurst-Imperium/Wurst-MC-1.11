@@ -40,11 +40,41 @@ public class NukerMod extends Mod
 	public int id = 0;
 	private BlockPos pos;
 	private int oldSlot = -1;
+	private BlockValidator validator;
 	
 	public final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	public final ModeSetting mode = new ModeSetting("Mode",
-		new String[]{"Normal", "ID", "Flat", "Smash"}, 0);
+		new String[]{"Normal", "ID", "Flat", "Smash"}, 0)
+	{
+		@Override
+		public void update()
+		{
+			switch(getSelected())
+			{
+				default:
+				case 0:
+					// normal mode
+					validator = (pos) -> true;
+					break;
+				
+				case 1:
+					// id mode
+					validator = (pos) -> id == BlockUtils.getId(pos);
+					break;
+				
+				case 2:
+					// flat mode
+					validator = (pos) -> pos.getY() >= mc.player.posY;
+					break;
+				
+				case 3:
+					// smash mode
+					validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+					break;
+			}
+		}
+	};
 	
 	@Override
 	public void initSettings()
@@ -143,32 +173,6 @@ public class NukerMod extends Mod
 		{
 			nukeAll();
 			return;
-		}
-		
-		// set validator
-		BlockValidator validator;
-		switch(mode.getSelected())
-		{
-			default:
-			case 0:
-				// normal mode
-				validator = (pos) -> true;
-				break;
-			
-			case 1:
-				// id mode
-				validator = (pos) -> id == BlockUtils.getId(pos);
-				break;
-			
-			case 2:
-				// flat mode
-				validator = (pos) -> pos.getY() >= mc.player.posY;
-				break;
-			
-			case 3:
-				// smash mode
-				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
-				break;
 		}
 		
 		// find closest valid block
