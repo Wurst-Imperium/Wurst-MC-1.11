@@ -191,9 +191,6 @@ public class NukerMod extends Mod
 		// set current pos
 		pos = newPos;
 		
-		// AutoTool
-		wurst.mods.autoToolMod.setSlot(pos);
-		
 		boolean successful;
 		
 		// break block

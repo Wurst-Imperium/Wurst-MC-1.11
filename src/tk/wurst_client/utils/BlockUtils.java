@@ -24,6 +24,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import tk.wurst_client.WurstClient;
 
 public final class BlockUtils
 {
@@ -176,6 +177,9 @@ public final class BlockUtils
 				false) != null)
 				continue;
 			
+			// AutoTool
+			WurstClient.INSTANCE.mods.autoToolMod.setSlot(pos);
+			
 			// face block
 			if(!RotationUtils.faceVectorPacket(hitVec))
 				return true;
@@ -211,6 +215,9 @@ public final class BlockUtils
 			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
 				.squareDistanceTo(hitVec))
 				continue;
+			
+			// AutoTool
+			WurstClient.INSTANCE.mods.autoToolMod.setSlot(pos);
 			
 			// face block
 			RotationUtils.faceVectorPacket(hitVec);
