@@ -9,6 +9,7 @@ package tk.wurst_client.utils;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.function.Consumer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -311,6 +312,42 @@ public final class BlockUtils
 		}
 		
 		return null;
+	}
+	
+	public static void forEachValidBlock(double range, BlockValidator validator,
+		Consumer<BlockPos> action)
+	{
+		// prepare range check
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		double rangeSq = Math.pow(range + 0.5, 2);
+		int blockRange = (int)Math.ceil(range);
+		
+		BlockPos playerPos = new BlockPos(mc.player).up();
+		for(int y = -blockRange; y < blockRange + 1; y++)
+			for(int x = -blockRange; x < blockRange + 1; x++)
+				for(int z = -blockRange; z < blockRange + 1; z++)
+				{
+					BlockPos pos = playerPos.add(x, y, z);
+					
+					// skip air blocks
+					if(getMaterial(pos) == Material.AIR)
+						continue;
+					
+					// get square distance
+					double distanceSq = eyesPos.squareDistanceTo(
+						new Vec3d(pos).addVector(0.5, 0.5, 0.5));
+					
+					// check range
+					if(distanceSq > rangeSq)
+						continue;
+					
+					// check if block is valid
+					if(!validator.isValid(pos))
+						continue;
+					
+					// do action
+					action.accept(pos);
+				}
 	}
 	
 	public static interface BlockValidator

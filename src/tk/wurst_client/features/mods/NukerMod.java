@@ -13,7 +13,6 @@ import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
 import tk.wurst_client.events.listeners.RenderListener;
@@ -26,7 +25,6 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.BlockUtils.BlockValidator;
 import tk.wurst_client.utils.RenderUtils;
-import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
 	description = "Destroys blocks around you.\n"
@@ -168,13 +166,6 @@ public class NukerMod extends Mod
 		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
-		// nuke all
-		if(mc.player.capabilities.isCreativeMode && !legit)
-		{
-			nukeAll();
-			return;
-		}
-		
 		// find closest valid block
 		BlockPos newPos = BlockUtils.findClosestValidBlock(range.getValue(),
 			!legit, validator);
@@ -183,6 +174,25 @@ public class NukerMod extends Mod
 		if(newPos == null)
 		{
 			resetBlockBreaking();
+			return;
+		}
+		
+		// nuke all
+		if(mc.player.capabilities.isCreativeMode && !legit)
+		{
+			resetBlockBreaking();
+			
+			// set current pos
+			pos = newPos;
+			
+			BlockUtils.forEachValidBlock(range.getValue(), validator, (pos) -> {
+				// break block
+				mc.player.connection.sendPacket(new CPacketPlayerDigging(
+					Action.START_DESTROY_BLOCK, pos, EnumFacing.UP));
+				mc.player.connection.sendPacket(new CPacketPlayerDigging(
+					Action.STOP_DESTROY_BLOCK, pos, EnumFacing.UP));
+			});
+			
 			return;
 		}
 		
@@ -254,65 +264,5 @@ public class NukerMod extends Mod
 			mc.player.inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
-	}
-	
-	private void nukeAll()
-	{
-		resetBlockBreaking();
-		
-		double closestDistanceSq = Double.POSITIVE_INFINITY;
-		
-		// prepare range check
-		Vec3d eyesPos = RotationUtils.getEyesPos();
-		double rangeSq = Math.pow(range.getValue(), 2);
-		
-		BlockPos playerPos = new BlockPos(mc.player);
-		int minY = mode.getSelected() == 2 ? 0 : -range.getValueI() + 1;
-		
-		for(int y = minY; y < range.getValueI() + 2; y++)
-			for(int x = -range.getValueI(); x < range.getValueI() + 1; x++)
-				for(int z = -range.getValueI(); z < range.getValueI() + 1; z++)
-				{
-					BlockPos pos = playerPos.add(x, y, z);
-					
-					// skip air blocks
-					if(BlockUtils.getMaterial(pos) == Material.AIR)
-						continue;
-					
-					// get square distance
-					double distanceSq = eyesPos.squareDistanceTo(
-						new Vec3d(pos).addVector(0.5, 0.5, 0.5));
-					
-					// check range
-					if(distanceSq > rangeSq)
-						continue;
-					
-					// check if block is valid
-					switch(mode.getSelected())
-					{
-						case 1:
-							if(id != Block
-								.getIdFromBlock(BlockUtils.getBlock(pos)))
-								continue;
-							break;
-						case 3:
-							if(BlockUtils.getHardness(pos) < 1)
-								continue;
-							break;
-					}
-					
-					// update closest valid pos
-					if(distanceSq < closestDistanceSq)
-					{
-						this.pos = pos;
-						closestDistanceSq = distanceSq;
-					}
-					
-					// break block
-					mc.player.connection.sendPacket(new CPacketPlayerDigging(
-						Action.START_DESTROY_BLOCK, pos, EnumFacing.UP));
-					mc.player.connection.sendPacket(new CPacketPlayerDigging(
-						Action.STOP_DESTROY_BLOCK, pos, EnumFacing.UP));
-				}
 	}
 }
