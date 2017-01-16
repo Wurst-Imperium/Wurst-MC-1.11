@@ -17,6 +17,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -224,6 +226,30 @@ public final class BlockUtils
 		}
 		
 		return false;
+	}
+	
+	public static void breakBlockPacketSpam(BlockPos pos)
+	{
+		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(-0.5, -0.5, -0.5);
+		Vec3d posVec = new Vec3d(pos);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d hitVec = posVec.add(new Vec3d(side.getDirectionVec()));
+			
+			// check if side is facing towards player
+			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
+				.squareDistanceTo(hitVec))
+				continue;
+			
+			// break block
+			mc.player.connection.sendPacket(new CPacketPlayerDigging(
+				Action.START_DESTROY_BLOCK, pos, side));
+			mc.player.connection.sendPacket(
+				new CPacketPlayerDigging(Action.STOP_DESTROY_BLOCK, pos, side));
+			
+			return;
+		}
 	}
 	
 	public static boolean rightClickBlockLegit(BlockPos pos)
