@@ -315,7 +315,7 @@ public final class BlockUtils
 		double rangeSq = Math.pow(range + 0.5, 2);
 		
 		// add start pos
-		queue.add(new BlockPos(mc.player).up());
+		queue.add(new BlockPos(RotationUtils.getEyesPos()));
 		
 		// find block using breadth first search
 		while(!queue.isEmpty())
@@ -359,7 +359,7 @@ public final class BlockUtils
 		double rangeSq = Math.pow(range + 0.5, 2);
 		int blockRange = (int)Math.ceil(range);
 		
-		BlockPos playerPos = new BlockPos(mc.player).up();
+		BlockPos playerPos = new BlockPos(RotationUtils.getEyesPos());
 		for(int y = -blockRange; y < blockRange + 1; y++)
 			for(int x = -blockRange; x < blockRange + 1; x++)
 				for(int z = -blockRange; z < blockRange + 1; z++)
