@@ -32,7 +32,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "BonemealAura",
 	tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
 	help = "Mods/BonemealAura")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses
 public class BonemealAuraMod extends Mod implements UpdateListener
 {
 	public final SliderSetting range =
