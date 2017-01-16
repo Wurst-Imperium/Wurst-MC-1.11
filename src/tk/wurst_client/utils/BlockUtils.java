@@ -518,23 +518,6 @@ public final class BlockUtils
 	}
 	
 	@Deprecated
-	public static void faceBlockClient(BlockPos blockPos)
-	{
-		double diffX = blockPos.getX() + 0.5 - mc.player.posX;
-		double diffY =
-			blockPos.getY() + 0.5 - (mc.player.posY + mc.player.getEyeHeight());
-		double diffZ = blockPos.getZ() + 0.5 - mc.player.posZ;
-		double dist = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
-		float yaw =
-			(float)(Math.atan2(diffZ, diffX) * 180.0D / Math.PI) - 90.0F;
-		float pitch = (float)-(Math.atan2(diffY, dist) * 180.0D / Math.PI);
-		mc.player.rotationYaw = mc.player.rotationYaw
-			+ MathHelper.wrapDegrees(yaw - mc.player.rotationYaw);
-		mc.player.rotationPitch = mc.player.rotationPitch
-			+ MathHelper.wrapDegrees(pitch - mc.player.rotationPitch);
-	}
-	
-	@Deprecated
 	public static void faceBlockPacket(BlockPos blockPos)
 	{
 		double diffX = blockPos.getX() + 0.5 - mc.player.posX;
