@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.LeftClickEvent;
@@ -96,7 +95,8 @@ public class NukerMod extends Mod
 	{
 		return new Feature[]{wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
 			wurst.mods.tunnellerMod, wurst.mods.fastBreakMod,
-			wurst.mods.autoMineMod, wurst.mods.overlayMod};
+			wurst.mods.autoMineMod, wurst.mods.overlayMod,
+			wurst.special.yesCheatSpf};
 	}
 	
 	@Override
@@ -148,8 +148,7 @@ public class NukerMod extends Mod
 			return;
 		
 		// set id
-		id = Block.getIdFromBlock(
-			BlockUtils.getBlock(mc.objectMouseOver.getBlockPos()));
+		id = BlockUtils.getId(mc.objectMouseOver.getBlockPos());
 	}
 	
 	@Override
