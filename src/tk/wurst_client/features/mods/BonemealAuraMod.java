@@ -82,31 +82,28 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 			|| stack.getMetadata() != 15)
 			return;
 		
-		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		// get valid blocks
+		Iterable<BlockPos> validBlocks = BlockUtils
+			.getValidBlocks(range.getValue(), (p) -> isCorrectBlock(p));
 		
-		if(legit)
+		// check bypass level
+		if(wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() > BypassLevel.MINEPLEX.ordinal())
 		{
-			// use bone meal on closest valid block
-			for(BlockPos pos : BlockUtils.getValidBlocksByDistance(
-				range.getValue(), false, (p) -> isCorrectBlock(p)))
-			{
-				BlockUtils.rightClickBlockLegit(pos);
-				break;
-			}
-			
+			// use bone meal on next valid block
+			for(BlockPos pos : validBlocks)
+				if(BlockUtils.rightClickBlockLegit(pos))
+					break;
+				
 		}else
 		{
 			boolean shouldSwing = false;
 			
 			// use bone meal on all valid blocks
-			for(BlockPos pos : BlockUtils.getValidBlocks(range.getValue(),
-				(p) -> isCorrectBlock(p)))
-			{
-				shouldSwing = true;
-				BlockUtils.rightClickBlockSimple(pos);
-			}
-			
+			for(BlockPos pos : validBlocks)
+				if(BlockUtils.rightClickBlockSimple(pos))
+					shouldSwing = true;
+				
 			// swing arm
 			if(shouldSwing)
 				mc.player.swingArm(EnumHand.MAIN_HAND);
