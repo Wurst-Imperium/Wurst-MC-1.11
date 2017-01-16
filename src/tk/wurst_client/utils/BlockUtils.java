@@ -7,6 +7,9 @@
  */
 package tk.wurst_client.utils;
 
+import java.util.ArrayDeque;
+import java.util.HashSet;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -31,6 +34,11 @@ public final class BlockUtils
 	public static Block getBlock(BlockPos pos)
 	{
 		return getState(pos).getBlock();
+	}
+	
+	public static int getId(BlockPos pos)
+	{
+		return Block.getIdFromBlock(getBlock(pos));
 	}
 	
 	public static Material getMaterial(BlockPos pos)
@@ -241,6 +249,60 @@ public final class BlockUtils
 		}
 		
 		return false;
+	}
+	
+	public static BlockPos findClosestValidBlock(double range,
+		boolean ignoreVisibility, BlockValidator validator)
+	{
+		// initialize queue
+		ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+		HashSet<BlockPos> visited = new HashSet<>();
+		
+		// prepare range check
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		double rangeSq = Math.pow(range + 0.5, 2);
+		
+		// add start pos
+		queue.add(new BlockPos(mc.player).up());
+		
+		// find block using breadth first search
+		while(!queue.isEmpty())
+		{
+			BlockPos current = queue.pop();
+			
+			// check range
+			if(eyesPos.squareDistanceTo(
+				new Vec3d(current).addVector(0.5, 0.5, 0.5)) > rangeSq)
+				continue;
+			
+			boolean canBeClicked = canBeClicked(current);
+			
+			// check if block is valid
+			if(canBeClicked && validator.isValid(current))
+				return current;
+			
+			if(ignoreVisibility || !canBeClicked)
+			{
+				// add neighbors
+				for(EnumFacing facing : EnumFacing.values())
+				{
+					BlockPos next = current.offset(facing);
+					
+					if(visited.contains(next))
+						continue;
+					
+					queue.add(next);
+					visited.add(next);
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public static interface BlockValidator
+	{
+		public boolean isValid(BlockPos pos);
 	}
 	
 	@Deprecated

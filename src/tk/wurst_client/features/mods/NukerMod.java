@@ -7,9 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -27,6 +24,7 @@ import tk.wurst_client.settings.ModeSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.BlockUtils.BlockValidator;
 import tk.wurst_client.utils.RenderUtils;
 import tk.wurst_client.utils.RotationUtils;
 
@@ -133,6 +131,10 @@ public class NukerMod extends Mod
 	@Override
 	public void onUpdate()
 	{
+		// abort if using IDNuker without an ID being set
+		if(mode.getSelected() == 1 && id == 0)
+			return;
+		
 		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
@@ -143,8 +145,35 @@ public class NukerMod extends Mod
 			return;
 		}
 		
+		// set validator
+		BlockValidator validator;
+		switch(mode.getSelected())
+		{
+			default:
+			case 0:
+				// normal mode
+				validator = (pos) -> true;
+				break;
+			
+			case 1:
+				// id mode
+				validator = (pos) -> id == BlockUtils.getId(pos);
+				break;
+			
+			case 2:
+				// flat mode
+				validator = (pos) -> pos.getY() >= mc.player.posY;
+				break;
+			
+			case 3:
+				// smash mode
+				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+				break;
+		}
+		
 		// find closest valid block
-		BlockPos newPos = find();
+		BlockPos newPos = BlockUtils.findClosestValidBlock(range.getValue(),
+			!legit, validator);
 		
 		// check if any block was found
 		if(newPos == null)
@@ -221,76 +250,6 @@ public class NukerMod extends Mod
 			mc.player.inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
-	}
-	
-	private BlockPos find()
-	{
-		// abort if using IDNuker without an ID being set
-		if(mode.getSelected() == 1 && id == 0)
-			return null;
-		
-		// initialize queue
-		ArrayDeque<BlockPos> queue = new ArrayDeque<>();
-		HashSet<BlockPos> visited = new HashSet<>();
-		
-		// prepare range check
-		Vec3d eyesPos = RotationUtils.getEyesPos();
-		double rangeSq = Math.pow(range.getValue(), 2);
-		
-		// add start pos
-		queue.add(new BlockPos(mc.player).up());
-		
-		// find block using breadth first search
-		while(!queue.isEmpty())
-		{
-			BlockPos current = queue.pop();
-			
-			// check range
-			if(eyesPos.squareDistanceTo(
-				new Vec3d(current).addVector(0.5, 0.5, 0.5)) > rangeSq)
-				continue;
-			
-			boolean canBeClicked = BlockUtils.canBeClicked(current);
-			
-			// check if block is valid
-			if(canBeClicked)
-				switch(mode.getSelected())
-				{
-					case 1:
-						if(id == Block
-							.getIdFromBlock(BlockUtils.getBlock(current)))
-							return current;
-						break;
-					case 2:
-						if(current.getY() >= mc.player.posY)
-							return current;
-						break;
-					case 3:
-						if(BlockUtils.getHardness(current) >= 1)
-							return current;
-						break;
-					default:
-						return current;
-				}
-			
-			if(!canBeClicked || wurst.special.yesCheatSpf.getBypassLevel()
-				.ordinal() < BypassLevel.ANTICHEAT.ordinal())
-			{
-				// add neighbors
-				for(EnumFacing facing : EnumFacing.values())
-				{
-					BlockPos next = current.offset(facing);
-					
-					if(visited.contains(next))
-						continue;
-					
-					queue.add(next);
-					visited.add(next);
-				}
-			}
-		}
-		
-		return null;
 	}
 	
 	private void nukeAll()
