@@ -57,6 +57,24 @@ public final class BlockUtils
 			pos);
 	}
 	
+	private static void processRightClickBlock(BlockPos pos, EnumFacing side,
+		Vec3d hitVec)
+	{
+		mc.playerController.processRightClickBlock(mc.player, mc.world, pos,
+			side, hitVec, EnumHand.MAIN_HAND);
+	}
+	
+	private static void swingArmClient()
+	{
+		mc.player.swingArm(EnumHand.MAIN_HAND);
+	}
+	
+	private static void swingArmPacket()
+	{
+		mc.player.connection
+			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+	}
+	
 	public static boolean placeBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
@@ -92,9 +110,8 @@ public final class BlockUtils
 				return true;
 			
 			// place block
-			mc.playerController.processRightClickBlock(mc.player, mc.world,
-				neighbor, side.getOpposite(), hitVec, EnumHand.MAIN_HAND);
-			mc.player.swingArm(EnumHand.MAIN_HAND);
+			processRightClickBlock(neighbor, side.getOpposite(), hitVec);
+			swingArmClient();
 			mc.rightClickDelayTimer = 4;
 			
 			return true;
@@ -124,8 +141,7 @@ public final class BlockUtils
 				continue;
 			
 			// place block
-			mc.playerController.processRightClickBlock(mc.player, mc.world,
-				neighbor, side2, hitVec, EnumHand.MAIN_HAND);
+			processRightClickBlock(neighbor, side2, hitVec);
 			
 			return true;
 		}
@@ -166,8 +182,7 @@ public final class BlockUtils
 				return false;
 			
 			// swing arm
-			mc.player.connection
-				.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+			swingArmPacket();
 			
 			return true;
 		}
@@ -202,8 +217,7 @@ public final class BlockUtils
 				return false;
 			
 			// swing arm
-			mc.player.connection
-				.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+			swingArmPacket();
 			
 			return true;
 		}
@@ -240,9 +254,8 @@ public final class BlockUtils
 				return true;
 			
 			// place block
-			mc.playerController.processRightClickBlock(mc.player, mc.world, pos,
-				side, hitVec, EnumHand.MAIN_HAND);
-			mc.player.swingArm(EnumHand.MAIN_HAND);
+			processRightClickBlock(pos, side, hitVec);
+			swingArmClient();
 			mc.rightClickDelayTimer = 4;
 			
 			return true;
