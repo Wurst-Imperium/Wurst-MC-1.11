@@ -82,26 +82,27 @@ public final class BlockUtils
 	public static boolean placeBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
 			BlockPos neighbor = pos.offset(side);
 			
-			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
-			Vec3d hitVec =
-				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
-			
-			// check if side is visible (facing away from player)
-			if(eyesPos.squareDistanceTo(posVec) >= eyesPos
-				.squareDistanceTo(hitVec))
-				continue;
-			
 			// check if neighbor can be right clicked
 			if(!canBeClicked(neighbor))
 				continue;
 			
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
+			
 			// check if hitVec is within range (4.25 blocks)
-			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+			if(distanceSqHitVec > 18.0625)
+				continue;
+			
+			// check if side is visible (facing away from player)
+			if(distanceSqHitVec <= distanceSqPosVec)
 				continue;
 			
 			// check line of sight
@@ -127,25 +128,25 @@ public final class BlockUtils
 	public static boolean placeBlockSimple(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
 			BlockPos neighbor = pos.offset(side);
-			EnumFacing side2 = side.getOpposite();
 			
 			// check if neighbor can be right clicked
 			if(!canBeClicked(neighbor))
 				continue;
 			
-			Vec3d hitVec = new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)
-				.add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
 			
 			// check if hitVec is within range (6 blocks)
 			if(eyesPos.squareDistanceTo(hitVec) > 36)
 				continue;
 			
 			// place block
-			processRightClickBlock(neighbor, side2, hitVec);
+			processRightClickBlock(neighbor, side.getOpposite(), hitVec);
 			
 			return true;
 		}
@@ -156,20 +157,21 @@ public final class BlockUtils
 	public static boolean breakBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
-			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
 			Vec3d hitVec =
 				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
 			
 			// check if hitVec is within range (4.25 blocks)
-			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+			if(distanceSqHitVec > 18.0625)
 				continue;
 			
 			// check if side is facing towards player
-			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
-				.squareDistanceTo(hitVec))
+			if(distanceSqHitVec >= distanceSqPosVec)
 				continue;
 			
 			// check line of sight
@@ -200,20 +202,21 @@ public final class BlockUtils
 	public static boolean breakBlockSimple(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
-			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
 			Vec3d hitVec =
 				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
 			
 			// check if hitVec is within range (6 blocks)
-			if(eyesPos.squareDistanceTo(hitVec) > 36)
+			if(distanceSqHitVec > 36)
 				continue;
 			
 			// check if side is facing towards player
-			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
-				.squareDistanceTo(hitVec))
+			if(distanceSqHitVec >= distanceSqPosVec)
 				continue;
 			
 			// AutoTool
@@ -237,16 +240,17 @@ public final class BlockUtils
 	
 	public static void breakBlockPacketSpam(BlockPos pos)
 	{
-		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(-0.5, -0.5, -0.5);
-		Vec3d posVec = new Vec3d(pos);
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
-			Vec3d hitVec = posVec.add(new Vec3d(side.getDirectionVec()));
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
 			
 			// check if side is facing towards player
-			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
-				.squareDistanceTo(hitVec))
+			if(eyesPos.squareDistanceTo(hitVec) >= distanceSqPosVec)
 				continue;
 			
 			// break block
@@ -262,20 +266,21 @@ public final class BlockUtils
 	public static boolean rightClickBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
 		
 		for(EnumFacing side : EnumFacing.values())
 		{
-			Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
 			Vec3d hitVec =
 				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
 			
 			// check if hitVec is within range (4.25 blocks)
-			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+			if(distanceSqHitVec > 18.0625)
 				continue;
 			
 			// check if side is facing towards player
-			if(eyesPos.squareDistanceTo(posVec) <= eyesPos
-				.squareDistanceTo(hitVec))
+			if(distanceSqHitVec >= distanceSqPosVec)
 				continue;
 			
 			// check line of sight
@@ -306,7 +311,7 @@ public final class BlockUtils
 		HashSet<BlockPos> visited = new HashSet<>();
 		
 		// prepare range check
-		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double rangeSq = Math.pow(range + 0.5, 2);
 		
 		// add start pos
@@ -318,8 +323,7 @@ public final class BlockUtils
 			BlockPos current = queue.pop();
 			
 			// check range
-			if(eyesPos.squareDistanceTo(
-				new Vec3d(current).addVector(0.5, 0.5, 0.5)) > rangeSq)
+			if(eyesPos.squareDistanceTo(new Vec3d(current)) > rangeSq)
 				continue;
 			
 			boolean canBeClicked = canBeClicked(current);
@@ -351,7 +355,7 @@ public final class BlockUtils
 		Consumer<BlockPos> action)
 	{
 		// prepare range check
-		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double rangeSq = Math.pow(range + 0.5, 2);
 		int blockRange = (int)Math.ceil(range);
 		
@@ -366,12 +370,8 @@ public final class BlockUtils
 					if(getMaterial(pos) == Material.AIR)
 						continue;
 					
-					// get square distance
-					double distanceSq = eyesPos.squareDistanceTo(
-						new Vec3d(pos).addVector(0.5, 0.5, 0.5));
-					
 					// check range
-					if(distanceSq > rangeSq)
+					if(eyesPos.squareDistanceTo(new Vec3d(pos)) > rangeSq)
 						continue;
 					
 					// check if block is valid
