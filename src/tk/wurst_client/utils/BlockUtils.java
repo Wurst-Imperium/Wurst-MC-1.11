@@ -200,6 +200,56 @@ public final class BlockUtils
 		return false;
 	}
 	
+	public static boolean breakBlockExtraLegit(BlockPos pos)
+	{
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
+			
+			// check if hitVec is within range (4.25 blocks)
+			if(distanceSqHitVec > 18.0625)
+				continue;
+			
+			// check if side is facing towards player
+			if(distanceSqHitVec >= distanceSqPosVec)
+				continue;
+			
+			// check line of sight
+			if(mc.world.rayTraceBlocks(eyesPos, hitVec, false, true,
+				false) != null)
+				continue;
+			
+			// AutoTool
+			WurstClient.INSTANCE.mods.autoToolMod.setSlot(pos);
+			
+			// face block
+			if(!RotationUtils.faceVectorClient(hitVec))
+				return true;
+				
+			// if attack key is down but nothing happens, release it for one
+			// tick
+			if(mc.gameSettings.keyBindAttack.pressed
+				&& !mc.playerController.getIsHittingBlock())
+			{
+				mc.gameSettings.keyBindAttack.pressed = false;
+				return true;
+			}
+			
+			// damage block
+			mc.gameSettings.keyBindAttack.pressed = true;
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean breakBlockSimple(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
