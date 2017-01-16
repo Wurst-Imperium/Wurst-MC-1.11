@@ -84,17 +84,26 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
-		// find closest valid block
-		BlockPos pos = BlockUtils.findClosestValidBlock(range.getValue(),
-			!legit, (p) -> isCorrectBlock(p));
-		
-		// check if any block was found
-		if(pos == null)
-			return;
+		if(legit)
+		{
+			// find closest valid block
+			BlockPos pos = BlockUtils.findClosestValidBlock(range.getValue(),
+				false, (p) -> isCorrectBlock(p));
 			
-		// use bone meal
-		// TODO: non-legit mode
-		BlockUtils.rightClickBlockLegit(pos);
+			// check if any block was found
+			if(pos == null)
+				return;
+			
+			// use bone meal
+			BlockUtils.rightClickBlockLegit(pos);
+			
+		}else
+		{
+			// use bone meal on all valid blocks
+			BlockUtils.forEachValidBlock(range.getValue(),
+				(p) -> isCorrectBlock(p),
+				(p) -> BlockUtils.rightClickBlockSimple(p));
+		}
 	}
 	
 	@Override

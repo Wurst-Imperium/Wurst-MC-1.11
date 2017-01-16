@@ -303,6 +303,35 @@ public final class BlockUtils
 		return false;
 	}
 	
+	public static boolean rightClickBlockSimple(BlockPos pos)
+	{
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
+			
+			// check if hitVec is within range (6 blocks)
+			if(distanceSqHitVec > 36)
+				continue;
+			
+			// check if side is facing towards player
+			if(distanceSqHitVec >= distanceSqPosVec)
+				continue;
+			
+			// place block
+			processRightClickBlock(pos, side, hitVec);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static BlockPos findClosestValidBlock(double range,
 		boolean ignoreVisibility, BlockValidator validator)
 	{
