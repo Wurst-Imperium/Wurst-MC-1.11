@@ -441,74 +441,19 @@ public final class BlockUtils
 	public static Iterable<BlockPos> getValidBlocks(double range,
 		BlockValidator validator)
 	{
-		BlockPos playerPos = new BlockPos(RotationUtils.getEyesPos());
-		int blockRange = (int)Math.ceil(range);
-		
-		BlockPos min = playerPos.add(-blockRange, -blockRange, -blockRange);
-		BlockPos max = playerPos.add(blockRange, blockRange, blockRange);
-		
 		// prepare range check
 		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double rangeSq = Math.pow(range + 0.5, 2);
 		
-		return () -> new AbstractIterator<BlockPos>()
-		{
-			private BlockPos last;
+		return getValidBlocks((int)Math.ceil(range), (pos) -> {
 			
-			private BlockPos computeNextUnchecked()
-			{
-				if(last == null)
-				{
-					last = min;
-					return last;
-				}
-				
-				int x = last.getX();
-				int y = last.getY();
-				int z = last.getZ();
-				
-				if(z < max.getZ())
-					z++;
-				else if(x < max.getX())
-				{
-					z = min.getZ();
-					x++;
-				}else if(y < max.getY())
-				{
-					z = min.getZ();
-					x = min.getX();
-					y++;
-				}else
-					return null;
-				
-				last = new BlockPos(x, y, z);
-				return last;
-			}
+			// check range
+			if(eyesPos.squareDistanceTo(new Vec3d(pos)) > rangeSq)
+				return false;
 			
-			@Override
-			protected BlockPos computeNext()
-			{
-				BlockPos pos;
-				while((pos = computeNextUnchecked()) != null)
-				{
-					// skip air blocks
-					if(getMaterial(pos) == Material.AIR)
-						continue;
-					
-					// check range
-					if(eyesPos.squareDistanceTo(new Vec3d(pos)) > rangeSq)
-						continue;
-					
-					// check if block is valid
-					if(!validator.isValid(pos))
-						continue;
-					
-					return pos;
-				}
-				
-				return endOfData();
-			}
-		};
+			// check if block is valid
+			return validator.isValid(pos);
+		});
 	}
 	
 	public static Iterable<BlockPos> getValidBlocks(int blockRange,
