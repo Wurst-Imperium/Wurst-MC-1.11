@@ -17,7 +17,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerDigging.Action;
 import net.minecraft.util.EnumFacing;
@@ -523,25 +522,6 @@ public final class BlockUtils
 	public static interface BlockValidator
 	{
 		public boolean isValid(BlockPos pos);
-	}
-	
-	@Deprecated
-	public static void faceBlockPacket(BlockPos blockPos)
-	{
-		double diffX = blockPos.getX() + 0.5 - mc.player.posX;
-		double diffY =
-			blockPos.getY() + 0.5 - (mc.player.posY + mc.player.getEyeHeight());
-		double diffZ = blockPos.getZ() + 0.5 - mc.player.posZ;
-		double dist = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
-		float yaw =
-			(float)(Math.atan2(diffZ, diffX) * 180.0D / Math.PI) - 90.0F;
-		float pitch = (float)-(Math.atan2(diffY, dist) * 180.0D / Math.PI);
-		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
-			mc.player.rotationYaw
-				+ MathHelper.wrapDegrees(yaw - mc.player.rotationYaw),
-			mc.player.rotationPitch
-				+ MathHelper.wrapDegrees(pitch - mc.player.rotationPitch),
-			mc.player.onGround));
 	}
 	
 	@Deprecated
