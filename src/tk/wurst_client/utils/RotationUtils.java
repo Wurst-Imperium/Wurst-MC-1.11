@@ -126,6 +126,18 @@ public class RotationUtils
 			eyesPos.add(lookVec.scale(6))) != null;
 	}
 	
+	public static boolean faceVectorForWalking(Vec3d vec)
+	{
+		float[] rotations = getNeededRotations(vec);
+		
+		float oldYaw = mc.player.prevRotationYaw;
+		
+		mc.player.rotationYaw = limitAngleChange(oldYaw, rotations[0], 30);
+		mc.player.rotationPitch = 0;
+		
+		return Math.abs(oldYaw - rotations[0]) < 1F;
+	}
+	
 	public static float getAngleToClientRotation(Vec3d vec)
 	{
 		float[] needed = getNeededRotations(vec);

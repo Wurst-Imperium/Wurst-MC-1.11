@@ -13,8 +13,10 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 public abstract class PathProcessor
 {
@@ -48,12 +50,22 @@ public abstract class PathProcessor
 	
 	public void lockControls()
 	{
+		// disable keys
 		for(KeyBinding key : controls)
 			key.pressed = false;
-		mc.player.rotationPitch = 10;
+		
+		// face next position
 		if(index < path.size())
-			BlockUtils.faceBlockClientHorizontally(path.get(index));
+			facePosition(path.get(index));
+		
+		// disable sprinting
 		mc.player.setSprinting(false);
+	}
+	
+	protected void facePosition(BlockPos pos)
+	{
+		RotationUtils
+			.faceVectorForWalking(new Vec3d(pos).addVector(0.5, 0.5, 0.5));
 	}
 	
 	public final void releaseControls()

@@ -9,10 +9,12 @@ package tk.wurst_client.ai;
 
 import java.util.ArrayList;
 
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
+import net.minecraft.block.BlockVine;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 public class WalkPathProcessor extends PathProcessor
 {
@@ -42,8 +44,8 @@ public class WalkPathProcessor extends PathProcessor
 		
 		lockControls();
 		
-		// move
-		BlockUtils.faceBlockClientHorizontally(nextPos);
+		// face next position
+		facePosition(nextPos);
 		
 		// horizontal movement
 		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())
@@ -59,26 +61,27 @@ public class WalkPathProcessor extends PathProcessor
 			if(pos.getY() < nextPos.getY())
 			{
 				// climb up
-				// TODO: vines and spider
-				if(BlockUtils.getBlock(pos) instanceof BlockLadder)
+				// TODO: Spider
+				Block block = BlockUtils.getBlock(pos);
+				if(block instanceof BlockLadder || block instanceof BlockVine)
 				{
-					BlockUtils.faceBlockClientHorizontally(
-						pos.offset(BlockUtils.getState(pos)
-							.getValue(BlockHorizontal.FACING).getOpposite()));
+					RotationUtils.faceVectorForWalking(
+						BlockUtils.getBoundingBox(pos).getCenter());
+					
 					mc.gameSettings.keyBindForward.pressed = true;
 					
-					// jump up
 				}else
 				{
-					mc.gameSettings.keyBindJump.pressed = true;
-					
 					// directional jump
-					if(index < path.size() - 1)
+					if(index < path.size() - 1
+						&& !nextPos.up().equals(path.get(index + 1)))
 					{
-						BlockUtils
-							.faceBlockClientHorizontally(path.get(index + 1));
+						facePosition(path.get(index + 1));
 						mc.gameSettings.keyBindForward.pressed = true;
 					}
+					
+					// jump up
+					mc.gameSettings.keyBindJump.pressed = true;
 				}
 				
 				// go down

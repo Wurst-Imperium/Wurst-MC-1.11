@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import tk.wurst_client.utils.BlockUtils;
 
 public class FlyPathProcessor extends PathProcessor
 {
@@ -79,8 +78,8 @@ public class FlyPathProcessor extends PathProcessor
 		
 		lockControls();
 		
-		// move
-		BlockUtils.faceBlockClientHorizontally(nextPos);
+		// face next position
+		facePosition(nextPos);
 		
 		// limit vertical speed
 		mc.player.motionY = MathHelper.clamp(mc.player.motionY, -0.25, 0.25);
