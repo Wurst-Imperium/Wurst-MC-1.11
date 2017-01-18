@@ -161,48 +161,52 @@ public class NukerMod extends Mod
 		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() > BypassLevel.MINEPLEX.ordinal();
 		
-		// find closest valid block
 		currentBlock = null;
-		for(BlockPos pos : BlockUtils.getValidBlocksByDistance(range.getValue(),
-			!legit, validator))
-		{
-			currentBlock = pos;
-			break;
-		}
 		
-		// check if any block was found
-		if(currentBlock == null)
-		{
-			mc.playerController.resetBlockRemoving();
-			return;
-		}
+		// get valid blocks
+		Iterable<BlockPos> validBlocks = BlockUtils
+			.getValidBlocksByDistance(range.getValue(), !legit, validator);
 		
 		// nuke all
 		if(mc.player.capabilities.isCreativeMode && !legit)
 		{
 			mc.playerController.resetBlockRemoving();
 			
+			// set closest block as current
+			for(BlockPos pos : validBlocks)
+			{
+				currentBlock = pos;
+				break;
+			}
+			
 			// break all blocks
-			BlockUtils.getValidBlocks(range.getValue(), validator)
-				.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
+			validBlocks.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
 			
 			return;
 		}
 		
-		boolean successful;
-		
-		// break block
-		if(legit)
-			successful = BlockUtils.breakBlockLegit(currentBlock);
-		else
-			successful = BlockUtils.breakBlockSimple(currentBlock);
-		
-		// reset if failed
-		if(!successful)
+		// find closest valid block
+		for(BlockPos pos : validBlocks)
 		{
-			mc.playerController.resetBlockRemoving();
-			currentBlock = null;
+			boolean successful;
+			
+			// break block
+			if(legit)
+				successful = BlockUtils.breakBlockLegit(pos);
+			else
+				successful = BlockUtils.breakBlockSimple(pos);
+			
+			// set currentBlock if successful
+			if(successful)
+			{
+				currentBlock = pos;
+				break;
+			}
 		}
+		
+		// reset if no block was found
+		if(currentBlock == null)
+			mc.playerController.resetBlockRemoving();
 	}
 	
 	@Override
