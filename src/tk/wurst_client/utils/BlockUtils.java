@@ -437,6 +437,17 @@ public final class BlockUtils
 		};
 	}
 	
+	public static Iterable<BlockPos> getValidBlocksByDistanceReversed(
+		double range, boolean ignoreVisibility, BlockValidator validator)
+	{
+		ArrayDeque<BlockPos> validBlocks = new ArrayDeque<>();
+		
+		BlockUtils.getValidBlocksByDistance(range, ignoreVisibility, validator)
+			.forEach((p) -> validBlocks.push(p));
+		
+		return validBlocks;
+	}
+	
 	public static Iterable<BlockPos> getValidBlocks(double range,
 		BlockValidator validator)
 	{

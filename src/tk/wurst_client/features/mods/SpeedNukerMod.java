@@ -182,7 +182,7 @@ public class SpeedNukerMod extends Mod
 		}
 		
 		// break all blocks
-		BlockUtils.getValidBlocks(range.getValue(), validator)
+		BlockUtils.getValidBlocksByDistanceReversed(6, true, validator)
 			.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
 	}
 }

@@ -62,7 +62,7 @@ public class KaboomMod extends Mod implements UpdateListener
 		
 		// get valid blocks
 		Iterable<BlockPos> validBlocks =
-			BlockUtils.getValidBlocksByDistance(6, true, (p) -> true);
+			BlockUtils.getValidBlocksByDistanceReversed(6, true, (p) -> true);
 		
 		// break all blocks
 		for(BlockPos pos : validBlocks)
