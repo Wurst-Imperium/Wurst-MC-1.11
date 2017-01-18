@@ -8,6 +8,7 @@
 package tk.wurst_client.utils;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import com.google.common.collect.AbstractIterator;
@@ -391,19 +392,20 @@ public final class BlockUtils
 	public static Iterable<BlockPos> getValidBlocksByDistance(double range,
 		boolean ignoreVisibility, BlockValidator validator)
 	{
-		// initialize queue
-		ArrayDeque<BlockPos> queue = new ArrayDeque<>();
-		HashSet<BlockPos> visited = new HashSet<>();
-		
 		// prepare range check
 		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double rangeSq = Math.pow(range + 0.5, 2);
 		
-		// add start pos
-		queue.add(new BlockPos(RotationUtils.getEyesPos()));
+		// set start pos
+		BlockPos startPos = new BlockPos(RotationUtils.getEyesPos());
 		
 		return () -> new AbstractIterator<BlockPos>()
 		{
+			// initialize queue
+			private ArrayDeque<BlockPos> queue =
+				new ArrayDeque<>(Arrays.asList(startPos));
+			private HashSet<BlockPos> visited = new HashSet<>();
+			
 			@Override
 			protected BlockPos computeNext()
 			{
