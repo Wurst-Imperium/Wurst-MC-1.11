@@ -544,17 +544,6 @@ public final class BlockUtils
 	}
 	
 	@Deprecated
-	public static void faceBlockClientHorizontally(BlockPos blockPos)
-	{
-		double diffX = blockPos.getX() + 0.5 - mc.player.posX;
-		double diffZ = blockPos.getZ() + 0.5 - mc.player.posZ;
-		float yaw =
-			(float)(Math.atan2(diffZ, diffX) * 180.0D / Math.PI) - 90.0F;
-		mc.player.rotationYaw = mc.player.rotationYaw
-			+ MathHelper.wrapDegrees(yaw - mc.player.rotationYaw);
-	}
-	
-	@Deprecated
 	public static float getPlayerBlockDistance(BlockPos blockPos)
 	{
 		return getPlayerBlockDistance(blockPos.getX(), blockPos.getY(),
