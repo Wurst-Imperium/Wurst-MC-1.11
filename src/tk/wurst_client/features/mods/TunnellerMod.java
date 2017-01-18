@@ -70,6 +70,10 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 		
 		currentBlock = null;
 		
+		// get valid blocks
+		Iterable<BlockPos> validBlocks =
+			BlockUtils.getValidBlocks(1, (p) -> true);
+		
 		// nuke all
 		if(mc.player.capabilities.isCreativeMode && !legit)
 		{
@@ -80,7 +84,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			double closestDistanceSq = Double.POSITIVE_INFINITY;
 			
 			// break all blocks
-			for(BlockPos pos : BlockUtils.getValidBlocks(1, (p) -> true))
+			for(BlockPos pos : validBlocks)
 			{
 				BlockUtils.breakBlockPacketSpam(pos);
 				
@@ -98,7 +102,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 		}
 		
 		// find valid block
-		for(BlockPos pos : BlockUtils.getValidBlocks(1, (p) -> true))
+		for(BlockPos pos : validBlocks)
 		{
 			boolean successful;
 			
