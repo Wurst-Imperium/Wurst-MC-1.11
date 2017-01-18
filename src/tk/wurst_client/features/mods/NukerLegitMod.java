@@ -178,29 +178,27 @@ public class NukerLegitMod extends Mod
 		if(mode.getSelected() == 1 && wurst.mods.nukerMod.id == 0)
 			return;
 		
-		// find closest valid block
 		currentBlock = null;
-		for(BlockPos pos : BlockUtils.getValidBlocksByDistance(range.getValue(),
-			false, validator))
+		
+		// get valid blocks
+		Iterable<BlockPos> validBlocks = BlockUtils
+			.getValidBlocksByDistance(range.getValue(), false, validator);
+		
+		// find closest valid block
+		for(BlockPos pos : validBlocks)
 		{
+			// break block
+			if(!BlockUtils.breakBlockExtraLegit(pos))
+				continue;
+			
+			// set currentBlock if successful
 			currentBlock = pos;
 			break;
 		}
 		
-		// check if any block was found
+		// reset if no block was found
 		if(currentBlock == null)
-		{
 			mc.gameSettings.keyBindAttack.pressed = false;
-			return;
-		}
-		
-		// break block
-		if(!BlockUtils.breakBlockExtraLegit(currentBlock))
-		{
-			// reset if failed
-			mc.gameSettings.keyBindAttack.pressed = false;
-			currentBlock = null;
-		}
 	}
 	
 	@Override
