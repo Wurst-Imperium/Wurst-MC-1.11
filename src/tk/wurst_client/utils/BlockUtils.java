@@ -412,10 +412,6 @@ public final class BlockUtils
 					
 					boolean canBeClicked = canBeClicked(current);
 					
-					// check if block is valid
-					if(canBeClicked && validator.isValid(current))
-						return current;
-					
 					if(ignoreVisibility || !canBeClicked)
 					{
 						// add neighbors
@@ -430,6 +426,10 @@ public final class BlockUtils
 							visited.add(next);
 						}
 					}
+					
+					// check if block is valid
+					if(canBeClicked && validator.isValid(current))
+						return current;
 				}
 				
 				return endOfData();
