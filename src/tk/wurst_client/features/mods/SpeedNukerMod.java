@@ -173,17 +173,19 @@ public class SpeedNukerMod extends Mod
 		if(mode.getSelected() == 1 && wurst.mods.nukerMod.id == 0)
 			return;
 		
-		for(BlockPos pos : BlockUtils.getValidBlocksByDistanceReversed(
-			range.getValue(), true, validator))
+		// get valid blocks
+		Iterable<BlockPos> validBlocks =
+			BlockUtils.getValidBlocksByDistanceReversed(range.getValue(), true,
+				validator);
+		
+		// AutoTool
+		for(BlockPos pos : validBlocks)
 		{
-			// AutoTool
 			wurst.mods.autoToolMod.setSlot(pos);
 			break;
 		}
 		
 		// break all blocks
-		BlockUtils
-			.getValidBlocksByDistanceReversed(range.getValue(), true, validator)
-			.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
+		validBlocks.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
 	}
 }
