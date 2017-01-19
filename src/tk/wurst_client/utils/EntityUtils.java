@@ -188,6 +188,29 @@ public class EntityUtils
 		return closestEntity;
 	}
 	
+	public static Entity getBestEntityToAttack(TargetSettings settings)
+	{
+		Entity bestEntity = null;
+		float bestAngle = Float.POSITIVE_INFINITY;
+		
+		for(Entity entity : mc.world.loadedEntityList)
+		{
+			if(!isCorrectEntity(entity, settings))
+				continue;
+			
+			float angle = RotationUtils
+				.getAngleToServerRotation(entity.boundingBox.getCenter());
+			
+			if(angle < bestAngle)
+			{
+				bestEntity = entity;
+				bestAngle = angle;
+			}
+		}
+		
+		return bestEntity;
+	}
+	
 	public static Entity getClosestEntityOtherThan(Entity otherEntity,
 		TargetSettings settings)
 	{

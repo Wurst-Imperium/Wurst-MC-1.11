@@ -151,6 +151,19 @@ public class RotationUtils
 		return angle;
 	}
 	
+	public static float getAngleToServerRotation(Vec3d vec)
+	{
+		float[] needed = getNeededRotations(vec);
+		
+		float diffYaw = serverYaw - needed[0];
+		float diffPitch = serverPitch - needed[1];
+		
+		float angle =
+			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
+		
+		return angle;
+	}
+	
 	public static void updateServerRotation()
 	{
 		// disable fake rotation in next packet unless manually enabled again

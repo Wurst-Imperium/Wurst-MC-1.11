@@ -149,7 +149,7 @@ public class ClickAuraMod extends Mod implements UpdateListener
 			return;
 		
 		// set entity
-		Entity entity = EntityUtils.getClosestEntity(targetSettings);
+		Entity entity = EntityUtils.getBestEntityToAttack(targetSettings);
 		if(entity == null)
 			return;
 		
