@@ -1,6 +1,6 @@
-From cc0da31f3af21ae035840e2e43af1bccf85e571e Mon Sep 17 00:00:00 2001
+From bdc95936ee67618f4cc2a5696fcc1306e3c19332 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 19 Jan 2017 15:24:43 +0100
+Date: Thu, 19 Jan 2017 19:48:34 +0100
 Subject: [PATCH] mod
 
 ---
@@ -42,6 +42,7 @@ Subject: [PATCH] mod
  net/minecraft/client/renderer/ItemRenderer.java    |   9 +
  net/minecraft/client/renderer/chunk/VisGraph.java  |   5 +
  net/minecraft/client/renderer/entity/Render.java   |  23 +++
+ .../client/renderer/entity/RenderLivingBase.java   |   8 +-
  .../client/renderer/entity/RenderManager.java      |   6 +-
  .../client/renderer/texture/TextureUtil.java       |   2 +-
  net/minecraft/client/resources/SkinManager.java    |   4 +
@@ -58,7 +59,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1226 insertions(+), 443 deletions(-)
+ 55 files changed, 1233 insertions(+), 444 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -2707,6 +2708,32 @@ index 3e98276..5b564e4 100644
              EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
          }
      }
+diff --git a/net/minecraft/client/renderer/entity/RenderLivingBase.java b/net/minecraft/client/renderer/entity/RenderLivingBase.java
+index dae1f8a..ccebc9a 100644
+--- a/net/minecraft/client/renderer/entity/RenderLivingBase.java
++++ b/net/minecraft/client/renderer/entity/RenderLivingBase.java
+@@ -17,6 +17,8 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
+ import net.minecraft.scoreboard.Team;
+ import net.minecraft.util.math.MathHelper;
+ import net.minecraft.util.text.TextFormatting;
++import tk.wurst_client.WurstClient;
++
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
+@@ -232,7 +234,11 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
+     protected void renderModel(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor)
+     {
+         boolean flag = !entitylivingbaseIn.isInvisible() || this.renderOutlines;
+-        boolean flag1 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().player);
++        
++		// TODO: Client
++		boolean flag1 = !flag && (!entitylivingbaseIn
++			.isInvisibleToPlayer(Minecraft.getMinecraft().player)
++			|| WurstClient.INSTANCE.mods.trueSightMod.isActive());
+ 
+         if (flag || flag1)
+         {
 diff --git a/net/minecraft/client/renderer/entity/RenderManager.java b/net/minecraft/client/renderer/entity/RenderManager.java
 index b745a5f..d84d386 100644
 --- a/net/minecraft/client/renderer/entity/RenderManager.java
