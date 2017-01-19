@@ -16,7 +16,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	description = "Allows you to break blocks faster.\n"
 		+ "Tip: This works with Nuker.",
 	name = "FastBreak",
-	tags = "SpeedyGonzales, fast break, speedy gonzales",
+	tags = "SpeedMine, SpeedyGonzales, fast break, speed mine, speedy gonzales",
 	help = "Mods/FastBreak")
 @Mod.Bypasses
 public class FastBreakMod extends Mod
