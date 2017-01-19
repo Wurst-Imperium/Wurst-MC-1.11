@@ -511,7 +511,7 @@ public class RenderUtils
 		glDisable(GL_BLEND);
 	}
 	
-	public static void tracerLine(int x, int y, int z, Color color)
+	public static void tracerLine(double x, double y, double z, Color color)
 	{
 		x += 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosX;
 		y += 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosY;
@@ -523,12 +523,22 @@ public class RenderUtils
 		glDisable(GL_DEPTH_TEST);
 		glDepthMask(false);
 		setColor(color);
+		
+		Vec3d eyes = new Vec3d(0, 0, 1)
+			.rotatePitch(-(float)Math
+				.toRadians(Minecraft.getMinecraft().player.rotationPitch))
+			.rotateYaw(-(float)Math
+				.toRadians(Minecraft.getMinecraft().player.rotationYaw));
+		
 		glBegin(GL_LINES);
 		{
-			glVertex3d(0, Minecraft.getMinecraft().player.getEyeHeight(), 0);
+			glVertex3d(eyes.xCoord,
+				Minecraft.getMinecraft().player.getEyeHeight() + eyes.yCoord,
+				eyes.zCoord);
 			glVertex3d(x, y, z);
 		}
 		glEnd();
+		
 		glEnable(GL11.GL_TEXTURE_2D);
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(true);

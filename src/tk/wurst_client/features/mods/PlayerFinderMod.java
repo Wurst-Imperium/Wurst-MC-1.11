@@ -18,7 +18,6 @@ import tk.wurst_client.events.PacketInputEvent;
 import tk.wurst_client.events.listeners.PacketInputListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Finds far players during thunderstorms.",
@@ -29,7 +28,7 @@ import tk.wurst_client.utils.RenderUtils;
 public class PlayerFinderMod extends Mod
 	implements PacketInputListener, RenderListener
 {
-	private BlockPos blockPos;
+	private BlockPos pos;
 	
 	@Override
 	public Feature[] getSeeAlso()
@@ -40,7 +39,8 @@ public class PlayerFinderMod extends Mod
 	@Override
 	public void onEnable()
 	{
-		blockPos = null;
+		pos = null;
+		
 		wurst.events.add(PacketInputListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
@@ -55,23 +55,19 @@ public class PlayerFinderMod extends Mod
 	@Override
 	public void onRender()
 	{
-		if(blockPos == null)
+		if(pos == null)
 			return;
-		float red = (1F - (float)Math.sin(
-			(float)(System.currentTimeMillis() % 1000L) / 1000L * Math.PI * 2))
-			/ 2F;
-		float green = (1F - (float)Math
-			.sin((float)((System.currentTimeMillis() + 333L) % 1000L) / 1000L
-				* Math.PI * 2))
-			/ 2F;
-		float blue = (1F - (float)Math
-			.sin((float)((System.currentTimeMillis() + 666L) % 1000L) / 1000L
-				* Math.PI * 2))
-			/ 2F;
-		Color color = new Color(red, green, blue);
-		RenderUtils.tracerLine(blockPos.getX(), blockPos.getY(),
-			blockPos.getZ(), color);
-		RenderUtils.blockEsp(blockPos);
+		
+		// generate rainbow color
+		double x = System.currentTimeMillis() % 2000 / 1000D;
+		double red = 0.5 + 0.5 * Math.sin(x * Math.PI);
+		double green = 0.5 + 0.5 * Math.sin((x + 4D / 3D) * Math.PI);
+		double blue = 0.5 + 0.5 * Math.sin((x + 8D / 3D) * Math.PI);
+		Color color = new Color((float)red, (float)green, (float)blue);
+		
+		// draw line & box
+		RenderUtils.tracerLine(pos.getX(), pos.getY(), pos.getZ(), color);
+		RenderUtils.blockEsp(pos);
 	}
 	
 	@Override
@@ -79,28 +75,36 @@ public class PlayerFinderMod extends Mod
 	{
 		if(mc.player == null)
 			return;
+		
 		Packet packet = event.getPacket();
+		
+		// get packet position
+		BlockPos newPos = null;
 		if(packet instanceof SPacketEffect)
 		{
 			SPacketEffect effect = (SPacketEffect)packet;
-			BlockPos pos = effect.getSoundPos();
-			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
-				blockPos = pos;
+			newPos = effect.getSoundPos();
+			
 		}else if(packet instanceof SPacketSoundEffect)
 		{
 			SPacketSoundEffect sound = (SPacketSoundEffect)packet;
-			BlockPos pos =
-				new BlockPos(sound.getX(), sound.getY(), sound.getZ());
-			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
-				blockPos = pos;
+			newPos = new BlockPos(sound.getX(), sound.getY(), sound.getZ());
+			
 		}else if(packet instanceof SPacketSpawnGlobalEntity)
 		{
 			SPacketSpawnGlobalEntity lightning =
 				(SPacketSpawnGlobalEntity)packet;
-			BlockPos pos = new BlockPos(lightning.getX() / 32D,
+			newPos = new BlockPos(lightning.getX() / 32D,
 				lightning.getY() / 32D, lightning.getZ() / 32D);
-			if(BlockUtils.getPlayerBlockDistance(pos) >= 160)
-				blockPos = pos;
 		}
+		
+		if(newPos == null)
+			return;
+		
+		// check distance to player
+		BlockPos playerPos = new BlockPos(mc.player);
+		if(Math.abs(playerPos.getX() - newPos.getX()) > 250
+			|| Math.abs(playerPos.getZ() - newPos.getZ()) > 250)
+			pos = newPos;
 	}
 }
