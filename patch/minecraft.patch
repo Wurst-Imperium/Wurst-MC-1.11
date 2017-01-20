@@ -1,6 +1,6 @@
-From bdc95936ee67618f4cc2a5696fcc1306e3c19332 Mon Sep 17 00:00:00 2001
+From 77f1bf6e5698a82334eaaf15596cd7710a3c4ba5 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Thu, 19 Jan 2017 19:48:34 +0100
+Date: Fri, 20 Jan 2017 14:19:16 +0100
 Subject: [PATCH] mod
 
 ---
@@ -26,7 +26,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiScreen.java            |   6 +-
  net/minecraft/client/gui/GuiScreenBook.java        |  62 ++++++
  net/minecraft/client/gui/GuiScreenServerList.java  |   7 +
- .../client/gui/ServerListEntryNormal.java          |  11 +-
+ .../client/gui/ServerListEntryNormal.java          |  15 +-
  net/minecraft/client/gui/achievement/GuiStats.java |  16 ++
  net/minecraft/client/gui/inventory/GuiChest.java   |  78 ++++++++
  .../client/gui/inventory/GuiContainer.java         |   5 +
@@ -59,7 +59,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 55 files changed, 1233 insertions(+), 444 deletions(-)
+ 55 files changed, 1236 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1751,7 +1751,7 @@ index 0ea5063..41e2772 100644
              }
          }
 diff --git a/net/minecraft/client/gui/ServerListEntryNormal.java b/net/minecraft/client/gui/ServerListEntryNormal.java
-index 4c49d3e..ae2dcd2 100644
+index 4c49d3e..3a54e80 100644
 --- a/net/minecraft/client/gui/ServerListEntryNormal.java
 +++ b/net/minecraft/client/gui/ServerListEntryNormal.java
 @@ -18,6 +18,8 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -1772,14 +1772,25 @@ index 4c49d3e..ae2dcd2 100644
      {
          this.owner = p_i45048_1_;
          this.server = serverIn;
-@@ -86,7 +88,12 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
+@@ -77,7 +79,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
+ 
+         boolean flag = this.server.version > 315;
+         boolean flag1 = this.server.version < 315;
+-        boolean flag2 = flag || flag1;
++
++		// TODO: Client
++		boolean flag2 = !WurstClient.PROTOCOLS.containsKey(server.version);
++        
+         this.mc.fontRendererObj.drawString(this.server.serverName, x + 32 + 3, y + 1, 16777215);
+         List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
+ 
+@@ -86,7 +91,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
              this.mc.fontRendererObj.drawString((String)list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
          }
  
 -        String s2 = flag2 ? TextFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo;
 +		// TODO: Client
-+		String s2 = !WurstClient.PROTOCOLS.containsKey(server.version)
-+			? TextFormatting.DARK_RED + this.server.gameVersion
++		String s2 = flag2 ? TextFormatting.DARK_RED + this.server.gameVersion
 +			: TextFormatting.GREEN + server.gameVersion + TextFormatting.RESET
 +				+ " " + this.server.populationInfo;
 +        
