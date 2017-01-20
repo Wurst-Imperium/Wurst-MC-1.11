@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.NavigableMap;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -206,18 +207,22 @@ public class ServerHook
 	
 	public static int getProtocolVersion()
 	{
-		// use default if ping failed
-		if(lastServer.getServerData().pingToServer < 0)
-			return WurstClient.PROTOCOLS.lastKey();
+		ServerData server = lastServer.getServerData();
+		NavigableMap<Integer, String> protocols = WurstClient.PROTOCOLS;
 		
-		// get server protocol
-		int serverProtocol = lastServer.getServerData().version;
+		// use default if ping failed
+		if(!server.pinged || server.pingToServer < 0)
+			return protocols.lastKey();
 		
 		// use default if server protocol is not supported
-		if(!WurstClient.PROTOCOLS.containsKey(serverProtocol))
-			return WurstClient.PROTOCOLS.lastKey();
+		if(!protocols.containsKey(server.version))
+			return protocols.lastKey();
+		
+		// use default if server uses Waterfall
+		if(!server.gameVersion.startsWith("Waterfall"))
+			return protocols.lastKey();
 		
 		// use server protocol
-		return serverProtocol;
+		return server.version;
 	}
 }
