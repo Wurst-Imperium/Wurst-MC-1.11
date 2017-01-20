@@ -219,7 +219,7 @@ public class ServerHook
 			return protocols.lastKey();
 		
 		// use default if server uses Waterfall
-		if(!server.gameVersion.startsWith("Waterfall"))
+		if(server.gameVersion.startsWith("Waterfall"))
 			return protocols.lastKey();
 		
 		// use server protocol
