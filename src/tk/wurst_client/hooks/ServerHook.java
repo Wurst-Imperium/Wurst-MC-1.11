@@ -206,11 +206,18 @@ public class ServerHook
 	
 	public static int getProtocolVersion()
 	{
+		// use default if ping failed
+		if(lastServer.getServerData().pingToServer < 0)
+			return WurstClient.PROTOCOLS.lastKey();
+		
+		// get server protocol
 		int serverProtocol = lastServer.getServerData().version;
 		
-		if(WurstClient.PROTOCOLS.containsKey(serverProtocol))
-			return serverProtocol;
-		else
-			return WurstClient.PROTOCOLS.firstKey();
+		// use default if server protocol is not supported
+		if(!WurstClient.PROTOCOLS.containsKey(serverProtocol))
+			return WurstClient.PROTOCOLS.lastKey();
+		
+		// use server protocol
+		return serverProtocol;
 	}
 }
