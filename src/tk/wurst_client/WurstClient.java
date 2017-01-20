@@ -29,7 +29,7 @@ public enum WurstClient
 {
 	INSTANCE;
 	
-	public static final String VERSION = "5.6.1";
+	public static final String VERSION = "5.6.2";
 	public static final String MINECRAFT_VERSION = "1.11";
 	
 	public static final NavigableMap<Integer, String> PROTOCOLS;
