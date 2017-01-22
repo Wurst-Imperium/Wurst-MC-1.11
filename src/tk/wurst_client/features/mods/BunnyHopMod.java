@@ -7,8 +7,8 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.Minecraft;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.features.Feature;
 
 @Mod.Info(
 	description = "Automatically jumps whenever you walk.\n"
@@ -19,6 +19,13 @@ import tk.wurst_client.events.listeners.UpdateListener;
 @Mod.Bypasses
 public class BunnyHopMod extends Mod implements UpdateListener
 {
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.autoSprintMod, wurst.mods.highJumpMod,
+			wurst.commands.jumpCmd};
+	}
+	
 	@Override
 	public void onEnable()
 	{
@@ -34,9 +41,19 @@ public class BunnyHopMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if((mc.player.moveForward != 0
-			|| Minecraft.getMinecraft().player.moveStrafing != 0)
-			&& !mc.player.isSneaking() && mc.player.onGround)
-			mc.player.jump();
+		// check onGround
+		if(!mc.player.onGround)
+			return;
+		
+		// check if sneaking
+		if(mc.player.isSneaking())
+			return;
+		
+		// check if moving
+		if(mc.player.moveForward == 0 && mc.player.moveStrafing == 0)
+			return;
+		
+		// jump
+		mc.player.jump();
 	}
 }
