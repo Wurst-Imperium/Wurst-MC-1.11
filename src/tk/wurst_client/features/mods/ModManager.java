@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2017 | Wurst-Imperium | All rights reserved.
+ * Copyright Â© 2014 - 2017 | Wurst-Imperium | All rights reserved.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -139,6 +139,7 @@ public class ModManager
 	public final ThrowMod throwMod = new ThrowMod();
 	public final TimerMod timerMod = new TimerMod();
 	public final TiredMod tiredMod = new TiredMod();
+	public final FastHopMod fastHopMod = new FastHopMod();
 	public final TracersMod tracersMod = new TracersMod();
 	public final TpAuraMod tpAuraMod = new TpAuraMod();
 	public final TrajectoriesMod trajectoriesMod = new TrajectoriesMod();
