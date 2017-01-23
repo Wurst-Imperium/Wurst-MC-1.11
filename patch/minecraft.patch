@@ -1,13 +1,12 @@
-From 77f1bf6e5698a82334eaaf15596cd7710a3c4ba5 Mon Sep 17 00:00:00 2001
+From 4d4220c84e0137a633588bfeb1e4fe44e88f3b4d Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 20 Jan 2017 14:19:16 +0100
+Date: Mon, 23 Jan 2017 22:00:35 +0100
 Subject: [PATCH] mod
 
 ---
  Start.java                                         |   2 +-
  net/minecraft/block/Block.java                     |  26 ++-
  net/minecraft/block/BlockCactus.java               |   6 +
- net/minecraft/block/BlockChest.java                |   4 +
  net/minecraft/block/BlockLiquid.java               |  13 +-
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
@@ -32,7 +31,7 @@ Subject: [PATCH] mod
  .../client/gui/inventory/GuiContainer.java         |   5 +
  .../client/gui/inventory/GuiEditSign.java          |  16 ++
  .../client/multiplayer/GuiConnecting.java          |   9 +-
- .../client/multiplayer/PlayerControllerMP.java     |  23 ++-
+ .../client/multiplayer/PlayerControllerMP.java     |  26 ++-
  net/minecraft/client/multiplayer/ServerList.java   |   6 +
  .../client/network/NetHandlerPlayClient.java       | 186 +++--------------
  .../client/network/NetworkPlayerInfo.java          |   8 +
@@ -59,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 55 files changed, 1236 insertions(+), 445 deletions(-)
+ 54 files changed, 1235 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -163,28 +162,6 @@ index f170b8b..752dbdd 100644
          return CACTUS_COLLISION_AABB;
      }
  
-diff --git a/net/minecraft/block/BlockChest.java b/net/minecraft/block/BlockChest.java
-index 9e5c18e..c3f926e 100644
---- a/net/minecraft/block/BlockChest.java
-+++ b/net/minecraft/block/BlockChest.java
-@@ -30,6 +30,7 @@ import net.minecraft.util.math.MathHelper;
- import net.minecraft.world.IBlockAccess;
- import net.minecraft.world.ILockableContainer;
- import net.minecraft.world.World;
-+import tk.wurst_client.WurstClient;
- 
- public class BlockChest extends BlockContainer
- {
-@@ -430,6 +431,9 @@ public class BlockChest extends BlockContainer
- 
-             if (ilockablecontainer != null)
-             {
-+				// TODO: Client
-+				WurstClient.INSTANCE.mods.chestEspMod.openChest(pos);
-+            	
-                 playerIn.displayGUIChest(ilockablecontainer);
- 
-                 if (this.chestType == BlockChest.Type.BASIC)
 diff --git a/net/minecraft/block/BlockLiquid.java b/net/minecraft/block/BlockLiquid.java
 index 80533d7..934abab 100644
 --- a/net/minecraft/block/BlockLiquid.java
@@ -2030,7 +2007,7 @@ index 9947969..099e711 100644
                  }
                  catch (UnknownHostException unknownhostexception)
 diff --git a/net/minecraft/client/multiplayer/PlayerControllerMP.java b/net/minecraft/client/multiplayer/PlayerControllerMP.java
-index 82169d6..84b437e 100644
+index 82169d6..1918594 100644
 --- a/net/minecraft/client/multiplayer/PlayerControllerMP.java
 +++ b/net/minecraft/client/multiplayer/PlayerControllerMP.java
 @@ -40,6 +40,8 @@ import net.minecraft.util.math.RayTraceResult;
@@ -2091,6 +2068,16 @@ index 82169d6..84b437e 100644
  
                  this.mc.world.sendBlockBreakProgress(this.mc.player.getEntityId(), this.currentBlock, (int)(this.curBlockDamageMP * 10.0F) - 1);
                  return true;
+@@ -400,6 +415,9 @@ public class PlayerControllerMP
+ 
+     public EnumActionResult processRightClickBlock(EntityPlayerSP player, WorldClient worldIn, BlockPos stack, EnumFacing pos, Vec3d facing, EnumHand vec)
+     {
++		// TODO: Client
++		WurstClient.INSTANCE.mods.chestEspMod.openChest(stack);
++		
+         this.syncCurrentPlayItem();
+         ItemStack itemstack = player.getHeldItem(vec);
+         float f = (float)(facing.xCoord - (double)stack.getX());
 diff --git a/net/minecraft/client/multiplayer/ServerList.java b/net/minecraft/client/multiplayer/ServerList.java
 index 4aa6328..0ece5e8 100644
 --- a/net/minecraft/client/multiplayer/ServerList.java

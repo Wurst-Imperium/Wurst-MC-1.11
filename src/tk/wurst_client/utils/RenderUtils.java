@@ -27,6 +27,9 @@ import net.minecraft.util.math.Vec3d;
 
 public class RenderUtils
 {
+	private static final AxisAlignedBB DEFAULT_AABB =
+		new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+	
 	/**
 	 * Renders a box with any size and any color.
 	 *
@@ -612,80 +615,138 @@ public class RenderUtils
 	
 	public static void drawSolidBox()
 	{
+		drawSolidBox(DEFAULT_AABB);
+	}
+	
+	public static void drawSolidBox(AxisAlignedBB bb)
+	{
 		glBegin(GL_QUADS);
 		{
-			glVertex3d(0, 0, 0);
-			glVertex3d(1, 0, 0);
-			glVertex3d(1, 0, 1);
-			glVertex3d(0, 0, 1);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
 			
-			glVertex3d(0, 1, 0);
-			glVertex3d(0, 1, 1);
-			glVertex3d(1, 1, 1);
-			glVertex3d(1, 1, 0);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
 			
-			glVertex3d(0, 0, 0);
-			glVertex3d(0, 1, 0);
-			glVertex3d(1, 1, 0);
-			glVertex3d(1, 0, 0);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
 			
-			glVertex3d(1, 0, 0);
-			glVertex3d(1, 1, 0);
-			glVertex3d(1, 1, 1);
-			glVertex3d(1, 0, 1);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
 			
-			glVertex3d(0, 0, 1);
-			glVertex3d(1, 0, 1);
-			glVertex3d(1, 1, 1);
-			glVertex3d(0, 1, 1);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
 			
-			glVertex3d(0, 0, 0);
-			glVertex3d(0, 0, 1);
-			glVertex3d(0, 1, 1);
-			glVertex3d(0, 1, 0);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
 		}
 		glEnd();
 	}
 	
 	public static void drawOutlinedBox()
 	{
+		drawOutlinedBox(DEFAULT_AABB);
+	}
+	
+	public static void drawOutlinedBox(AxisAlignedBB bb)
+	{
 		glBegin(GL_LINES);
 		{
-			glVertex3d(0, 0, 0);
-			glVertex3d(1, 0, 0);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
 			
-			glVertex3d(1, 0, 0);
-			glVertex3d(1, 0, 1);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
 			
-			glVertex3d(1, 0, 1);
-			glVertex3d(0, 0, 1);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
 			
-			glVertex3d(0, 0, 1);
-			glVertex3d(0, 0, 0);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
 			
-			glVertex3d(0, 0, 0);
-			glVertex3d(0, 1, 0);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
 			
-			glVertex3d(1, 0, 0);
-			glVertex3d(1, 1, 0);
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
 			
-			glVertex3d(1, 0, 1);
-			glVertex3d(1, 1, 1);
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
 			
-			glVertex3d(0, 0, 1);
-			glVertex3d(0, 1, 1);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
 			
-			glVertex3d(0, 1, 0);
-			glVertex3d(1, 1, 0);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
 			
-			glVertex3d(1, 1, 0);
-			glVertex3d(1, 1, 1);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
 			
-			glVertex3d(1, 1, 1);
-			glVertex3d(0, 1, 1);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
 			
-			glVertex3d(0, 1, 1);
-			glVertex3d(0, 1, 0);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+		}
+		glEnd();
+	}
+	
+	public static void drawCrossBox()
+	{
+		drawOutlinedBox(DEFAULT_AABB);
+	}
+	
+	public static void drawCrossBox(AxisAlignedBB bb)
+	{
+		glBegin(GL_LINES);
+		{
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.minX, bb.maxY, bb.minZ);
+			glVertex3d(bb.maxX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.maxX, bb.maxY, bb.minZ);
+			glVertex3d(bb.minX, bb.maxY, bb.maxZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.minZ);
+			glVertex3d(bb.minX, bb.minY, bb.maxZ);
+			
+			glVertex3d(bb.maxX, bb.minY, bb.maxZ);
+			glVertex3d(bb.minX, bb.minY, bb.minZ);
 		}
 		glEnd();
 	}
