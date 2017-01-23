@@ -7,8 +7,6 @@
  */
 
 package tk.wurst_client.features.mods;
-import tk.wurst_client.events.MoveEvent;
-
 import tk.wurst_client.events.listeners.UpdateListener;
 
 import tk.wurst_client.features.mods.Mod;
@@ -21,7 +19,7 @@ import net.minecraft.init.MobEffects;
 
 @Info(description = "Faster speed", name = "VanillaSpeed")
 
-public class FastHop extends Mod implements UpdateListener
+public class FastHopMod extends Mod implements UpdateListener
 
 {
 
