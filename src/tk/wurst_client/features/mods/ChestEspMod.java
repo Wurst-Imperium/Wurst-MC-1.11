@@ -28,7 +28,11 @@ import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.InventoryUtils;
 import tk.wurst_client.utils.RenderUtils;
 
-@Mod.Info(description = "Allows you to see chests through walls.",
+@Mod.Info(
+	description = "Allows you to see chests through walls.\n"
+		+ "Works with normal chests, trapped chests, ender chests and minecart chests.\n"
+		+ "For normal and trapped chests, ChestESP will remember which ones you have already\n"
+		+ "opened and remind you whether or not they are empty by slightly altering their overlay.",
 	name = "ChestESP",
 	tags = "ChestFinder, chest esp, chest finder",
 	help = "Mods/ChestESP")
