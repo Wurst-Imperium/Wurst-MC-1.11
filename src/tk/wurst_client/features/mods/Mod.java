@@ -156,18 +156,25 @@ public abstract class Mod extends Feature
 	
 	public final void setEnabled(boolean enabled)
 	{
+		if(this.enabled == enabled)
+			return;
+		
 		this.enabled = enabled;
+		
 		active = enabled && !blocked;
+		
 		if(blocked && enabled)
 			return;
 		
 		try
 		{
 			onToggle();
+			
 			if(enabled)
 				onEnable();
 			else
 				onDisable();
+			
 		}catch(Throwable e)
 		{
 			CrashReport report =

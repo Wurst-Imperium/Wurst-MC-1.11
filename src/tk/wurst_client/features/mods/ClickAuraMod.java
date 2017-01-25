@@ -30,7 +30,7 @@ import tk.wurst_client.utils.RotationUtils;
 @Mod.Bypasses(ghostMode = false)
 public class ClickAuraMod extends Mod implements UpdateListener
 {
-	public CheckboxSetting useKillaura =
+	public final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -52,24 +52,24 @@ public class ClickAuraMod extends Mod implements UpdateListener
 					fov.unlock();
 					hitThroughWalls.unlock();
 				}
-			};
+			}
 		};
-	public CheckboxSetting useCooldown =
+	public final CheckboxSetting useCooldown =
 		new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
 			public void update()
 			{
 				speed.setDisabled(isChecked());
-			};
+			}
 		};
-	public SliderSetting speed =
+	public final SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
+	public final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	public SliderSetting fov =
+	public final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
-	public CheckboxSetting hitThroughWalls =
+	public final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
 	
 	private TargetSettings targetSettings = new TargetSettings()
@@ -115,21 +115,20 @@ public class ClickAuraMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		// TODO: Clean up this mess!
-		if(wurst.mods.killauraMod.isEnabled())
-			wurst.mods.killauraMod.setEnabled(false);
-		if(wurst.mods.killauraLegitMod.isEnabled())
-			wurst.mods.killauraLegitMod.setEnabled(false);
-		if(wurst.mods.multiAuraMod.isEnabled())
-			wurst.mods.multiAuraMod.setEnabled(false);
-		if(wurst.mods.triggerBotMod.isEnabled())
-			wurst.mods.triggerBotMod.setEnabled(false);
+		// disable other killauras
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.triggerBotMod.setEnabled(false);
+		
+		// add listener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
+		// remove listener
 		wurst.events.remove(UpdateListener.class, this);
 	}
 	
