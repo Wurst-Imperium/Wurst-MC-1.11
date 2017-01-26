@@ -23,52 +23,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 
 public class RenderUtils
 {
 	private static final AxisAlignedBB DEFAULT_AABB =
 		new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-	
-	/**
-	 * Renders a green ESP box with the size of a normal block at the specified
-	 * BlockPos.
-	 */
-	public static void blockEsp(BlockPos blockPos)
-	{
-		blockEsp(blockPos, 0, 1, 0);
-	}
-	
-	/**
-	 * Renders an ESP box with the size of a normal block at the specified
-	 * BlockPos.
-	 */
-	public static void blockEsp(BlockPos blockPos, double red, double green,
-		double blue)
-	{
-		double x = blockPos.getX()
-			- Minecraft.getMinecraft().getRenderManager().renderPosX;
-		double y = blockPos.getY()
-			- Minecraft.getMinecraft().getRenderManager().renderPosY;
-		double z = blockPos.getZ()
-			- Minecraft.getMinecraft().getRenderManager().renderPosZ;
-		GL11.glBlendFunc(770, 771);
-		GL11.glEnable(GL_BLEND);
-		GL11.glLineWidth(1.0F);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		GL11.glColor4d(red, green, blue, 0.15);
-		drawColorBox(new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0), 0F,
-			0F, 0F, 0F);
-		GL11.glColor4d(0, 0, 0, 0.5);
-		drawSelectionBoundingBox(
-			new AxisAlignedBB(x, y, z, x + 1.0, y + 1.0, z + 1.0));
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
-		GL11.glDisable(GL_BLEND);
-	}
 	
 	public static void entityESPBox(Entity entity, int mode)
 	{
@@ -286,40 +245,6 @@ public class RenderUtils
 		vb.pos(axisalignedbb.maxX, axisalignedbb.minY, axisalignedbb.maxZ)
 			.color(red, green, blue, alpha).endVertex();
 		ts.draw();// Ends Z.
-	}
-	
-	public static void tracerLine(double x, double y, double z, Color color)
-	{
-		x += 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosX;
-		y += 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosY;
-		z += 0.5 - Minecraft.getMinecraft().getRenderManager().renderPosZ;
-		glBlendFunc(770, 771);
-		glEnable(GL_BLEND);
-		glLineWidth(2.0F);
-		glDisable(GL11.GL_TEXTURE_2D);
-		glDisable(GL_DEPTH_TEST);
-		glDepthMask(false);
-		setColor(color);
-		
-		Vec3d eyes = new Vec3d(0, 0, 1)
-			.rotatePitch(-(float)Math
-				.toRadians(Minecraft.getMinecraft().player.rotationPitch))
-			.rotateYaw(-(float)Math
-				.toRadians(Minecraft.getMinecraft().player.rotationYaw));
-		
-		glBegin(GL_LINES);
-		{
-			glVertex3d(eyes.xCoord,
-				Minecraft.getMinecraft().player.getEyeHeight() + eyes.yCoord,
-				eyes.zCoord);
-			glVertex3d(x, y, z);
-		}
-		glEnd();
-		
-		glEnable(GL11.GL_TEXTURE_2D);
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(true);
-		glDisable(GL_BLEND);
 	}
 	
 	public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox)
