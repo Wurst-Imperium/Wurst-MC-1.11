@@ -27,6 +27,15 @@ public class RotationUtils
 			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
 	}
 	
+	public static Vec3d getClientLookVec()
+	{
+		float f = MathHelper.cos(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper.sin(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
+		float f2 = -MathHelper.cos(-mc.player.rotationPitch * 0.017453292F);
+		float f3 = MathHelper.sin(-mc.player.rotationPitch * 0.017453292F);
+		return new Vec3d(f1 * f2, f3, f * f2);
+	}
+	
 	public static Vec3d getServerLookVec()
 	{
 		float f = MathHelper.cos(-serverYaw * 0.017453292F - (float)Math.PI);
