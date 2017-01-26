@@ -7,15 +7,13 @@
  */
 package tk.wurst_client.features.mods;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import java.awt.Color;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
 import tk.wurst_client.events.listeners.GUIRenderListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
@@ -36,6 +34,9 @@ import tk.wurst_client.utils.RotationUtils;
 public class BowAimbotMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener
 {
+	private static final AxisAlignedBB TARGET_BOX =
+		new AxisAlignedBB(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
+	
 	private Entity target;
 	private float velocity;
 	
@@ -64,49 +65,6 @@ public class BowAimbotMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
-	{
-		if(target == null)
-			return;
-		RenderUtils.entityESPBox(target, 3);
-	}
-	
-	@Override
-	public void onRenderGUI()
-	{
-		if(target == null || velocity < 0.1)
-			return;
-		
-		glEnable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		RenderUtils.setColor(new Color(8, 8, 8, 128));
-		ScaledResolution sr = new ScaledResolution(mc);
-		int width = sr.getScaledWidth();
-		int height = sr.getScaledHeight();
-		String targetLocked = "Target locked";
-		glBegin(GL_QUADS);
-		{
-			glVertex2d(width / 2 + 1, height / 2 + 1);
-			glVertex2d(
-				width / 2 + Fonts.segoe15.getStringWidth(targetLocked) + 4,
-				height / 2 + 1);
-			glVertex2d(
-				width / 2 + Fonts.segoe15.getStringWidth(targetLocked) + 4,
-				height / 2 + Fonts.segoe15.FONT_HEIGHT + 2);
-			glVertex2d(width / 2 + 1,
-				height / 2 + Fonts.segoe15.FONT_HEIGHT + 2);
-		}
-		glEnd();
-		glEnable(GL_TEXTURE_2D);
-		Fonts.segoe15.drawStringWithShadow(targetLocked, width / 2 + 2,
-			height / 2, 0xffffffff);
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-	}
-	
-	@Override
 	public void onUpdate()
 	{
 		// reset target
@@ -114,6 +72,8 @@ public class BowAimbotMod extends Mod
 		
 		// check if using item
 		if(!mc.gameSettings.keyBindUseItem.pressed)
+			return;
+		if(!mc.player.isHandActive() && !wurst.mods.fastBowMod.isActive())
 			return;
 		
 		// check if item is bow
@@ -127,7 +87,7 @@ public class BowAimbotMod extends Mod
 			return;
 		
 		// set velocity
-		velocity = mc.player.getItemInUseMaxCount() / 20;
+		velocity = (72000 - mc.player.getItemInUseCount()) / 20F;
 		velocity = (velocity * velocity + velocity * 2) / 3;
 		if(velocity > 1)
 			velocity = 1;
@@ -136,38 +96,132 @@ public class BowAimbotMod extends Mod
 		if(wurst.mods.fastBowMod.isActive())
 			velocity = 1;
 		
-		// abort if velocity is too low
-		if(velocity < 0.1)
-		{
-			if(target instanceof EntityLivingBase)
-				RotationUtils.faceEntityClient(target);
-			return;
-		}
-		
 		// set position to aim at
+		double d = RotationUtils.getEyesPos()
+			.distanceTo(target.boundingBox.getCenter());
 		double posX =
-			target.posX + (target.posX - target.prevPosX) * 5 - mc.player.posX;
-		double posY = target.posY + (target.posY - target.prevPosY) * 5
-			+ target.getEyeHeight() - 0.15 - mc.player.posY
-			- mc.player.getEyeHeight();
+			target.posX + (target.posX - target.prevPosX) * d - mc.player.posX;
+		double posY = target.posY + (target.posY - target.prevPosY) * d
+			+ target.height * 0.5 - mc.player.posY - mc.player.getEyeHeight();
 		double posZ =
-			target.posZ + (target.posZ - target.prevPosZ) * 5 - mc.player.posZ;
+			target.posZ + (target.posZ - target.prevPosZ) * d - mc.player.posZ;
 		
 		// set yaw
 		mc.player.rotationYaw =
-			(float)(Math.atan2(posZ, posX) * 180 / Math.PI) - 90;
+			(float)(Math.toDegrees(Math.atan2(posZ, posX))) - 90;
+		
+		// calculate needed pitch
+		double hDistance = Math.sqrt(posX * posX + posZ * posZ);
+		double hDistanceSq = hDistance * hDistance;
+		float g = 0.006F;
+		float velocitySq = velocity * velocity;
+		float velocityPow4 = velocitySq * velocitySq;
+		float neededPitch = (float)-Math.toDegrees(Math.atan((velocitySq - Math
+			.sqrt(velocityPow4 - g * (g * hDistanceSq + 2 * posY * velocitySq)))
+			/ (g * hDistance)));
 		
 		// set pitch
-		double distanceXZ = Math.sqrt(posX * posX + posZ * posZ);
-		float g = 0.006F;
-		mc.player.rotationPitch =
-			(float)-Math
-				.toDegrees(
-					Math.atan((velocity * velocity
-						- Math.sqrt(
-							(float)(velocity * velocity * velocity
-								* velocity - g * (g * (distanceXZ * distanceXZ)
-									+ 2 * posY * (velocity * velocity)))))
-						/ (g * distanceXZ)));
+		if(Float.isNaN(neededPitch))
+			RotationUtils.faceEntityClient(target);
+		else
+			mc.player.rotationPitch = neededPitch;
+	}
+	
+	@Override
+	public void onRender()
+	{
+		if(target == null)
+			return;
+		
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glLineWidth(2);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-mc.getRenderManager().renderPosX,
+			-mc.getRenderManager().renderPosY,
+			-mc.getRenderManager().renderPosZ);
+		
+		// set position
+		GL11.glTranslated(target.posX, target.posY, target.posZ);
+		
+		// set size
+		double boxWidth = target.width + 0.1;
+		double boxHeight = target.height + 0.1;
+		GL11.glScaled(boxWidth, boxHeight, boxWidth);
+		
+		// move to center
+		GL11.glTranslated(0, 0.5, 0);
+		
+		double v = 1 / velocity;
+		GL11.glScaled(v, v, v);
+		
+		// draw outline
+		GL11.glColor4d(1, 0, 0, 0.5F * velocity);
+		RenderUtils.drawOutlinedBox(TARGET_BOX);
+		
+		// draw box
+		GL11.glColor4d(1, 0, 0, 0.25F * velocity);
+		RenderUtils.drawSolidBox(TARGET_BOX);
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+	}
+	
+	@Override
+	public void onRenderGUI()
+	{
+		if(target == null)
+			return;
+		
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		GL11.glPushMatrix();
+		
+		String message;
+		if(velocity < 1)
+			message = "Charging: " + (int)(velocity * 100) + "%";
+		else
+			message = "Ready To Shoot";
+		
+		// translate to center
+		ScaledResolution sr = new ScaledResolution(mc);
+		int msgWidth = Fonts.segoe15.getStringWidth(message);
+		GL11.glTranslated(sr.getScaledWidth() / 2 - msgWidth / 2,
+			sr.getScaledHeight() / 2 + 1, 0);
+		
+		// background
+		GL11.glColor4f(0, 0, 0, 0.5F);
+		GL11.glBegin(GL11.GL_QUADS);
+		{
+			GL11.glVertex2d(0, 0);
+			GL11.glVertex2d(msgWidth + 3, 0);
+			GL11.glVertex2d(msgWidth + 3, 10);
+			GL11.glVertex2d(0, 10);
+		}
+		GL11.glEnd();
+		
+		// text
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		Fonts.segoe15.drawString(message, 2, -1, 0xffffffff);
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 }
