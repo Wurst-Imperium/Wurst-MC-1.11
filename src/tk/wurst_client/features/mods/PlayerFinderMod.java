@@ -7,18 +7,21 @@
  */
 package tk.wurst_client.features.mods;
 
-import java.awt.Color;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketSpawnGlobalEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.PacketInputEvent;
 import tk.wurst_client.events.listeners.PacketInputListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.RenderUtils;
+import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(description = "Finds far players during thunderstorms.",
 	name = "PlayerFinder",
@@ -58,16 +61,69 @@ public class PlayerFinderMod extends Mod
 		if(pos == null)
 			return;
 		
-		// generate rainbow color
-		double x = System.currentTimeMillis() % 2000 / 1000D;
-		double red = 0.5 + 0.5 * Math.sin(x * Math.PI);
-		double green = 0.5 + 0.5 * Math.sin((x + 4D / 3D) * Math.PI);
-		double blue = 0.5 + 0.5 * Math.sin((x + 8D / 3D) * Math.PI);
-		Color color = new Color((float)red, (float)green, (float)blue);
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glLineWidth(2);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		
-		// draw line & box
-		RenderUtils.tracerLine(pos.getX(), pos.getY(), pos.getZ(), color);
-		RenderUtils.blockEsp(pos);
+		GL11.glPushMatrix();
+		GL11.glTranslated(-mc.getRenderManager().renderPosX,
+			-mc.getRenderManager().renderPosY,
+			-mc.getRenderManager().renderPosZ);
+		
+		// generate rainbow color
+		float x = System.currentTimeMillis() % 2000 / 1000F;
+		float red = 0.5F + 0.5F * MathHelper.sin(x * (float)Math.PI);
+		float green =
+			0.5F + 0.5F * MathHelper.sin((x + 4F / 3F) * (float)Math.PI);
+		float blue =
+			0.5F + 0.5F * MathHelper.sin((x + 8F / 3F) * (float)Math.PI);
+		
+		GL11.glColor4f(red, green, blue, 0.5F);
+		
+		// tracer line
+		GL11.glBegin(GL11.GL_LINES);
+		{
+			// set start position
+			Vec3d start = RotationUtils.getClientLookVec()
+				.addVector(0, mc.player.getEyeHeight(), 0)
+				.addVector(mc.getRenderManager().renderPosX,
+					mc.getRenderManager().renderPosY,
+					mc.getRenderManager().renderPosZ);
+			
+			// set end position
+			Vec3d end = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+			
+			// draw line
+			GL11.glVertex3d(start.xCoord, start.yCoord, start.zCoord);
+			GL11.glVertex3d(end.xCoord, end.yCoord, end.zCoord);
+		}
+		GL11.glEnd();
+		
+		// block box
+		{
+			GL11.glPushMatrix();
+			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
+			
+			RenderUtils.drawOutlinedBox();
+			
+			GL11.glColor4f(red, green, blue, 0.25F);
+			RenderUtils.drawSolidBox();
+			
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 	}
 	
 	@Override
