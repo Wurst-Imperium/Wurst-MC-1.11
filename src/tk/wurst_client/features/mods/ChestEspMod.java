@@ -176,7 +176,7 @@ public class ChestEspMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		// GL settings
 		GL11.glEnable(GL11.GL_BLEND);

@@ -56,7 +56,7 @@ public class PlayerFinderMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		if(pos == null)
 			return;

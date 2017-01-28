@@ -49,7 +49,7 @@ public class SearchMod extends Mod implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		for(BlockPos blockPos : matchingBlocks)
 			RenderUtils.searchBox(blockPos);

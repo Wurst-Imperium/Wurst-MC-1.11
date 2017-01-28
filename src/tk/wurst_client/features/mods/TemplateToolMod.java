@@ -226,7 +226,7 @@ public class TemplateToolMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		// scale and offset
 		double scale = 7D / 8D;

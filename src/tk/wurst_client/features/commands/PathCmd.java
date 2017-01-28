@@ -144,7 +144,7 @@ public class PathCmd extends Cmd implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		// helper class
 		class Renderer

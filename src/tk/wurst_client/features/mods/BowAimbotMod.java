@@ -128,7 +128,7 @@ public class BowAimbotMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		if(target == null)
 			return;

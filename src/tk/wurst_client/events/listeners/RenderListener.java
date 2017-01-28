@@ -9,5 +9,5 @@ package tk.wurst_client.events.listeners;
 
 public interface RenderListener extends Listener
 {
-	public void onRender();
+	public void onRender(float partialTicks);
 }

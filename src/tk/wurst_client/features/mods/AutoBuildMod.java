@@ -249,7 +249,7 @@ public class AutoBuildMod extends Mod
 	}
 	
 	@Override
-	public void onRender()
+	public void onRender(float partialTicks)
 	{
 		// scale and offset
 		double scale = 1D * 7D / 8D;
