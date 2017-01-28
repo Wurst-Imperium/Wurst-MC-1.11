@@ -103,12 +103,9 @@ public class NukerMod extends Mod
 	public void onEnable()
 	{
 		// disable other nukers
-		if(wurst.mods.nukerLegitMod.isEnabled())
-			wurst.mods.nukerLegitMod.setEnabled(false);
-		if(wurst.mods.speedNukerMod.isEnabled())
-			wurst.mods.speedNukerMod.setEnabled(false);
-		if(wurst.mods.tunnellerMod.isEnabled())
-			wurst.mods.tunnellerMod.setEnabled(false);
+		wurst.mods.nukerLegitMod.setEnabled(false);
+		wurst.mods.speedNukerMod.setEnabled(false);
+		wurst.mods.tunnellerMod.setEnabled(false);
 		
 		// add listeners
 		wurst.events.add(LeftClickListener.class, this);
