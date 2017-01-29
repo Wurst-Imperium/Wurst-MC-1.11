@@ -40,6 +40,8 @@ public final class EventManager
 			new ArrayList<PacketOutputListener>());
 		listenerMap.put(RenderListener.class, new ArrayList<RenderListener>());
 		listenerMap.put(UpdateListener.class, new ArrayList<UpdateListener>());
+		listenerMap.put(PostUpdateListener.class,
+			new ArrayList<PostUpdateListener>());
 	}
 	
 	@SuppressWarnings("unchecked")

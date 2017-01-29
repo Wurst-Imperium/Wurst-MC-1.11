@@ -7,10 +7,9 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketEntityAction.Action;
+import tk.wurst_client.events.listeners.PostUpdateListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 
@@ -19,18 +18,21 @@ import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 	tags = "AutoSneaking",
 	help = "Mods/Sneak")
 @Mod.Bypasses(ghostMode = false)
-public class SneakMod extends Mod implements UpdateListener
+public class SneakMod extends Mod implements UpdateListener, PostUpdateListener
 {
 	@Override
 	public void onEnable()
 	{
 		wurst.events.add(UpdateListener.class, this);
+		wurst.events.add(PostUpdateListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(PostUpdateListener.class, this);
+		
 		mc.gameSettings.keyBindSneak.pressed = false;
 		mc.player.connection.sendPacket(
 			new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
@@ -42,13 +44,21 @@ public class SneakMod extends Mod implements UpdateListener
 		if(wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
 		{
-			NetHandlerPlayClient connection = mc.player.connection;
-			connection.sendPacket(new CPacketEntityAction(
-				Minecraft.getMinecraft().player, Action.START_SNEAKING));
-			connection.sendPacket(new CPacketEntityAction(
-				Minecraft.getMinecraft().player, Action.STOP_SNEAKING));
+			mc.player.connection.sendPacket(
+				new CPacketEntityAction(mc.player, Action.START_SNEAKING));
+			mc.player.connection.sendPacket(
+				new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
 		}else
-			mc.player.connection.sendPacket(new CPacketEntityAction(
-				Minecraft.getMinecraft().player, Action.START_SNEAKING));
+			mc.player.connection.sendPacket(
+				new CPacketEntityAction(mc.player, Action.START_SNEAKING));
+	}
+	
+	@Override
+	public void afterUpdate()
+	{
+		mc.player.connection.sendPacket(
+			new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
+		mc.player.connection.sendPacket(
+			new CPacketEntityAction(mc.player, Action.START_SNEAKING));
 	}
 }
