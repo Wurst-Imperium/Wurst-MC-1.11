@@ -15,4 +15,4 @@ git format-patch master --ignore-space-change
 git checkout modded
 git branch -D tmp
 move /Y 0001-mod.patch ..\patch\minecraft.patch
-pause
+rem pause
