@@ -99,16 +99,15 @@ public final class BlockUtils
 			if(!canBeClicked(neighbor))
 				continue;
 			
-			Vec3d hitVec =
-				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
-			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
+			Vec3d dirVec = new Vec3d(side.getDirectionVec());
+			Vec3d hitVec = posVec.add(dirVec.scale(0.5));
 			
 			// check if hitVec is within range (4.25 blocks)
-			if(distanceSqHitVec > 18.0625)
+			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
 				continue;
 			
 			// check if side is visible (facing away from player)
-			if(distanceSqHitVec <= distanceSqPosVec)
+			if(distanceSqPosVec > eyesPos.squareDistanceTo(posVec.add(dirVec)))
 				continue;
 			
 			// check line of sight
@@ -117,8 +116,7 @@ public final class BlockUtils
 				continue;
 			
 			// face block
-			if(!RotationUtils.faceVectorPacket(hitVec))
-				return true;
+			RotationUtils.faceVectorPacketInstant(hitVec);
 			
 			// place block
 			processRightClickBlock(neighbor, side.getOpposite(), hitVec);

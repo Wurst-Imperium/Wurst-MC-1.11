@@ -9,6 +9,7 @@ package tk.wurst_client.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -29,8 +30,10 @@ public class RotationUtils
 	
 	public static Vec3d getClientLookVec()
 	{
-		float f = MathHelper.cos(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper.sin(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
+		float f = MathHelper
+			.cos(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
+		float f1 = MathHelper
+			.sin(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
 		float f2 = -MathHelper.cos(-mc.player.rotationPitch * 0.017453292F);
 		float f3 = MathHelper.sin(-mc.player.rotationPitch * 0.017453292F);
 		return new Vec3d(f1 * f2, f3, f * f2);
@@ -87,6 +90,14 @@ public class RotationUtils
 		
 		return Math.abs(oldYaw - rotations[0])
 			+ Math.abs(oldPitch - rotations[1]) < 1F;
+	}
+	
+	public static void faceVectorPacketInstant(Vec3d vec)
+	{
+		float[] rotations = getNeededRotations(vec);
+		
+		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0],
+			rotations[1], mc.player.onGround));
 	}
 	
 	public static boolean faceVectorClient(Vec3d vec)
