@@ -1,6 +1,6 @@
-From 4661ac6a105ef29b9c3ff71bbc7137488edf160a Mon Sep 17 00:00:00 2001
+From 66e1445cb0f92a8f0ae8bde56c73eee26b06ec75 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sat, 28 Jan 2017 12:42:14 +0100
+Date: Sun, 29 Jan 2017 11:07:20 +0100
 Subject: [PATCH] mod
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
  net/minecraft/client/Minecraft.java                | 222 +++++++++++----------
- net/minecraft/client/entity/EntityPlayerSP.java    | 154 +++++++++++---
+ net/minecraft/client/entity/EntityPlayerSP.java    | 110 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
@@ -33,7 +33,7 @@ Subject: [PATCH] mod
  .../client/multiplayer/GuiConnecting.java          |   9 +-
  .../client/multiplayer/PlayerControllerMP.java     |  26 ++-
  net/minecraft/client/multiplayer/ServerList.java   |   6 +
- .../client/network/NetHandlerPlayClient.java       | 186 +++--------------
+ .../client/network/NetHandlerPlayClient.java       | 200 ++++---------------
  .../client/network/NetworkPlayerInfo.java          |   8 +
  .../client/renderer/BlockFluidRenderer.java        |   8 +
  .../client/renderer/BlockModelRenderer.java        |  12 +-
@@ -52,13 +52,13 @@ Subject: [PATCH] mod
  net/minecraft/entity/player/EntityPlayer.java      |  12 +-
  net/minecraft/item/ItemSword.java                  |   2 +-
  net/minecraft/item/ItemTool.java                   |   2 +-
- net/minecraft/network/NetworkManager.java          |  26 +++
+ net/minecraft/network/NetworkManager.java          |  20 ++
  net/minecraft/realms/Realms.java                   |  12 +-
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1235 insertions(+), 445 deletions(-)
+ 54 files changed, 1199 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -659,7 +659,7 @@ index 37e735f..cef13ef 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..20fd85b 100644
+index 0728387..36ad32c 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -750,7 +750,7 @@ index 0728387..20fd85b 100644
          }
      }
  
-@@ -285,24 +288,92 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -285,24 +288,48 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
          if (this.isCurrentViewEntity())
          {
@@ -782,55 +782,11 @@ index 0728387..20fd85b 100644
 +				|| (WurstClient.INSTANCE.mods.potionSaverMod.isActive()
 +					&& !getActivePotionEffects().isEmpty() && motionX == 0
 +					&& motionZ == 0))
-+			{}else if(WurstClient.INSTANCE.mods.jesusMod.isActive()
-+				&& WurstClient.INSTANCE.mods.jesusMod.isOverWater()
-+				&& !mc.player.isInWater()
-+				&& !(mc.player.fallDistance > 3F))
 +			{
-+				if(!flag2)
-+					if(flag3)
-+						this.connection.sendPacket(new CPacketPlayer.Rotation(
-+							yaw, pitch, this.onGround));
-+					else
-+						this.connection
-+							.sendPacket(new CPacketPlayer(this.onGround));
-+				else if(mc.player.movementInput == null)
-+				{}else
-+				{
-+					JesusMod jesusMod = WurstClient.INSTANCE.mods.jesusMod;
-+					jesusMod.time++;
-+					if(jesusMod.time >= jesusMod.delay)
-+					{
-+						final double x = mc.player.posX;
-+						final double y = mc.player.posY;
-+						final double z = mc.player.posZ;
-+						final float pitch2 = mc.player.rotationPitch;
-+						final float yaw2 = mc.player.rotationYaw;
-+						if(mc.player.ticksExisted % 2 == 0)
-+							mc.player.connection.sendPacket(
-+								new CPacketPlayer.PositionRotation(x, y - 0.05,
-+									z, yaw2, pitch2, true));
-+						else
-+							mc.player.connection.sendPacket(
-+								new CPacketPlayer.PositionRotation(x, y + 0.05,
-+									z, yaw2, pitch2, true));
-+					}else if(flag2 && flag3)
-+					{
-+						this.connection.sendPacket(
-+							new CPacketPlayer.PositionRotation(this.posX,
-+								this.getEntityBoundingBox().minY, this.posZ,
-+								yaw, pitch, this.onGround));
-+					}else
- 					{
--                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
-+						this.connection.sendPacket(new CPacketPlayer.Position(
-+							this.posX, this.getEntityBoundingBox().minY,
-+							this.posZ, this.onGround));
-+					}
-+				}
 +				
 +			}else if (this.isRiding())
-+            {
+             {
+-                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 +				// TODO: Client
 +				this.connection
 +					.sendPacket(new CPacketPlayer.PositionRotation(this.motionX,
@@ -848,7 +804,7 @@ index 0728387..20fd85b 100644
              }
              else if (flag2)
              {
-@@ -310,7 +381,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -310,7 +337,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
              }
              else if (flag3)
              {
@@ -859,7 +815,7 @@ index 0728387..20fd85b 100644
              }
              else if (this.prevOnGround != this.onGround)
              {
-@@ -359,7 +432,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -359,7 +388,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
       */
      public void sendChatMessage(String message)
      {
@@ -888,7 +844,7 @@ index 0728387..20fd85b 100644
  	}
  
      public void swingArm(EnumHand hand)
-@@ -1146,7 +1239,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -1146,7 +1195,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
      public boolean isAutoJumpEnabled()
      {
@@ -2096,7 +2052,7 @@ index 4aa6328..0ece5e8 100644
       * Loads a list of servers from servers.dat, by running ServerData.getServerDataFromNBTCompound on each NBT compound
       * found in the "servers" tag list.
 diff --git a/net/minecraft/client/network/NetHandlerPlayClient.java b/net/minecraft/client/network/NetHandlerPlayClient.java
-index 9c184b9..5b074ce 100644
+index 9c184b9..facc786 100644
 --- a/net/minecraft/client/network/NetHandlerPlayClient.java
 +++ b/net/minecraft/client/network/NetHandlerPlayClient.java
 @@ -1,11 +1,5 @@
@@ -2334,23 +2290,42 @@ index 9c184b9..5b074ce 100644
  import net.minecraft.util.math.BlockPos;
  import net.minecraft.util.math.MathHelper;
  import net.minecraft.util.text.ITextComponent;
-@@ -243,8 +104,7 @@ import net.minecraft.world.WorldProviderSurface;
+@@ -243,8 +104,9 @@ import net.minecraft.world.WorldProviderSurface;
  import net.minecraft.world.WorldSettings;
  import net.minecraft.world.chunk.Chunk;
  import net.minecraft.world.storage.MapData;
 -import org.apache.logging.log4j.LogManager;
 -import org.apache.logging.log4j.Logger;
++import tk.wurst_client.WurstClient;
++import tk.wurst_client.events.PacketOutputEvent;
 +import tk.wurst_client.gui.main.GuiWurstMainMenu;
  
  public class NetHandlerPlayClient implements INetHandlerPlayClient
  {
-@@ -872,7 +732,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
+@@ -872,12 +734,24 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
          }
          else
          {
 -            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", reason));
 +            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(new GuiWurstMainMenu()), "disconnect.lost", reason));
-         }
++        }
+     }
++    
++	// TODO: Client
++	public void sendPacketBypass(Packet packet)
++	{
++		this.netManager.sendPacket(packet);
+ 	}
+ 	
+     public void sendPacket(Packet<?> packetIn)
+     {
++		// TODO: Client
++		PacketOutputEvent event = new PacketOutputEvent(packetIn);
++		WurstClient.INSTANCE.events.fire(event);
++		if(event.isCancelled())
++			return;
++		
+         this.netManager.sendPacket(packetIn);
      }
  
 diff --git a/net/minecraft/client/network/NetworkPlayerInfo.java b/net/minecraft/client/network/NetworkPlayerInfo.java
@@ -3374,7 +3349,7 @@ index 27cb20a..c89b552 100644
  
      /** The material this tool is made from. */
 diff --git a/net/minecraft/network/NetworkManager.java b/net/minecraft/network/NetworkManager.java
-index 20fd7bb..a440c0d 100644
+index 20fd7bb..513dcb5 100644
 --- a/net/minecraft/network/NetworkManager.java
 +++ b/net/minecraft/network/NetworkManager.java
 @@ -39,6 +39,10 @@ import net.minecraft.util.LazyLoadBase;
@@ -3418,19 +3393,6 @@ index 20fd7bb..a440c0d 100644
              try
              {
                  ((Packet<INetHandler>)p_channelRead0_2_).processPacket(this.packetListener);
-@@ -172,6 +192,12 @@ public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
- 
-     public void sendPacket(Packet<?> packetIn)
-     {
-+		// TODO: Client
-+		PacketOutputEvent event = new PacketOutputEvent(packetIn);
-+		WurstClient.INSTANCE.events.fire(event);
-+		if(event.isCancelled())
-+			return;
-+		
-         if (this.isChannelOpen())
-         {
-             this.flushOutboundQueue();
 diff --git a/net/minecraft/realms/Realms.java b/net/minecraft/realms/Realms.java
 index fb12035..3717da5 100644
 --- a/net/minecraft/realms/Realms.java
