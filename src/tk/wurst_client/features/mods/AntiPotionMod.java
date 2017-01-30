@@ -39,10 +39,21 @@ public class AntiPotionMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(!mc.player.capabilities.isCreativeMode && mc.player.onGround
-			&& hasBadEffect())
-			for(int i = 0; i < 1000; i++)
-				mc.player.connection.sendPacket(new CPacketPlayer());
+		// check gamemode
+		if(mc.player.capabilities.isCreativeMode)
+			return;
+		
+		// check onGround
+		if(!mc.player.onGround)
+			return;
+		
+		// check effects
+		if(!hasBadEffect())
+			return;
+		
+		// send packets
+		for(int i = 0; i < 1000; i++)
+			mc.player.connection.sendPacket(new CPacketPlayer());
 	}
 	
 	private boolean hasBadEffect()
