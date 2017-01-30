@@ -45,7 +45,7 @@ public class BowAimbotMod extends Mod
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.fastBowMod};
+		return new Feature[]{wurst.mods.trajectoriesMod};
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class BowAimbotMod extends Mod
 		// check if using item
 		if(!mc.gameSettings.keyBindUseItem.pressed)
 			return;
-		if(!mc.player.isHandActive() && !wurst.mods.fastBowMod.isActive())
+		if(!mc.player.isHandActive())
 			return;
 		
 		// check if item is bow
@@ -90,10 +90,6 @@ public class BowAimbotMod extends Mod
 		velocity = (72000 - mc.player.getItemInUseCount()) / 20F;
 		velocity = (velocity * velocity + velocity * 2) / 3;
 		if(velocity > 1)
-			velocity = 1;
-		
-		// adjust for FastBow
-		if(wurst.mods.fastBowMod.isActive())
 			velocity = 1;
 		
 		// set position to aim at
