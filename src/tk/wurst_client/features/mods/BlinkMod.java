@@ -9,11 +9,11 @@ package tk.wurst_client.features.mods;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.PacketOutputEvent;
 import tk.wurst_client.events.listeners.PacketOutputListener;
+import tk.wurst_client.utils.EntityFakePlayer;
 
 @Mod.Info(
 	description = "Suspends all motion updates while enabled.\n"
@@ -24,7 +24,7 @@ import tk.wurst_client.events.listeners.PacketOutputListener;
 public class BlinkMod extends Mod implements PacketOutputListener
 {
 	private final ArrayList<Packet> packets = new ArrayList<>();
-	private EntityOtherPlayerMP fakePlayer;
+	private EntityFakePlayer fakePlayer;
 	private int blinkTime;
 	
 	@Override
@@ -40,22 +40,7 @@ public class BlinkMod extends Mod implements PacketOutputListener
 		blinkTime = 0;
 		
 		// create fake player
-		fakePlayer =
-			new EntityOtherPlayerMP(mc.world, mc.player.getGameProfile());
-		fakePlayer.copyLocationAndAnglesFrom(mc.player);
-		mc.world.addEntityToWorld(fakePlayer.getEntityId(), fakePlayer);
-		
-		// fix inventory
-		fakePlayer.clonePlayer(mc.player, true);
-		
-		// fix rotation
-		fakePlayer.rotationYawHead = mc.player.rotationYawHead;
-		fakePlayer.renderYawOffset = mc.player.renderYawOffset;
-		
-		// fix cape movement
-		fakePlayer.chasingPosX = fakePlayer.posX;
-		fakePlayer.chasingPosY = fakePlayer.posY;
-		fakePlayer.chasingPosZ = fakePlayer.posZ;
+		fakePlayer = new EntityFakePlayer();
 		
 		// add listener
 		wurst.events.add(PacketOutputListener.class, this);
@@ -72,8 +57,8 @@ public class BlinkMod extends Mod implements PacketOutputListener
 			mc.player.connection.sendPacket(packet);
 		packets.clear();
 		
-		// delete fake player
-		mc.world.removeEntityFromWorld(fakePlayer.getEntityId());
+		// remove fake player
+		fakePlayer.despawn();
 	}
 	
 	@Override
