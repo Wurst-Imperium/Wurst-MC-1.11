@@ -32,7 +32,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.bowAimbotMod, wurst.mods.throwMod};
+		return new Feature[]{wurst.mods.bowAimbotMod, wurst.mods.fastBowMod,
+			wurst.mods.throwMod};
 	}
 	
 	@Override

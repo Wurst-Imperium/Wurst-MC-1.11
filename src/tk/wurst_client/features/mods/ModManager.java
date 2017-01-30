@@ -66,6 +66,7 @@ public class ModManager
 	public final ExtraElytraMod extraElytraMod = new ExtraElytraMod();
 	public final FancyChatMod fancyChatMod = new FancyChatMod();
 	public final FastBreakMod fastBreakMod = new FastBreakMod();
+	public final FastBowMod fastBowMod = new FastBowMod();
 	public final FastEatMod fastEatMod = new FastEatMod();
 	public final FastLadderMod fastLadderMod = new FastLadderMod();
 	public final FastPlaceMod fastPlaceMod = new FastPlaceMod();
