@@ -35,6 +35,12 @@ public class EntityFakePlayer extends EntityOtherPlayerMP
 		mc.world.addEntityToWorld(getEntityId(), this);
 	}
 	
+	public void resetPlayerPosition()
+	{
+		mc.player.setPositionAndRotation(posX, posY, posZ, rotationYaw,
+			rotationPitch);
+	}
+	
 	public void despawn()
 	{
 		mc.world.removeEntityFromWorld(getEntityId());

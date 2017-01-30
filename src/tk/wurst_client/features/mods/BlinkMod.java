@@ -39,7 +39,6 @@ public class BlinkMod extends Mod implements PacketOutputListener
 		// reset timer
 		blinkTime = 0;
 		
-		// create fake player
 		fakePlayer = new EntityFakePlayer();
 		
 		// add listener
@@ -57,7 +56,6 @@ public class BlinkMod extends Mod implements PacketOutputListener
 			mc.player.connection.sendPacket(packet);
 		packets.clear();
 		
-		// remove fake player
 		fakePlayer.despawn();
 	}
 	
@@ -88,11 +86,8 @@ public class BlinkMod extends Mod implements PacketOutputListener
 		// delete saved packets
 		packets.clear();
 		
-		// reset player position
-		mc.player.setPositionAndRotation(fakePlayer.posX, fakePlayer.posY,
-			fakePlayer.posZ, fakePlayer.rotationYaw, fakePlayer.rotationPitch);
+		fakePlayer.resetPlayerPosition();
 		
-		// disable Blink
 		setEnabled(false);
 	}
 }
