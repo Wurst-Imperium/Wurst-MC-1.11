@@ -7,10 +7,10 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.utils.ChatUtils;
+import tk.wurst_client.utils.EntityFakePlayer;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
 
@@ -24,13 +24,9 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 public class RemoteViewMod extends Mod implements UpdateListener
 {
 	private Entity entity = null;
-	
-	private double oldX;
-	private double oldY;
-	private double oldZ;
-	private float oldYaw;
-	private float oldPitch;
 	private boolean wasInvisible;
+	
+	private EntityFakePlayer fakePlayer;
 	
 	private TargetSettings targetSettingsFind = new TargetSettings()
 	{
@@ -44,7 +40,7 @@ public class RemoteViewMod extends Mod implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 	};
 	
 	private TargetSettings targetSettingsKeep = new TargetSettings()
@@ -59,7 +55,7 @@ public class RemoteViewMod extends Mod implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 		
 		@Override
 		public boolean targetInvisiblePlayers()
@@ -92,23 +88,13 @@ public class RemoteViewMod extends Mod implements UpdateListener
 		}
 		
 		// save old data
-		oldX = mc.player.posX;
-		oldY = mc.player.posY;
-		oldZ = mc.player.posZ;
-		oldYaw = mc.player.rotationYaw;
-		oldPitch = mc.player.rotationPitch;
 		wasInvisible = entity.isInvisibleToPlayer(mc.player);
 		
-		// activate NoClip
+		// enable NoClip
 		mc.player.noClip = true;
 		
 		// spawn fake player
-		EntityOtherPlayerMP fakePlayer =
-			new EntityOtherPlayerMP(mc.world, mc.player.getGameProfile());
-		fakePlayer.clonePlayer(mc.player, true);
-		fakePlayer.copyLocationAndAnglesFrom(mc.player);
-		fakePlayer.rotationYawHead = mc.player.rotationYawHead;
-		mc.world.addEntityToWorld(-69, fakePlayer);
+		fakePlayer = new EntityFakePlayer();
 		
 		// success message
 		ChatUtils.message("Now viewing " + entity.getName() + ".");
@@ -131,12 +117,12 @@ public class RemoteViewMod extends Mod implements UpdateListener
 			entity = null;
 		}
 		
-		// reset player
+		// disable NoClip
 		mc.player.noClip = false;
-		mc.player.setPositionAndRotation(oldX, oldY, oldZ, oldYaw, oldPitch);
 		
 		// remove fake player
-		mc.world.removeEntityFromWorld(-69);
+		fakePlayer.resetPlayerPosition();
+		fakePlayer.despawn();
 	}
 	
 	public void onToggledByCommand(String viewName)
