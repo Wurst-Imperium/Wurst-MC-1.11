@@ -1,6 +1,6 @@
-From a59eca02ac0e0da6d3603915165d2c89203b4004 Mon Sep 17 00:00:00 2001
+From 3dd4a168036e2ddef2cadd4ab53d9be8d005a133 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sun, 29 Jan 2017 12:42:22 +0100
+Date: Tue, 31 Jan 2017 20:41:49 +0100
 Subject: [PATCH] mod
 
 ---
@@ -14,7 +14,7 @@ Subject: [PATCH] mod
  net/minecraft/client/entity/EntityPlayerSP.java    | 101 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
- net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
+ net/minecraft/client/gui/GuiDisconnected.java      |  90 +++++++++
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
  net/minecraft/client/gui/GuiIngame.java            |  13 ++
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 ++++-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1190 insertions(+), 445 deletions(-)
+ 54 files changed, 1193 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -891,7 +891,7 @@ index 93eccc5..84f8540 100644
              int j = 14737632;
  
 diff --git a/net/minecraft/client/gui/GuiDisconnected.java b/net/minecraft/client/gui/GuiDisconnected.java
-index 69151c7..2eb563a 100644
+index 69151c7..d27900c 100644
 --- a/net/minecraft/client/gui/GuiDisconnected.java
 +++ b/net/minecraft/client/gui/GuiDisconnected.java
 @@ -2,8 +2,13 @@ package net.minecraft.client.gui;
@@ -908,7 +908,7 @@ index 69151c7..2eb563a 100644
  
  public class GuiDisconnected extends GuiScreen
  {
-@@ -13,11 +18,20 @@ public class GuiDisconnected extends GuiScreen
+@@ -13,11 +18,23 @@ public class GuiDisconnected extends GuiScreen
      private final GuiScreen parentScreen;
      private int textHeight;
  
@@ -922,14 +922,17 @@ index 69151c7..2eb563a 100644
          this.message = chatComp;
 +
 +		// TODO: Client
-+		LogManager.getLogger()
-+			.info("Disconnected.\n    Message: "
-+				+ (message == null ? null : message.getUnformattedText())
-+				+ "\n    Reason: " + reason);
++		System.out.println("Disconnected.\n    Message: "
++			+ (message == null ? null : message.getUnformattedText())
++			+ "\n    Reason: " + reason);
++		if(message != null
++			&& message.getUnformattedText().startsWith("Outdated"))
++			WurstClient.INSTANCE.analytics.trackEvent("protocol issue",
++				message.getUnformattedText(), ServerHook.getCurrentServerIP());
      }
  
      /**
-@@ -38,6 +52,57 @@ public class GuiDisconnected extends GuiScreen
+@@ -38,6 +55,57 @@ public class GuiDisconnected extends GuiScreen
          this.multilineMessage = this.fontRendererObj.listFormattedStringToWidth(this.message.getFormattedText(), this.width - 50);
          this.textHeight = this.multilineMessage.size() * this.fontRendererObj.FONT_HEIGHT;
          this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + this.textHeight / 2 + this.fontRendererObj.FONT_HEIGHT, this.height - 30), I18n.format("gui.toMenu", new Object[0])));
@@ -987,7 +990,7 @@ index 69151c7..2eb563a 100644
  	}
  
      /**
-@@ -48,6 +113,28 @@ public class GuiDisconnected extends GuiScreen
+@@ -48,6 +116,28 @@ public class GuiDisconnected extends GuiScreen
          if (button.id == 0)
          {
              this.mc.displayGuiScreen(this.parentScreen);
