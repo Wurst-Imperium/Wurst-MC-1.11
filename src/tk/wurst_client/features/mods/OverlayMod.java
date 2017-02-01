@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.features.Feature;
-import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Renders the Nuker animation when you mine a block.",
@@ -73,8 +72,7 @@ public class OverlayMod extends Mod implements RenderListener
 		GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
 		
 		// get progress
-		float progress = mc.playerController.curBlockDamageMP
-			+ partialTicks * BlockUtils.getHardness(pos);
+		float progress = mc.playerController.curBlockDamageMP;
 		
 		// set size
 		GL11.glTranslated(0.5, 0.5, 0.5);

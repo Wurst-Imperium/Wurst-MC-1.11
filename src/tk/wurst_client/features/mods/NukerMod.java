@@ -234,10 +234,8 @@ public class NukerMod extends Mod
 		
 		// get progress
 		float progress;
-		float hardness = BlockUtils.getHardness(currentBlock);
-		if(hardness < 1)
-			progress =
-				mc.playerController.curBlockDamageMP + partialTicks * hardness;
+		if(BlockUtils.getHardness(currentBlock) < 1)
+			progress = mc.playerController.curBlockDamageMP;
 		else
 			progress = 1;
 		
