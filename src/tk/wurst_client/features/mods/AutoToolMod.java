@@ -8,9 +8,11 @@
 package tk.wurst_client.features.mods;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.InventoryUtils;
 
@@ -26,6 +28,15 @@ public class AutoToolMod extends Mod implements UpdateListener
 	private int oldSlot = -1;
 	private BlockPos pos;
 	private int timer;
+	
+	public CheckboxSetting useSwords =
+		new CheckboxSetting("Use swords as tools", false);
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(useSwords);
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()
@@ -108,6 +119,10 @@ public class AutoToolMod extends Mod implements UpdateListener
 			// skip empty slots
 			ItemStack stack = mc.player.inventory.getStackInSlot(i);
 			if(InventoryUtils.isEmptySlot(stack))
+				continue;
+			
+			// skip swords
+			if(!useSwords.isChecked() && stack.getItem() instanceof ItemSword)
 				continue;
 			
 			// get speed
