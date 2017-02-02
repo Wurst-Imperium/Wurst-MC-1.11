@@ -9,6 +9,7 @@ package tk.wurst_client.features.mods;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import tk.wurst_client.events.listeners.PostUpdateListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
@@ -21,7 +22,8 @@ import tk.wurst_client.utils.RotationUtils;
 	name = "Tunneller",
 	help = "Mods/Tunneller")
 @Mod.Bypasses
-public class TunnellerMod extends Mod implements RenderListener, UpdateListener
+public class TunnellerMod extends Mod
+	implements UpdateListener, PostUpdateListener, RenderListener
 {
 	private BlockPos currentBlock;
 	
@@ -38,15 +40,13 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	public void onEnable()
 	{
 		// disable other nukers
-		if(wurst.mods.nukerMod.isEnabled())
-			wurst.mods.nukerMod.setEnabled(false);
-		if(wurst.mods.nukerLegitMod.isEnabled())
-			wurst.mods.nukerLegitMod.setEnabled(false);
-		if(wurst.mods.speedNukerMod.isEnabled())
-			wurst.mods.speedNukerMod.setEnabled(false);
+		wurst.mods.nukerMod.setEnabled(false);
+		wurst.mods.nukerLegitMod.setEnabled(false);
+		wurst.mods.speedNukerMod.setEnabled(false);
 		
 		// add listeners
 		wurst.events.add(UpdateListener.class, this);
+		wurst.events.add(PostUpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
 	
@@ -55,6 +55,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 	{
 		// remove listeners
 		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(PostUpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		
 		// resets
@@ -108,7 +109,7 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 			
 			// break block
 			if(legit)
-				successful = BlockUtils.breakBlockLegit(pos);
+				successful = BlockUtils.prepareToBreakBlockLegit(pos);
 			else
 				successful = BlockUtils.breakBlockSimple(pos);
 			
@@ -123,6 +124,17 @@ public class TunnellerMod extends Mod implements RenderListener, UpdateListener
 		// reset if no block was found
 		if(currentBlock == null)
 			mc.playerController.resetBlockRemoving();
+	}
+	
+	@Override
+	public void afterUpdate()
+	{
+		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		
+		// break block
+		if(currentBlock != null && legit)
+			BlockUtils.breakBlockLegit(currentBlock);
 	}
 	
 	@Override

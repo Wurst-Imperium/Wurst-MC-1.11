@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.LeftClickEvent;
 import tk.wurst_client.events.listeners.LeftClickListener;
+import tk.wurst_client.events.listeners.PostUpdateListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
@@ -30,8 +31,8 @@ import tk.wurst_client.utils.RenderUtils;
 	name = "Nuker",
 	help = "Mods/Nuker")
 @Mod.Bypasses
-public class NukerMod extends Mod
-	implements LeftClickListener, UpdateListener, RenderListener
+public class NukerMod extends Mod implements LeftClickListener, UpdateListener,
+	PostUpdateListener, RenderListener
 {
 	public int id = 0;
 	private BlockPos currentBlock;
@@ -112,6 +113,7 @@ public class NukerMod extends Mod
 		// add listeners
 		wurst.events.add(LeftClickListener.class, this);
 		wurst.events.add(UpdateListener.class, this);
+		wurst.events.add(PostUpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
 	}
 	
@@ -121,6 +123,7 @@ public class NukerMod extends Mod
 		// remove listeners
 		wurst.events.remove(LeftClickListener.class, this);
 		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(PostUpdateListener.class, this);
 		wurst.events.remove(RenderListener.class, this);
 		
 		// resets
@@ -191,7 +194,7 @@ public class NukerMod extends Mod
 			
 			// break block
 			if(legit)
-				successful = BlockUtils.breakBlockLegit(pos);
+				successful = BlockUtils.prepareToBreakBlockLegit(pos);
 			else
 				successful = BlockUtils.breakBlockSimple(pos);
 			
@@ -206,6 +209,17 @@ public class NukerMod extends Mod
 		// reset if no block was found
 		if(currentBlock == null)
 			mc.playerController.resetBlockRemoving();
+	}
+	
+	@Override
+	public void afterUpdate()
+	{
+		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
+			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		
+		// break block
+		if(currentBlock != null && legit)
+			BlockUtils.breakBlockLegit(currentBlock);
 	}
 	
 	@Override

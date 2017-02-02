@@ -82,14 +82,10 @@ public class RotationUtils
 		
 		float[] rotations = getNeededRotations(vec);
 		
-		float oldYaw = serverYaw;
-		float oldPitch = serverPitch;
-		
-		serverYaw = limitAngleChange(oldYaw, rotations[0], 30);
+		serverYaw = limitAngleChange(serverYaw, rotations[0], 30);
 		serverPitch = rotations[1];
 		
-		return Math.abs(oldYaw - rotations[0])
-			+ Math.abs(oldPitch - rotations[1]) < 1F;
+		return Math.abs(serverYaw - rotations[0]) < 1F;
 	}
 	
 	public static void faceVectorPacketInstant(Vec3d vec)

@@ -158,7 +158,7 @@ public final class BlockUtils
 		return false;
 	}
 	
-	public static boolean breakBlockLegit(BlockPos pos)
+	public static boolean prepareToBreakBlockLegit(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();
 		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
@@ -189,6 +189,37 @@ public final class BlockUtils
 			// face block
 			if(!RotationUtils.faceVectorPacket(hitVec))
 				return true;
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean breakBlockLegit(BlockPos pos)
+	{
+		Vec3d eyesPos = RotationUtils.getEyesPos();
+		Vec3d posVec = new Vec3d(pos).addVector(0.5, 0.5, 0.5);
+		double distanceSqPosVec = eyesPos.squareDistanceTo(posVec);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			Vec3d hitVec =
+				posVec.add(new Vec3d(side.getDirectionVec()).scale(0.5));
+			double distanceSqHitVec = eyesPos.squareDistanceTo(hitVec);
+			
+			// check if hitVec is within range (4.25 blocks)
+			if(distanceSqHitVec > 18.0625)
+				continue;
+			
+			// check if side is facing towards player
+			if(distanceSqHitVec >= distanceSqPosVec)
+				continue;
+			
+			// check line of sight
+			if(mc.world.rayTraceBlocks(eyesPos, hitVec, false, true,
+				false) != null)
+				continue;
 			
 			// damage block
 			if(!mc.playerController.onPlayerDamageBlock(pos, side))
