@@ -8,8 +8,10 @@
 package tk.wurst_client.features.mods;
 
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
+import tk.wurst_client.utils.InventoryUtils;
 
 @Mod.Info(
 	description = "Allows you to eat food much faster.\n" + "OM! NOM! NOM!",
@@ -34,13 +36,30 @@ public class FastEatMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.getHealth() > 0 && mc.player.onGround
-			&& mc.player.inventory.getCurrentItem() != null
-			&& mc.player.inventory.getCurrentItem()
-				.getItem() instanceof ItemFood
-			&& mc.player.getFoodStats().needFood()
-			&& mc.gameSettings.keyBindUseItem.pressed)
-			for(int i = 0; i < 100; i++)
-				mc.player.connection.sendPacket(new CPacketPlayer(false));
+		// check if alive
+		if(mc.player.getHealth() <= 0)
+			return;
+		
+		// check onGround
+		if(!mc.player.onGround)
+			return;
+		
+		// check if eating
+		if(!mc.gameSettings.keyBindUseItem.pressed)
+			return;
+		
+		// check hunger level
+		if(!mc.player.getFoodStats().needFood())
+			return;
+		
+		// check held item
+		ItemStack stack = mc.player.inventory.getCurrentItem();
+		if(InventoryUtils.isEmptySlot(stack)
+			|| !(stack.getItem() instanceof ItemFood))
+			return;
+		
+		// send packets
+		for(int i = 0; i < 100; i++)
+			mc.player.connection.sendPacket(new CPacketPlayer(false));
 	}
 }
