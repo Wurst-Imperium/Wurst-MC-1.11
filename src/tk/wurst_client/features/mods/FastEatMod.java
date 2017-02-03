@@ -8,7 +8,6 @@
 package tk.wurst_client.features.mods;
 
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.utils.InventoryUtils;
@@ -53,9 +52,7 @@ public class FastEatMod extends Mod implements UpdateListener
 			return;
 		
 		// check held item
-		ItemStack stack = mc.player.inventory.getCurrentItem();
-		if(InventoryUtils.isEmptySlot(stack)
-			|| !(stack.getItem() instanceof ItemFood))
+		if(!InventoryUtils.checkHeldItem((item) -> item instanceof ItemFood))
 			return;
 		
 		// send packets

@@ -40,4 +40,19 @@ public class InventoryUtils
 	{
 		return slot.getItem() == NULL_ITEM;
 	}
+	
+	public static boolean checkHeldItem(ItemValidator validator)
+	{
+		ItemStack stack = mc.player.inventory.getCurrentItem();
+		
+		if(isEmptySlot(stack))
+			return false;
+		
+		return validator.isValid(stack.getItem());
+	}
+	
+	public static interface ItemValidator
+	{
+		public boolean isValid(Item item);
+	}
 }
