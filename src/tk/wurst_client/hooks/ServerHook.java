@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NavigableMap;
 
 import javax.swing.JDialog;
@@ -34,6 +36,13 @@ import tk.wurst_client.utils.MiscUtils;
 
 public class ServerHook
 {
+	/**
+	 * Server systems that tell the client to use protocol 315 even though they
+	 * actually require protocol 316.
+	 */
+	private static final List<String> BROKEN_SERVER_SYSTEMS =
+		Arrays.asList("bungeecord", "waterfall", "minebench");
+	
 	private static String currentServerIP = "127.0.0.1:25565";
 	private static ServerListEntryNormal lastServer;
 	
@@ -218,8 +227,9 @@ public class ServerHook
 		if(!protocols.containsKey(server.version))
 			return protocols.lastKey();
 		
-		// use default if server uses Waterfall
-		if(server.gameVersion.startsWith("Waterfall"))
+		// use default if server uses a broken system
+		if(BROKEN_SERVER_SYSTEMS
+			.contains(server.gameVersion.split(" ", 2)[0].toLowerCase()))
 			return protocols.lastKey();
 		
 		// use server protocol
