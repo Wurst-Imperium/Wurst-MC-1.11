@@ -16,7 +16,6 @@ import net.minecraft.block.BlockStem;
 import net.minecraft.block.IGrowable;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -25,6 +24,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.InventoryUtils;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(
 	description = "Automatically uses bone meal on specific types of plants.\n"
@@ -106,7 +106,7 @@ public class BonemealAuraMod extends Mod implements UpdateListener
 				
 			// swing arm
 			if(shouldSwing)
-				mc.player.swingArm(EnumHand.MAIN_HAND);
+				PlayerUtils.swingArmClient();
 		}
 	}
 	
