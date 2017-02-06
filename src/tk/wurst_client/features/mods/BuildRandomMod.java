@@ -10,12 +10,12 @@ package tk.wurst_client.features.mods;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(description = "Places random blocks around you.",
 	name = "BuildRandom",
@@ -91,7 +91,7 @@ public class BuildRandomMod extends Mod implements UpdateListener
 			if(!BlockUtils.placeBlockSimple(pos))
 				return false;
 			
-			mc.player.swingArm(EnumHand.MAIN_HAND);
+			PlayerUtils.swingArmClient();
 			mc.rightClickDelayTimer = 4;
 		}
 		

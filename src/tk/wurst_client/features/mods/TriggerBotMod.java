@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -16,6 +15,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(description = "Automatically attacks the entity you're looking at.",
 	name = "TriggerBot",
@@ -132,7 +132,7 @@ public class TriggerBotMod extends Mod implements UpdateListener
 		// attack entity
 		mc.playerController.attackEntity(mc.player,
 			mc.objectMouseOver.entityHit);
-		mc.player.swingArm(EnumHand.MAIN_HAND);
+		PlayerUtils.swingArmClient();
 		
 		// reset timer
 		updateLastMS();

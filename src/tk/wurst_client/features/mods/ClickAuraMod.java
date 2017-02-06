@@ -8,7 +8,6 @@
 package tk.wurst_client.features.mods;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -17,6 +16,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.EntityUtils.TargetSettings;
+import tk.wurst_client.utils.PlayerUtils;
 import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(
@@ -164,7 +164,7 @@ public class ClickAuraMod extends Mod implements UpdateListener
 		
 		// attack entity
 		mc.playerController.attackEntity(mc.player, entity);
-		mc.player.swingArm(EnumHand.MAIN_HAND);
+		PlayerUtils.swingArmClient();
 		
 		// reset timer
 		updateLastMS();

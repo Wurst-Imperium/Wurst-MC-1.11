@@ -13,12 +13,12 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.PlayerUtils;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Instantly builds a small bunker around you.",
@@ -90,7 +90,7 @@ public class InstantBunkerMod extends Mod
 			for(BlockPos pos : positions)
 				if(BlockUtils.getMaterial(pos) == Material.AIR)
 					BlockUtils.placeBlockSimple(pos);
-			mc.player.swingArm(EnumHand.MAIN_HAND);
+			PlayerUtils.swingArmClient();
 			setEnabled(false);
 			return;
 		}
