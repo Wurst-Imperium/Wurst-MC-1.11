@@ -1,6 +1,6 @@
-From 3c58874a54a830e582b431b1b280ac318b19105c Mon Sep 17 00:00:00 2001
+From 7f98e11ef67d4f015111de4dcc583846b7a690af Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 6 Feb 2017 11:54:21 +0100
+Date: Mon, 6 Feb 2017 15:30:41 +0100
 Subject: [PATCH] mod
 
 ---
@@ -20,7 +20,7 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 ++++-
  net/minecraft/client/gui/GuiMainMenu.java          |  31 ++-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
- net/minecraft/client/gui/GuiMultiplayer.java       |  84 +++++++-
+ net/minecraft/client/gui/GuiMultiplayer.java       |  91 ++++++++-
  net/minecraft/client/gui/GuiNewChat.java           |  11 +
  net/minecraft/client/gui/GuiScreen.java            |   6 +-
  net/minecraft/client/gui/GuiScreenBook.java        |  62 ++++++
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1189 insertions(+), 445 deletions(-)
+ 54 files changed, 1196 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1331,7 +1331,7 @@ index 27d32e9..4f611eb 100644
          else if (button.id == 1)
          {
 diff --git a/net/minecraft/client/gui/GuiMultiplayer.java b/net/minecraft/client/gui/GuiMultiplayer.java
-index 9a4b028..56e9001 100644
+index 9a4b028..facde94 100644
 --- a/net/minecraft/client/gui/GuiMultiplayer.java
 +++ b/net/minecraft/client/gui/GuiMultiplayer.java
 @@ -11,6 +11,13 @@ import net.minecraft.client.network.LanServerDetector;
@@ -1444,7 +1444,21 @@ index 9a4b028..56e9001 100644
      {
          this.mc.displayGuiScreen(new GuiMultiplayer(this.parentScreen));
      }
-@@ -373,7 +428,12 @@ public class GuiMultiplayer extends GuiScreen
+@@ -279,6 +334,13 @@ public class GuiMultiplayer extends GuiScreen
+         {
+             if (i >= 0)
+             {
++				// TODO: Client
++				if(keyCode == 211)
++				{
++					deletingServer = true;
++					confirmClicked(true, i);
++				}
++            	
+                 if (keyCode == 200)
+                 {
+                     if (isShiftKeyDown())
+@@ -373,7 +435,12 @@ public class GuiMultiplayer extends GuiScreen
          this.hoveringText = null;
          this.drawDefaultBackground();
          this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
@@ -1458,7 +1472,7 @@ index 9a4b028..56e9001 100644
          super.drawScreen(mouseX, mouseY, partialTicks);
  
          if (this.hoveringText != null)
-@@ -386,6 +446,10 @@ public class GuiMultiplayer extends GuiScreen
+@@ -386,6 +453,10 @@ public class GuiMultiplayer extends GuiScreen
      {
          GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.getSelected() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.getSelected());
  
@@ -1469,7 +1483,7 @@ index 9a4b028..56e9001 100644
          if (guilistextended$iguilistentry instanceof ServerListEntryNormal)
          {
              this.connectToServer(((ServerListEntryNormal)guilistextended$iguilistentry).getServerData());
-@@ -397,9 +461,13 @@ public class GuiMultiplayer extends GuiScreen
+@@ -397,9 +468,13 @@ public class GuiMultiplayer extends GuiScreen
          }
      }
  
