@@ -30,7 +30,7 @@ import tk.wurst_client.utils.RotationUtils;
 @Mod.Bypasses
 public class KillauraMod extends Mod implements UpdateListener
 {
-	public CheckboxSetting useCooldown =
+	public final CheckboxSetting useCooldown =
 		new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -39,16 +39,16 @@ public class KillauraMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public SliderSetting speed =
+	public final SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
+	public final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	public SliderSetting fov =
+	public final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
-	public CheckboxSetting hitThroughWalls =
+	public final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
 	
-	public CheckboxSetting useTarget =
+	public final CheckboxSetting useTarget =
 		new CheckboxSetting("Use Target settings", true)
 		{
 			@Override
@@ -101,7 +101,7 @@ public class KillauraMod extends Mod implements UpdateListener
 		new boolean[]{true, true, true, true, true, true, true, true, true,
 			true, true, true, true, true, true, true});
 	
-	private TargetSettings targetSettings = new TargetSettings()
+	private final TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public boolean targetBehindWalls()
