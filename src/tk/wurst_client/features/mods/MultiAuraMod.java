@@ -40,11 +40,11 @@ public class MultiAuraMod extends Mod implements UpdateListener
 				if(isChecked())
 				{
 					KillauraMod killaura = wurst.mods.killauraMod;
-					useCooldown.lock(killaura.useCooldown.isChecked());
+					useCooldown.lock(killaura.useCooldown);
 					speed.lockToValue(killaura.speed.getValue());
 					range.lockToValue(killaura.range.getValue());
 					fov.lockToValue(killaura.fov.getValue());
-					hitThroughWalls.lock(killaura.hitThroughWalls.isChecked());
+					hitThroughWalls.lock(killaura.hitThroughWalls);
 				}else
 				{
 					useCooldown.unlock();

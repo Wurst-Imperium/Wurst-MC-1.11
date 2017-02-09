@@ -57,14 +57,14 @@ public class KillauraMod extends Mod implements UpdateListener
 				if(isChecked())
 				{
 					TargetSpf target = wurst.special.targetSpf;
-					players.lock(target.players.isChecked());
-					animals.lock(target.animals.isChecked());
-					monsters.lock(target.monsters.isChecked());
-					golems.lock(target.golems.isChecked());
-					sleepingPlayers.lock(target.sleepingPlayers.isChecked());
-					invisiblePlayers.lock(target.invisiblePlayers.isChecked());
-					invisibleMobs.lock(target.invisibleMobs.isChecked());
-					teams.lock(target.teams.isChecked());
+					players.lock(target.players);
+					animals.lock(target.animals);
+					monsters.lock(target.monsters);
+					golems.lock(target.golems);
+					sleepingPlayers.lock(target.sleepingPlayers);
+					invisiblePlayers.lock(target.invisiblePlayers);
+					invisibleMobs.lock(target.invisibleMobs);
+					teams.lock(target.teams);
 					teamColors.lock(target.teamColors.getSelected());
 				}else
 				{
@@ -270,6 +270,7 @@ public class KillauraMod extends Mod implements UpdateListener
 				range.unlock();
 				hitThroughWalls.unlock();
 				break;
+			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
@@ -277,10 +278,11 @@ public class KillauraMod extends Mod implements UpdateListener
 				range.lockToMax(4.25);
 				hitThroughWalls.unlock();
 				break;
+			
 			case GHOST_MODE:
 				speed.lockToMax(12);
 				range.lockToMax(4.25);
-				hitThroughWalls.lock(false);
+				hitThroughWalls.lock(() -> false);
 				break;
 		}
 	}

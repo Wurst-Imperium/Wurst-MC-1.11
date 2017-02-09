@@ -125,7 +125,7 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 		switch(bypassLevel)
 		{
 			case GHOST_MODE:
-				ignoreScreen.lock(false);
+				ignoreScreen.lock(() -> false);
 				break;
 			
 			default:

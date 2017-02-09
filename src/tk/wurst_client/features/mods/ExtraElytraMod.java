@@ -119,7 +119,7 @@ public class ExtraElytraMod extends Mod implements UpdateListener
 				easyFly.unlock();
 				break;
 			case GHOST_MODE:
-				easyFly.lock(false);
+				easyFly.lock(() -> false);
 				break;
 		}
 	}
