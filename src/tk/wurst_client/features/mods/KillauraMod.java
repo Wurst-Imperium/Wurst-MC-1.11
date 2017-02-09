@@ -65,7 +65,7 @@ public class KillauraMod extends Mod implements UpdateListener
 					invisiblePlayers.lock(target.invisiblePlayers);
 					invisibleMobs.lock(target.invisibleMobs);
 					teams.lock(target.teams);
-					teamColors.lock(target.teamColors.getSelected());
+					teamColors.lock(target.teamColors);
 				}else
 				{
 					players.unlock();
