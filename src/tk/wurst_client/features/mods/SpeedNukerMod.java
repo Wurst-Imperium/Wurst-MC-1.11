@@ -43,7 +43,7 @@ public class SpeedNukerMod extends Mod
 				if(isChecked())
 				{
 					NukerMod nuker = wurst.mods.nukerMod;
-					range.lockToValue(nuker.range.getValue());
+					range.lock(nuker.range);
 					mode.lock(nuker.mode.getSelected());
 				}else
 				{

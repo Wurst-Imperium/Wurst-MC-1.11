@@ -40,9 +40,9 @@ public class ClickAuraMod extends Mod implements UpdateListener
 				{
 					KillauraMod killaura = wurst.mods.killauraMod;
 					useCooldown.lock(killaura.useCooldown);
-					speed.lockToValue(killaura.speed.getValue());
-					range.lockToValue(killaura.range.getValue());
-					fov.lockToValue(killaura.fov.getValue());
+					speed.lock(killaura.speed);
+					range.lock(killaura.range);
+					fov.lock(killaura.fov);
 					hitThroughWalls.lock(killaura.hitThroughWalls);
 				}else
 				{
@@ -178,20 +178,20 @@ public class ClickAuraMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				speed.unlock();
-				range.unlock();
+				speed.resetUsableMax();
+				range.resetUsableMax();
 				hitThroughWalls.unlock();
 				break;
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-				speed.lockToMax(12);
-				range.lockToMax(4.25);
+				speed.setUsableMax(12);
+				range.setUsableMax(4.25);
 				hitThroughWalls.unlock();
 				break;
 			case GHOST_MODE:
-				speed.lockToMax(12);
-				range.lockToMax(4.25);
+				speed.setUsableMax(12);
+				range.setUsableMax(4.25);
 				hitThroughWalls.lock(() -> false);
 				break;
 		}

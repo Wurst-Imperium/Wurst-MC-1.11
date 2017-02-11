@@ -88,7 +88,7 @@ public class StepMod extends Mod implements UpdateListener
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
-				height.lockToValue(1);
+				height.lock(() -> 1);
 				break;
 		}
 	}

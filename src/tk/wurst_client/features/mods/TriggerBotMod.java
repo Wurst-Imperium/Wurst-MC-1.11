@@ -34,15 +34,15 @@ public class TriggerBotMod extends Mod implements UpdateListener
 				{
 					KillauraMod killaura = wurst.mods.killauraMod;
 					useCooldown.lock(killaura.useCooldown);
-					speed.lockToValue(killaura.speed.getValue());
-					range.lockToValue(killaura.range.getValue());
+					speed.lock(killaura.speed);
+					range.lock(killaura.range);
 				}else
 				{
 					useCooldown.unlock();
 					speed.unlock();
 					range.unlock();
 				}
-			};
+			}
 		};
 	public CheckboxSetting useCooldown =
 		new CheckboxSetting("Use Attack Cooldown as Speed", true)
@@ -51,7 +51,7 @@ public class TriggerBotMod extends Mod implements UpdateListener
 			public void update()
 			{
 				speed.setDisabled(isChecked());
-			};
+			}
 		};
 	public SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
@@ -87,17 +87,13 @@ public class TriggerBotMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		// TODO: Clean up this mess!
-		if(wurst.mods.killauraMod.isEnabled())
-			wurst.mods.killauraMod.setEnabled(false);
-		if(wurst.mods.killauraLegitMod.isEnabled())
-			wurst.mods.killauraLegitMod.setEnabled(false);
-		if(wurst.mods.multiAuraMod.isEnabled())
-			wurst.mods.multiAuraMod.setEnabled(false);
-		if(wurst.mods.clickAuraMod.isEnabled())
-			wurst.mods.clickAuraMod.setEnabled(false);
-		if(wurst.mods.tpAuraMod.isEnabled())
-			wurst.mods.tpAuraMod.setEnabled(false);
+		// disable other killauras
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.tpAuraMod.setEnabled(false);
+		
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -146,18 +142,18 @@ public class TriggerBotMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				speed.unlock();
-				range.unlock();
+				speed.resetUsableMax();
+				range.resetUsableMax();
 				break;
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-				speed.lockToMax(12);
-				range.lockToMax(4.25);
+				speed.setUsableMax(12);
+				range.setUsableMax(4.25);
 				break;
 			case GHOST_MODE:
-				speed.lockToMax(12);
-				range.lockToMax(4.25);
+				speed.setUsableMax(12);
+				range.setUsableMax(4.25);
 				break;
 		}
 	}

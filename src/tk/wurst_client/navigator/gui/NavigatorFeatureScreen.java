@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.font.Fonts;
@@ -278,17 +279,13 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		if(sliding != -1)
 		{
 			// percentage from mouse location (not the actual percentage!)
-			float mousePercentage = (x - (middleX - 150)) / 298F;
-			if(mousePercentage > 1F)
-				mousePercentage = 1F;
-			else if(mousePercentage < 0F)
-				mousePercentage = 0F;
+			float mousePercentage =
+				MathHelper.clamp((x - (middleX - 150)) / 298F, 0, 1);
 			
 			// update slider value
 			SliderSetting slider = sliders.get(sliding);
-			slider.setValue((long)((slider.getMaximum() - slider.getMinimum())
-				* mousePercentage / slider.getIncrement()) * 1e6
-				* slider.getIncrement() / 1e6 + slider.getMinimum());
+			slider.setValue(
+				slider.getMinimum() + slider.getRange() * mousePercentage);
 		}
 	}
 	
@@ -341,18 +338,28 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 			setColorToForeground();
 			drawEngravedBox(x1, y1, x2, y2);
 			
+			int width = x2 - x1;
+			
 			// lock
-			boolean renderAsDisabled = slider.isDisabled() || slider.isLocked()
-				&& slider.getLockMinX() == slider.getLockMaxX();
-			if(!renderAsDisabled && slider.isLocked())
+			boolean renderAsDisabled = slider.isDisabled() || slider.isLocked();
+			if(!renderAsDisabled && slider.isLimited())
 			{
 				glColor4f(0.75F, 0.125F, 0.125F, 0.25F);
-				drawQuads(x1, y1, x1 + slider.getLockMinX(), y2);
-				drawQuads(x1 + slider.getLockMaxX(), y1, x2, y2);
+				
+				double ratio = width / slider.getRange();
+				
+				drawQuads(x1, y1, (int)(x1
+					+ ratio * (slider.getUsableMin() - slider.getMinimum())),
+					y2);
+				drawQuads(
+					(int)(x2 + ratio
+						* (slider.getUsableMax() - slider.getMaximum())),
+					y1, x2, y2);
 			}
 			
 			// knob
-			x1 = bgx1 + slider.getX();
+			float percentage = slider.getPercentage();
+			x1 = bgx1 + (int)((width - 6) * percentage) + 1;
 			x2 = x1 + 8;
 			y1 -= 2;
 			y2 += 2;
@@ -360,8 +367,8 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 				glColor4f(0.5F, 0.5F, 0.5F, 0.75F);
 			else
 			{
-				float percentage = slider.getPercentage();
-				glColor4f(percentage, 1F - percentage, 0F, 0.75F);
+				float factor = 2 * percentage;
+				glColor4f(factor, 2 - factor, 0F, 0.75F);
 			}
 			drawBox(x1, y1, x2, y2);
 			

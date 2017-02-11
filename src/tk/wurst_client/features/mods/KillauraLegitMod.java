@@ -37,9 +37,9 @@ public class KillauraLegitMod extends Mod implements UpdateListener
 				{
 					KillauraMod killaura = wurst.mods.killauraMod;
 					useCooldown.lock(killaura.useCooldown);
-					speed.lockToValue(killaura.speed.getValue());
-					range.lockToValue(killaura.range.getValue());
-					fov.lockToValue(killaura.fov.getValue());
+					speed.lock(killaura.speed);
+					range.lock(killaura.range);
+					fov.lock(killaura.fov);
 				}else
 				{
 					useCooldown.unlock();
