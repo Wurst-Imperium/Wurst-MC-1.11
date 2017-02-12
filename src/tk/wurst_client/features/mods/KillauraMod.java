@@ -8,6 +8,7 @@
 package tk.wurst_client.features.mods;
 
 import net.minecraft.entity.Entity;
+import tk.wurst_client.WurstClient;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.TargetSpf;
@@ -31,14 +32,15 @@ import tk.wurst_client.utils.RotationUtils;
 public class KillauraMod extends Mod implements UpdateListener
 {
 	public final CheckboxSetting useCooldown =
-		new CheckboxSetting("Use Attack Cooldown as Speed", true)
-		{
-			@Override
-			public void update()
+		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null
+			: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 			{
-				speed.setDisabled(isChecked());
-			}
-		};
+				@Override
+				public void update()
+				{
+					speed.setDisabled(isChecked());
+				}
+			};
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
 	public final SliderSetting range =
@@ -179,11 +181,14 @@ public class KillauraMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(useCooldown);
+		if(useCooldown != null)
+			settings.add(useCooldown);
+		
 		settings.add(speed);
 		settings.add(range);
 		settings.add(fov);
 		settings.add(hitThroughWalls);
+		
 		settings.add(useTarget);
 		settings.add(players);
 		settings.add(animals);
@@ -231,7 +236,8 @@ public class KillauraMod extends Mod implements UpdateListener
 		updateMS();
 		
 		// check timer / cooldown
-		if(useCooldown.isChecked() ? mc.player.getCooledAttackStrength(0F) < 1F
+		if((useCooldown != null && useCooldown.isChecked())
+			? PlayerUtils.getCooldown() < 1
 			: !hasTimePassedS(speed.getValueF()))
 			return;
 		

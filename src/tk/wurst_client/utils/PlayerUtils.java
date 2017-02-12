@@ -29,6 +29,11 @@ public class PlayerUtils
 			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 	}
 	
+	public static float getCooldown()
+	{
+		return mc.player.getCooledAttackStrength(0);
+	}
+	
 	static void processRightClickBlock(BlockPos pos, EnumFacing side,
 		Vec3d hitVec)
 	{
