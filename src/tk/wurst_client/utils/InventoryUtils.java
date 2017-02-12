@@ -10,6 +10,7 @@ package tk.wurst_client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 
@@ -39,6 +40,11 @@ public class InventoryUtils
 	public static boolean isEmptySlot(ItemStack slot)
 	{
 		return slot.getItem() == NULL_ITEM;
+	}
+	
+	public static int getArmorType(ItemArmor armor)
+	{
+		return armor.armorType.ordinal() - 2;
 	}
 	
 	public static boolean checkHeldItem(ItemValidator validator)
