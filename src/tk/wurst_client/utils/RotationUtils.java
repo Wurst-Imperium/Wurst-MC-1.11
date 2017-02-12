@@ -158,8 +158,10 @@ public class RotationUtils
 	{
 		float[] needed = getNeededRotations(vec);
 		
-		float diffYaw = mc.player.rotationYaw - needed[0];
-		float diffPitch = mc.player.rotationPitch - needed[1];
+		float diffYaw =
+			MathHelper.wrapDegrees(mc.player.rotationYaw) - needed[0];
+		float diffPitch =
+			MathHelper.wrapDegrees(mc.player.rotationPitch) - needed[1];
 		
 		float angle =
 			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
