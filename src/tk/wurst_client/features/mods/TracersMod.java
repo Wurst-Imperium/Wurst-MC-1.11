@@ -82,7 +82,7 @@ public class TracersMod extends Mod implements RenderListener
 				if(factor > 1)
 					factor = 1;
 				
-				GL11.glColor4f(2 - (factor * 2F), factor * 2F, 0, 0.5F);
+				GL11.glColor4f(2 - factor * 2F, factor * 2F, 0, 0.5F);
 			}
 			
 			// draw line

@@ -153,7 +153,7 @@ public class ClickAuraMod extends Mod implements UpdateListener
 			return;
 		
 		// check timer / cooldown
-		if((useCooldown != null && useCooldown.isChecked())
+		if(useCooldown != null && useCooldown.isChecked()
 			? PlayerUtils.getCooldown() < 1
 			: !hasTimePassedS(speed.getValueF()))
 			return;

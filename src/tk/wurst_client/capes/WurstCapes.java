@@ -59,26 +59,27 @@ public class WurstCapes
 			// get cape from new server
 			try
 			{
-			String uuid = player.getId().toString().replace("-", "");
-			if(capeFetcher == null || !capeFetcher.addUUID(uuid, callback))
-			{
-			capeFetcher = new CapeFetcher();
-			capeFetcher.addUUID(uuid, callback);
-			new Thread(capeFetcher).start();
-			}
+				String uuid = player.getId().toString().replace("-", "");
+				if(capeFetcher == null || !capeFetcher.addUUID(uuid, callback))
+				{
+					capeFetcher = new CapeFetcher();
+					capeFetcher.addUUID(uuid, callback);
+					new Thread(capeFetcher).start();
+				}
 			}catch(Exception e)
 			{
-			e.printStackTrace();
+				e.printStackTrace();
 			}
 		else
 			// get cape from old server
 			try
 			{
-			if(capes.has(player.getName()))
-			map.put(Type.CAPE, new MinecraftProfileTexture(capes.get(player.getName()).getAsString(), null));
+				if(capes.has(player.getName()))
+					map.put(Type.CAPE, new MinecraftProfileTexture(
+						capes.get(player.getName()).getAsString(), null));
 			}catch(Exception e)
 			{
-			e.printStackTrace();
+				e.printStackTrace();
 			}
 	}
 }

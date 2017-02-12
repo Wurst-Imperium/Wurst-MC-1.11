@@ -108,7 +108,7 @@ public class BowAimbotMod extends Mod
 		
 		// set yaw
 		mc.player.rotationYaw =
-			(float)(Math.toDegrees(Math.atan2(posZ, posX))) - 90;
+			(float)Math.toDegrees(Math.atan2(posZ, posX)) - 90;
 		
 		// calculate needed pitch
 		double hDistance = Math.sqrt(posX * posX + posZ * posZ);

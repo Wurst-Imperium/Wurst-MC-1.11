@@ -236,7 +236,7 @@ public class KillauraMod extends Mod implements UpdateListener
 		updateMS();
 		
 		// check timer / cooldown
-		if((useCooldown != null && useCooldown.isChecked())
+		if(useCooldown != null && useCooldown.isChecked()
 			? PlayerUtils.getCooldown() < 1
 			: !hasTimePassedS(speed.getValueF()))
 			return;

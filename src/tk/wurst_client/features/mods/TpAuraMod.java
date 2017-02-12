@@ -161,7 +161,7 @@ public class TpAuraMod extends Mod implements UpdateListener
 			entity.posY, entity.posZ + random.nextInt(3) * 2 - 2);
 		
 		// check timer / cooldown
-		if((useCooldown != null && useCooldown.isChecked())
+		if(useCooldown != null && useCooldown.isChecked()
 			? PlayerUtils.getCooldown() < 1
 			: !hasTimePassedS(speed.getValueF()))
 			return;

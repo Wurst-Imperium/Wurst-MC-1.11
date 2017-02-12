@@ -431,7 +431,6 @@ public final class BlockUtils
 					boolean canBeClicked = canBeClicked(current);
 					
 					if(ignoreVisibility || !canBeClicked)
-					{
 						// add neighbors
 						for(EnumFacing facing : EnumFacing.values())
 						{
@@ -443,7 +442,6 @@ public final class BlockUtils
 							queue.add(next);
 							visited.add(next);
 						}
-					}
 					
 					// check if block is valid
 					if(canBeClicked && validator.isValid(current))

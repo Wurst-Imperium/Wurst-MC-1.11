@@ -176,18 +176,14 @@ public class GuiWurstOptions extends GuiScreen
 			{
 				
 			}else if(clickedButton.id == 11)
-			{
 				MiscUtils.openLink("https://www.wurst-client.tk/");
-			}else if(clickedButton.id == 12)
-			{
+			else if(clickedButton.id == 12)
 				MiscUtils.openLink("https://www.wurst-client.tk/youtube/");
-			}else if(clickedButton.id == 13)
-			{
+			else if(clickedButton.id == 13)
 				MiscUtils.openLink("https://www.wurst-client.tk/twitter/");
-			}else if(clickedButton.id == 14)
-			{
+			else if(clickedButton.id == 14)
 				MiscUtils.openLink("https://www.wurst-client.tk/discord/");
-			}else if(clickedButton.id == 15)
+			else if(clickedButton.id == 15)
 			{
 				
 			}

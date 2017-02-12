@@ -34,8 +34,7 @@ public class FeaturesCmd extends Cmd
 		for(Mod mod : wurst.mods.getAllMods())
 		{
 			settings += mod.getSettings().size();
-			if(mod.getClass().getAnnotation(Mod.Bypasses.class)
-				.mineplex())
+			if(mod.getClass().getAnnotation(Mod.Bypasses.class).mineplex())
 				bypasses++;
 		}
 		ChatUtils.message("> NoCheat bypasses (mods only): " + bypasses);

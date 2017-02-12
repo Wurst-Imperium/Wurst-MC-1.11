@@ -143,13 +143,10 @@ public class ChestEspMod extends Mod implements UpdateListener, RenderListener
 					else
 						basicNotEmpty.add(bb);
 					
-				}else
-				{
-					if(trapped)
-						trappedNew.add(bb);
-					else
-						basicNew.add(bb);
-				}
+				}else if(trapped)
+					trappedNew.add(bb);
+				else
+					basicNew.add(bb);
 				
 				continue;
 			}

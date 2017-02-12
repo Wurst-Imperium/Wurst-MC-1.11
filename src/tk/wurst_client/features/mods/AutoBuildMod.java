@@ -226,7 +226,6 @@ public class AutoBuildMod extends Mod
 		
 		// fast mode
 		if(mode.getSelected() == 0)
-		{
 			// place next 64 blocks
 			for(int i = blockIndex; i < positions.size()
 				&& i < blockIndex + 64; i++)
@@ -235,9 +234,7 @@ public class AutoBuildMod extends Mod
 				if(BlockUtils.getMaterial(pos) == Material.AIR)
 					BlockUtils.placeBlockSimple(pos);
 			}
-			
-			// legit mode
-		}else if(mode.getSelected() == 1)
+		else if(mode.getSelected() == 1)
 		{
 			// wait for right click timer
 			if(mc.rightClickDelayTimer > 0)
