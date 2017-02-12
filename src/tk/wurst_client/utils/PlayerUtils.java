@@ -34,6 +34,12 @@ public class PlayerUtils
 		return mc.player.getCooledAttackStrength(0);
 	}
 	
+	public static void processRightClick()
+	{
+		mc.playerController.processRightClick(mc.player, mc.world,
+			EnumHand.MAIN_HAND);
+	}
+	
 	static void processRightClickBlock(BlockPos pos, EnumFacing side,
 		Vec3d hitVec)
 	{

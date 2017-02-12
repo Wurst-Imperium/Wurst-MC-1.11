@@ -13,12 +13,12 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(description = "Automatically eats food when necessary.",
 	name = "AutoEat",
@@ -102,8 +102,7 @@ public class AutoEatMod extends Mod implements UpdateListener
 		
 		// eat food
 		mc.gameSettings.keyBindUseItem.pressed = true;
-		mc.playerController.processRightClick(mc.player, mc.world,
-			EnumHand.MAIN_HAND);
+		PlayerUtils.processRightClick();
 	}
 	
 	@Override
