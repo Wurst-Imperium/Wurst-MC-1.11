@@ -246,19 +246,15 @@ public class KillauraMod extends Mod implements UpdateListener
 		if(entity == null)
 			return;
 		
-		// AutoSword
-		wurst.mods.autoSwordMod.setSlot();
-		
-		// Criticals
-		wurst.mods.criticalsMod.doCritical();
+		// prepare attack
+		EntityUtils.prepareAttack();
 		
 		// face entity
 		if(!RotationUtils.faceEntityPacket(entity))
 			return;
 		
 		// attack entity
-		mc.playerController.attackEntity(mc.player, entity);
-		PlayerUtils.swingArmClient();
+		EntityUtils.attackEntity(entity);
 		
 		// reset timer
 		updateLastMS();

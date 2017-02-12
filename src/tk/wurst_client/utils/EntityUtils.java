@@ -26,9 +26,25 @@ import tk.wurst_client.WurstClient;
 
 public class EntityUtils
 {
+	private static final WurstClient wurst = WurstClient.INSTANCE;
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
 	public static final TargetSettings DEFAULT_SETTINGS = new TargetSettings();
+	
+	public static void prepareAttack()
+	{
+		// AutoSword
+		wurst.mods.autoSwordMod.setSlot();
+		
+		// Criticals
+		wurst.mods.criticalsMod.doCritical();
+	}
+	
+	public static void attackEntity(Entity entity)
+	{
+		mc.playerController.attackEntity(mc.player, entity);
+		PlayerUtils.swingArmClient();
+	}
 	
 	public static boolean isCorrectEntity(Entity en, TargetSettings settings)
 	{
