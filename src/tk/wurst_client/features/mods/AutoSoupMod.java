@@ -15,7 +15,6 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -24,6 +23,7 @@ import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.InventoryUtils;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(
 	description = "Automatically eats soup if your health is lower than or equal to the set value.\n"
@@ -120,8 +120,7 @@ public class AutoSoupMod extends Mod implements UpdateListener
 			
 			// eat soup
 			mc.gameSettings.keyBindUseItem.pressed = true;
-			mc.playerController.processRightClick(mc.player, mc.world,
-				EnumHand.MAIN_HAND);
+			PlayerUtils.processRightClick();
 			
 			return;
 		}
