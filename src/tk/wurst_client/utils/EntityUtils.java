@@ -22,6 +22,8 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.util.EnumHand;
 import tk.wurst_client.WurstClient;
 
 public class EntityUtils
@@ -44,6 +46,12 @@ public class EntityUtils
 	{
 		mc.playerController.attackEntity(mc.player, entity);
 		PlayerUtils.swingArmClient();
+	}
+	
+	public static void sendAttackPacket(Entity entity)
+	{
+		mc.player.connection
+			.sendPacket(new CPacketUseEntity(entity, EnumHand.MAIN_HAND));
 	}
 	
 	public static boolean isCorrectEntity(Entity en, TargetSettings settings)
