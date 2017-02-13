@@ -37,7 +37,7 @@ public class MassTpaMod extends Mod implements UpdateListener, ChatInputListener
 	public void onEnable()
 	{
 		i = 0;
-		Iterator itr = mc.getConnection().getPlayerInfoMap().iterator();
+		Iterator itr = mc.player.connection.getPlayerInfoMap().iterator();
 		players = new ArrayList<>();
 		while(itr.hasNext())
 			players.add(StringUtils.stripControlCodes(
