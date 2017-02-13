@@ -9,10 +9,14 @@ package tk.wurst_client.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtils;
 
 public class InventoryUtils
 {
@@ -42,9 +46,23 @@ public class InventoryUtils
 		return slot.getItem() == NULL_ITEM;
 	}
 	
+	public static boolean isSplashPotion(ItemStack stack)
+	{
+		return stack.getItem() == Items.SPLASH_POTION;
+	}
+	
 	public static int getArmorType(ItemArmor armor)
 	{
 		return armor.armorType.ordinal() - 2;
+	}
+	
+	public static boolean hasEffect(ItemStack stack, Potion potion)
+	{
+		for(PotionEffect effect : PotionUtils.getEffectsFromStack(stack))
+			if(effect.getPotion() == potion)
+				return true;
+			
+		return false;
 	}
 	
 	public static boolean checkHeldItem(ItemValidator validator)

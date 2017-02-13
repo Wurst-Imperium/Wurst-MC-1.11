@@ -7,19 +7,17 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtils;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.utils.InventoryUtils;
 import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(
@@ -140,13 +138,12 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 			ItemStack stack = mc.player.inventory.getStackInSlot(i);
 			
 			// filter out non-splash potion items
-			if(stack == null || stack.getItem() != Items.SPLASH_POTION)
+			if(!InventoryUtils.isSplashPotion(stack))
 				continue;
 			
 			// search for instant health effects
-			for(PotionEffect effect : PotionUtils.getEffectsFromStack(stack))
-				if(effect.getPotion() == MobEffects.INSTANT_HEALTH)
-					return i;
+			if(InventoryUtils.hasEffect(stack, MobEffects.INSTANT_HEALTH))
+				return i;
 		}
 		
 		return -1;
