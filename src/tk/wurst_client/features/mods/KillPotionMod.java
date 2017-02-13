@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.features.mods;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -35,7 +34,7 @@ public class KillPotionMod extends Mod
 		}
 		
 		// generate potion
-		ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+		ItemStack stack = InventoryUtils.createSplashPotion();
 		NBTTagCompound effect = new NBTTagCompound();
 		effect.setInteger("Amplifier", 125);
 		effect.setInteger("Duration", 2000);

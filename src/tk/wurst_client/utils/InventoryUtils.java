@@ -57,6 +57,11 @@ public class InventoryUtils
 		return stack.getItem() == Items.SPLASH_POTION;
 	}
 	
+	public static ItemStack createSplashPotion()
+	{
+		return new ItemStack(Items.SPLASH_POTION);
+	}
+	
 	public static int getArmorType(ItemArmor armor)
 	{
 		return armor.armorType.ordinal() - 2;
