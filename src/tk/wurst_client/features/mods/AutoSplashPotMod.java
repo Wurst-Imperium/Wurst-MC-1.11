@@ -14,13 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
 import tk.wurst_client.settings.CheckboxSetting;
 import tk.wurst_client.settings.SliderSetting;
 import tk.wurst_client.settings.SliderSetting.ValueDisplay;
+import tk.wurst_client.utils.PlayerUtils;
 
 @Mod.Info(
 	description = "Automatically throws instant health splash potions if your health is lower than or equal to\n"
@@ -95,8 +95,7 @@ public class AutoSplashPotMod extends Mod implements UpdateListener
 			mc.player.inventory.currentItem = potionInHotbar;
 			mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
 				mc.player.rotationYaw, 90.0F, mc.player.onGround));
-			mc.playerController.processRightClick(mc.player, mc.world,
-				EnumHand.MAIN_HAND);
+			PlayerUtils.processRightClick();
 			
 			// reset slot and rotation
 			mc.player.inventory.currentItem = oldSlot;
