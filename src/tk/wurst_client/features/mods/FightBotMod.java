@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
+import tk.wurst_client.WurstClient;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
@@ -41,26 +42,32 @@ public class FightBotMod extends Mod implements UpdateListener
 				if(isChecked())
 				{
 					KillauraMod killaura = wurst.mods.killauraMod;
-					useCooldown.lock(killaura.useCooldown);
+					
+					if(useCooldown != null)
+						useCooldown.lock(killaura.useCooldown);
+					
 					speed.lock(killaura.speed);
 					range.lock(killaura.range);
 				}else
 				{
-					useCooldown.unlock();
+					if(useCooldown != null)
+						useCooldown.unlock();
+					
 					speed.unlock();
 					range.unlock();
 				}
-			};
+			}
 		};
 	public CheckboxSetting useCooldown =
-		new CheckboxSetting("Use Attack Cooldown as Speed", true)
-		{
-			@Override
-			public void update()
+		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null
+			: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 			{
-				speed.setDisabled(isChecked());
+				@Override
+				public void update()
+				{
+					speed.setDisabled(isChecked());
+				}
 			};
-		};
 	public SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
 	public SliderSetting range =
@@ -82,7 +89,10 @@ public class FightBotMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		settings.add(useKillaura);
-		settings.add(useCooldown);
+		
+		if(useCooldown != null)
+			settings.add(useCooldown);
+		
 		settings.add(speed);
 		settings.add(range);
 		settings.add(distance);
@@ -152,7 +162,8 @@ public class FightBotMod extends Mod implements UpdateListener
 			return;
 		
 		// check timer / cooldown
-		if(useCooldown.isChecked() ? mc.player.getCooledAttackStrength(0F) < 1F
+		if(useCooldown != null && useCooldown.isChecked()
+			? PlayerUtils.getCooldown() < 1
 			: !hasTimePassedS(speed.getValueF()))
 			return;
 		
@@ -160,15 +171,11 @@ public class FightBotMod extends Mod implements UpdateListener
 		if(!EntityUtils.isCorrectEntity(entity, attackSettings))
 			return;
 		
-		// AutoSword
-		wurst.mods.autoSwordMod.setSlot();
-		
-		// Criticals
-		wurst.mods.criticalsMod.doCritical();
+		// prepare attack
+		EntityUtils.prepareAttack();
 		
 		// attack entity
-		mc.playerController.attackEntity(mc.player, entity);
-		PlayerUtils.swingArmClient();
+		EntityUtils.attackEntity(entity);
 		
 		// reset timer
 		updateLastMS();
@@ -186,6 +193,7 @@ public class FightBotMod extends Mod implements UpdateListener
 				range.resetUsableMax();
 				distance.resetUsableMax();
 				break;
+			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
