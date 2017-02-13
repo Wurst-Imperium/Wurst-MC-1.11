@@ -28,7 +28,7 @@ public class ProtectMod extends Mod implements UpdateListener
 	private double distanceF = 2D;
 	private double distanceE = 3D;
 	
-	private TargetSettings friendSettingsFind = new TargetSettings()
+	private final TargetSettings friendSettingsFind = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -43,7 +43,7 @@ public class ProtectMod extends Mod implements UpdateListener
 		}
 	};
 	
-	private TargetSettings friendSettingsKeep = new TargetSettings()
+	private final TargetSettings friendSettingsKeep = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -55,7 +55,7 @@ public class ProtectMod extends Mod implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 		
 		@Override
 		public boolean targetPlayers()
@@ -106,13 +106,13 @@ public class ProtectMod extends Mod implements UpdateListener
 		}
 	};
 	
-	private TargetSettings enemySettings = new TargetSettings()
+	private final TargetSettings enemySettings = new TargetSettings()
 	{
 		@Override
 		public float getRange()
 		{
 			return range;
-		};
+		}
 	};
 	
 	@Override
@@ -137,6 +137,7 @@ public class ProtectMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		
 		if(friend != null)
 			mc.gameSettings.keyBindForward.pressed = false;
 	}
@@ -183,20 +184,17 @@ public class ProtectMod extends Mod implements UpdateListener
 				mc.player.getDistanceToEntity(enemy) > distanceE;
 			
 			// check timer / cooldown
-			if(wurst.mods.killauraMod.useCooldown.isChecked()
-				? mc.player.getCooledAttackStrength(0F) < 1F
-				: !hasTimePassedS(wurst.mods.killauraMod.speed.getValueF()))
+			if(wurst.mods.killauraMod.useCooldown != null
+				&& wurst.mods.killauraMod.useCooldown.isChecked()
+					? PlayerUtils.getCooldown() < 1
+					: !hasTimePassedS(wurst.mods.killauraMod.speed.getValueF()))
 				return;
 			
-			// AutoSword
-			wurst.mods.autoSwordMod.setSlot();
-			
-			// Criticals
-			wurst.mods.criticalsMod.doCritical();
+			// prepare attack
+			EntityUtils.prepareAttack();
 			
 			// attack enemy
-			mc.playerController.attackEntity(mc.player, enemy);
-			PlayerUtils.swingArmClient();
+			EntityUtils.attackEntity(enemy);
 			
 			// reset timer
 			updateLastMS();
