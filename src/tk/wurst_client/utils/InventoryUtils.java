@@ -37,6 +37,11 @@ public class InventoryUtils
 		return false;
 	}
 	
+	public static void placeStackInArmor(int armorSlot, ItemStack stack)
+	{
+		mc.player.inventory.armorInventory.set(armorSlot, stack);
+	}
+	
 	public static boolean isSlotEmpty(int slot)
 	{
 		return mc.player.inventory.getStackInSlot(slot).getItem() == NULL_ITEM;
