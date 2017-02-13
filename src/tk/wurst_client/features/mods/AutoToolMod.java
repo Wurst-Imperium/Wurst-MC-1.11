@@ -107,8 +107,8 @@ public class AutoToolMod extends Mod implements UpdateListener
 		// initialize speed & slot
 		float bestSpeed;
 		if(mc.player.inventory.getCurrentItem() != null)
-			bestSpeed = mc.player.inventory.getCurrentItem()
-				.getStrVsBlock(BlockUtils.getState(pos));
+			bestSpeed = InventoryUtils
+				.getStrVsBlock(mc.player.inventory.getCurrentItem(), pos);
 		else
 			bestSpeed = 1;
 		int bestSlot = -1;
@@ -126,7 +126,7 @@ public class AutoToolMod extends Mod implements UpdateListener
 				continue;
 			
 			// get speed
-			float speed = stack.getStrVsBlock(BlockUtils.getState(pos));
+			float speed = InventoryUtils.getStrVsBlock(stack, pos);
 			
 			// compare with best tool
 			if(speed > bestSpeed)

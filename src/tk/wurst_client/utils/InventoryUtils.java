@@ -17,6 +17,7 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.math.BlockPos;
 
 public class InventoryUtils
 {
@@ -54,6 +55,11 @@ public class InventoryUtils
 	public static int getArmorType(ItemArmor armor)
 	{
 		return armor.armorType.ordinal() - 2;
+	}
+	
+	public static float getStrVsBlock(ItemStack stack, BlockPos pos)
+	{
+		return stack.getStrVsBlock(BlockUtils.getState(pos));
 	}
 	
 	public static boolean hasEffect(ItemStack stack, Potion potion)
