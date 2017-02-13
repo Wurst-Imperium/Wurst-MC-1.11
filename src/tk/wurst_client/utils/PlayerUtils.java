@@ -9,6 +9,8 @@ package tk.wurst_client.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketAnimation;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -45,5 +47,15 @@ public class PlayerUtils
 	{
 		mc.playerController.processRightClickBlock(mc.player, mc.world, pos,
 			side, hitVec, EnumHand.MAIN_HAND);
+	}
+	
+	public static void addPotionEffect(Potion potion)
+	{
+		mc.player.addPotionEffect(new PotionEffect(potion, 10801220));
+	}
+	
+	public static void removePotionEffect(Potion potion)
+	{
+		mc.player.removePotionEffect(potion);
 	}
 }
