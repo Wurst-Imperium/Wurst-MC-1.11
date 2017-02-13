@@ -12,7 +12,6 @@ import java.util.LinkedHashSet;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.block.BlockChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.inventory.Container;
@@ -25,6 +24,7 @@ import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.utils.BlockUtils;
+import tk.wurst_client.utils.EntityUtils;
 import tk.wurst_client.utils.InventoryUtils;
 import tk.wurst_client.utils.RenderUtils;
 
@@ -126,7 +126,7 @@ public class ChestEspMod extends Mod implements UpdateListener, RenderListener
 					bb = bb.union(BlockUtils
 						.getBoundingBox(chest.adjacentChestZNeg.getPos()));
 				
-				boolean trapped = chest.getChestType() == BlockChest.Type.TRAP;
+				boolean trapped = EntityUtils.isTrappedChest(chest);
 				
 				// add to appropriate list
 				if(emptyChests.contains(chest.getPos()))

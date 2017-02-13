@@ -10,6 +10,7 @@ package tk.wurst_client.utils;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -23,6 +24,7 @@ import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.WurstClient;
 
@@ -52,6 +54,11 @@ public class EntityUtils
 	{
 		mc.player.connection
 			.sendPacket(new CPacketUseEntity(entity, EnumHand.MAIN_HAND));
+	}
+	
+	public static boolean isTrappedChest(TileEntityChest chest)
+	{
+		return chest.getChestType() == BlockChest.Type.TRAP;
 	}
 	
 	public static boolean isCorrectEntity(Entity en, TargetSettings settings)
