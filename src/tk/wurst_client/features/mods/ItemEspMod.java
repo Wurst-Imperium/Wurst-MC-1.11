@@ -65,15 +65,25 @@ public class ItemEspMod extends Mod implements RenderListener
 		
 		// draw boxes
 		for(Entity entity : mc.world.loadedEntityList)
-			if(entity instanceof EntityItem)
-			{
-				GL11.glPushMatrix();
-				GL11.glTranslated(entity.posX, entity.posY, entity.posZ);
-				
-				RenderUtils.drawOutlinedBox(ITEM_BOX);
-				
-				GL11.glPopMatrix();
-			}
+		{
+			if(!(entity instanceof EntityItem))
+				continue;
+			
+			GL11.glPushMatrix();
+			
+			// set position
+			GL11.glTranslated(
+				entity.prevPosX
+					+ (entity.posX - entity.prevPosX) * partialTicks,
+				entity.prevPosY
+					+ (entity.posY - entity.prevPosY) * partialTicks,
+				entity.prevPosZ
+					+ (entity.posZ - entity.prevPosZ) * partialTicks);
+			
+			RenderUtils.drawOutlinedBox(ITEM_BOX);
+			
+			GL11.glPopMatrix();
+		}
 		
 		GL11.glPopMatrix();
 		

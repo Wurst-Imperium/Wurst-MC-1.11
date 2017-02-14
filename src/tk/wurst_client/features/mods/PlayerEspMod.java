@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.utils.EntityFakePlayer;
 import tk.wurst_client.utils.RenderUtils;
 
 @Mod.Info(description = "Allows you to see players through walls.",
@@ -63,7 +64,7 @@ public class PlayerEspMod extends Mod implements RenderListener
 		// draw boxes
 		for(EntityPlayer entity : mc.world.playerEntities)
 		{
-			if(entity == mc.player)
+			if(entity == mc.player || entity instanceof EntityFakePlayer)
 				continue;
 			
 			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
@@ -87,7 +88,13 @@ public class PlayerEspMod extends Mod implements RenderListener
 			
 			// set position
 			GL11.glPushMatrix();
-			GL11.glTranslated(entity.posX, entity.posY, entity.posZ);
+			GL11.glTranslated(
+				entity.prevPosX
+					+ (entity.posX - entity.prevPosX) * partialTicks,
+				entity.prevPosY
+					+ (entity.posY - entity.prevPosY) * partialTicks,
+				entity.prevPosZ
+					+ (entity.posZ - entity.prevPosZ) * partialTicks);
 			
 			// draw box
 			RenderUtils.drawOutlinedBox(PLAYER_BOX);

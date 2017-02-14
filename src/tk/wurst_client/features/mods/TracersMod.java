@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.utils.EntityFakePlayer;
 import tk.wurst_client.utils.RotationUtils;
 
 @Mod.Info(description = "Draws lines to players around you.",
@@ -67,7 +68,7 @@ public class TracersMod extends Mod implements RenderListener
 		GL11.glBegin(GL11.GL_LINES);
 		for(EntityPlayer entity : mc.world.playerEntities)
 		{
-			if(entity == mc.player)
+			if(entity == mc.player || entity instanceof EntityFakePlayer)
 				continue;
 			
 			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
@@ -79,7 +80,10 @@ public class TracersMod extends Mod implements RenderListener
 				continue;
 			
 			// set end position
-			Vec3d end = entity.boundingBox.getCenter();
+			Vec3d end = entity.boundingBox.getCenter()
+				.subtract(new Vec3d(entity.posX, entity.posY, entity.posZ)
+					.subtract(entity.prevPosX, entity.prevPosY, entity.prevPosZ)
+					.scale(1 - partialTicks));
 			
 			// set color
 			if(wurst.friends.contains(entity.getName()))

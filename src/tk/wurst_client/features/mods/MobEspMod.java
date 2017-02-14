@@ -63,29 +63,41 @@ public class MobEspMod extends Mod implements RenderListener
 		
 		// draw boxes
 		for(Entity entity : mc.world.loadedEntityList)
-			if(entity instanceof EntityLiving)
-			{
-				GL11.glPushMatrix();
-				
-				// set color
-				float factor = mc.player.getDistanceToEntity(entity) / 20F;
-				if(factor > 2)
-					factor = 2;
-				GL11.glColor4f(2 - factor, factor, 0, 0.5F);
-				
-				// set position
-				GL11.glTranslated(entity.posX, entity.posY, entity.posZ);
-				
-				// set size
-				double boxWidth = entity.width + 0.1;
-				double boxHeight = entity.height + 0.1;
-				GL11.glScaled(boxWidth, boxHeight, boxWidth);
-				
-				// draw box
-				RenderUtils.drawOutlinedBox(MOB_BOX);
-				
-				GL11.glPopMatrix();
-			}
+		{
+			if(!(entity instanceof EntityLiving))
+				continue;
+			
+			if(!wurst.special.targetSpf.invisibleMobs.isChecked()
+				&& entity.isInvisible())
+				continue;
+			
+			GL11.glPushMatrix();
+			
+			// set color
+			float factor = mc.player.getDistanceToEntity(entity) / 20F;
+			if(factor > 2)
+				factor = 2;
+			GL11.glColor4f(2 - factor, factor, 0, 0.5F);
+			
+			// set position
+			GL11.glTranslated(
+				entity.prevPosX
+					+ (entity.posX - entity.prevPosX) * partialTicks,
+				entity.prevPosY
+					+ (entity.posY - entity.prevPosY) * partialTicks,
+				entity.prevPosZ
+					+ (entity.posZ - entity.prevPosZ) * partialTicks);
+			
+			// set size
+			double boxWidth = entity.width + 0.1;
+			double boxHeight = entity.height + 0.1;
+			GL11.glScaled(boxWidth, boxHeight, boxWidth);
+			
+			// draw box
+			RenderUtils.drawOutlinedBox(MOB_BOX);
+			
+			GL11.glPopMatrix();
+		}
 		
 		GL11.glPopMatrix();
 		
