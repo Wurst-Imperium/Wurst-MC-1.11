@@ -70,6 +70,14 @@ public class TracersMod extends Mod implements RenderListener
 			if(entity == mc.player)
 				continue;
 			
+			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
+				&& entity.isPlayerSleeping())
+				continue;
+			
+			if(!wurst.special.targetSpf.invisiblePlayers.isChecked()
+				&& entity.isInvisible())
+				continue;
+			
 			// set end position
 			Vec3d end = entity.boundingBox.getCenter();
 			

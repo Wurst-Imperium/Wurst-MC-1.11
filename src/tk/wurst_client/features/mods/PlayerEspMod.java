@@ -66,6 +66,14 @@ public class PlayerEspMod extends Mod implements RenderListener
 			if(entity == mc.player)
 				continue;
 			
+			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
+				&& entity.isPlayerSleeping())
+				continue;
+			
+			if(!wurst.special.targetSpf.invisiblePlayers.isChecked()
+				&& entity.isInvisible())
+				continue;
+			
 			// set color
 			if(wurst.friends.contains(entity.getName()))
 				GL11.glColor4f(0, 0, 1, 0.5F);
