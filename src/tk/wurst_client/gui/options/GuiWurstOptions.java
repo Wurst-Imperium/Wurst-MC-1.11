@@ -42,21 +42,19 @@ public class GuiWurstOptions extends GuiScreen
 		"The Zoom Manager allows you to\n" + "change the zoom key, how far it\n"
 			+ "will zoom in and more.",
 		"", "", "", "", "", "", ""};
-	private boolean autoMaximize;
+	private boolean autoMaximize =
+		WurstClient.INSTANCE.files.loadAutoMaximize();
 	
 	public GuiWurstOptions(GuiScreen par1GuiScreen)
 	{
 		prevMenu = par1GuiScreen;
 	}
 	
-	/**
-	 * Adds the buttons (and other controls) to the screen in question.
-	 */
 	@Override
 	public void initGui()
 	{
-		autoMaximize = WurstClient.INSTANCE.files.loadAutoMaximize();
 		buttonList.clear();
+		
 		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 144 - 16,
 			200, 20, "Back"));
 		buttonList.add(
@@ -101,106 +99,94 @@ public class GuiWurstOptions extends GuiScreen
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton clickedButton)
+	protected void actionPerformed(GuiButton button)
 	{
-		if(clickedButton.enabled)
-			if(clickedButton.id == 0)
-				mc.displayGuiScreen(prevMenu);
-			else if(clickedButton.id == 1)
-			{// Click Friends
-				WurstClient.INSTANCE.options.middleClickFriends =
-					!WurstClient.INSTANCE.options.middleClickFriends;
-				clickedButton.displayString = "Click Friends: "
-					+ (WurstClient.INSTANCE.options.middleClickFriends ? "ON"
-						: "OFF");
-				WurstClient.INSTANCE.files.saveOptions();
+		if(!button.enabled)
+			return;
+		
+		if(button.id == 0)
+			mc.displayGuiScreen(prevMenu);
+		else if(button.id == 1)
+		{// Click Friends
+			WurstClient.INSTANCE.options.middleClickFriends =
+				!WurstClient.INSTANCE.options.middleClickFriends;
+			button.displayString = "Click Friends: "
+				+ (WurstClient.INSTANCE.options.middleClickFriends ? "ON"
+					: "OFF");
+			WurstClient.INSTANCE.files.saveOptions();
+			WurstClient.INSTANCE.analytics.trackEvent("options",
+				"click friends",
+				WurstClient.INSTANCE.options.middleClickFriends ? "ON" : "OFF");
+		}else if(button.id == 2)
+		{// Mod List
+			WurstClient.INSTANCE.options.modListMode++;
+			if(WurstClient.INSTANCE.options.modListMode > 2)
+				WurstClient.INSTANCE.options.modListMode = 0;
+			button.displayString = "Mod List: "
+				+ modListModes[WurstClient.INSTANCE.options.modListMode];
+			WurstClient.INSTANCE.files.saveOptions();
+			WurstClient.INSTANCE.analytics.trackEvent("options", "mod list",
+				modListModes[WurstClient.INSTANCE.options.modListMode]);
+		}else if(button.id == 3)
+		{// AutoMaximize
+			autoMaximize = !autoMaximize;
+			button.displayString =
+				"AutoMaximize: " + (autoMaximize ? "ON" : "OFF");
+			WurstClient.INSTANCE.files.saveAutoMaximize(autoMaximize);
+			WurstClient.INSTANCE.analytics.trackEvent("options", "automaximize",
+				autoMaximize ? "ON" : "OFF");
+		}else if(button.id == 4)
+		{// Wurst News
+			WurstClient.INSTANCE.options.wurstNews =
+				!WurstClient.INSTANCE.options.wurstNews;
+			button.displayString = "Wurst News: "
+				+ (WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
+			WurstClient.INSTANCE.files.saveOptions();
+			WurstClient.INSTANCE.analytics.trackEvent("options", "wurst news",
+				WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
+		}else if(button.id == 5)
+		{// Analytics
+			GoogleAnalytics analytics =
+				WurstClient.INSTANCE.options.google_analytics;
+			if(analytics.enabled)
 				WurstClient.INSTANCE.analytics.trackEvent("options",
-					"click friends",
-					WurstClient.INSTANCE.options.middleClickFriends ? "ON"
-						: "OFF");
-			}else if(clickedButton.id == 2)
-			{// Mod List
-				WurstClient.INSTANCE.options.modListMode++;
-				if(WurstClient.INSTANCE.options.modListMode > 2)
-					WurstClient.INSTANCE.options.modListMode = 0;
-				clickedButton.displayString = "Mod List: "
-					+ modListModes[WurstClient.INSTANCE.options.modListMode];
-				WurstClient.INSTANCE.files.saveOptions();
-				WurstClient.INSTANCE.analytics.trackEvent("options", "mod list",
-					modListModes[WurstClient.INSTANCE.options.modListMode]);
-			}else if(clickedButton.id == 3)
-			{// AutoMaximize
-				autoMaximize = !autoMaximize;
-				clickedButton.displayString =
-					"AutoMaximize: " + (autoMaximize ? "ON" : "OFF");
-				WurstClient.INSTANCE.files.saveAutoMaximize(autoMaximize);
+					"analytics", "disable");
+			analytics.enabled = !analytics.enabled;
+			if(analytics.enabled)
 				WurstClient.INSTANCE.analytics.trackEvent("options",
-					"automaximize", autoMaximize ? "ON" : "OFF");
-			}else if(clickedButton.id == 4)
-			{// Wurst News
-				WurstClient.INSTANCE.options.wurstNews =
-					!WurstClient.INSTANCE.options.wurstNews;
-				clickedButton.displayString = "Wurst News: "
-					+ (WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
-				WurstClient.INSTANCE.files.saveOptions();
-				WurstClient.INSTANCE.analytics.trackEvent("options",
-					"wurst news",
-					WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
-			}else if(clickedButton.id == 5)
-			{// Analytics
-				GoogleAnalytics analytics =
-					WurstClient.INSTANCE.options.google_analytics;
-				if(analytics.enabled)
-					WurstClient.INSTANCE.analytics.trackEvent("options",
-						"analytics", "disable");
-				analytics.enabled = !analytics.enabled;
-				if(analytics.enabled)
-					WurstClient.INSTANCE.analytics.trackEvent("options",
-						"analytics", "enable");
-				clickedButton.displayString =
-					"Analytics: " + (analytics.enabled ? "ON" : "OFF");
-				WurstClient.INSTANCE.files.saveOptions();
-			}else if(clickedButton.id == 6)
-				// Keybind Manager
-				mc.displayGuiScreen(new GuiKeybindManager(this));
-			else if(clickedButton.id == 7)
-				// X-Ray Block Manager
-				mc.displayGuiScreen(new GuiXRayBlocksManager(this));
-			else if(clickedButton.id == 8)
-				// Zoom Manager
-				mc.displayGuiScreen(new GuiZoomManager(this));
-			else if(clickedButton.id == 9)
-			{
-				
-			}else if(clickedButton.id == 10)
-			{
-				
-			}else if(clickedButton.id == 11)
-				MiscUtils.openLink("https://www.wurst-client.tk/");
-			else if(clickedButton.id == 12)
-				MiscUtils.openLink("https://www.wurst-client.tk/youtube/");
-			else if(clickedButton.id == 13)
-				MiscUtils.openLink("https://www.wurst-client.tk/twitter/");
-			else if(clickedButton.id == 14)
-				MiscUtils.openLink("https://www.wurst-client.tk/discord/");
-			else if(clickedButton.id == 15)
-			{
-				
-			}
+					"analytics", "enable");
+			button.displayString =
+				"Analytics: " + (analytics.enabled ? "ON" : "OFF");
+			WurstClient.INSTANCE.files.saveOptions();
+		}else if(button.id == 6)
+			// Keybind Manager
+			mc.displayGuiScreen(new GuiKeybindManager(this));
+		else if(button.id == 7)
+			// X-Ray Block Manager
+			mc.displayGuiScreen(new GuiXRayBlocksManager(this));
+		else if(button.id == 8)
+			// Zoom Manager
+			mc.displayGuiScreen(new GuiZoomManager(this));
+		else if(button.id == 9)
+		{
+			
+		}else if(button.id == 10)
+		{
+			
+		}else if(button.id == 11)
+			MiscUtils.openLink("https://www.wurst-client.tk/");
+		else if(button.id == 12)
+			MiscUtils.openLink("https://www.wurst-client.tk/youtube/");
+		else if(button.id == 13)
+			MiscUtils.openLink("https://www.wurst-client.tk/twitter/");
+		else if(button.id == 14)
+			MiscUtils.openLink("https://www.wurst-client.tk/discord/");
+		else if(button.id == 15)
+		{
+			
+		}
 	}
 	
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
-	@Override
-	public void updateScreen()
-	{
-		super.updateScreen();
-	}
-	
-	/**
-	 * Draws the screen and all the components in it.
-	 */
 	@Override
 	public void drawScreen(int par1, int par2, float par3)
 	{
