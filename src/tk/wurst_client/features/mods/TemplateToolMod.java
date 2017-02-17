@@ -36,6 +36,7 @@ import tk.wurst_client.events.listeners.GUIRenderListener;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.utils.BlockUtils;
 import tk.wurst_client.utils.ChatUtils;
@@ -652,7 +653,7 @@ public class TemplateToolMod extends Mod
 			
 			if(!nameField.getText().isEmpty())
 				wurst.mods.templateToolMod.file = new File(
-					wurst.files.autobuildDir, nameField.getText() + ".json");
+					WurstFolders.AUTOBUILD, nameField.getText() + ".json");
 		}
 		
 		@Override

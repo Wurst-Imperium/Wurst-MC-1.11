@@ -32,6 +32,7 @@ import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.MiscUtils;
 
 public class ServerHook
@@ -49,7 +50,7 @@ public class ServerHook
 	public static void importServers(GuiMultiplayer guiMultiplayer)
 	{
 		JFileChooser fileChooser =
-			new JFileChooser(WurstClient.INSTANCE.files.serverlistsDir)
+			new JFileChooser(WurstFolders.SERVERLISTS)
 			{
 				@Override
 				protected JDialog createDialog(Component parent)
@@ -93,7 +94,7 @@ public class ServerHook
 	public static void exportServers(GuiMultiplayer guiMultiplayer)
 	{
 		JFileChooser fileChooser =
-			new JFileChooser(WurstClient.INSTANCE.files.serverlistsDir)
+			new JFileChooser(WurstFolders.SERVERLISTS)
 			{
 				@Override
 				protected JDialog createDialog(Component parent)

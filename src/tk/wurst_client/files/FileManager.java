@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -29,6 +30,8 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.Encryption;
@@ -43,37 +46,28 @@ import tk.wurst_client.utils.XRayUtils;
 
 public class FileManager
 {
-	public final File wurstDir =
-		new File(Minecraft.getMinecraft().mcDataDir, "wurst");
-	public final File autobuildDir = new File(wurstDir, "autobuild");
-	public final File skinDir = new File(wurstDir, "skins");
-	public final File serverlistsDir = new File(wurstDir, "serverlists");
-	public final File spamDir = new File(wurstDir, "spam");
-	public final File scriptsDir = new File(spamDir, "autorun");
-	
-	public final File alts = new File(wurstDir, "alts.json");
-	public final File friends = new File(wurstDir, "friends.json");
-	public final File modules = new File(wurstDir, "modules.json");
-	public final File navigatorData = new File(wurstDir, "navigator.json");
-	public final File keybinds = new File(wurstDir, "keybinds.json");
-	public final File options = new File(wurstDir, "options.json");
-	public final File autoMaximize = new File(wurstDir, "automaximize.json");
-	public final File xray = new File(wurstDir, "xray.json");
+	public final File alts = new File(WurstFolders.MAIN, "alts.json");
+	public final File friends = new File(WurstFolders.MAIN, "friends.json");
+	public final File modules = new File(WurstFolders.MAIN, "modules.json");
+	public final File navigatorData =
+		new File(WurstFolders.MAIN, "navigator.json");
+	public final File keybinds = new File(WurstFolders.MAIN, "keybinds.json");
+	public final File options = new File(WurstFolders.MAIN, "options.json");
+	public final File autoMaximize =
+		new File(WurstFolders.MAIN, "automaximize.json");
+	public final File xray = new File(WurstFolders.MAIN, "xray.json");
 	
 	public void init()
 	{
-		if(!wurstDir.exists())
-			wurstDir.mkdir();
-		if(!autobuildDir.exists())
-			autobuildDir.mkdir();
-		if(!spamDir.exists())
-			spamDir.mkdir();
-		if(!scriptsDir.exists())
-			scriptsDir.mkdir();
-		if(!skinDir.exists())
-			skinDir.mkdir();
-		if(!serverlistsDir.exists())
-			serverlistsDir.mkdir();
+		// create folders
+		try
+		{
+			WurstFolders.createFolders();
+		}catch(ReflectiveOperationException | IOException e)
+		{
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
+		}
 		
 		if(!options.exists())
 			saveOptions();
@@ -545,8 +539,8 @@ public class FileManager
 					JsonUtils.prettyGson.toJsonTree(comment, String[].class));
 				json.add("blocks", JsonUtils.prettyGson
 					.toJsonTree(entry.getValue(), int[][].class));
-				PrintWriter save = new PrintWriter(new FileWriter(
-					new File(autobuildDir, entry.getKey() + ".json")));
+				PrintWriter save = new PrintWriter(new FileWriter(new File(
+					WurstFolders.AUTOBUILD, entry.getKey() + ".json")));
 				save.println(JsonUtils.prettyGson.toJson(json));
 				save.close();
 			}
@@ -558,7 +552,7 @@ public class FileManager
 	
 	public void loadAutoBuildTemplates()
 	{
-		File[] files = autobuildDir.listFiles();
+		File[] files = WurstFolders.AUTOBUILD.listFiles();
 		
 		boolean foundOldTemplates = false;
 		TreeMap<String, int[][]> templates = new TreeMap<>();
@@ -595,7 +589,7 @@ public class FileManager
 			
 		// if directory is empty or contains old templates,
 		// add default templates and try again
-		if(foundOldTemplates || autobuildDir.listFiles().length == 0)
+		if(foundOldTemplates || WurstFolders.AUTOBUILD.listFiles().length == 0)
 		{
 			createDefaultAutoBuildTemplates();
 			loadAutoBuildTemplates();

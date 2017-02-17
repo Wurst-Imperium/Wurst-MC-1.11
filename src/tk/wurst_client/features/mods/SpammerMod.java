@@ -28,6 +28,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.spam.SpamProcessor;
 import tk.wurst_client.spam.exceptions.UnreadableTagException;
@@ -79,7 +80,7 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						JFileChooser fileChooser =
-							new JFileChooser(wurst.files.spamDir)
+							new JFileChooser(WurstFolders.SPAM)
 							{
 								@Override
 								protected JDialog createDialog(Component parent)
@@ -131,7 +132,7 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						JFileChooser fileChooser =
-							new JFileChooser(wurst.files.spamDir)
+							new JFileChooser(WurstFolders.SPAM)
 							{
 								@Override
 								protected JDialog createDialog(Component parent)
@@ -177,7 +178,7 @@ public class SpammerMod extends Mod
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
-						MiscUtils.openFile(wurst.files.spamDir);
+						MiscUtils.openFile(WurstFolders.SPAM);
 					}
 				});
 				fileMenu.add(fileOpenFolder);

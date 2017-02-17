@@ -31,6 +31,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.ChatUtils;
 
 @Mod.Info(
@@ -124,7 +125,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 				
 				rbDefaultList =
 					new JRadioButton("default", wurst.options.forceOPList
-						.equals(wurst.files.wurstDir.getPath()));
+						.equals(WurstFolders.MAIN.getPath()));
 				rbDefaultList.setLocation(4, 24);
 				rbDefaultList.setSize(rbDefaultList.getPreferredSize());
 				dialog.add(rbDefaultList);
@@ -143,7 +144,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 						if(!rbTXTList.isSelected())
 						{
 							wurst.options.forceOPList =
-								wurst.files.wurstDir.getPath();
+								WurstFolders.MAIN.getPath();
 							wurst.files.saveOptions();
 						}
 						loadPWList();
@@ -429,8 +430,8 @@ public class ForceOpMod extends Mod implements ChatInputListener
 	
 	private void loadPWList()
 	{
-		if(rbTXTList.isSelected() && !wurst.options.forceOPList
-			.equals(wurst.files.wurstDir.getPath()))
+		if(rbTXTList.isSelected()
+			&& !wurst.options.forceOPList.equals(WurstFolders.MAIN.getPath()))
 			try
 			{
 				File pwList = new File(wurst.options.forceOPList);

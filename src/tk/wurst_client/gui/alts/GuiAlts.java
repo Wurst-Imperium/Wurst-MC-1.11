@@ -30,6 +30,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.LoginManager;
 import tk.wurst_client.alts.NameGenerator;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -155,18 +156,18 @@ public class GuiAlts extends GuiScreen
 					@Override
 					public void run()
 					{
-						JFileChooser fileChooser = new JFileChooser(
-							WurstClient.INSTANCE.files.wurstDir)
-						{
-							@Override
-							protected JDialog createDialog(Component parent)
-								throws HeadlessException
+						JFileChooser fileChooser =
+							new JFileChooser(WurstFolders.MAIN)
 							{
-								JDialog dialog = super.createDialog(parent);
-								dialog.setAlwaysOnTop(true);
-								return dialog;
-							}
-						};
+								@Override
+								protected JDialog createDialog(Component parent)
+									throws HeadlessException
+								{
+									JDialog dialog = super.createDialog(parent);
+									dialog.setAlwaysOnTop(true);
+									return dialog;
+								}
+							};
 						fileChooser
 							.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						fileChooser.setAcceptAllFileFilterUsed(false);

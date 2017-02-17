@@ -22,6 +22,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.NameGenerator;
 import tk.wurst_client.alts.SkinStealer;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.MiscUtils;
 
 public abstract class AltEditorScreen extends GuiScreen
@@ -120,7 +121,7 @@ public abstract class AltEditorScreen extends GuiScreen
 			else if(button.id == 4)
 				displayText = SkinStealer.stealSkin(getName());
 			else if(button.id == 5)
-				MiscUtils.openFile(WurstClient.INSTANCE.files.skinDir);
+				MiscUtils.openFile(WurstFolders.SKINS);
 	}
 	
 	/**

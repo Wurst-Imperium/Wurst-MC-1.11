@@ -30,7 +30,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import net.minecraft.client.Minecraft;
-import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.WurstFolders;
 
 public class Encryption
 {
@@ -43,8 +43,7 @@ public class Encryption
 		rsaKeyDir != null ? new File(rsaKeyDir, "wurst_rsa") : null;
 	private static final File publicFile =
 		rsaKeyDir != null ? new File(rsaKeyDir, "wurst_rsa.pub") : null;
-	private static final File aesFile =
-		new File(WurstClient.INSTANCE.files.wurstDir, "key");
+	private static final File aesFile = new File(WurstFolders.MAIN, "key");
 	
 	private static KeyPair keypair;
 	private static SecretKey aesKey;
