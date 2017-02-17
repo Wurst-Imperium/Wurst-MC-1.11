@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.Consumer;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
@@ -33,7 +32,6 @@ import net.minecraft.client.Minecraft;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.Encryption;
-import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.mods.*;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.navigator.Navigator;
@@ -59,8 +57,7 @@ public class FileManager
 	public final File navigatorData = new File(wurstDir, "navigator.json");
 	public final File keybinds = new File(wurstDir, "keybinds.json");
 	public final File options = new File(wurstDir, "options.json");
-	public final File autoMaximize = new File(
-		Minecraft.getMinecraft().mcDataDir + "/wurst/automaximize.json");
+	public final File autoMaximize = new File(wurstDir, "automaximize.json");
 	public final File xray = new File(wurstDir, "xray.json");
 	
 	public void init()
@@ -77,6 +74,7 @@ public class FileManager
 			skinDir.mkdir();
 		if(!serverlistsDir.exists())
 			serverlistsDir.mkdir();
+		
 		if(!options.exists())
 			saveOptions();
 		else
@@ -264,34 +262,29 @@ public class FileManager
 			JsonObject json = new JsonObject();
 			
 			Navigator navigator = WurstClient.INSTANCE.navigator;
-			navigator.forEach(new Consumer<Feature>()
-			{
-				@Override
-				public void accept(Feature item)
+			navigator.forEach((item) -> {
+				JsonObject jsonFeature = new JsonObject();
+				
+				long preference = navigator.getPreference(item.getName());
+				if(preference != 0L)
+					jsonFeature.addProperty("preference", preference);
+				
+				if(!item.getSettings().isEmpty())
 				{
-					JsonObject jsonFeature = new JsonObject();
-					
-					long preference = navigator.getPreference(item.getName());
-					if(preference != 0L)
-						jsonFeature.addProperty("preference", preference);
-					
-					if(!item.getSettings().isEmpty())
-					{
-						JsonObject jsonSettings = new JsonObject();
-						for(Setting setting : item.getSettings())
-							try
-							{
-								setting.save(jsonSettings);
-							}catch(Exception e)
-							{
-								e.printStackTrace();
-							}
-						jsonFeature.add("settings", jsonSettings);
-					}
-					
-					if(!jsonFeature.entrySet().isEmpty())
-						json.add(item.getName(), jsonFeature);
+					JsonObject jsonSettings = new JsonObject();
+					for(Setting setting : item.getSettings())
+						try
+						{
+							setting.save(jsonSettings);
+						}catch(Exception e)
+						{
+							e.printStackTrace();
+						}
+					jsonFeature.add("settings", jsonSettings);
 				}
+				
+				if(!jsonFeature.entrySet().isEmpty())
+					json.add(item.getName(), jsonFeature);
 			});
 			
 			PrintWriter save = new PrintWriter(new FileWriter(navigatorData));
@@ -313,34 +306,28 @@ public class FileManager
 			load.close();
 			
 			Navigator navigator = WurstClient.INSTANCE.navigator;
-			navigator.forEach(new Consumer<Feature>()
-			{
-				@Override
-				public void accept(Feature item)
+			navigator.forEach((item) -> {
+				String itemName = item.getName();
+				if(!json.has(itemName))
+					return;
+				JsonObject jsonFeature = json.get(itemName).getAsJsonObject();
+				
+				if(jsonFeature.has("preference"))
+					navigator.setPreference(itemName,
+						jsonFeature.get("preference").getAsLong());
+				
+				if(jsonFeature.has("settings"))
 				{
-					String itemName = item.getName();
-					if(!json.has(itemName))
-						return;
-					JsonObject jsonFeature =
-						json.get(itemName).getAsJsonObject();
-					
-					if(jsonFeature.has("preference"))
-						navigator.setPreference(itemName,
-							jsonFeature.get("preference").getAsLong());
-					
-					if(jsonFeature.has("settings"))
-					{
-						JsonObject jsonSettings =
-							jsonFeature.get("settings").getAsJsonObject();
-						for(Setting setting : item.getSettings())
-							try
-							{
-								setting.load(jsonSettings);
-							}catch(Exception e)
-							{
-								e.printStackTrace();
-							}
-					}
+					JsonObject jsonSettings =
+						jsonFeature.get("settings").getAsJsonObject();
+					for(Setting setting : item.getSettings())
+						try
+						{
+							setting.load(jsonSettings);
+						}catch(Exception e)
+						{
+							e.printStackTrace();
+						}
 				}
 			});
 		}catch(Exception e)
