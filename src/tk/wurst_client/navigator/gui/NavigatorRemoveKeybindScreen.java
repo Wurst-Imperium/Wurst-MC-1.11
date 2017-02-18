@@ -19,6 +19,7 @@ import java.util.TreeMap;
 
 import net.minecraft.client.gui.GuiButton;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.utils.RenderUtils;
@@ -55,7 +56,7 @@ public class NavigatorRemoveKeybindScreen extends NavigatorScreen
 				else
 					wurst.keybinds.get(selectedKey)
 						.remove(existingKeybinds.get(selectedKey).getCommand());
-				wurst.files.saveKeybinds();
+				ConfigFiles.KEYBINDS.save();
 				mc.displayGuiScreen(parent);
 				wurst.navigator.addPreference(parent.getFeature().getName());
 				wurst.files.saveNavigatorData();

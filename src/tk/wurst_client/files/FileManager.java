@@ -14,17 +14,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -48,7 +45,6 @@ public class FileManager
 	public final File friends = new File(WurstFolders.MAIN, "friends.json");
 	public final File navigatorData =
 		new File(WurstFolders.MAIN, "navigator.json");
-	public final File keybinds = new File(WurstFolders.MAIN, "keybinds.json");
 	public final File options = new File(WurstFolders.MAIN, "options.json");
 	public final File autoMaximize =
 		new File(WurstFolders.MAIN, "automaximize.json");
@@ -70,10 +66,6 @@ public class FileManager
 			saveOptions();
 		else
 			loadOptions();
-		if(!keybinds.exists())
-			saveKeybinds();
-		else
-			loadKeybinds();
 		if(!navigatorData.exists())
 			saveNavigatorData();
 		else
@@ -94,92 +86,6 @@ public class FileManager
 			loadXRayBlocks();
 		
 		loadAutoBuildTemplates();
-	}
-	
-	public void saveKeybinds()
-	{
-		try
-		{
-			JsonObject json = new JsonObject();
-			
-			for(Entry<String, TreeSet<String>> entry : WurstClient.INSTANCE.keybinds
-				.entrySet())
-			{
-				JsonArray commands = new JsonArray();
-				
-				entry.getValue()
-					.forEach((c) -> commands.add(new JsonPrimitive(c)));
-				
-				json.add(entry.getKey(), commands);
-			}
-			
-			try(FileWriter writer = new FileWriter(keybinds))
-			{
-				JsonUtils.prettyGson.toJson(json, writer);
-			}
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadKeybinds()
-	{
-		try
-		{
-			JsonObject json;
-			
-			// load file
-			try(FileReader reader = new FileReader(keybinds))
-			{
-				json = JsonUtils.jsonParser.parse(reader).getAsJsonObject();
-			}
-			
-			// clear keybinds
-			WurstClient.INSTANCE.keybinds.clear();
-			
-			// add keybinds
-			boolean needsUpdate = false;
-			for(Entry<String, JsonElement> entry : json.entrySet())
-				if(entry.getValue().isJsonArray())
-				{
-					TreeSet<String> commmands = new TreeSet<>();
-					
-					entry.getValue().getAsJsonArray()
-						.forEach((c) -> commmands.add(c.getAsString()));
-					
-					WurstClient.INSTANCE.keybinds.put(entry.getKey(),
-						commmands);
-					
-				}else
-				{
-					String command = entry.getValue().getAsString();
-					if(command.equalsIgnoreCase(".t clickgui"))
-					{
-						command = ".t navigator";
-						needsUpdate = true;
-					}
-					
-					WurstClient.INSTANCE.keybinds.put(entry.getKey(), command);
-				}
-			
-			// force-add GUI keybind if missing
-			if(!WurstClient.INSTANCE.keybinds
-				.containsValue(new TreeSet<>(Arrays.asList(".t navigator"))))
-			{
-				WurstClient.INSTANCE.keybinds.put("LCONTROL", ".t navigator");
-				needsUpdate = true;
-			}
-			
-			// update file
-			if(needsUpdate)
-				saveKeybinds();
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	public void saveNavigatorData()

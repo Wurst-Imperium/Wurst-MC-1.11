@@ -20,6 +20,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.gui.GuiButton;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.options.KeybindManager;
@@ -62,7 +63,7 @@ public class NavigatorNewKeybindScreen extends NavigatorScreen
 					else
 						wurst.keybinds.put(selectedKey,
 							possibleKeybinds.get(selectedCommand).getCommand());
-					wurst.files.saveKeybinds();
+					ConfigFiles.KEYBINDS.save();
 					mc.displayGuiScreen(parent);
 					wurst.navigator
 						.addPreference(parent.getFeature().getName());
