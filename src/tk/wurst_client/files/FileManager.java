@@ -15,13 +15,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,7 +33,7 @@ import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.Encryption;
-import tk.wurst_client.features.mods.*;
+import tk.wurst_client.features.mods.XRayMod;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.navigator.Navigator;
 import tk.wurst_client.options.FriendsList;
@@ -48,7 +46,6 @@ public class FileManager
 {
 	public final File alts = new File(WurstFolders.MAIN, "alts.json");
 	public final File friends = new File(WurstFolders.MAIN, "friends.json");
-	public final File modules = new File(WurstFolders.MAIN, "modules.json");
 	public final File navigatorData =
 		new File(WurstFolders.MAIN, "navigator.json");
 	public final File keybinds = new File(WurstFolders.MAIN, "keybinds.json");
@@ -73,10 +70,6 @@ public class FileManager
 			saveOptions();
 		else
 			loadOptions();
-		if(!modules.exists())
-			saveMods();
-		else
-			loadMods();
 		if(!keybinds.exists())
 			saveKeybinds();
 		else
@@ -101,70 +94,6 @@ public class FileManager
 			loadXRayBlocks();
 		
 		loadAutoBuildTemplates();
-	}
-	
-	public void saveMods()
-	{
-		try
-		{
-			JsonObject json = new JsonObject();
-			for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
-			{
-				JsonObject jsonMod = new JsonObject();
-				jsonMod.addProperty("enabled", mod.isEnabled());
-				json.add(mod.getName(), jsonMod);
-			}
-			PrintWriter save = new PrintWriter(new FileWriter(modules));
-			save.println(JsonUtils.prettyGson.toJson(json));
-			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	private HashSet<String> modBlacklist =
-		Sets.newHashSet(AntiAfkMod.class.getName(), BlinkMod.class.getName(),
-			AutoBuildMod.class.getName(), AutoSignMod.class.getName(),
-			FightBotMod.class.getName(), FollowMod.class.getName(),
-			ForceOpMod.class.getName(), FreecamMod.class.getName(),
-			InvisibilityMod.class.getName(), LsdMod.class.getName(),
-			MassTpaMod.class.getName(), NavigatorMod.class.getName(),
-			ProtectMod.class.getName(), RemoteViewMod.class.getName(),
-			SpammerMod.class.getName());
-	
-	public boolean isModBlacklisted(Mod mod)
-	{
-		return modBlacklist.contains(mod.getClass().getName());
-	}
-	
-	public void loadMods()
-	{
-		try
-		{
-			BufferedReader load = new BufferedReader(new FileReader(modules));
-			JsonObject json = (JsonObject)JsonUtils.jsonParser.parse(load);
-			load.close();
-			Iterator<Entry<String, JsonElement>> itr =
-				json.entrySet().iterator();
-			while(itr.hasNext())
-			{
-				Entry<String, JsonElement> entry = itr.next();
-				Mod mod =
-					WurstClient.INSTANCE.mods.getModByName(entry.getKey());
-				if(mod != null
-					&& !modBlacklist.contains(mod.getClass().getName()))
-				{
-					JsonObject jsonModule = (JsonObject)entry.getValue();
-					boolean enabled = jsonModule.get("enabled").getAsBoolean();
-					if(enabled)
-						mod.enableOnStartup();
-				}
-			}
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	public void saveKeybinds()

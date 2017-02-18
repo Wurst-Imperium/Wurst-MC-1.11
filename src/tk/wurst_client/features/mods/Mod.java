@@ -15,9 +15,9 @@ import java.util.Arrays;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
-import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
 import tk.wurst_client.features.special_features.YesCheatSpf.BypassLevel;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.settings.Setting;
 
@@ -188,8 +188,8 @@ public abstract class Mod extends Feature
 			throw new ReportedException(report);
 		}
 		
-		if(!WurstClient.INSTANCE.files.isModBlacklisted(this))
-			WurstClient.INSTANCE.files.saveMods();
+		if(!ConfigFiles.MODS.isModBlacklisted(this))
+			ConfigFiles.MODS.save();
 	}
 	
 	public final void enableOnStartup()
