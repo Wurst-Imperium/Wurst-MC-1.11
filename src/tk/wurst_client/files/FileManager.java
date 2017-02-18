@@ -172,19 +172,23 @@ public class FileManager
 		try
 		{
 			JsonObject json = new JsonObject();
-			Iterator<Entry<String, TreeSet<String>>> itr =
-				WurstClient.INSTANCE.keybinds.entrySet().iterator();
-			while(itr.hasNext())
+			
+			for(Entry<String, TreeSet<String>> entry : WurstClient.INSTANCE.keybinds
+				.entrySet())
 			{
-				Entry<String, TreeSet<String>> entry = itr.next();
-				JsonArray jsonCmds = new JsonArray();
+				JsonArray commands = new JsonArray();
+				
 				entry.getValue()
-					.forEach((cmd) -> jsonCmds.add(new JsonPrimitive(cmd)));
-				json.add(entry.getKey(), jsonCmds);
+					.forEach((c) -> commands.add(new JsonPrimitive(c)));
+				
+				json.add(entry.getKey(), commands);
 			}
-			PrintWriter save = new PrintWriter(new FileWriter(keybinds));
-			save.println(JsonUtils.prettyGson.toJson(json));
-			save.close();
+			
+			try(FileWriter writer = new FileWriter(keybinds))
+			{
+				JsonUtils.prettyGson.toJson(json, writer);
+			}
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -195,27 +199,27 @@ public class FileManager
 	{
 		try
 		{
+			JsonObject json;
+			
 			// load file
-			BufferedReader load = new BufferedReader(new FileReader(keybinds));
-			JsonObject json = (JsonObject)JsonUtils.jsonParser.parse(load);
-			load.close();
+			try(FileReader reader = new FileReader(keybinds))
+			{
+				json = JsonUtils.jsonParser.parse(reader).getAsJsonObject();
+			}
 			
 			// clear keybinds
 			WurstClient.INSTANCE.keybinds.clear();
 			
 			// add keybinds
-			Iterator<Entry<String, JsonElement>> itr =
-				json.entrySet().iterator();
 			boolean needsUpdate = false;
-			while(itr.hasNext())
-			{
-				Entry<String, JsonElement> entry = itr.next();
-				
+			for(Entry<String, JsonElement> entry : json.entrySet())
 				if(entry.getValue().isJsonArray())
 				{
 					TreeSet<String> commmands = new TreeSet<>();
+					
 					entry.getValue().getAsJsonArray()
-						.forEach((cmd) -> commmands.add(cmd.getAsString()));
+						.forEach((c) -> commmands.add(c.getAsString()));
+					
 					WurstClient.INSTANCE.keybinds.put(entry.getKey(),
 						commmands);
 					
@@ -230,7 +234,6 @@ public class FileManager
 					
 					WurstClient.INSTANCE.keybinds.put(entry.getKey(), command);
 				}
-			}
 			
 			// force-add GUI keybind if missing
 			if(!WurstClient.INSTANCE.keybinds
@@ -242,7 +245,8 @@ public class FileManager
 			
 			// update file
 			if(needsUpdate)
-				WurstClient.INSTANCE.files.saveKeybinds();
+				saveKeybinds();
+			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
