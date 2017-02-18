@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
-import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen;
 import tk.wurst_client.navigator.gui.NavigatorFeatureScreen.ButtonData;
@@ -74,7 +74,7 @@ public class ModeSetting implements Setting
 				public void press()
 				{
 					setSelected(iFinal);
-					WurstClient.INSTANCE.files.saveNavigatorData();
+					ConfigFiles.NAVIGATOR.save();
 				}
 				
 				@Override

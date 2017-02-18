@@ -18,6 +18,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.navigator.Navigator;
 import tk.wurst_client.utils.MiscUtils;
@@ -98,7 +99,7 @@ public class NavigatorMainScreen extends NavigatorScreen
 					feature.doPrimaryAction();
 					WurstClient wurst = WurstClient.INSTANCE;
 					wurst.navigator.addPreference(feature.getName());
-					wurst.files.saveNavigatorData();
+					ConfigFiles.NAVIGATOR.save();
 				}
 			}else if(button == 1)
 			{
@@ -110,7 +111,7 @@ public class NavigatorMainScreen extends NavigatorScreen
 					+ feature.getHelpPage() + "/");
 				WurstClient wurst = WurstClient.INSTANCE;
 				wurst.navigator.addPreference(feature.getName());
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 				wurst.navigator.analytics.trackEvent("help", "open",
 					feature.getName());
 			}

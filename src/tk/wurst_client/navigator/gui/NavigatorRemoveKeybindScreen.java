@@ -59,7 +59,7 @@ public class NavigatorRemoveKeybindScreen extends NavigatorScreen
 				ConfigFiles.KEYBINDS.save();
 				mc.displayGuiScreen(parent);
 				wurst.navigator.addPreference(parent.getFeature().getName());
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 				break;
 			case 1:
 				mc.displayGuiScreen(parent);

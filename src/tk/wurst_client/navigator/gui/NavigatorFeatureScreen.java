@@ -24,6 +24,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.navigator.PossibleKeybind;
 import tk.wurst_client.settings.CheckboxSetting;
@@ -72,7 +73,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		}
 		
 		wurst.navigator.addPreference(feature.getName());
-		wurst.files.saveNavigatorData();
+		ConfigFiles.NAVIGATOR.save();
 	}
 	
 	@Override
@@ -239,7 +240,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 			activeButton.press();
 			WurstClient wurst = WurstClient.INSTANCE;
 			wurst.navigator.addPreference(feature.getName());
-			wurst.files.saveNavigatorData();
+			ConfigFiles.NAVIGATOR.save();
 			return;
 		}
 		
@@ -265,7 +266,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 				checkbox.toggle();
 				WurstClient wurst = WurstClient.INSTANCE;
 				wurst.navigator.addPreference(feature.getName());
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 				return;
 			}
 		}
@@ -298,7 +299,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 			sliding = -1;
 			
 			wurst.navigator.addPreference(feature.getName());
-			wurst.files.saveNavigatorData();
+			ConfigFiles.NAVIGATOR.save();
 		}
 	}
 	

@@ -9,6 +9,7 @@ package tk.wurst_client.features.commands;
 
 import net.minecraft.block.Block;
 import tk.wurst_client.features.mods.NukerMod;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -42,7 +43,7 @@ public class NukerCmd extends Cmd
 			if(newMode != nuker.mode.getSelected())
 			{
 				nuker.mode.setSelected(newMode);
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 			}
 			
 			ChatUtils.message("Nuker mode set to \"" + args[1] + "\".");
@@ -51,7 +52,7 @@ public class NukerCmd extends Cmd
 			if(nuker.mode.getSelected() != 1)
 			{
 				nuker.mode.setSelected(1);
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 				ChatUtils.message("Nuker mode set to \"" + args[0] + "\".");
 			}
 			
@@ -62,7 +63,7 @@ public class NukerCmd extends Cmd
 			if(nuker.mode.getSelected() != 1)
 			{
 				nuker.mode.setSelected(1);
-				wurst.files.saveNavigatorData();
+				ConfigFiles.NAVIGATOR.save();
 				ChatUtils.message("Nuker mode set to \"" + args[0] + "\".");
 			}
 			
