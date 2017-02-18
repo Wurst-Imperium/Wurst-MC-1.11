@@ -12,6 +12,7 @@ import java.util.Iterator;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.StringUtils;
 import tk.wurst_client.alts.Alt;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.utils.ChatUtils;
 
@@ -48,12 +49,12 @@ public class AddAltCmd extends Cmd
 			else
 				ChatUtils.message("Added " + alts + " alts to the alt list.");
 			GuiAltList.sortAlts();
-			wurst.files.saveAlts();
+			ConfigFiles.ALTS.save();
 		}else if(!args[0].equals("Alexander01998"))
 		{
 			GuiAltList.alts.add(new Alt(args[0], null, null));
 			GuiAltList.sortAlts();
-			wurst.files.saveAlts();
+			ConfigFiles.ALTS.save();
 			ChatUtils.message("Added \"" + args[0] + "\" to the alt list.");
 		}
 	}

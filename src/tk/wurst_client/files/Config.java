@@ -10,6 +10,7 @@ package tk.wurst_client.files;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import com.google.gson.JsonElement;
 
@@ -36,14 +37,7 @@ public abstract class Config
 	{
 		try
 		{
-			JsonElement json;
-			try(FileReader reader = new FileReader(file))
-			{
-				json = JsonUtils.jsonParser.parse(reader);
-			}
-			
-			loadFromJson(json);
-			
+			loadFromJson(readFile(file));
 		}catch(Exception e)
 		{
 			System.out.println("Failed to load " + file.getName());
@@ -55,17 +49,27 @@ public abstract class Config
 	{
 		try
 		{
-			JsonElement json = saveToJson();
-			
-			try(FileWriter writer = new FileWriter(file))
-			{
-				JsonUtils.prettyGson.toJson(json, writer);
-			}
-			
+			writeFile(file, saveToJson());
 		}catch(Exception e)
 		{
 			System.out.println("Failed to save " + file.getName());
 			e.printStackTrace();
+		}
+	}
+	
+	protected JsonElement readFile(File file) throws IOException
+	{
+		try(FileReader reader = new FileReader(file))
+		{
+			return JsonUtils.jsonParser.parse(reader);
+		}
+	}
+	
+	protected void writeFile(File file, JsonElement json) throws IOException
+	{
+		try(FileWriter writer = new FileWriter(file))
+		{
+			JsonUtils.prettyGson.toJson(json, writer);
 		}
 	}
 	

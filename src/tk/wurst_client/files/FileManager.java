@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -28,17 +27,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.alts.Alt;
-import tk.wurst_client.alts.Encryption;
 import tk.wurst_client.features.mods.XRayMod;
-import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.options.FriendsList;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.XRayUtils;
 
 public class FileManager
 {
-	public final File alts = new File(WurstFolders.MAIN, "alts.json");
 	public final File friends = new File(WurstFolders.MAIN, "friends.json");
 	public final File autoMaximize =
 		new File(WurstFolders.MAIN, "automaximize.json");
@@ -56,10 +51,6 @@ public class FileManager
 				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
 		}
 		
-		if(!alts.exists())
-			saveAlts();
-		else
-			loadAlts();
 		if(!friends.exists())
 			saveFriends();
 		else
@@ -102,60 +93,6 @@ public class FileManager
 			PrintWriter save = new PrintWriter(new FileWriter(autoMaximize));
 			save.println(JsonUtils.prettyGson.toJson(autoMaximizeEnabled));
 			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveAlts()
-	{
-		try
-		{
-			JsonObject json = new JsonObject();
-			for(Alt alt : GuiAltList.alts)
-			{
-				JsonObject jsonAlt = new JsonObject();
-				jsonAlt.addProperty("password", alt.getPassword());
-				jsonAlt.addProperty("name", alt.getName());
-				jsonAlt.addProperty("starred", alt.isStarred());
-				json.add(alt.getEmail(), jsonAlt);
-			}
-			Files.write(alts.toPath(),
-				Encryption.encrypt(JsonUtils.prettyGson.toJson(json))
-					.getBytes(Encryption.CHARSET));
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadAlts()
-	{
-		try
-		{
-			JsonObject json = (JsonObject)JsonUtils.jsonParser.parse(
-				Encryption.decrypt(new String(Files.readAllBytes(alts.toPath()),
-					Encryption.CHARSET)));
-			GuiAltList.alts.clear();
-			Iterator<Entry<String, JsonElement>> itr =
-				json.entrySet().iterator();
-			while(itr.hasNext())
-			{
-				Entry<String, JsonElement> entry = itr.next();
-				JsonObject jsonAlt = entry.getValue().getAsJsonObject();
-				
-				String email = entry.getKey();
-				String password = jsonAlt.get("password") == null ? ""
-					: jsonAlt.get("password").getAsString();
-				String name = jsonAlt.get("name") == null ? ""
-					: jsonAlt.get("name").getAsString();
-				boolean starred = jsonAlt.get("starred") == null ? false
-					: jsonAlt.get("starred").getAsBoolean();
-				
-				GuiAltList.alts.add(new Alt(email, password, name, starred));
-			}
-			GuiAltList.sortAlts();
 		}catch(Exception e)
 		{
 			e.printStackTrace();

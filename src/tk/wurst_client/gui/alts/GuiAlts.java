@@ -30,6 +30,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.LoginManager;
 import tk.wurst_client.alts.NameGenerator;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.utils.MiscUtils;
@@ -113,7 +114,7 @@ public class GuiAlts extends GuiScreen
 					{
 						mc.displayGuiScreen(prevMenu);
 						alt.setChecked(mc.session.getUsername());
-						WurstClient.INSTANCE.files.saveAlts();
+						ConfigFiles.ALTS.save();
 					}else
 					{
 						errorTimer = 8;
@@ -121,7 +122,7 @@ public class GuiAlts extends GuiScreen
 						{
 							altList.removeSelectedAlt();
 							GuiAltList.sortAlts();
-							WurstClient.INSTANCE.files.saveAlts();
+							ConfigFiles.ALTS.save();
 						}
 					}
 				}
@@ -134,7 +135,7 @@ public class GuiAlts extends GuiScreen
 				Alt alt = altList.getSelectedAlt();
 				alt.setStarred(!alt.isStarred());
 				GuiAltList.sortAlts();
-				WurstClient.INSTANCE.files.saveAlts();
+				ConfigFiles.ALTS.save();
 			}else if(clickedButton.id == 4)
 			{
 				Alt alt = altList.getSelectedAlt();
@@ -193,7 +194,7 @@ public class GuiAlts extends GuiScreen
 								}
 								load.close();
 								GuiAltList.sortAlts();
-								WurstClient.INSTANCE.files.saveAlts();
+								ConfigFiles.ALTS.save();
 							}catch(IOException e)
 							{
 								e.printStackTrace();
@@ -216,7 +217,7 @@ public class GuiAlts extends GuiScreen
 					GuiAltList.alts
 						.add(new Alt(NameGenerator.generateName(), null, null));
 				GuiAltList.sortAlts();
-				WurstClient.INSTANCE.files.saveAlts();
+				ConfigFiles.ALTS.save();
 			}
 			shouldAsk = false;
 		}else if(par2 == 1)
@@ -224,7 +225,7 @@ public class GuiAlts extends GuiScreen
 			{
 				altList.removeSelectedAlt();
 				GuiAltList.sortAlts();
-				WurstClient.INSTANCE.files.saveAlts();
+				ConfigFiles.ALTS.save();
 			}
 		mc.displayGuiScreen(this);
 	}
