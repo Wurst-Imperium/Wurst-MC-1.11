@@ -7,6 +7,7 @@
  */
 package tk.wurst_client.features.commands;
 
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -34,7 +35,7 @@ public class ThrowCmd extends Cmd
 				return;
 			}
 			wurst.options.throwAmount = Integer.valueOf(args[1]);
-			wurst.files.saveOptions();
+			ConfigFiles.OPTIONS.save();
 			ChatUtils.message("Throw amount set to " + args[1] + ".");
 		}else
 			syntaxError();

@@ -12,6 +12,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import tk.wurst_client.events.ChatOutputEvent;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(
@@ -43,7 +44,7 @@ public class LeaveCmd extends Cmd
 				break;
 			case 2:
 				wurst.mods.autoLeaveMod.mode.setSelected(parseMode(args[1]));
-				wurst.files.saveOptions();
+				ConfigFiles.OPTIONS.save();
 				ChatUtils.message("AutoLeave mode set to \"" + args[1] + "\".");
 				break;
 			default:

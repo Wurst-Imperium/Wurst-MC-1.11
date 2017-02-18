@@ -14,6 +14,7 @@ import net.minecraft.util.ReportedException;
 
 public final class ConfigFiles
 {
+	public static final OptionsConfig OPTIONS = new OptionsConfig();
 	public static final ModsConfig MODS = new ModsConfig();
 	public static final KeybindsConfig KEYBINDS = new KeybindsConfig();
 	

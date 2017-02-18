@@ -34,7 +34,6 @@ import tk.wurst_client.features.mods.XRayMod;
 import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.navigator.Navigator;
 import tk.wurst_client.options.FriendsList;
-import tk.wurst_client.options.OptionsManager;
 import tk.wurst_client.settings.Setting;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.XRayUtils;
@@ -45,7 +44,6 @@ public class FileManager
 	public final File friends = new File(WurstFolders.MAIN, "friends.json");
 	public final File navigatorData =
 		new File(WurstFolders.MAIN, "navigator.json");
-	public final File options = new File(WurstFolders.MAIN, "options.json");
 	public final File autoMaximize =
 		new File(WurstFolders.MAIN, "automaximize.json");
 	public final File xray = new File(WurstFolders.MAIN, "xray.json");
@@ -62,10 +60,6 @@ public class FileManager
 				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
 		}
 		
-		if(!options.exists())
-			saveOptions();
-		else
-			loadOptions();
 		if(!navigatorData.exists())
 			saveNavigatorData();
 		else
@@ -163,38 +157,6 @@ public class FileManager
 						}
 				}
 			});
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveOptions()
-	{
-		try
-		{
-			PrintWriter save = new PrintWriter(new FileWriter(options));
-			save.println(
-				JsonUtils.prettyGson.toJson(WurstClient.INSTANCE.options));
-			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadOptions()
-	{
-		try
-		{
-			BufferedReader load = new BufferedReader(new FileReader(options));
-			
-			OptionsManager newOptions =
-				JsonUtils.gson.fromJson(load, OptionsManager.class);
-			if(newOptions != null)
-				WurstClient.INSTANCE.options = newOptions;
-			
-			load.close();
 		}catch(Exception e)
 		{
 			e.printStackTrace();

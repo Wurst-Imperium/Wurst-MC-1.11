@@ -8,6 +8,7 @@
 package tk.wurst_client.features.commands;
 
 import net.minecraft.block.Block;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -30,7 +31,7 @@ public class GhostHandCmd extends Cmd
 			if(args[0].equalsIgnoreCase("id") && MiscUtils.isInteger(args[1]))
 			{
 				wurst.options.ghostHandID = Integer.valueOf(args[1]);
-				wurst.files.saveOptions();
+				ConfigFiles.OPTIONS.save();
 				ChatUtils.message("GhostHand ID set to " + args[1] + ".");
 			}else if(args[0].equalsIgnoreCase("name"))
 			{
@@ -43,7 +44,7 @@ public class GhostHandCmd extends Cmd
 					return;
 				}
 				wurst.options.ghostHandID = newID;
-				wurst.files.saveOptions();
+				ConfigFiles.OPTIONS.save();
 				ChatUtils.message(
 					"GhostHand ID set to " + newID + " (" + args[1] + ").");
 			}else

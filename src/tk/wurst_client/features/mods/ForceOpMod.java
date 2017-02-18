@@ -31,6 +31,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import tk.wurst_client.events.ChatInputEvent;
 import tk.wurst_client.events.listeners.ChatInputListener;
 import tk.wurst_client.features.Feature;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.ChatUtils;
 
@@ -97,7 +98,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 			public void run()
 			{
 				lastPW = -1;
-				wurst.files.loadOptions();
+				ConfigFiles.OPTIONS.load();
 				dialog =
 					new JDialog((JFrame)null, ForceOpMod.this.getName(), false);
 				dialog.setAlwaysOnTop(true);
@@ -145,7 +146,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 						{
 							wurst.options.forceOPList =
 								WurstFolders.MAIN.getPath();
-							wurst.files.saveOptions();
+							ConfigFiles.OPTIONS.save();
 						}
 						loadPWList();
 						update();
@@ -185,7 +186,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 							{
 								wurst.options.forceOPList =
 									fsTXTList.getSelectedFile().getPath();
-								wurst.files.saveOptions();
+								ConfigFiles.OPTIONS.save();
 							}
 						loadPWList();
 						update();
@@ -250,7 +251,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 					{
 						wurst.options.forceOPDelay =
 							(Integer)spDelay.getValue();
-						wurst.files.saveOptions();
+						ConfigFiles.OPTIONS.save();
 						update();
 					}
 				});
@@ -275,7 +276,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 					public void actionPerformed(ActionEvent e)
 					{
 						wurst.options.forceOPDontWait = cbDontWait.isSelected();
-						wurst.files.saveOptions();
+						ConfigFiles.OPTIONS.save();
 						update();
 					}
 				});

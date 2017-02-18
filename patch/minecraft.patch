@@ -1,6 +1,6 @@
-From 7f98e11ef67d4f015111de4dcc583846b7a690af Mon Sep 17 00:00:00 2001
+From 3c8b6694a4f72e7af2974fc8d97206ded413e1c1 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 6 Feb 2017 15:30:41 +0100
+Date: Sat, 18 Feb 2017 15:18:06 +0100
 Subject: [PATCH] mod
 
 ---
@@ -14,7 +14,7 @@ Subject: [PATCH] mod
  net/minecraft/client/entity/EntityPlayerSP.java    | 101 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
- net/minecraft/client/gui/GuiDisconnected.java      |  86 ++++++++
+ net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
  net/minecraft/client/gui/GuiIngame.java            |  13 ++
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 ++++-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1196 insertions(+), 445 deletions(-)
+ 54 files changed, 1197 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -891,10 +891,10 @@ index 93eccc5..84f8540 100644
              int j = 14737632;
  
 diff --git a/net/minecraft/client/gui/GuiDisconnected.java b/net/minecraft/client/gui/GuiDisconnected.java
-index 69151c7..115afdb 100644
+index 69151c7..e6a9324 100644
 --- a/net/minecraft/client/gui/GuiDisconnected.java
 +++ b/net/minecraft/client/gui/GuiDisconnected.java
-@@ -2,8 +2,13 @@ package net.minecraft.client.gui;
+@@ -2,8 +2,14 @@ package net.minecraft.client.gui;
  
  import java.io.IOException;
  import java.util.List;
@@ -904,11 +904,12 @@ index 69151c7..115afdb 100644
  import net.minecraft.client.resources.I18n;
  import net.minecraft.util.text.ITextComponent;
 +import tk.wurst_client.WurstClient;
++import tk.wurst_client.files.ConfigFiles;
 +import tk.wurst_client.hooks.ServerHook;
  
  public class GuiDisconnected extends GuiScreen
  {
-@@ -13,11 +18,19 @@ public class GuiDisconnected extends GuiScreen
+@@ -13,11 +19,19 @@ public class GuiDisconnected extends GuiScreen
      private final GuiScreen parentScreen;
      private int textHeight;
  
@@ -928,7 +929,7 @@ index 69151c7..115afdb 100644
      }
  
      /**
-@@ -38,6 +51,57 @@ public class GuiDisconnected extends GuiScreen
+@@ -38,6 +52,57 @@ public class GuiDisconnected extends GuiScreen
          this.multilineMessage = this.fontRendererObj.listFormattedStringToWidth(this.message.getFormattedText(), this.width - 50);
          this.textHeight = this.multilineMessage.size() * this.fontRendererObj.FONT_HEIGHT;
          this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + this.textHeight / 2 + this.fontRendererObj.FONT_HEIGHT, this.height - 30), I18n.format("gui.toMenu", new Object[0])));
@@ -986,7 +987,7 @@ index 69151c7..115afdb 100644
  	}
  
      /**
-@@ -48,6 +112,28 @@ public class GuiDisconnected extends GuiScreen
+@@ -48,6 +113,28 @@ public class GuiDisconnected extends GuiScreen
          if (button.id == 0)
          {
              this.mc.displayGuiScreen(this.parentScreen);
@@ -999,7 +1000,7 @@ index 69151c7..115afdb 100644
 +		{
 +			WurstClient.INSTANCE.options.autoReconnect =
 +				!WurstClient.INSTANCE.options.autoReconnect;
-+			WurstClient.INSTANCE.files.saveOptions();
++			ConfigFiles.OPTIONS.save();
 +			if(WurstClient.INSTANCE.options.autoReconnect)
 +				this.autoReconnectTimer = 100;
 +		}else if(button.id == 3)

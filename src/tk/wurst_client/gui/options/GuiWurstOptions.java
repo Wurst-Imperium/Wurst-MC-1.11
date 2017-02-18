@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.gui.options.keybinds.GuiKeybindManager;
 import tk.wurst_client.gui.options.xray.GuiXRayBlocksManager;
 import tk.wurst_client.gui.options.zoom.GuiZoomManager;
@@ -113,7 +114,7 @@ public class GuiWurstOptions extends GuiScreen
 			button.displayString = "Click Friends: "
 				+ (WurstClient.INSTANCE.options.middleClickFriends ? "ON"
 					: "OFF");
-			WurstClient.INSTANCE.files.saveOptions();
+			ConfigFiles.OPTIONS.save();
 			WurstClient.INSTANCE.analytics.trackEvent("options",
 				"click friends",
 				WurstClient.INSTANCE.options.middleClickFriends ? "ON" : "OFF");
@@ -124,7 +125,7 @@ public class GuiWurstOptions extends GuiScreen
 				WurstClient.INSTANCE.options.modListMode = 0;
 			button.displayString = "Mod List: "
 				+ modListModes[WurstClient.INSTANCE.options.modListMode];
-			WurstClient.INSTANCE.files.saveOptions();
+			ConfigFiles.OPTIONS.save();
 			WurstClient.INSTANCE.analytics.trackEvent("options", "mod list",
 				modListModes[WurstClient.INSTANCE.options.modListMode]);
 		}else if(button.id == 3)
@@ -141,7 +142,7 @@ public class GuiWurstOptions extends GuiScreen
 				!WurstClient.INSTANCE.options.wurstNews;
 			button.displayString = "Wurst News: "
 				+ (WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
-			WurstClient.INSTANCE.files.saveOptions();
+			ConfigFiles.OPTIONS.save();
 			WurstClient.INSTANCE.analytics.trackEvent("options", "wurst news",
 				WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
 		}else if(button.id == 5)
@@ -157,7 +158,7 @@ public class GuiWurstOptions extends GuiScreen
 					"analytics", "enable");
 			button.displayString =
 				"Analytics: " + (analytics.enabled ? "ON" : "OFF");
-			WurstClient.INSTANCE.files.saveOptions();
+			ConfigFiles.OPTIONS.save();
 		}else if(button.id == 6)
 			// Keybind Manager
 			mc.displayGuiScreen(new GuiKeybindManager(this));

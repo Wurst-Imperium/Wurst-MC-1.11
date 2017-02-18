@@ -28,6 +28,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.spam.SpamProcessor;
@@ -259,7 +260,7 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						wurst.options.spamFont = !wurst.options.spamFont;
-						wurst.files.saveOptions();
+						ConfigFiles.OPTIONS.save();
 						updateFont();
 					}
 				});
@@ -370,7 +371,7 @@ public class SpammerMod extends Mod
 					{
 						wurst.options.spamDelay =
 							(Integer)delaySpinner.getValue();
-						wurst.files.saveOptions();
+						ConfigFiles.OPTIONS.save();
 					}
 				});
 				delaySpinner.setEditor(
