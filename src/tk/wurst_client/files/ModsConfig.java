@@ -18,7 +18,7 @@ import com.google.gson.JsonObject;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.mods.*;
 
-public class ModsConfig extends Config
+public final class ModsConfig extends Config
 {
 	// TODO: @DontSaveState annotation on the affected mods
 	private final HashSet<String> blacklist =

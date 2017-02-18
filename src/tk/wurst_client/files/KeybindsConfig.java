@@ -19,7 +19,7 @@ import com.google.gson.JsonPrimitive;
 
 import tk.wurst_client.WurstClient;
 
-public class KeybindsConfig extends Config
+public final class KeybindsConfig extends Config
 {
 	public KeybindsConfig()
 	{

@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.settings.Setting;
 
-public class NavigatorConfig extends Config
+public final class NavigatorConfig extends Config
 {
 	public NavigatorConfig()
 	{

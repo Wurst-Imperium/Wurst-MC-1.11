@@ -15,7 +15,7 @@ import tk.wurst_client.WurstClient;
 import tk.wurst_client.options.OptionsManager;
 import tk.wurst_client.utils.JsonUtils;
 
-public class OptionsConfig extends Config
+public final class OptionsConfig extends Config
 {
 	public OptionsConfig()
 	{
