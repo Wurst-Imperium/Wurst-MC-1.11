@@ -28,13 +28,11 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.features.mods.XRayMod;
-import tk.wurst_client.options.FriendsList;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.XRayUtils;
 
 public class FileManager
 {
-	public final File friends = new File(WurstFolders.MAIN, "friends.json");
 	public final File autoMaximize =
 		new File(WurstFolders.MAIN, "automaximize.json");
 	public final File xray = new File(WurstFolders.MAIN, "xray.json");
@@ -51,10 +49,6 @@ public class FileManager
 				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
 		}
 		
-		if(!friends.exists())
-			saveFriends();
-		else
-			loadFriends();
 		if(!xray.exists())
 		{
 			XRayUtils.initXRayBlocks();
@@ -93,34 +87,6 @@ public class FileManager
 			PrintWriter save = new PrintWriter(new FileWriter(autoMaximize));
 			save.println(JsonUtils.prettyGson.toJson(autoMaximizeEnabled));
 			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveFriends()
-	{
-		try
-		{
-			PrintWriter save = new PrintWriter(new FileWriter(friends));
-			save.println(
-				JsonUtils.prettyGson.toJson(WurstClient.INSTANCE.friends));
-			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadFriends()
-	{
-		try
-		{
-			BufferedReader load = new BufferedReader(new FileReader(friends));
-			WurstClient.INSTANCE.friends =
-				JsonUtils.gson.fromJson(load, FriendsList.class);
-			load.close();
 		}catch(Exception e)
 		{
 			e.printStackTrace();

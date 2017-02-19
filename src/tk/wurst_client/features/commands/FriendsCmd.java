@@ -9,6 +9,7 @@ package tk.wurst_client.features.commands;
 
 import java.util.Iterator;
 
+import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.utils.ChatUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -59,13 +60,13 @@ public class FriendsCmd extends Cmd
 				return;
 			}
 			wurst.friends.add(args[1]);
-			wurst.files.saveFriends();
+			ConfigFiles.FRIENDS.save();
 			ChatUtils.message("Added friend \"" + args[1] + "\".");
 		}else if(args[0].equalsIgnoreCase("remove"))
 		{
 			if(wurst.friends.remove(args[1]))
 			{
-				wurst.files.saveFriends();
+				ConfigFiles.FRIENDS.save();
 				ChatUtils.message("Removed friend \"" + args[1] + "\".");
 			}else
 				ChatUtils

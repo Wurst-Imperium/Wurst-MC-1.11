@@ -12,24 +12,25 @@ import java.util.TreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.files.ConfigFiles;
 
 public class FriendsList extends TreeSet<String>
 {
 	public void middleClick(Entity entityHit)
 	{
-		if(entityHit != null && entityHit instanceof EntityPlayer)
-		{
-			WurstClient wurst = WurstClient.INSTANCE;
-			if(wurst.options.middleClickFriends)
-			{
-				FriendsList friends = wurst.friends;
-				String entityName = entityHit.getName();
-				if(friends.contains(entityName))
-					friends.remove(entityName);
-				else
-					friends.add(entityName);
-				wurst.files.saveFriends();
-			}
-		}
+		if(entityHit == null || !(entityHit instanceof EntityPlayer))
+			return;
+		
+		if(!WurstClient.INSTANCE.options.middleClickFriends)
+			return;
+		
+		String name = entityHit.getName();
+		
+		if(WurstClient.INSTANCE.friends.contains(name))
+			WurstClient.INSTANCE.friends.remove(name);
+		else
+			WurstClient.INSTANCE.friends.add(name);
+		
+		ConfigFiles.FRIENDS.save();
 	}
 }
