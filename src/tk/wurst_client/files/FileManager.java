@@ -17,25 +17,19 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.features.mods.XRayMod;
 import tk.wurst_client.utils.JsonUtils;
-import tk.wurst_client.utils.XRayUtils;
 
 public class FileManager
 {
 	public final File autoMaximize =
 		new File(WurstFolders.MAIN, "automaximize.json");
-	public final File xray = new File(WurstFolders.MAIN, "xray.json");
 	
 	public void init()
 	{
@@ -48,13 +42,6 @@ public class FileManager
 			throw new ReportedException(
 				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
 		}
-		
-		if(!xray.exists())
-		{
-			XRayUtils.initXRayBlocks();
-			saveXRayBlocks();
-		}else
-			loadXRayBlocks();
 		
 		loadAutoBuildTemplates();
 	}
@@ -87,48 +74,6 @@ public class FileManager
 			PrintWriter save = new PrintWriter(new FileWriter(autoMaximize));
 			save.println(JsonUtils.prettyGson.toJson(autoMaximizeEnabled));
 			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveXRayBlocks()
-	{
-		try
-		{
-			XRayUtils.sortBlocks();
-			JsonArray json = new JsonArray();
-			for(int i = 0; i < XRayMod.xrayBlocks.size(); i++)
-				json.add(JsonUtils.prettyGson.toJsonTree(
-					Block.getIdFromBlock(XRayMod.xrayBlocks.get(i))));
-			PrintWriter save = new PrintWriter(new FileWriter(xray));
-			save.println(JsonUtils.prettyGson.toJson(json));
-			save.close();
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadXRayBlocks()
-	{
-		try
-		{
-			BufferedReader load = new BufferedReader(new FileReader(xray));
-			JsonArray json = JsonUtils.jsonParser.parse(load).getAsJsonArray();
-			load.close();
-			Iterator<JsonElement> itr = json.iterator();
-			while(itr.hasNext())
-				try
-				{
-					String jsonBlock = itr.next().getAsString();
-					XRayMod.xrayBlocks.add(Block.getBlockFromName(jsonBlock));
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-			XRayUtils.sortBlocks();
 		}catch(Exception e)
 		{
 			e.printStackTrace();
