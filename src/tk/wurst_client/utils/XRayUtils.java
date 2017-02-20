@@ -8,7 +8,6 @@
 package tk.wurst_client.utils;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -90,20 +89,12 @@ public class XRayUtils
 	
 	public static boolean isXRayBlock(Block blockToCheck)
 	{
-		if(XRayMod.xrayBlocks.contains(blockToCheck))
-			return true;
-		return false;
+		return XRayMod.xrayBlocks.contains(blockToCheck);
 	}
 	
 	public static void sortBlocks()
 	{
-		Collections.sort(XRayMod.xrayBlocks, new Comparator<Block>()
-		{
-			@Override
-			public int compare(Block o1, Block o2)
-			{
-				return Block.getIdFromBlock(o1) - Block.getIdFromBlock(o2);
-			}
-		});
+		Collections.sort(XRayMod.xrayBlocks,
+			(o1, o2) -> Block.getIdFromBlock(o1) - Block.getIdFromBlock(o2));
 	}
 }
