@@ -11,48 +11,81 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import tk.wurst_client.features.mods.XRayMod;
 
 public class XRayUtils
 {
 	public static void initXRayBlocks()
 	{
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("coal_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("iron_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("gold_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("redstone_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockById(74));// Redstone ore glowing
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("lapis_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("diamond_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("emerald_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("quartz_ore"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("clay"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("glowstone"));
-		XRayMod.xrayBlocks.add(Block.getBlockById(8));// Water
-		XRayMod.xrayBlocks.add(Block.getBlockById(9));// Water flowing
-		XRayMod.xrayBlocks.add(Block.getBlockById(10));// Lava
-		XRayMod.xrayBlocks.add(Block.getBlockById(11));// Lava flowing
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("crafting_table"));
-		XRayMod.xrayBlocks.add(Block.getBlockById(61));// Furnace
-		XRayMod.xrayBlocks.add(Block.getBlockById(62));// Furnace on
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("torch"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("ladder"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("tnt"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("coal_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("iron_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("gold_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("diamond_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("emerald_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("redstone_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("lapis_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("fire"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("mossy_cobblestone"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("mob_spawner"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("end_portal_frame"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("enchanting_table"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("bookshelf"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("command_block"));
-		XRayMod.xrayBlocks.add(Block.getBlockFromName("bone_block"));
+		// ores
+		add(Blocks.COAL_ORE);
+		add(Blocks.COAL_BLOCK);
+		add(Blocks.IRON_ORE);
+		add(Blocks.IRON_BLOCK);
+		add(Blocks.GOLD_ORE);
+		add(Blocks.GOLD_BLOCK);
+		add(Blocks.LAPIS_ORE);
+		add(Blocks.LAPIS_BLOCK);
+		add(Blocks.REDSTONE_ORE);
+		add(Blocks.LIT_REDSTONE_ORE);
+		add(Blocks.REDSTONE_BLOCK);
+		add(Blocks.DIAMOND_ORE);
+		add(Blocks.DIAMOND_BLOCK);
+		add(Blocks.EMERALD_ORE);
+		add(Blocks.EMERALD_BLOCK);
+		add(Blocks.QUARTZ_ORE);
+		
+		// sort-of ores
+		add(Blocks.CLAY);
+		add(Blocks.BONE_BLOCK);
+		add(Blocks.GLOWSTONE);
+		
+		// utilities
+		add(Blocks.CRAFTING_TABLE);
+		add(Blocks.FURNACE);
+		add(Blocks.LIT_FURNACE);
+		add(Blocks.TORCH);
+		add(Blocks.LADDER);
+		add(Blocks.TNT);
+		add(Blocks.ENCHANTING_TABLE);
+		add(Blocks.BOOKSHELF);
+		add(Blocks.ANVIL);
+		add(Blocks.BREWING_STAND);
+		add(Blocks.BEACON);
+		
+		// storage
+		add(Blocks.CHEST);
+		add(Blocks.TRAPPED_CHEST);
+		add(Blocks.ENDER_CHEST);
+		add(Blocks.HOPPER);
+		add(Blocks.DROPPER);
+		add(Blocks.DISPENSER);
+		
+		// liquids
+		add(Blocks.WATER);
+		add(Blocks.FLOWING_WATER);
+		add(Blocks.LAVA);
+		add(Blocks.FLOWING_LAVA);
+		
+		// spawners
+		add(Blocks.MOSSY_COBBLESTONE);
+		add(Blocks.MOB_SPAWNER);
+		
+		// portals
+		add(Blocks.PORTAL);
+		add(Blocks.END_PORTAL);
+		add(Blocks.END_PORTAL_FRAME);
+		
+		// command blocks
+		add(Blocks.COMMAND_BLOCK);
+		add(Blocks.CHAIN_COMMAND_BLOCK);
+		add(Blocks.REPEATING_COMMAND_BLOCK);
+	}
+	
+	private static void add(Block block)
+	{
+		XRayMod.xrayBlocks.add(block);
 	}
 	
 	public static boolean isXRayBlock(Block blockToCheck)
