@@ -10,10 +10,12 @@ package tk.wurst_client.alts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -29,209 +31,223 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.util.ReportedException;
 import tk.wurst_client.files.WurstFolders;
 
-public class Encryption
+public final class Encryption
 {
-	public static final String CHARSET = "UTF-8";
+	private static final String CHARSET = "UTF-8";
 	
-	private static final File rsaKeyDir =
-		System.getProperty("user.home") != null
-			? new File(System.getProperty("user.home"), ".ssh") : null;
-	private static final File privateFile =
-		rsaKeyDir != null ? new File(rsaKeyDir, "wurst_rsa") : null;
-	private static final File publicFile =
-		rsaKeyDir != null ? new File(rsaKeyDir, "wurst_rsa.pub") : null;
-	private static final File aesFile = new File(WurstFolders.MAIN, "key");
+	private final Cipher encryptCipher;
+	private final Cipher decryptCipher;
 	
-	private static KeyPair keypair;
-	private static SecretKey aesKey;
-	
-	public static String encrypt(String string)
+	public Encryption()
 	{
-		checkKeys();
+		if(System.getProperty("user.home") == null)
+			throw new NullPointerException("user.home property is missing!");
+		
+		KeyPair rsaKeyPair =
+			getRsaKeyPair(new File(WurstFolders.RSA, "wurst_rsa.pub"),
+				new File(WurstFolders.RSA, "wurst_rsa"));
+		
+		SecretKey aesKey =
+			getAesKey(new File(WurstFolders.MAIN, "key"), rsaKeyPair);
+		
 		try
 		{
-			Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-			cipher.init(Cipher.ENCRYPT_MODE, aesKey,
+			encryptCipher = Cipher.getInstance("AES/CFB8/NoPadding");
+			encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey,
 				new IvParameterSpec(aesKey.getEncoded()));
-			return Base64.getEncoder()
-				.encodeToString(cipher.doFinal(string.getBytes(CHARSET)));
-		}catch(Exception e)
+			
+			decryptCipher = Cipher.getInstance("AES/CFB8/NoPadding");
+			decryptCipher.init(Cipher.DECRYPT_MODE, aesKey,
+				new IvParameterSpec(aesKey.getEncoded()));
+			
+		}catch(GeneralSecurityException e)
 		{
-			e.printStackTrace();
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Creating AES ciphers"));
 		}
-		return null;
 	}
 	
-	public static String decrypt(String string)
+	public void saveEncryptedFile(File file, String content) throws IOException
 	{
-		checkKeys();
+		Files.write(file.toPath(), encrypt(content).getBytes(CHARSET));
+	}
+	
+	public String loadEncryptedFile(File file) throws IOException
+	{
+		return decrypt(new String(Files.readAllBytes(file.toPath()), CHARSET));
+	}
+	
+	public String encrypt(String string)
+	{
 		try
 		{
-			Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-			cipher.init(Cipher.DECRYPT_MODE, aesKey,
-				new IvParameterSpec(aesKey.getEncoded()));
+			return Base64.getEncoder().encodeToString(
+				encryptCipher.doFinal(string.getBytes(CHARSET)));
+		}catch(GeneralSecurityException | IOException e)
+		{
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Encrypting string"));
+		}
+	}
+	
+	public String decrypt(String string)
+	{
+		try
+		{
 			return new String(
-				cipher.doFinal(Base64.getDecoder().decode(string)), CHARSET);
-		}catch(Exception e)
+				decryptCipher.doFinal(Base64.getDecoder().decode(string)),
+				CHARSET);
+		}catch(GeneralSecurityException | IOException e)
 		{
-			e.printStackTrace();
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Decrypting string"));
 		}
-		return null;
 	}
 	
-	private static void checkKeys()
+	private KeyPair getRsaKeyPair(File publicFile, File privateFile)
 	{
-		if(hasKeys())
-			return;
+		if(!privateFile.exists() || !publicFile.exists())
+			return createRsaKeys(publicFile, privateFile);
 		
-		if(rsaKeyDir == null)
-		{
-			System.err
-				.println("FATAL ERROR: RSA key directory does not exist!");
-			Minecraft.getMinecraft().shutdown();
-			return;
-		}
-		
-		if(hasRsaKeyFiles() && loadRsaKeys())
-			if(hasAesKeyFile() && loadAesKey())
-				return;
-			else
-				regenerateAesKey();
-		else
-		{
-			regenerateRsaKeys();
-			regenerateAesKey();
-		}
-	}
-	
-	private static boolean hasRsaKeyFiles()
-	{
-		return privateFile.exists() && publicFile.exists();
-	}
-	
-	private static boolean hasAesKeyFile()
-	{
-		return aesFile.exists();
-	}
-	
-	private static boolean hasKeys()
-	{
-		return keypair != null && keypair.getPrivate().getEncoded() != null
-			&& keypair.getPublic().getEncoded() != null && aesKey != null
-			&& aesKey.getEncoded() != null;
-	}
-	
-	private static void regenerateRsaKeys()
-	{
-		System.out.println("WARNING: Regenerating RSA keys!");
 		try
 		{
-			KeyPairGenerator keypairgen = KeyPairGenerator.getInstance("RSA");
-			keypairgen.initialize(1024);
-			keypair = keypairgen.generateKeyPair();
-			
-			if(!publicFile.getParentFile().exists())
-				publicFile.getParentFile().mkdirs();
-			ObjectOutputStream savePublic =
-				new ObjectOutputStream(new FileOutputStream(publicFile));
-			savePublic.writeObject(KeyFactory.getInstance("RSA")
-				.getKeySpec(keypair.getPublic(), RSAPublicKeySpec.class)
-				.getModulus());
-			savePublic.writeObject(KeyFactory.getInstance("RSA")
-				.getKeySpec(keypair.getPublic(), RSAPublicKeySpec.class)
-				.getPublicExponent());
-			savePublic.close();
-			
-			if(!privateFile.getParentFile().exists())
-				privateFile.getParentFile().mkdirs();
-			ObjectOutputStream savePrivate =
-				new ObjectOutputStream(new FileOutputStream(privateFile));
-			savePrivate.writeObject(KeyFactory.getInstance("RSA")
-				.getKeySpec(keypair.getPrivate(), RSAPrivateKeySpec.class)
-				.getModulus());
-			savePrivate.writeObject(KeyFactory.getInstance("RSA")
-				.getKeySpec(keypair.getPrivate(), RSAPrivateKeySpec.class)
-				.getPrivateExponent());
-			savePrivate.close();
-			
-		}catch(Exception e)
+			return loadRsaKeys(publicFile, privateFile);
+		}catch(GeneralSecurityException | ReflectiveOperationException
+			| IOException e)
 		{
+			System.err.println("Couldn't load RSA keypair!");
 			e.printStackTrace();
+			
+			return createRsaKeys(publicFile, privateFile);
 		}
 	}
 	
-	private static void regenerateAesKey()
+	private SecretKey getAesKey(File file, KeyPair keyPair)
 	{
-		System.out.println("WARNING: Regenerating AES key!");
+		if(!file.exists())
+			return createAesKey(file, keyPair);
+		
 		try
 		{
+			return loadAesKey(file, keyPair);
+		}catch(GeneralSecurityException | IOException e)
+		{
+			System.err.println("Couldn't load AES key!");
+			e.printStackTrace();
+			
+			return createAesKey(file, keyPair);
+		}
+	}
+	
+	private KeyPair createRsaKeys(File publicFile, File privateFile)
+	{
+		try
+		{
+			System.out.println("Generating RSA keypair.");
+			
+			// generate keypair
+			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+			generator.initialize(1024);
+			KeyPair pair = generator.generateKeyPair();
+			
+			KeyFactory factory = KeyFactory.getInstance("RSA");
+			
+			// save public key
+			try(ObjectOutputStream stream =
+				new ObjectOutputStream(new FileOutputStream(publicFile)))
+			{
+				RSAPublicKeySpec keySpec = factory.getKeySpec(pair.getPublic(),
+					RSAPublicKeySpec.class);
+				
+				stream.writeObject(keySpec.getModulus());
+				stream.writeObject(keySpec.getPublicExponent());
+			}
+			
+			// save private key
+			try(ObjectOutputStream stream =
+				new ObjectOutputStream(new FileOutputStream(privateFile)))
+			{
+				RSAPrivateKeySpec keySpec = factory
+					.getKeySpec(pair.getPrivate(), RSAPrivateKeySpec.class);
+				
+				stream.writeObject(keySpec.getModulus());
+				stream.writeObject(keySpec.getPrivateExponent());
+			}
+			
+			return pair;
+			
+		}catch(GeneralSecurityException | IOException e)
+		{
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Creating RSA keypair"));
+		}
+	}
+	
+	private SecretKey createAesKey(File file, KeyPair keyPair)
+	{
+		try
+		{
+			System.out.println("Generating AES key.");
+			
+			// generate key
 			KeyGenerator keygen = KeyGenerator.getInstance("AES");
 			keygen.init(128);
-			aesKey = keygen.generateKey();
+			SecretKey key = keygen.generateKey();
 			
-			if(!aesFile.getParentFile().exists())
-				aesFile.getParentFile().mkdirs();
+			// save key
 			Cipher rsaCipher = Cipher.getInstance("RSA");
-			rsaCipher.init(Cipher.ENCRYPT_MODE, keypair.getPublic());
-			Files.write(aesFile.toPath(),
-				rsaCipher.doFinal(aesKey.getEncoded()));
+			rsaCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+			Files.write(file.toPath(), rsaCipher.doFinal(key.getEncoded()));
 			
-		}catch(Exception e)
+			return key;
+			
+		}catch(GeneralSecurityException | IOException e)
 		{
-			e.printStackTrace();
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Creating AES key"));
 		}
 	}
 	
-	private static boolean loadRsaKeys()
+	private KeyPair loadRsaKeys(File publicFile, File privateFile)
+		throws GeneralSecurityException, ReflectiveOperationException,
+		IOException
 	{
-		try
+		KeyFactory factory = KeyFactory.getInstance("RSA");
+		
+		// load public key
+		PublicKey publicKey;
+		try(ObjectInputStream publicLoad =
+			new ObjectInputStream(new FileInputStream(publicFile)))
 		{
-			ObjectInputStream publicLoad =
-				new ObjectInputStream(new FileInputStream(publicFile));
-			PublicKey loadedPublicKey =
-				KeyFactory.getInstance("RSA")
-					.generatePublic(new RSAPublicKeySpec(
-						(BigInteger)publicLoad.readObject(),
-						(BigInteger)publicLoad.readObject()));
-			publicLoad.close();
-			
-			ObjectInputStream privateLoad =
-				new ObjectInputStream(new FileInputStream(privateFile));
-			PrivateKey loadedPrivateKey =
-				KeyFactory.getInstance("RSA")
-					.generatePrivate(new RSAPrivateKeySpec(
-						(BigInteger)privateLoad.readObject(),
-						(BigInteger)privateLoad.readObject()));
-			privateLoad.close();
-			
-			keypair = new KeyPair(loadedPublicKey, loadedPrivateKey);
-			return true;
-			
-		}catch(Exception e)
-		{
-			System.err.println("Failed to load RSA keys!");
-			e.printStackTrace();
-			return false;
+			publicKey = factory.generatePublic(
+				new RSAPublicKeySpec((BigInteger)publicLoad.readObject(),
+					(BigInteger)publicLoad.readObject()));
 		}
+		
+		// load private key
+		PrivateKey privateKey;
+		try(ObjectInputStream privateLoad =
+			new ObjectInputStream(new FileInputStream(privateFile)))
+		{
+			privateKey = factory.generatePrivate(
+				new RSAPrivateKeySpec((BigInteger)privateLoad.readObject(),
+					(BigInteger)privateLoad.readObject()));
+		}
+		
+		return new KeyPair(publicKey, privateKey);
 	}
 	
-	private static boolean loadAesKey()
+	private SecretKey loadAesKey(File file, KeyPair keyPair)
+		throws GeneralSecurityException, IOException
 	{
-		try
-		{
-			Cipher rsaCipher = Cipher.getInstance("RSA");
-			rsaCipher.init(Cipher.DECRYPT_MODE, keypair.getPrivate());
-			aesKey = new SecretKeySpec(
-				rsaCipher.doFinal(Files.readAllBytes(aesFile.toPath())), "AES");
-			return true;
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+		Cipher cipher = Cipher.getInstance("RSA");
+		cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+		
+		return new SecretKeySpec(
+			cipher.doFinal(Files.readAllBytes(file.toPath())), "AES");
 	}
 }
