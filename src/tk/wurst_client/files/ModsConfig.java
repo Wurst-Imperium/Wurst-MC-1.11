@@ -7,29 +7,16 @@
  */
 package tk.wurst_client.files;
 
-import java.util.HashSet;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import tk.wurst_client.WurstClient;
-import tk.wurst_client.features.mods.*;
+import tk.wurst_client.features.mods.Mod;
 
 public final class ModsConfig extends Config
 {
-	// TODO: @DontSaveState annotation on the affected mods
-	private final HashSet<String> blacklist =
-		Sets.newHashSet(AntiAfkMod.class.getName(), BlinkMod.class.getName(),
-			AutoBuildMod.class.getName(), AutoSignMod.class.getName(),
-			FightBotMod.class.getName(), FollowMod.class.getName(),
-			ForceOpMod.class.getName(), FreecamMod.class.getName(),
-			InvisibilityMod.class.getName(), LsdMod.class.getName(),
-			MassTpaMod.class.getName(), NavigatorMod.class.getName(),
-			ProtectMod.class.getName(), RemoteViewMod.class.getName(),
-			SpammerMod.class.getName());
-	
 	public ModsConfig()
 	{
 		super("modules.json");
@@ -43,7 +30,7 @@ public final class ModsConfig extends Config
 		{
 			Mod mod = WurstClient.INSTANCE.mods.getModByName(entry.getKey());
 			
-			if(mod == null || isModBlacklisted(mod))
+			if(mod == null || !mod.isStateSaved())
 				continue;
 			
 			JsonObject jsonMod = entry.getValue().getAsJsonObject();
@@ -60,16 +47,14 @@ public final class ModsConfig extends Config
 		
 		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
 		{
+			if(!mod.isStateSaved())
+				continue;
+			
 			JsonObject jsonMod = new JsonObject();
 			jsonMod.addProperty("enabled", mod.isEnabled());
 			json.add(mod.getName(), jsonMod);
 		}
 		
 		return json;
-	}
-	
-	public boolean isModBlacklisted(Mod mod)
-	{
-		return blacklist.contains(mod.getClass().getName());
 	}
 }

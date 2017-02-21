@@ -26,6 +26,7 @@ import tk.wurst_client.utils.ChatUtils;
 	tags = "mass tpa",
 	help = "Mods/MassTPA")
 @Mod.Bypasses
+@Mod.DontSaveState
 public class MassTpaMod extends Mod implements UpdateListener, ChatInputListener
 {
 	private float speed = 1F;

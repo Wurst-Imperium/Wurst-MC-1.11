@@ -38,6 +38,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "AutoBridge, AutoFloor, AutoNazi, AutoPenis, AutoPillar, AutoWall, AutoWurst, auto build",
 	help = "Mods/AutoBuild")
 @Mod.Bypasses
+@Mod.DontSaveState
 public class AutoBuildMod extends Mod
 	implements RightClickListener, UpdateListener, RenderListener
 {

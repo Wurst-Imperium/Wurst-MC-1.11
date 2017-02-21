@@ -20,6 +20,7 @@ import tk.wurst_client.utils.RotationUtils;
 	name = "Protect",
 	help = "Mods/Protect")
 @Mod.Bypasses(ghostMode = false)
+@Mod.DontSaveState
 public class ProtectMod extends Mod implements UpdateListener
 {
 	private Entity friend;

@@ -21,6 +21,7 @@ import tk.wurst_client.utils.EntityFakePlayer;
 	name = "Blink",
 	help = "Mods/Blink")
 @Mod.Bypasses
+@Mod.DontSaveState
 public class BlinkMod extends Mod implements PacketOutputListener
 {
 	private final ArrayList<Packet> packets = new ArrayList<>();

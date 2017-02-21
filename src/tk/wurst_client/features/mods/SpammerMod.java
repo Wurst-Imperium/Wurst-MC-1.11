@@ -41,6 +41,7 @@ import tk.wurst_client.utils.MiscUtils;
 	+ ">Variables\n" + ">HTML-like tags & comments\n"
 	+ ">Integrated help system", name = "Spammer", help = "Mods/Spammer")
 @Mod.Bypasses
+@Mod.DontSaveState
 public class SpammerMod extends Mod
 {
 	private JDialog dialog;

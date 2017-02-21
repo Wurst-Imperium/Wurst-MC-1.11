@@ -14,6 +14,7 @@ import tk.wurst_client.navigator.gui.NavigatorMainScreen;
 	tags = "ClickGUI",
 	help = "Mods/Navigator")
 @Mod.Bypasses
+@Mod.DontSaveState
 public class NavigatorMod extends Mod
 {
 	@Override

@@ -20,6 +20,7 @@ import net.minecraft.util.text.ITextComponent;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
+@Mod.DontSaveState
 public class AutoSignMod extends Mod
 {
 	public ITextComponent[] signText;

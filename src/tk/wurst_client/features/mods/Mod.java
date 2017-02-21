@@ -7,8 +7,10 @@
  */
 package tk.wurst_client.features.mods;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,74 +30,19 @@ public abstract class Mod extends Feature
 		getClass().getAnnotation(Info.class).description();
 	private final String tags = getClass().getAnnotation(Info.class).tags();
 	private final String help = getClass().getAnnotation(Info.class).help();
+	
 	private final Bypasses bypasses = getClass().getAnnotation(Bypasses.class);
+	private final boolean stateSaved =
+		!getClass().isAnnotationPresent(DontSaveState.class);
+	
 	private boolean enabled;
 	private boolean blocked;
 	private boolean active;
+	
 	protected ArrayList<Setting> settings = new ArrayList<>();
+	
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
-	
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Info
-	{
-		String name();
-		
-		String description();
-		
-		String tags() default "";
-		
-		String help() default "";
-	}
-	
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Bypasses
-	{
-		boolean mineplex() default true;
-		
-		boolean antiCheat() default true;
-		
-		boolean olderNCP() default true;
-		
-		boolean latestNCP() default true;
-		
-		boolean ghostMode() default true;
-	}
-	
-	@Override
-	public final String getName()
-	{
-		return name;
-	}
-	
-	@Override
-	public final String getType()
-	{
-		return "Mod";
-	}
-	
-	public String getRenderName()
-	{
-		return name;
-	}
-	
-	@Override
-	public final String getDescription()
-	{
-		return description;
-	}
-	
-	@Override
-	public final String getTags()
-	{
-		return tags;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
-	}
 	
 	@Override
 	public final ArrayList<PossibleKeybind> getPossibleKeybinds()
@@ -112,29 +59,6 @@ public abstract class Mod extends Feature
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;
-	}
-	
-	@Override
-	public final String getPrimaryAction()
-	{
-		return enabled ? "Disable" : "Enable";
-	}
-	
-	@Override
-	public final void doPrimaryAction()
-	{
-		toggle();
-	}
-	
-	@Override
-	public final String getHelpPage()
-	{
-		return help;
-	}
-	
-	public Bypasses getBypasses()
-	{
-		return bypasses;
 	}
 	
 	@Override
@@ -188,7 +112,7 @@ public abstract class Mod extends Feature
 			throw new ReportedException(report);
 		}
 		
-		if(!ConfigFiles.MODS.isModBlacklisted(this))
+		if(stateSaved)
 			ConfigFiles.MODS.save();
 	}
 	
@@ -286,4 +210,102 @@ public abstract class Mod extends Feature
 	
 	public void onYesCheatUpdate(BypassLevel bypassLevel)
 	{}
+	
+	@Override
+	public final String getName()
+	{
+		return name;
+	}
+	
+	public String getRenderName()
+	{
+		return name;
+	}
+	
+	@Override
+	public final String getType()
+	{
+		return "Mod";
+	}
+	
+	@Override
+	public final String getDescription()
+	{
+		return description;
+	}
+	
+	@Override
+	public final String getTags()
+	{
+		return tags;
+	}
+	
+	@Override
+	public final ArrayList<Setting> getSettings()
+	{
+		return settings;
+	}
+	
+	public final boolean isStateSaved()
+	{
+		return stateSaved;
+	}
+	
+	@Override
+	public final String getPrimaryAction()
+	{
+		return enabled ? "Disable" : "Enable";
+	}
+	
+	@Override
+	public final void doPrimaryAction()
+	{
+		toggle();
+	}
+	
+	@Override
+	public final String getHelpPage()
+	{
+		return help;
+	}
+	
+	public final Bypasses getBypasses()
+	{
+		return bypasses;
+	}
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public static @interface Info
+	{
+		String name();
+		
+		String description();
+		
+		String tags() default "";
+		
+		String help() default "";
+	}
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public static @interface Bypasses
+	{
+		boolean mineplex() default true;
+		
+		boolean antiCheat() default true;
+		
+		boolean olderNCP() default true;
+		
+		boolean latestNCP() default true;
+		
+		boolean ghostMode() default true;
+	}
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public static @interface DontSaveState
+	{
+		
+	}
 }

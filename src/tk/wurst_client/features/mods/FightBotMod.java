@@ -31,6 +31,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "fight bot",
 	help = "Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
+@Mod.DontSaveState
 public class FightBotMod extends Mod implements UpdateListener
 {
 	public CheckboxSetting useKillaura =
