@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
-
 import com.google.gson.JsonElement;
 
 import tk.wurst_client.WurstClient;
@@ -19,7 +17,7 @@ public final class FriendsConfig extends Config
 {
 	public FriendsConfig()
 	{
-		super(new File(WurstFolders.MAIN, "friends.json"));
+		super("friends.json");
 	}
 	
 	@Override
@@ -34,5 +32,4 @@ public final class FriendsConfig extends Config
 	{
 		return JsonUtils.gson.toJsonTree(WurstClient.INSTANCE.friends);
 	}
-	
 }

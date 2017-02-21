@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
@@ -33,7 +32,7 @@ public final class ModsConfig extends Config
 	
 	public ModsConfig()
 	{
-		super(new File(WurstFolders.MAIN, "modules.json"));
+		super("modules.json");
 	}
 	
 	@Override

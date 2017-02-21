@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -22,7 +20,7 @@ public class XRayConfig extends Config
 {
 	public XRayConfig()
 	{
-		super(new File(WurstFolders.MAIN, "xray.json"));
+		super("xray.json");
 	}
 	
 	@Override

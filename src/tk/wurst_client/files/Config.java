@@ -20,9 +20,9 @@ public abstract class Config
 {
 	private final File file;
 	
-	public Config(File file)
+	public Config(String name)
 	{
-		this.file = file;
+		this.file = new File(WurstFolders.MAIN, name);
 	}
 	
 	public final void initialize()

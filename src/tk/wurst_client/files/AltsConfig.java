@@ -24,7 +24,7 @@ public final class AltsConfig extends Config
 {
 	public AltsConfig()
 	{
-		super(new File(WurstFolders.MAIN, "alts.json"));
+		super("alts.json");
 	}
 	
 	@Override

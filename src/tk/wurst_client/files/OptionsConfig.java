@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
-
 import com.google.gson.JsonElement;
 
 import tk.wurst_client.WurstClient;
@@ -19,7 +17,7 @@ public final class OptionsConfig extends Config
 {
 	public OptionsConfig()
 	{
-		super(new File(WurstFolders.MAIN, "options.json"));
+		super("options.json");
 	}
 	
 	@Override

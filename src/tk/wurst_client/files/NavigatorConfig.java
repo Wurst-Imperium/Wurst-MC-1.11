@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -19,7 +17,7 @@ public final class NavigatorConfig extends Config
 {
 	public NavigatorConfig()
 	{
-		super(new File(WurstFolders.MAIN, "navigator.json"));
+		super("navigator.json");
 	}
 	
 	@Override

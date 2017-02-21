@@ -7,7 +7,6 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -23,7 +22,7 @@ public final class KeybindsConfig extends Config
 {
 	public KeybindsConfig()
 	{
-		super(new File(WurstFolders.MAIN, "keybinds.json"));
+		super("keybinds.json");
 	}
 	
 	@Override
