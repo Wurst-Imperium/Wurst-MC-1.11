@@ -11,6 +11,10 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -21,7 +25,6 @@ import net.minecraft.client.gui.GuiTextField;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.NameGenerator;
-import tk.wurst_client.alts.SkinStealer;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -119,7 +122,7 @@ public abstract class AltEditorScreen extends GuiScreen
 			else if(button.id == 3)
 				emailBox.setText(NameGenerator.generateName());
 			else if(button.id == 4)
-				displayText = SkinStealer.stealSkin(getName());
+				displayText = stealSkin(getName());
 			else if(button.id == 5)
 				MiscUtils.openFile(WurstFolders.SKINS);
 	}
@@ -197,5 +200,25 @@ public abstract class AltEditorScreen extends GuiScreen
 			errorTimer--;
 		}
 		super.drawScreen(par1, par2, par3);
+	}
+	
+	private final String stealSkin(String name)
+	{
+		String skin = name + ".png";
+		
+		URI u = URI.create("http://skins.minecraft.net/MinecraftSkins/")
+			.resolve(skin);
+		Path path = WurstFolders.SKINS.toPath().resolve(skin);
+		
+		try(InputStream in = u.toURL().openStream())
+		{
+			Files.copy(in, path);
+			return "§a§lSaved skin as " + skin;
+			
+		}catch(IOException e)
+		{
+			e.printStackTrace();
+			return "§4§lSkin could not be saved.";
+		}
 	}
 }
