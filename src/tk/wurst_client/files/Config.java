@@ -7,6 +7,8 @@
  */
 package tk.wurst_client.files;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,12 +60,18 @@ public abstract class Config
 	
 	protected JsonElement readFile(Path path) throws IOException
 	{
-		return JsonUtils.jsonParser.parse(Files.newBufferedReader(path));
+		try(BufferedReader reader = Files.newBufferedReader(path))
+		{
+			return JsonUtils.jsonParser.parse(reader);
+		}
 	}
 	
 	protected void writeFile(Path path, JsonElement json) throws IOException
 	{
-		JsonUtils.prettyGson.toJson(json, Files.newBufferedWriter(path));
+		try(BufferedWriter writer = Files.newBufferedWriter(path))
+		{
+			JsonUtils.prettyGson.toJson(json, writer);
+		}
 	}
 	
 	protected abstract void loadFromJson(JsonElement json);
