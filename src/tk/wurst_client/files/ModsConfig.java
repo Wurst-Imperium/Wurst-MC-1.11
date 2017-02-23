@@ -32,7 +32,6 @@ public final class ModsConfig extends Config
 			
 			if(mod == null || !mod.isStateSaved())
 				continue;
-			
 			JsonObject jsonMod = entry.getValue().getAsJsonObject();
 			
 			if(jsonMod.get("enabled").getAsBoolean())
@@ -45,16 +44,13 @@ public final class ModsConfig extends Config
 	{
 		JsonObject json = new JsonObject();
 		
-		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
-		{
-			if(!mod.isStateSaved())
-				continue;
-			
-			JsonObject jsonMod = new JsonObject();
-			jsonMod.addProperty("enabled", mod.isEnabled());
-			json.add(mod.getName(), jsonMod);
-		}
+		JsonObject jsonMod = new JsonObject();
+		jsonMod.addProperty("enabled", true);
 		
+		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
+			if(mod.isEnabled() && mod.isStateSaved())
+				json.add(mod.getName(), jsonMod);
+			
 		return json;
 	}
 }
