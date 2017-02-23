@@ -44,9 +44,6 @@ public final class Encryption
 	
 	public Encryption()
 	{
-		if(System.getProperty("user.home") == null)
-			throw new NullPointerException("user.home property is missing!");
-		
 		KeyPair rsaKeyPair =
 			getRsaKeyPair(new File(WurstFolders.RSA, "wurst_rsa.pub"),
 				new File(WurstFolders.RSA, "wurst_rsa"));
