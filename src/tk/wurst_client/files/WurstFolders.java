@@ -35,6 +35,13 @@ public final class WurstFolders
 			throw new IOException("user.home property is missing!");
 		
 		for(Field field : WurstFolders.class.getFields())
-			Files.createDirectory((Path)field.get(null));
+		{
+			Path path = (Path)field.get(null);
+			
+			if(Files.exists(path))
+				continue;
+			
+			Files.createDirectory(path);
+		}
 	}
 }
