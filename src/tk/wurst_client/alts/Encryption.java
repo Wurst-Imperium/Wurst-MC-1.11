@@ -7,9 +7,6 @@
  */
 package tk.wurst_client.alts;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,11 +43,11 @@ public final class Encryption
 	public Encryption()
 	{
 		KeyPair rsaKeyPair =
-			getRsaKeyPair(new File(WurstFolders.RSA.toFile(), "wurst_rsa.pub"),
-				new File(WurstFolders.RSA.toFile(), "wurst_rsa"));
+			getRsaKeyPair(WurstFolders.RSA.resolve("wurst_rsa.pub"),
+				WurstFolders.RSA.resolve("wurst_rsa"));
 		
 		SecretKey aesKey =
-			getAesKey(new File(WurstFolders.MAIN.toFile(), "key"), rsaKeyPair);
+			getAesKey(WurstFolders.MAIN.resolve("key"), rsaKeyPair);
 		
 		try
 		{
@@ -103,9 +100,9 @@ public final class Encryption
 		}
 	}
 	
-	private KeyPair getRsaKeyPair(File publicFile, File privateFile)
+	private KeyPair getRsaKeyPair(Path publicFile, Path privateFile)
 	{
-		if(!privateFile.exists() || !publicFile.exists())
+		if(Files.notExists(publicFile) || Files.notExists(privateFile))
 			return createRsaKeys(publicFile, privateFile);
 		
 		try
@@ -121,24 +118,24 @@ public final class Encryption
 		}
 	}
 	
-	private SecretKey getAesKey(File file, KeyPair keyPair)
+	private SecretKey getAesKey(Path path, KeyPair pair)
 	{
-		if(!file.exists())
-			return createAesKey(file, keyPair);
+		if(Files.notExists(path))
+			return createAesKey(path, pair);
 		
 		try
 		{
-			return loadAesKey(file, keyPair);
+			return loadAesKey(path, pair);
 		}catch(GeneralSecurityException | IOException e)
 		{
 			System.err.println("Couldn't load AES key!");
 			e.printStackTrace();
 			
-			return createAesKey(file, keyPair);
+			return createAesKey(path, pair);
 		}
 	}
 	
-	private KeyPair createRsaKeys(File publicFile, File privateFile)
+	private KeyPair createRsaKeys(Path publicFile, Path privateFile)
 	{
 		try
 		{
@@ -152,25 +149,25 @@ public final class Encryption
 			KeyFactory factory = KeyFactory.getInstance("RSA");
 			
 			// save public key
-			try(ObjectOutputStream stream =
-				new ObjectOutputStream(new FileOutputStream(publicFile)))
+			try(ObjectOutputStream out =
+				new ObjectOutputStream(Files.newOutputStream(publicFile)))
 			{
 				RSAPublicKeySpec keySpec = factory.getKeySpec(pair.getPublic(),
 					RSAPublicKeySpec.class);
 				
-				stream.writeObject(keySpec.getModulus());
-				stream.writeObject(keySpec.getPublicExponent());
+				out.writeObject(keySpec.getModulus());
+				out.writeObject(keySpec.getPublicExponent());
 			}
 			
 			// save private key
-			try(ObjectOutputStream stream =
-				new ObjectOutputStream(new FileOutputStream(privateFile)))
+			try(ObjectOutputStream out =
+				new ObjectOutputStream(Files.newOutputStream(privateFile)))
 			{
 				RSAPrivateKeySpec keySpec = factory
 					.getKeySpec(pair.getPrivate(), RSAPrivateKeySpec.class);
 				
-				stream.writeObject(keySpec.getModulus());
-				stream.writeObject(keySpec.getPrivateExponent());
+				out.writeObject(keySpec.getModulus());
+				out.writeObject(keySpec.getPrivateExponent());
 			}
 			
 			return pair;
@@ -182,7 +179,7 @@ public final class Encryption
 		}
 	}
 	
-	private SecretKey createAesKey(File file, KeyPair keyPair)
+	private SecretKey createAesKey(Path path, KeyPair pair)
 	{
 		try
 		{
@@ -195,8 +192,8 @@ public final class Encryption
 			
 			// save key
 			Cipher rsaCipher = Cipher.getInstance("RSA");
-			rsaCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
-			Files.write(file.toPath(), rsaCipher.doFinal(key.getEncoded()));
+			rsaCipher.init(Cipher.ENCRYPT_MODE, pair.getPublic());
+			Files.write(path, rsaCipher.doFinal(key.getEncoded()));
 			
 			return key;
 			
@@ -207,7 +204,7 @@ public final class Encryption
 		}
 	}
 	
-	private KeyPair loadRsaKeys(File publicFile, File privateFile)
+	private KeyPair loadRsaKeys(Path publicFile, Path privateFile)
 		throws GeneralSecurityException, ReflectiveOperationException,
 		IOException
 	{
@@ -215,34 +212,32 @@ public final class Encryption
 		
 		// load public key
 		PublicKey publicKey;
-		try(ObjectInputStream publicLoad =
-			new ObjectInputStream(new FileInputStream(publicFile)))
+		try(ObjectInputStream in =
+			new ObjectInputStream(Files.newInputStream(publicFile)))
 		{
-			publicKey = factory.generatePublic(
-				new RSAPublicKeySpec((BigInteger)publicLoad.readObject(),
-					(BigInteger)publicLoad.readObject()));
+			publicKey = factory.generatePublic(new RSAPublicKeySpec(
+				(BigInteger)in.readObject(), (BigInteger)in.readObject()));
 		}
 		
 		// load private key
 		PrivateKey privateKey;
-		try(ObjectInputStream privateLoad =
-			new ObjectInputStream(new FileInputStream(privateFile)))
+		try(ObjectInputStream in =
+			new ObjectInputStream(Files.newInputStream(privateFile)))
 		{
-			privateKey = factory.generatePrivate(
-				new RSAPrivateKeySpec((BigInteger)privateLoad.readObject(),
-					(BigInteger)privateLoad.readObject()));
+			privateKey = factory.generatePrivate(new RSAPrivateKeySpec(
+				(BigInteger)in.readObject(), (BigInteger)in.readObject()));
 		}
 		
 		return new KeyPair(publicKey, privateKey);
 	}
 	
-	private SecretKey loadAesKey(File file, KeyPair keyPair)
+	private SecretKey loadAesKey(Path path, KeyPair pair)
 		throws GeneralSecurityException, IOException
 	{
 		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+		cipher.init(Cipher.DECRYPT_MODE, pair.getPrivate());
 		
-		return new SecretKeySpec(
-			cipher.doFinal(Files.readAllBytes(file.toPath())), "AES");
+		return new SecretKeySpec(cipher.doFinal(Files.readAllBytes(path)),
+			"AES");
 	}
 }
