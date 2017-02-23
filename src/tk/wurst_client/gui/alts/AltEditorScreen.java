@@ -208,7 +208,7 @@ public abstract class AltEditorScreen extends GuiScreen
 		
 		URI u = URI.create("http://skins.minecraft.net/MinecraftSkins/")
 			.resolve(skin);
-		Path path = WurstFolders.SKINS.toPath().resolve(skin);
+		Path path = WurstFolders.SKINS.resolve(skin);
 		
 		try(InputStream in = u.toURL().openStream())
 		{

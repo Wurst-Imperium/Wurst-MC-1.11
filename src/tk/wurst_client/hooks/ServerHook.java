@@ -50,7 +50,7 @@ public class ServerHook
 	public static void importServers(GuiMultiplayer guiMultiplayer)
 	{
 		JFileChooser fileChooser =
-			new JFileChooser(WurstFolders.SERVERLISTS)
+			new JFileChooser(WurstFolders.SERVERLISTS.toFile())
 			{
 				@Override
 				protected JDialog createDialog(Component parent)
@@ -94,7 +94,7 @@ public class ServerHook
 	public static void exportServers(GuiMultiplayer guiMultiplayer)
 	{
 		JFileChooser fileChooser =
-			new JFileChooser(WurstFolders.SERVERLISTS)
+			new JFileChooser(WurstFolders.SERVERLISTS.toFile())
 			{
 				@Override
 				protected JDialog createDialog(Component parent)

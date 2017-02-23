@@ -7,8 +7,8 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonElement;
@@ -29,15 +29,15 @@ public final class AltsConfig extends Config
 	}
 	
 	@Override
-	protected JsonElement readFile(File file) throws IOException
+	protected JsonElement readFile(Path path) throws IOException
 	{
-		return JsonUtils.jsonParser.parse(encryption.loadEncryptedFile(file));
+		return JsonUtils.jsonParser.parse(encryption.loadEncryptedFile(path));
 	}
 	
 	@Override
-	protected void writeFile(File file, JsonElement json) throws IOException
+	protected void writeFile(Path path, JsonElement json) throws IOException
 	{
-		encryption.saveEncryptedFile(file, JsonUtils.prettyGson.toJson(json));
+		encryption.saveEncryptedFile(path, JsonUtils.prettyGson.toJson(json));
 	}
 	
 	@Override

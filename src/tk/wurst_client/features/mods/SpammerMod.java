@@ -82,7 +82,7 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						JFileChooser fileChooser =
-							new JFileChooser(WurstFolders.SPAM)
+							new JFileChooser(WurstFolders.SPAM.toFile())
 							{
 								@Override
 								protected JDialog createDialog(Component parent)
@@ -134,7 +134,7 @@ public class SpammerMod extends Mod
 					public void actionPerformed(ActionEvent e)
 					{
 						JFileChooser fileChooser =
-							new JFileChooser(WurstFolders.SPAM)
+							new JFileChooser(WurstFolders.SPAM.toFile())
 							{
 								@Override
 								protected JDialog createDialog(Component parent)

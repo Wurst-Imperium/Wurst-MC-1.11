@@ -7,24 +7,26 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import net.minecraft.client.Minecraft;
 
 public final class WurstFolders
 {
-	public static final File MAIN =
-		new File(Minecraft.getMinecraft().mcDataDir, "wurst");
+	public static final Path MAIN =
+		Minecraft.getMinecraft().mcDataDir.toPath().resolve("wurst");
 	
-	public static final File AUTOBUILD = new File(MAIN, "autobuild");
-	public static final File SKINS = new File(MAIN, "skins");
-	public static final File SERVERLISTS = new File(MAIN, "serverlists");
-	public static final File SPAM = new File(MAIN, "spam");
-	public static final File SCRIPTS = new File(SPAM, "autorun");
-	public static final File RSA =
-		new File(System.getProperty("user.home"), ".ssh");
+	public static final Path AUTOBUILD = MAIN.resolve("autobuild");
+	public static final Path SKINS = MAIN.resolve("skins");
+	public static final Path SERVERLISTS = MAIN.resolve("serverlists");
+	public static final Path SPAM = MAIN.resolve("spam");
+	public static final Path SCRIPTS = SPAM.resolve("autorun");
+	public static final Path RSA =
+		Paths.get(System.getProperty("user.home"), ".ssh");
 	
 	public static void createFolders()
 		throws ReflectiveOperationException, IOException
@@ -33,15 +35,6 @@ public final class WurstFolders
 			throw new IOException("user.home property is missing!");
 		
 		for(Field field : WurstFolders.class.getFields())
-		{
-			File dir = ((File)field.get(null));
-			
-			if(dir.isDirectory())
-				continue;
-			
-			if(!dir.mkdir())
-				throw new IOException(
-					"Could not create directory: " + dir.getName());
-		}
+			Files.createDirectory((Path)field.get(null));
 	}
 }

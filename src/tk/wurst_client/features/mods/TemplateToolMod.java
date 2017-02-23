@@ -652,8 +652,9 @@ public class TemplateToolMod extends Mod
 			nameField.updateCursorCounter();
 			
 			if(!nameField.getText().isEmpty())
-				wurst.mods.templateToolMod.file = new File(
-					WurstFolders.AUTOBUILD, nameField.getText() + ".json");
+				wurst.mods.templateToolMod.file =
+					new File(WurstFolders.AUTOBUILD.toFile(),
+						nameField.getText() + ".json");
 		}
 		
 		@Override

@@ -29,7 +29,7 @@ import tk.wurst_client.utils.JsonUtils;
 public class FileManager
 {
 	public final File autoMaximize =
-		new File(WurstFolders.MAIN, "automaximize.json");
+		new File(WurstFolders.MAIN.toFile(), "automaximize.json");
 	
 	public void init()
 	{
@@ -99,8 +99,9 @@ public class FileManager
 					JsonUtils.prettyGson.toJsonTree(comment, String[].class));
 				json.add("blocks", JsonUtils.prettyGson
 					.toJsonTree(entry.getValue(), int[][].class));
-				PrintWriter save = new PrintWriter(new FileWriter(new File(
-					WurstFolders.AUTOBUILD, entry.getKey() + ".json")));
+				PrintWriter save = new PrintWriter(
+					new FileWriter(new File(WurstFolders.AUTOBUILD.toFile(),
+						entry.getKey() + ".json")));
 				save.println(JsonUtils.prettyGson.toJson(json));
 				save.close();
 			}
@@ -112,7 +113,7 @@ public class FileManager
 	
 	public void loadAutoBuildTemplates()
 	{
-		File[] files = WurstFolders.AUTOBUILD.listFiles();
+		File[] files = WurstFolders.AUTOBUILD.toFile().listFiles();
 		
 		boolean foundOldTemplates = false;
 		TreeMap<String, int[][]> templates = new TreeMap<>();
@@ -149,7 +150,8 @@ public class FileManager
 			
 		// if directory is empty or contains old templates,
 		// add default templates and try again
-		if(foundOldTemplates || WurstFolders.AUTOBUILD.listFiles().length == 0)
+		if(foundOldTemplates
+			|| WurstFolders.AUTOBUILD.toFile().listFiles().length == 0)
 		{
 			createDefaultAutoBuildTemplates();
 			loadAutoBuildTemplates();

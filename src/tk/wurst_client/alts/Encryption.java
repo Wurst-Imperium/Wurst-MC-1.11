@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -45,11 +46,11 @@ public final class Encryption
 	public Encryption()
 	{
 		KeyPair rsaKeyPair =
-			getRsaKeyPair(new File(WurstFolders.RSA, "wurst_rsa.pub"),
-				new File(WurstFolders.RSA, "wurst_rsa"));
+			getRsaKeyPair(new File(WurstFolders.RSA.toFile(), "wurst_rsa.pub"),
+				new File(WurstFolders.RSA.toFile(), "wurst_rsa"));
 		
 		SecretKey aesKey =
-			getAesKey(new File(WurstFolders.MAIN, "key"), rsaKeyPair);
+			getAesKey(new File(WurstFolders.MAIN.toFile(), "key"), rsaKeyPair);
 		
 		try
 		{
@@ -68,14 +69,14 @@ public final class Encryption
 		}
 	}
 	
-	public void saveEncryptedFile(File file, String content) throws IOException
+	public void saveEncryptedFile(Path path, String content) throws IOException
 	{
-		Files.write(file.toPath(), encrypt(content.getBytes(CHARSET)));
+		Files.write(path, encrypt(content.getBytes(CHARSET)));
 	}
 	
-	public String loadEncryptedFile(File file) throws IOException
+	public String loadEncryptedFile(Path path) throws IOException
 	{
-		return new String(decrypt(Files.readAllBytes(file.toPath())), CHARSET);
+		return new String(decrypt(Files.readAllBytes(path)), CHARSET);
 	}
 	
 	public byte[] encrypt(byte[] bytes)

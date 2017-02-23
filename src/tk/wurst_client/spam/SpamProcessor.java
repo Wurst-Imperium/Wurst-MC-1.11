@@ -41,7 +41,8 @@ public class SpamProcessor
 			@Override
 			public void run()
 			{
-				File file = new File(WurstFolders.SCRIPTS, filename + ".wspam");
+				File file = new File(WurstFolders.SCRIPTS.toFile(),
+					filename + ".wspam");
 				try
 				{
 					long startTime = System.currentTimeMillis();
@@ -82,7 +83,8 @@ public class SpamProcessor
 	
 	public static boolean runSpam(final String filename)
 	{
-		final File file = new File(WurstFolders.SPAM, filename + ".wspam");
+		final File file =
+			new File(WurstFolders.SPAM.toFile(), filename + ".wspam");
 		if(!file.exists())
 			return false;
 		new Thread(new Runnable()

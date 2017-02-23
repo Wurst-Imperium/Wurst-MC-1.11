@@ -152,55 +152,49 @@ public class GuiAlts extends GuiScreen
 			}else if(clickedButton.id == 6)
 				mc.displayGuiScreen(prevMenu);
 			else if(clickedButton.id == 7)
-				new Thread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						JFileChooser fileChooser =
-							new JFileChooser(WurstFolders.MAIN)
+				new Thread(() -> {
+					JFileChooser fileChooser =
+						new JFileChooser(WurstFolders.MAIN.toFile())
+						{
+							@Override
+							protected JDialog createDialog(Component parent)
+								throws HeadlessException
 							{
-								@Override
-								protected JDialog createDialog(Component parent)
-									throws HeadlessException
-								{
-									JDialog dialog = super.createDialog(parent);
-									dialog.setAlwaysOnTop(true);
-									return dialog;
-								}
-							};
-						fileChooser
-							.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						fileChooser.setAcceptAllFileFilterUsed(false);
-						fileChooser
-							.addChoosableFileFilter(new FileNameExtensionFilter(
-								"Username:Password format (TXT)", "txt"));
-						int action =
-							fileChooser.showOpenDialog(FrameHook.getFrame());
-						if(action == JFileChooser.APPROVE_OPTION)
-							try
-							{
-								File file = fileChooser.getSelectedFile();
-								BufferedReader load =
-									new BufferedReader(new FileReader(file));
-								for(String line =
-									""; (line = load.readLine()) != null;)
-								{
-									String[] data = line.split(":");
-									if(data.length != 2)
-										continue;
-									GuiAltList.alts
-										.add(new Alt(data[0], data[1], null));
-								}
-								load.close();
-								GuiAltList.sortAlts();
-								ConfigFiles.ALTS.save();
-							}catch(IOException e)
-							{
-								e.printStackTrace();
-								MiscUtils.simpleError(e, fileChooser);
+								JDialog dialog = super.createDialog(parent);
+								dialog.setAlwaysOnTop(true);
+								return dialog;
 							}
-					}
+						};
+					fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					fileChooser.setAcceptAllFileFilterUsed(false);
+					fileChooser
+						.addChoosableFileFilter(new FileNameExtensionFilter(
+							"Username:Password format (TXT)", "txt"));
+					int action =
+						fileChooser.showOpenDialog(FrameHook.getFrame());
+					if(action == JFileChooser.APPROVE_OPTION)
+						try
+						{
+							File file = fileChooser.getSelectedFile();
+							BufferedReader load =
+								new BufferedReader(new FileReader(file));
+							for(String line =
+								""; (line = load.readLine()) != null;)
+							{
+								String[] data = line.split(":");
+								if(data.length != 2)
+									continue;
+								GuiAltList.alts
+									.add(new Alt(data[0], data[1], null));
+							}
+							load.close();
+							GuiAltList.sortAlts();
+							ConfigFiles.ALTS.save();
+						}catch(IOException e)
+						{
+							e.printStackTrace();
+							MiscUtils.simpleError(e, fileChooser);
+						}
 				}).start();
 			else if(clickedButton.id == 8)
 				mc.displayGuiScreen(new SessionStealerScreen(this));

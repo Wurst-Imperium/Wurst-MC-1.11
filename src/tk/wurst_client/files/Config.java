@@ -7,10 +7,9 @@
  */
 package tk.wurst_client.files;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import com.google.gson.JsonElement;
 
@@ -18,16 +17,16 @@ import tk.wurst_client.utils.JsonUtils;
 
 public abstract class Config
 {
-	private final File file;
+	private final Path path;
 	
 	public Config(String name)
 	{
-		this.file = new File(WurstFolders.MAIN, name);
+		this.path = WurstFolders.MAIN.resolve(name);
 	}
 	
 	public final void initialize()
 	{
-		if(file.exists())
+		if(Files.exists(path))
 			load();
 		else
 			save();
@@ -37,10 +36,10 @@ public abstract class Config
 	{
 		try
 		{
-			loadFromJson(readFile(file));
+			loadFromJson(readFile(path));
 		}catch(Exception e)
 		{
-			System.out.println("Failed to load " + file.getName());
+			System.out.println("Failed to load " + path.getFileName());
 			e.printStackTrace();
 		}
 	}
@@ -49,36 +48,25 @@ public abstract class Config
 	{
 		try
 		{
-			writeFile(file, saveToJson());
+			writeFile(path, saveToJson());
 		}catch(Exception e)
 		{
-			System.out.println("Failed to save " + file.getName());
+			System.out.println("Failed to save " + path.getFileName());
 			e.printStackTrace();
 		}
 	}
 	
-	protected JsonElement readFile(File file) throws IOException
+	protected JsonElement readFile(Path path) throws IOException
 	{
-		try(FileReader reader = new FileReader(file))
-		{
-			return JsonUtils.jsonParser.parse(reader);
-		}
+		return JsonUtils.jsonParser.parse(Files.newBufferedReader(path));
 	}
 	
-	protected void writeFile(File file, JsonElement json) throws IOException
+	protected void writeFile(Path path, JsonElement json) throws IOException
 	{
-		try(FileWriter writer = new FileWriter(file))
-		{
-			JsonUtils.prettyGson.toJson(json, writer);
-		}
+		JsonUtils.prettyGson.toJson(json, Files.newBufferedWriter(path));
 	}
 	
 	protected abstract void loadFromJson(JsonElement json);
 	
 	protected abstract JsonElement saveToJson();
-	
-	public final File getFile()
-	{
-		return file;
-	}
 }

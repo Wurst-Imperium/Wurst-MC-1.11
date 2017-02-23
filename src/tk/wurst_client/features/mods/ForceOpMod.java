@@ -127,7 +127,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 				
 				rbDefaultList =
 					new JRadioButton("default", wurst.options.forceOPList
-						.equals(WurstFolders.MAIN.getPath()));
+						.equals(WurstFolders.MAIN.toString()));
 				rbDefaultList.setLocation(4, 24);
 				rbDefaultList.setSize(rbDefaultList.getPreferredSize());
 				dialog.add(rbDefaultList);
@@ -146,7 +146,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 						if(!rbTXTList.isSelected())
 						{
 							wurst.options.forceOPList =
-								WurstFolders.MAIN.getPath();
+								WurstFolders.MAIN.toString();
 							ConfigFiles.OPTIONS.save();
 						}
 						loadPWList();
@@ -433,7 +433,7 @@ public class ForceOpMod extends Mod implements ChatInputListener
 	private void loadPWList()
 	{
 		if(rbTXTList.isSelected()
-			&& !wurst.options.forceOPList.equals(WurstFolders.MAIN.getPath()))
+			&& !wurst.options.forceOPList.equals(WurstFolders.MAIN.toString()))
 			try
 			{
 				File pwList = new File(wurst.options.forceOPList);
