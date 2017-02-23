@@ -73,38 +73,35 @@ public final class Encryption
 	
 	public void saveEncryptedFile(File file, String content) throws IOException
 	{
-		Files.write(file.toPath(), encrypt(content).getBytes(CHARSET));
+		Files.write(file.toPath(), encrypt(content.getBytes(CHARSET)));
 	}
 	
 	public String loadEncryptedFile(File file) throws IOException
 	{
-		return decrypt(new String(Files.readAllBytes(file.toPath()), CHARSET));
+		return new String(decrypt(Files.readAllBytes(file.toPath())), CHARSET);
 	}
 	
-	public String encrypt(String string)
+	public byte[] encrypt(byte[] bytes)
 	{
 		try
 		{
-			return Base64.getEncoder().encodeToString(
-				encryptCipher.doFinal(string.getBytes(CHARSET)));
-		}catch(GeneralSecurityException | IOException e)
+			return Base64.getEncoder().encode(encryptCipher.doFinal(bytes));
+		}catch(GeneralSecurityException e)
 		{
 			throw new ReportedException(
-				CrashReport.makeCrashReport(e, "Encrypting string"));
+				CrashReport.makeCrashReport(e, "Encrypting bytes"));
 		}
 	}
 	
-	public String decrypt(String string)
+	public byte[] decrypt(byte[] bytes)
 	{
 		try
 		{
-			return new String(
-				decryptCipher.doFinal(Base64.getDecoder().decode(string)),
-				CHARSET);
-		}catch(GeneralSecurityException | IOException e)
+			return decryptCipher.doFinal(Base64.getDecoder().decode(bytes));
+		}catch(GeneralSecurityException e)
 		{
 			throw new ReportedException(
-				CrashReport.makeCrashReport(e, "Decrypting string"));
+				CrashReport.makeCrashReport(e, "Decrypting bytes"));
 		}
 	}
 	
