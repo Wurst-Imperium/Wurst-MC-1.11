@@ -59,7 +59,7 @@ public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 	}
 	
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		// process special commands
 		boolean refresh = false;

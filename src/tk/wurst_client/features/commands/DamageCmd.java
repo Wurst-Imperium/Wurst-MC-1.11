@@ -18,7 +18,7 @@ import tk.wurst_client.utils.MiscUtils;
 public final class DamageCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length == 0)
 			syntaxError();

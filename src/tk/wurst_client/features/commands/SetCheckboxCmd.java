@@ -22,7 +22,7 @@ import tk.wurst_client.settings.Setting;
 public final class SetCheckboxCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length != 3)
 			syntaxError();

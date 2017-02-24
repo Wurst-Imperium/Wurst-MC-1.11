@@ -69,7 +69,7 @@ public final class GiveCmd extends Cmd
 					+ "], display:{Name:§6Griefer Potion}, HideFlags:63}")};
 	
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		// validate input
 		if(args.length < 1)
@@ -163,7 +163,7 @@ public final class GiveCmd extends Cmd
 			error("Please clear a slot in your hotbar.");
 	}
 	
-	private int parseAmount(Item item, String input) throws Error
+	private int parseAmount(Item item, String input) throws CmdError
 	{
 		if(!MiscUtils.isInteger(input))
 			syntaxError("Amount must be a number.");

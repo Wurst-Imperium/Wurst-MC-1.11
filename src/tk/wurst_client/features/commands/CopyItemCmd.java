@@ -21,7 +21,7 @@ import tk.wurst_client.utils.InventoryUtils;
 public final class CopyItemCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length != 2)
 			syntaxError();

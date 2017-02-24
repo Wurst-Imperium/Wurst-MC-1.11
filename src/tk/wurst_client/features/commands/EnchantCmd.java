@@ -20,7 +20,7 @@ import tk.wurst_client.utils.ChatUtils;
 public final class EnchantCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(!mc.player.capabilities.isCreativeMode)
 			error("Creative mode only.");

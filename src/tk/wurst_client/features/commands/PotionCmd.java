@@ -27,7 +27,7 @@ import tk.wurst_client.utils.MiscUtils;
 public final class PotionCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length == 0)
 			syntaxError();
@@ -113,7 +113,7 @@ public final class PotionCmd extends Cmd
 		currentItem.setTagInfo("CustomPotionEffects", newEffects);
 	}
 	
-	public int parsePotionEffectId(String input) throws SyntaxError
+	public int parsePotionEffectId(String input) throws CmdSyntaxError
 	{
 		int id = 0;
 		try

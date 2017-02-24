@@ -24,7 +24,7 @@ import tk.wurst_client.utils.MiscUtils;
 public final class ModifyCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		EntityPlayerSP player = mc.player;
 		

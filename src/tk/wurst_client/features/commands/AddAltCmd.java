@@ -24,10 +24,11 @@ import tk.wurst_client.utils.ChatUtils;
 public final class AddAltCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length != 1)
 			syntaxError();
+		
 		if(args[0].equals("all"))
 		{
 			int alts = 0;

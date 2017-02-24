@@ -19,7 +19,7 @@ import tk.wurst_client.events.ChatOutputEvent;
 public final class RepairCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length > 0)
 			syntaxError();

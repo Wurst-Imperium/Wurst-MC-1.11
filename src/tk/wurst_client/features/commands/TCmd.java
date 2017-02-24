@@ -16,7 +16,7 @@ import tk.wurst_client.features.mods.Mod;
 public final class TCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		int mode = -1;
 		if(args.length == 1)

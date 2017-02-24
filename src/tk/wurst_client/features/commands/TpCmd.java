@@ -32,7 +32,7 @@ public final class TpCmd extends Cmd
 	};
 	
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		int[] pos = argsToPos(targetSettings, args);
 		mc.player.setPosition(pos[0], pos[1], pos[2]);

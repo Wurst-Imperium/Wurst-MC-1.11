@@ -14,7 +14,7 @@ package tk.wurst_client.features.commands;
 public final class BlinkCmd extends Cmd
 {
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		if(args.length > 1)
 			syntaxError();

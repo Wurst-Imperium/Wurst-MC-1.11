@@ -38,7 +38,7 @@ public final class GoToCmd extends Cmd implements UpdateListener
 	};
 	
 	@Override
-	public void execute(String[] args) throws Error
+	public void execute(String[] args) throws CmdError
 	{
 		// disable if enabled
 		if(enabled)

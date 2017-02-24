@@ -24,7 +24,7 @@ import net.minecraft.util.text.event.ClickEvent.Action;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.events.ChatOutputEvent;
 import tk.wurst_client.events.listeners.ChatOutputListener;
-import tk.wurst_client.features.commands.Cmd.SyntaxError;
+import tk.wurst_client.features.commands.Cmd.CmdSyntaxError;
 import tk.wurst_client.utils.ChatUtils;
 
 public final class CmdManager implements ChatOutputListener
@@ -124,7 +124,7 @@ public final class CmdManager implements ChatOutputListener
 				try
 				{
 					cmd.execute(args);
-				}catch(SyntaxError e)
+				}catch(CmdSyntaxError e)
 				{
 					if(e.getMessage() != null)
 						ChatUtils
@@ -132,7 +132,7 @@ public final class CmdManager implements ChatOutputListener
 					else
 						ChatUtils.message("§4Syntax error!§r");
 					cmd.printSyntax();
-				}catch(Cmd.Error e)
+				}catch(Cmd.CmdError e)
 				{
 					ChatUtils.error(e.getMessage());
 				}catch(Throwable e)

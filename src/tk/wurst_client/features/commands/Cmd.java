@@ -46,27 +46,27 @@ public abstract class Cmd extends Feature
 		String help() default "";
 	}
 	
-	public final class SyntaxError extends Error
+	public final class CmdSyntaxError extends CmdError
 	{
-		public SyntaxError()
+		public CmdSyntaxError()
 		{
 			super();
 		}
 		
-		public SyntaxError(String message)
+		public CmdSyntaxError(String message)
 		{
 			super(message);
 		}
 	}
 	
-	public class Error extends Throwable
+	public class CmdError extends Throwable
 	{
-		public Error()
+		public CmdError()
 		{
 			super();
 		}
 		
-		public Error(String message)
+		public CmdError(String message)
 		{
 			super(message);
 		}
@@ -179,7 +179,7 @@ public abstract class Cmd extends Feature
 	}
 	
 	protected final int[] argsToPos(TargetSettings targetSettings,
-		String... args) throws Cmd.Error
+		String... args) throws Cmd.CmdError
 	{
 		int[] pos = new int[3];
 		if(args.length == 3)
@@ -214,20 +214,20 @@ public abstract class Cmd extends Feature
 		return pos;
 	}
 	
-	protected final void syntaxError() throws SyntaxError
+	protected final void syntaxError() throws CmdSyntaxError
 	{
-		throw new SyntaxError();
+		throw new CmdSyntaxError();
 	}
 	
-	protected final void syntaxError(String message) throws SyntaxError
+	protected final void syntaxError(String message) throws CmdSyntaxError
 	{
-		throw new SyntaxError(message);
+		throw new CmdSyntaxError(message);
 	}
 	
-	protected final void error(String message) throws Error
+	protected final void error(String message) throws CmdError
 	{
-		throw new Error(message);
+		throw new CmdError(message);
 	}
 	
-	public abstract void execute(String[] args) throws Cmd.Error;
+	public abstract void execute(String[] args) throws CmdError;
 }
