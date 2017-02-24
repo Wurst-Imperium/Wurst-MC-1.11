@@ -29,7 +29,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "kill aura",
 	help = "Mods/Killaura")
 @Mod.Bypasses
-public class KillauraMod extends Mod implements UpdateListener
+public final class KillauraMod extends Mod implements UpdateListener
 {
 	public final CheckboxSetting useCooldown =
 		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null

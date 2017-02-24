@@ -17,7 +17,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "NoPotion, Zoot, anti potions, no potions",
 	help = "Mods/AntiPotion")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class AntiPotionMod extends Mod implements UpdateListener
+public final class AntiPotionMod extends Mod implements UpdateListener
 {
 	private final Potion[] blockedEffects = new Potion[]{MobEffects.HUNGER,
 		MobEffects.SLOWNESS, MobEffects.MINING_FATIGUE,

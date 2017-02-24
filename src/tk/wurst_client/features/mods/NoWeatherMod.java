@@ -8,7 +8,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	description = "Allows you to alter the client-side weather, time and moon phase.",
 	name = "NoWeather")
 @Mod.Bypasses
-public class NoWeatherMod extends Mod
+public final class NoWeatherMod extends Mod
 {
 	public CheckboxSetting disableRain =
 		new CheckboxSetting("Disable Rain", true);

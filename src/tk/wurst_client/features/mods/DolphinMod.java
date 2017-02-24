@@ -14,7 +14,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "AutoSwim, auto swim",
 	help = "Mods/Dolphin")
 @Mod.Bypasses
-public class DolphinMod extends Mod implements UpdateListener
+public final class DolphinMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

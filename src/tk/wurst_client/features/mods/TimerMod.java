@@ -15,7 +15,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	name = "Timer",
 	help = "Mods/Timer")
 @Mod.Bypasses(ghostMode = false)
-public class TimerMod extends Mod
+public final class TimerMod extends Mod
 {
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 2, 0.1, 10, 0.1, ValueDisplay.DECIMAL);

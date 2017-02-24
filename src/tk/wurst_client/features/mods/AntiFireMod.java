@@ -18,7 +18,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "anti fire, AntiBurn, anti burn, NoFire, no fire",
 	help = "Mods/AntiFire")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class AntiFireMod extends Mod implements UpdateListener
+public final class AntiFireMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

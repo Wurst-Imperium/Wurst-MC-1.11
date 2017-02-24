@@ -12,7 +12,7 @@ package tk.wurst_client.features.mods;
 	name = "NoOverlay",
 	tags = "AntiPumkin, no overlay")
 @Mod.Bypasses
-public class NoOverlayMod extends Mod
+public final class NoOverlayMod extends Mod
 {
 	
 }

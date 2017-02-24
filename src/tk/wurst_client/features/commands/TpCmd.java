@@ -14,7 +14,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	name = "tp",
 	syntax = {"<x> <y> <z>", "<entity>"},
 	help = "Commands/tp")
-public class TpCmd extends Cmd
+public final class TpCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
 	{

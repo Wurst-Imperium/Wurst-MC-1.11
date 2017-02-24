@@ -22,7 +22,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	help = "Mods/Follow")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
-public class FollowMod extends Mod implements UpdateListener
+public final class FollowMod extends Mod implements UpdateListener
 {
 	private Entity entity;
 	private FollowAI ai;

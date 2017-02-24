@@ -26,7 +26,7 @@ import tk.wurst_client.utils.BlockUtils;
 	olderNCP = false,
 	antiCheat = false,
 	mineplex = false)
-public class KaboomMod extends Mod implements UpdateListener
+public final class KaboomMod extends Mod implements UpdateListener
 {
 	public final SliderSetting power =
 		new SliderSetting("Power", 128, 32, 512, 32, ValueDisplay.INTEGER);

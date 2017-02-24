@@ -33,7 +33,7 @@ import tk.wurst_client.utils.PlayerUtils;
 	tags = "AutoStew, auto soup, auto stew",
 	help = "Mods/AutoSoup")
 @Mod.Bypasses
-public class AutoSoupMod extends Mod implements UpdateListener
+public final class AutoSoupMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
 		new SliderSetting("Health", 6.5, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);

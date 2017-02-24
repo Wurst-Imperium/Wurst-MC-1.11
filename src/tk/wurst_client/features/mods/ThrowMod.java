@@ -17,7 +17,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	name = "Throw",
 	help = "Mods/Throw")
 @Mod.Bypasses(ghostMode = false)
-public class ThrowMod extends Mod implements UpdateListener
+public final class ThrowMod extends Mod implements UpdateListener
 {
 	@Override
 	public String getRenderName()

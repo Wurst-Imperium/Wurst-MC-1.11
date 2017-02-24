@@ -17,7 +17,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "Retarded",
 	help = "Mods/Derp")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class DerpMod extends Mod implements UpdateListener
+public final class DerpMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

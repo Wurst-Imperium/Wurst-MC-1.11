@@ -20,7 +20,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	tags = "auto armor",
 	help = "Mods/AutoArmor")
 @Mod.Bypasses
-public class AutoArmorMod extends Mod implements UpdateListener
+public final class AutoArmorMod extends Mod implements UpdateListener
 {
 	private int timer;
 	

@@ -17,7 +17,7 @@ import tk.wurst_client.utils.XRayUtils;
 	tags = "xray, x ray",
 	help = "Mods/X-Ray")
 @Mod.Bypasses
-public class XRayMod extends Mod
+public final class XRayMod extends Mod
 {
 	public static ArrayList<Block> xrayBlocks;
 	

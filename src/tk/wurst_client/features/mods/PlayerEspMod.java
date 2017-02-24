@@ -21,7 +21,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "player esp",
 	help = "Mods/PlayerESP")
 @Mod.Bypasses
-public class PlayerEspMod extends Mod implements RenderListener
+public final class PlayerEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB PLAYER_BOX =
 		new AxisAlignedBB(-0.35, 0, -0.35, 0.35, 1.9, 0.35);

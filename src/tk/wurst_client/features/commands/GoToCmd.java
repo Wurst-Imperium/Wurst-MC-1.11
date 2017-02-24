@@ -17,7 +17,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	name = "goto",
 	syntax = {"<x> <y> <z>", "<entity>", "-path"},
 	help = "Commands/goto")
-public class GoToCmd extends Cmd implements UpdateListener
+public final class GoToCmd extends Cmd implements UpdateListener
 {
 	private GotoAI ai;
 	private boolean enabled;

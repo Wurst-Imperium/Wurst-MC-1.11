@@ -22,7 +22,7 @@ import tk.wurst_client.utils.RotationUtils;
 	name = "Tunneller",
 	help = "Mods/Tunneller")
 @Mod.Bypasses
-public class TunnellerMod extends Mod
+public final class TunnellerMod extends Mod
 	implements UpdateListener, PostUpdateListener, RenderListener
 {
 	private BlockPos currentBlock;

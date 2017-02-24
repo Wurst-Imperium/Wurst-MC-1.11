@@ -22,7 +22,7 @@ import tk.wurst_client.utils.PlayerUtils;
 	tags = "RapidFire, BowSpam, fast bow, rapid fire, bow spam",
 	help = "Mods/FastBow")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class FastBowMod extends Mod implements UpdateListener
+public final class FastBowMod extends Mod implements UpdateListener
 {
 	@Override
 	public Feature[] getSeeAlso()

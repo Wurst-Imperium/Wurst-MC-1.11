@@ -18,7 +18,7 @@ import tk.wurst_client.utils.EntityFakePlayer;
 	help = "Mods/Freecam")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class FreecamMod extends Mod implements UpdateListener
+public final class FreecamMod extends Mod implements UpdateListener
 {
 	private EntityFakePlayer fakePlayer;
 	

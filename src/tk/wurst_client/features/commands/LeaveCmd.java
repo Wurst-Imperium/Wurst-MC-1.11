@@ -20,7 +20,7 @@ import tk.wurst_client.utils.ChatUtils;
 	name = "leave",
 	syntax = {"[chars|tp|selfhurt|quit]", "mode chars|tp|selfhurt|quit"},
 	help = "Commands/leave")
-public class LeaveCmd extends Cmd
+public final class LeaveCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

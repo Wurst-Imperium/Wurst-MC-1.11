@@ -26,7 +26,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "instant bunker",
 	help = "Mods/InstantBunker")
 @Mod.Bypasses
-public class InstantBunkerMod extends Mod
+public final class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener
 {
 	private int[][] template = {{2, 0, 2}, {2, 0, 1}, {2, 0, 0}, {2, 0, -1},

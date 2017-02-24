@@ -23,7 +23,7 @@ import tk.wurst_client.utils.EntityUtils;
 	tags = "AutoDisconnect, auto leave, auto disconnect",
 	help = "Mods/AutoLeave")
 @Mod.Bypasses
-public class AutoLeaveMod extends Mod implements UpdateListener
+public final class AutoLeaveMod extends Mod implements UpdateListener
 {
 	public SliderSetting health =
 		new SliderSetting("Health", 4, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);

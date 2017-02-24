@@ -18,7 +18,7 @@ import tk.wurst_client.utils.MiscUtils;
 	syntax = {"mode (normal|id|flat|smash)", "id <block_id>",
 		"name <block_name>"},
 	help = "Commands/nuker")
-public class NukerCmd extends Cmd
+public final class NukerCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

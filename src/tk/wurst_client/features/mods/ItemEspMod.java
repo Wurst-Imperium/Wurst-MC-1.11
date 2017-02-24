@@ -21,7 +21,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "item esp",
 	help = "Mods/ItemESP")
 @Mod.Bypasses
-public class ItemEspMod extends Mod implements RenderListener
+public final class ItemEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB ITEM_BOX =
 		new AxisAlignedBB(-0.175, 0, -0.175, 0.175, 0.35, 0.175);

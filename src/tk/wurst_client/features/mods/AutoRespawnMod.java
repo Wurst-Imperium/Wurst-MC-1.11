@@ -14,7 +14,7 @@ import tk.wurst_client.events.listeners.DeathListener;
 	tags = "auto respawn",
 	help = "Mods/AutoRespawn")
 @Mod.Bypasses
-public class AutoRespawnMod extends Mod implements DeathListener
+public final class AutoRespawnMod extends Mod implements DeathListener
 {
 	@Override
 	public void onEnable()

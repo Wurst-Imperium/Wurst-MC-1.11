@@ -29,7 +29,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "Click Aura,ClickAimbot,Click Aimbot",
 	help = "Mods/ClickAura")
 @Mod.Bypasses(ghostMode = false)
-public class ClickAuraMod extends Mod implements UpdateListener
+public final class ClickAuraMod extends Mod implements UpdateListener
 {
 	public final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)

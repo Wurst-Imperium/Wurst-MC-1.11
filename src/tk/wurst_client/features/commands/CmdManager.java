@@ -27,7 +27,7 @@ import tk.wurst_client.events.listeners.ChatOutputListener;
 import tk.wurst_client.features.commands.Cmd.SyntaxError;
 import tk.wurst_client.utils.ChatUtils;
 
-public class CmdManager implements ChatOutputListener
+public final class CmdManager implements ChatOutputListener
 {
 	private final TreeMap<String, Cmd> cmds =
 		new TreeMap<>(new Comparator<String>()

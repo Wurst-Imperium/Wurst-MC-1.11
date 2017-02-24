@@ -15,7 +15,7 @@ import tk.wurst_client.utils.ChatUtils;
 	name = "rename",
 	syntax = {"<new_name>"},
 	help = "Commands/rename")
-public class RenameCmd extends Cmd
+public final class RenameCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

@@ -16,7 +16,7 @@ import tk.wurst_client.utils.MiscUtils;
 	name = "help",
 	syntax = {"[<page>]", "[<command>]"},
 	help = "Commands/help")
-public class HelpCmd extends Cmd
+public final class HelpCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

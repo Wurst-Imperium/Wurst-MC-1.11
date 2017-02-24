@@ -29,7 +29,7 @@ import tk.wurst_client.utils.BlockUtils.BlockValidator;
 	olderNCP = false,
 	antiCheat = false,
 	mineplex = false)
-public class SpeedNukerMod extends Mod
+public final class SpeedNukerMod extends Mod
 	implements LeftClickListener, UpdateListener
 {
 	private BlockValidator validator;

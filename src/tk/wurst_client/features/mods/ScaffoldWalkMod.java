@@ -20,7 +20,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	name = "ScaffoldWalk",
 	tags = "scaffold walk, tower")
 @Mod.Bypasses(ghostMode = false)
-public class ScaffoldWalkMod extends Mod implements UpdateListener
+public final class ScaffoldWalkMod extends Mod implements UpdateListener
 {
 	@Override
 	public Feature[] getSeeAlso()

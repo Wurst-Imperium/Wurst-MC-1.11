@@ -19,7 +19,7 @@ import tk.wurst_client.utils.ChatUtils;
 	tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
 	help = "Mods/CrashItem")
 @Mod.Bypasses
-public class CrashTagMod extends Mod
+public final class CrashTagMod extends Mod
 {
 	@Override
 	public void onEnable()

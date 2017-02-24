@@ -21,7 +21,7 @@ import tk.wurst_client.settings.ModeSetting;
 	tags = "Crits",
 	help = "Mods/Criticals")
 @Mod.Bypasses(ghostMode = false)
-public class CriticalsMod extends Mod implements LeftClickListener
+public final class CriticalsMod extends Mod implements LeftClickListener
 {
 	private int mode = 1;
 	private String[] modes = new String[]{"Jump", "Packet"};

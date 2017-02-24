@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-public class ModManager
+public final class ModManager
 {
 	private final TreeMap<String, Mod> mods =
 		new TreeMap<>(new Comparator<String>()

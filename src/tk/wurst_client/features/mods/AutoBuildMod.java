@@ -39,7 +39,7 @@ import tk.wurst_client.utils.RotationUtils;
 	help = "Mods/AutoBuild")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class AutoBuildMod extends Mod
+public final class AutoBuildMod extends Mod
 	implements RightClickListener, UpdateListener, RenderListener
 {
 	public ModeSetting mode =

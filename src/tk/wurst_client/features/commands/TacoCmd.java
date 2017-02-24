@@ -24,7 +24,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	name = "taco",
 	syntax = {},
 	help = "Commands/taco")
-public class TacoCmd extends Cmd implements GUIRenderListener, UpdateListener
+public final class TacoCmd extends Cmd implements GUIRenderListener, UpdateListener
 {
 	private static final ResourceLocation tacoTexture1 =
 		new ResourceLocation("wurst/dancingtaco1.png");

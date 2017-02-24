@@ -42,7 +42,7 @@ import tk.wurst_client.utils.MiscUtils;
 	+ ">Integrated help system", name = "Spammer", help = "Mods/Spammer")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class SpammerMod extends Mod
+public final class SpammerMod extends Mod
 {
 	private JDialog dialog;
 	private static JSpinner delaySpinner;

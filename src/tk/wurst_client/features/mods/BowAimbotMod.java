@@ -31,7 +31,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "bow aimbot",
 	help = "Mods/BowAimbot")
 @Mod.Bypasses
-public class BowAimbotMod extends Mod
+public final class BowAimbotMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener
 {
 	private static final AxisAlignedBB TARGET_BOX =

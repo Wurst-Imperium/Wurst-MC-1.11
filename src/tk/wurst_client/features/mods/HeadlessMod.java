@@ -18,7 +18,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "head less",
 	help = "Mods/Headless")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class HeadlessMod extends Mod implements UpdateListener
+public final class HeadlessMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

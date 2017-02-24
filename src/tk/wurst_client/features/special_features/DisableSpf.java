@@ -12,7 +12,7 @@ package tk.wurst_client.features.special_features;
 		+ "into an \"Enable Wurst\" button once pressed.",
 	name = "Disable Wurst",
 	tags = "turn off, hide wurst logo, ghost mode, stealth mode, vanilla Minecraft")
-public class DisableSpf extends Spf
+public final class DisableSpf extends Spf
 {
 	
 }

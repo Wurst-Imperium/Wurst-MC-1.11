@@ -16,7 +16,7 @@ import tk.wurst_client.utils.MiscUtils;
 	name = "search",
 	syntax = {"id <block_id>", "name <block_name>"},
 	help = "Commands/search")
-public class SearchCmd extends Cmd
+public final class SearchCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

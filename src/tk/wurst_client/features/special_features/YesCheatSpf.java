@@ -19,7 +19,7 @@ import tk.wurst_client.settings.ModeSetting;
 	name = "YesCheat+",
 	tags = "YesCheatPlus, NoCheat+, NoCheatPlus, AntiMAC, yes cheat plus, no cheat plus, anti mac, ncp bypasses",
 	help = "Special_Features/YesCheat")
-public class YesCheatSpf extends Spf
+public final class YesCheatSpf extends Spf
 {
 	private final HashSet<Mod> blockedMods = new HashSet<>();
 	private BypassLevel bypassLevel = BypassLevel.OFF;

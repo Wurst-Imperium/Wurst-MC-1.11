@@ -25,7 +25,7 @@ import tk.wurst_client.utils.BlockUtils;
 	name = "Jesus",
 	help = "Mods/Jesus")
 @Mod.Bypasses(ghostMode = false)
-public class JesusMod extends Mod
+public final class JesusMod extends Mod
 	implements UpdateListener, PacketOutputListener
 {
 	private int tickTimer = 10;

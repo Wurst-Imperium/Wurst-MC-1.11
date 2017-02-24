@@ -11,7 +11,7 @@ package tk.wurst_client.features.commands;
 	name = "blink",
 	syntax = {"[(on|off|cancel)]"},
 	help = "Commands/blink")
-public class BlinkCmd extends Cmd
+public final class BlinkCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

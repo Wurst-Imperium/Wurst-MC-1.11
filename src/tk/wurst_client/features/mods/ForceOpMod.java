@@ -47,7 +47,7 @@ import tk.wurst_client.utils.ChatUtils;
 	help = "Mods/Force_OP_(AuthMeCracker)")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class ForceOpMod extends Mod implements ChatInputListener
+public final class ForceOpMod extends Mod implements ChatInputListener
 {
 	// TODO: Clean up
 	

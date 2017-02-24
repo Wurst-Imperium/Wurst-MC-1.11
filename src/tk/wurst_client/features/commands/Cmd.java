@@ -46,7 +46,7 @@ public abstract class Cmd extends Feature
 		String help() default "";
 	}
 	
-	public class SyntaxError extends Error
+	public final class SyntaxError extends Error
 	{
 		public SyntaxError()
 		{

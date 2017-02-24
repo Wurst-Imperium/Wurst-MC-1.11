@@ -20,7 +20,7 @@ import tk.wurst_client.utils.RotationUtils;
 	name = "Tracers",
 	help = "Mods/Tracers")
 @Mod.Bypasses
-public class TracersMod extends Mod implements RenderListener
+public final class TracersMod extends Mod implements RenderListener
 {
 	@Override
 	public Feature[] getSeeAlso()

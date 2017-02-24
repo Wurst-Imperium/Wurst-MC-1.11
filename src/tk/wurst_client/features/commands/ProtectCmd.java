@@ -16,7 +16,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	name = "protect",
 	syntax = {"[<entity>]"},
 	help = "Commands/protect")
-public class ProtectCmd extends Cmd
+public final class ProtectCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
 	{

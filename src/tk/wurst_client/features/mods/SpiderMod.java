@@ -16,7 +16,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
-public class SpiderMod extends Mod implements UpdateListener
+public final class SpiderMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

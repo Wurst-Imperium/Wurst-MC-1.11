@@ -23,7 +23,7 @@ import tk.wurst_client.utils.MiscUtils;
 	syntax = {"(<item_name>|<item_id>) [<amount>] [<metadata>] [<nbt>]",
 		"template <template_id> [<amount>]", "templates"},
 	help = "Commands/give")
-public class GiveCmd extends Cmd
+public final class GiveCmd extends Cmd
 {
 	private ItemTemplate[] templates =
 		new ItemTemplate[]{new ItemTemplate("Knockback Stick", Items.STICK,

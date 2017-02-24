@@ -19,7 +19,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	latestNCP = false,
 	antiCheat = false,
 	mineplex = false)
-public class PhaseMod extends Mod implements UpdateListener
+public final class PhaseMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

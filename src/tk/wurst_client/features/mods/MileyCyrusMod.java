@@ -14,7 +14,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	tags = "miley cyrus, twerk",
 	help = "Mods/MileyCyrus")
 @Mod.Bypasses
-public class MileyCyrusMod extends Mod implements UpdateListener
+public final class MileyCyrusMod extends Mod implements UpdateListener
 {
 	private int timer;
 	

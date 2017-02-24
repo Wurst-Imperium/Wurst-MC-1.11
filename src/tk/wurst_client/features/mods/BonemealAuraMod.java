@@ -33,7 +33,7 @@ import tk.wurst_client.utils.PlayerUtils;
 	tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
 	help = "Mods/BonemealAura")
 @Mod.Bypasses
-public class BonemealAuraMod extends Mod implements UpdateListener
+public final class BonemealAuraMod extends Mod implements UpdateListener
 {
 	public final SliderSetting range =
 		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);

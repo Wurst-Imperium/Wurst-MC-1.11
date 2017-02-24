@@ -22,7 +22,7 @@ import tk.wurst_client.utils.PlayerUtils;
 	tags = "build random",
 	help = "Mods/BuildRandom")
 @Mod.Bypasses
-public class BuildRandomMod extends Mod implements UpdateListener
+public final class BuildRandomMod extends Mod implements UpdateListener
 {
 	private final Random random = new Random();
 	

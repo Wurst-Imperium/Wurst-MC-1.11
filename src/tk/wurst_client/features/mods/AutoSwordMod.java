@@ -26,7 +26,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
-public class AutoSwordMod extends Mod
+public final class AutoSwordMod extends Mod
 	implements LeftClickListener, UpdateListener
 {
 	private int oldSlot = -1;

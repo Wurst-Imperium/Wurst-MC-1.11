@@ -22,7 +22,7 @@ import tk.wurst_client.utils.MiscUtils;
 	tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",
 	help = "Mods/AntiSpam")
 @Mod.Bypasses
-public class AntiSpamMod extends Mod implements ChatInputListener
+public final class AntiSpamMod extends Mod implements ChatInputListener
 {
 	@Override
 	public void onEnable()

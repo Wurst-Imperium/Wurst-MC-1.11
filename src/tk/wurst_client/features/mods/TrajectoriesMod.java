@@ -27,7 +27,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "AimAssist, ArrowPrediction, aim assist, arrow prediction",
 	help = "Mods/Trajectories")
 @Mod.Bypasses
-public class TrajectoriesMod extends Mod implements RenderListener
+public final class TrajectoriesMod extends Mod implements RenderListener
 {
 	@Override
 	public Feature[] getSeeAlso()

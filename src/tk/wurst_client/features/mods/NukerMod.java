@@ -31,7 +31,7 @@ import tk.wurst_client.utils.RenderUtils;
 	name = "Nuker",
 	help = "Mods/Nuker")
 @Mod.Bypasses
-public class NukerMod extends Mod implements LeftClickListener, UpdateListener,
+public final class NukerMod extends Mod implements LeftClickListener, UpdateListener,
 	PostUpdateListener, RenderListener
 {
 	public int id = 0;

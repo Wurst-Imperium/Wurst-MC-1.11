@@ -21,7 +21,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "mob esp",
 	help = "Mods/MobESP")
 @Mod.Bypasses
-public class MobEspMod extends Mod implements RenderListener
+public final class MobEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB MOB_BOX =
 		new AxisAlignedBB(-0.5, 0, -0.5, 0.5, 1, 0.5);

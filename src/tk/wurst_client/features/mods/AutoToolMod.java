@@ -23,7 +23,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	tags = "auto tool",
 	help = "Mods/AutoTool")
 @Mod.Bypasses
-public class AutoToolMod extends Mod implements UpdateListener
+public final class AutoToolMod extends Mod implements UpdateListener
 {
 	private int oldSlot = -1;
 	private BlockPos pos;

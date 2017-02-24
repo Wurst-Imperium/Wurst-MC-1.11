@@ -16,7 +16,7 @@ import tk.wurst_client.utils.ChatUtils;
 	name = "features",
 	syntax = {},
 	help = "Commands/features")
-public class FeaturesCmd extends Cmd
+public final class FeaturesCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

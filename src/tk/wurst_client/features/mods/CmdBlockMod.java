@@ -22,7 +22,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	tags = "CmdBlock, CommandBlock, cmd block, command block",
 	help = "Mods/CMD-Block")
 @Mod.Bypasses
-public class CmdBlockMod extends Mod
+public final class CmdBlockMod extends Mod
 {
 	@Override
 	public void onEnable()

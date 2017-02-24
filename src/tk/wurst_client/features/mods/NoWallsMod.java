@@ -18,7 +18,7 @@ import tk.wurst_client.events.listeners.PacketOutputListener;
 	name = "NoWalls",
 	help = "Mods/NoWalls")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public class NoWallsMod extends Mod implements PacketOutputListener
+public final class NoWallsMod extends Mod implements PacketOutputListener
 {
 	
 	@Override

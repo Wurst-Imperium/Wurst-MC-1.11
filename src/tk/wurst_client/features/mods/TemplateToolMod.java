@@ -47,7 +47,7 @@ import tk.wurst_client.utils.RenderUtils;
 	description = "Allows you to create custom templates for AutoBuild by scanning existing buildings.",
 	name = "TemplateTool")
 @Mod.Bypasses
-public class TemplateToolMod extends Mod
+public final class TemplateToolMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener
 {
 	private Step step;

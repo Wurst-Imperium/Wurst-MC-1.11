@@ -28,7 +28,7 @@ import tk.wurst_client.utils.RotationUtils;
 	tags = "player finder",
 	help = "Mods/PlayerFinder")
 @Mod.Bypasses
-public class PlayerFinderMod extends Mod
+public final class PlayerFinderMod extends Mod
 	implements PacketInputListener, RenderListener
 {
 	private BlockPos pos;

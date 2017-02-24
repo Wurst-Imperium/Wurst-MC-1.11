@@ -18,7 +18,7 @@ import tk.wurst_client.features.Feature;
 	tags = "auto switch",
 	help = "Mods/AutoSwitch")
 @Mod.Bypasses
-public class AutoSwitchMod extends Mod implements UpdateListener
+public final class AutoSwitchMod extends Mod implements UpdateListener
 {
 	@Override
 	public Feature[] getSeeAlso()

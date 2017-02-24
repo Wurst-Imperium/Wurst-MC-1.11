@@ -27,7 +27,7 @@ import tk.wurst_client.utils.PlayerUtils;
 	tags = "AutoPotion,auto potion,auto splash potion",
 	help = "Mods/AutoSplashPot")
 @Mod.Bypasses
-public class AutoSplashPotMod extends Mod implements UpdateListener
+public final class AutoSplashPotMod extends Mod implements UpdateListener
 {
 	public final SliderSetting health =
 		new SliderSetting("Health", 6, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);

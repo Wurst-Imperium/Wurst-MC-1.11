@@ -20,7 +20,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	tags = "KillerPotion,kill potion,killer potion",
 	help = "Mods/KillerPotion")
 @Mod.Bypasses
-public class KillPotionMod extends Mod
+public final class KillPotionMod extends Mod
 {
 	@Override
 	public void onEnable()

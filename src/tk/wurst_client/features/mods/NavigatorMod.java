@@ -15,7 +15,7 @@ import tk.wurst_client.navigator.gui.NavigatorMainScreen;
 	help = "Mods/Navigator")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class NavigatorMod extends Mod
+public final class NavigatorMod extends Mod
 {
 	@Override
 	public void onEnable()

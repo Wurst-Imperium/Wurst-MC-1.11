@@ -19,7 +19,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	tags = "SpeedMine, SpeedyGonzales, fast break, speed mine, speedy gonzales",
 	help = "Mods/FastBreak")
 @Mod.Bypasses
-public class FastBreakMod extends Mod
+public final class FastBreakMod extends Mod
 {
 	public final ModeSetting mode =
 		new ModeSetting("Mode", new String[]{"Normal", "Instant"}, 1)

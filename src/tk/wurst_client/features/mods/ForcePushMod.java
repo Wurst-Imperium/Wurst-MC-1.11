@@ -19,7 +19,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	tags = "force push",
 	help = "Mods/ForcePush")
 @Mod.Bypasses
-public class ForcePushMod extends Mod implements UpdateListener
+public final class ForcePushMod extends Mod implements UpdateListener
 {
 	private TargetSettings targetSettings = new TargetSettings()
 	{

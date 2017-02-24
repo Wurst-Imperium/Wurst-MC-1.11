@@ -12,7 +12,7 @@ package tk.wurst_client.features.commands;
 	name = "rv",
 	syntax = {"[<player>]"},
 	help = "Commands/rv")
-public class RvCmd extends Cmd
+public final class RvCmd extends Cmd
 {
 	@Override
 	public void execute(String[] args) throws Error

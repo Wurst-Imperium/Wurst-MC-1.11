@@ -15,7 +15,7 @@ import tk.wurst_client.utils.EntityUtils.TargetSettings;
 	name = "follow",
 	syntax = {"[<entity>]"},
 	help = "Commands/follow")
-public class FollowCmd extends Cmd
+public final class FollowCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
 	{

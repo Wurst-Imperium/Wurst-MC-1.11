@@ -22,7 +22,7 @@ import tk.wurst_client.utils.RenderUtils;
 	tags = "prophunt esp",
 	help = "Mods/ProphuntESP")
 @Mod.Bypasses
-public class ProphuntEspMod extends Mod implements RenderListener
+public final class ProphuntEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB FAKE_BLOCK_BOX =
 		new AxisAlignedBB(-0.5, 0, -0.5, 0.5, 1, 0.5);

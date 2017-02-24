@@ -20,7 +20,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	olderNCP = false,
 	antiCheat = false,
 	mineplex = false)
-public class JetpackMod extends Mod implements UpdateListener
+public final class JetpackMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

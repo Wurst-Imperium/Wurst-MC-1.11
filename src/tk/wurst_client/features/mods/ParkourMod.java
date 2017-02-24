@@ -15,7 +15,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 		+ "Useful for parkours, Jump'n'Runs, etc.",
 	name = "Parkour")
 @Mod.Bypasses
-public class ParkourMod extends Mod implements UpdateListener
+public final class ParkourMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onEnable()

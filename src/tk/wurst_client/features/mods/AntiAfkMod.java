@@ -19,7 +19,7 @@ import tk.wurst_client.events.listeners.UpdateListener;
 	help = "Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
-public class AntiAfkMod extends Mod implements UpdateListener
+public final class AntiAfkMod extends Mod implements UpdateListener
 {
 	private GoRandomAI ai;
 	private int timer;

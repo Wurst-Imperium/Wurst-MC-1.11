@@ -22,7 +22,7 @@ import tk.wurst_client.settings.SliderSetting.ValueDisplay;
 	tags = "FlyHack,fly hack,flying",
 	help = "Mods/Flight")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
-public class FlightMod extends Mod implements UpdateListener
+public final class FlightMod extends Mod implements UpdateListener
 {
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 1, 0.05, 5, 0.05, ValueDisplay.DECIMAL);

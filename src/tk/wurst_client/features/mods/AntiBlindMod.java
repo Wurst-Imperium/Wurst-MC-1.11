@@ -12,7 +12,7 @@ package tk.wurst_client.features.mods;
 	tags = "AntiBlindness, anti blindness",
 	help = "Mods/AntiBlind")
 @Mod.Bypasses
-public class AntiBlindMod extends Mod
+public final class AntiBlindMod extends Mod
 {
 	
 }

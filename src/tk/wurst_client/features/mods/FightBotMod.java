@@ -32,7 +32,7 @@ import tk.wurst_client.utils.RotationUtils;
 	help = "Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
-public class FightBotMod extends Mod implements UpdateListener
+public final class FightBotMod extends Mod implements UpdateListener
 {
 	public CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)

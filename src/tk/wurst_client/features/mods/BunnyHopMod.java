@@ -17,7 +17,7 @@ import tk.wurst_client.features.Feature;
 	tags = "AutoJump, BHop, bunny hop, auto jump",
 	help = "Mods/BunnyHop")
 @Mod.Bypasses
-public class BunnyHopMod extends Mod implements UpdateListener
+public final class BunnyHopMod extends Mod implements UpdateListener
 {
 	@Override
 	public Feature[] getSeeAlso()

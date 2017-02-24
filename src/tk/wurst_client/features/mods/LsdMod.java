@@ -17,7 +17,7 @@ import tk.wurst_client.utils.PlayerUtils;
 @Mod.Info(description = "Thousands of colors!", name = "LSD", help = "Mods/LSD")
 @Mod.Bypasses
 @Mod.DontSaveState
-public class LsdMod extends Mod implements UpdateListener
+public final class LsdMod extends Mod implements UpdateListener
 {
 	@Override
 	public void onToggle()

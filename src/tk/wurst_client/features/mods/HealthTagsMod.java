@@ -12,7 +12,7 @@ package tk.wurst_client.features.mods;
 	tags = "health tags",
 	help = "Mods/HealthTags")
 @Mod.Bypasses
-public class HealthTagsMod extends Mod
+public final class HealthTagsMod extends Mod
 {
 	
 }

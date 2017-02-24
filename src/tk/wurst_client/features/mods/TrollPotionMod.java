@@ -21,7 +21,7 @@ import tk.wurst_client.utils.InventoryUtils;
 	tags = "troll potion",
 	help = "Mods/TrollPotion")
 @Mod.Bypasses
-public class TrollPotionMod extends Mod
+public final class TrollPotionMod extends Mod
 {
 	@Override
 	public void onEnable()
