@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -21,8 +20,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.util.ReportedException;
 import tk.wurst_client.WurstClient;
 import tk.wurst_client.utils.JsonUtils;
 
@@ -33,16 +30,6 @@ public class FileManager
 	
 	public void init()
 	{
-		// create folders
-		try
-		{
-			WurstFolders.createFolders();
-		}catch(ReflectiveOperationException | IOException e)
-		{
-			throw new ReportedException(
-				CrashReport.makeCrashReport(e, "Creating Wurst folders"));
-		}
-		
 		loadAutoBuildTemplates();
 	}
 	

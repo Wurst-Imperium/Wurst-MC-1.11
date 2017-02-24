@@ -18,6 +18,7 @@ import tk.wurst_client.features.mods.ModManager;
 import tk.wurst_client.features.special_features.SpfManager;
 import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.files.FileManager;
+import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.font.Fonts;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.navigator.Navigator;
@@ -71,8 +72,10 @@ public enum WurstClient
 		friends = new FriendsList();
 		navigator = new Navigator();
 		
-		files.init();
+		WurstFolders.initialize();
 		ConfigFiles.initialize();
+		files.init();
+		
 		navigator.sortFeatures();
 		Fonts.loadFonts();
 		updater.checkForUpdate();

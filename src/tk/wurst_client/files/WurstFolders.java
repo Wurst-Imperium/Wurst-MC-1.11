@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.util.ReportedException;
 
 public final class WurstFolders
 {
@@ -28,20 +30,27 @@ public final class WurstFolders
 	public static final Path RSA =
 		Paths.get(System.getProperty("user.home"), ".ssh");
 	
-	public static void createFolders()
-		throws ReflectiveOperationException, IOException
+	public static void initialize()
 	{
 		if(System.getProperty("user.home") == null)
-			throw new IOException("user.home property is missing!");
+			throw new RuntimeException("user.home property is missing!");
 		
-		for(Field field : WurstFolders.class.getFields())
+		try
 		{
-			Path path = (Path)field.get(null);
+			for(Field field : WurstFolders.class.getFields())
+			{
+				Path path = (Path)field.get(null);
+				
+				if(Files.exists(path))
+					continue;
+				
+				Files.createDirectory(path);
+			}
 			
-			if(Files.exists(path))
-				continue;
-			
-			Files.createDirectory(path);
+		}catch(ReflectiveOperationException | IOException e)
+		{
+			throw new ReportedException(
+				CrashReport.makeCrashReport(e, "Initializing config files"));
 		}
 	}
 }
