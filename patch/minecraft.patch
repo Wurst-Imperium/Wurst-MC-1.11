@@ -1,6 +1,6 @@
-From 3c8b6694a4f72e7af2974fc8d97206ded413e1c1 Mon Sep 17 00:00:00 2001
+From eb4db917324d16c613a385adaef059cf09309281 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sat, 18 Feb 2017 15:18:06 +0100
+Date: Fri, 24 Feb 2017 19:20:55 +0100
 Subject: [PATCH] mod
 
 ---
@@ -2743,14 +2743,14 @@ index b143a59..c19a734 100644
          GlStateManager.bindTexture(p_94277_0_);
      }
 diff --git a/net/minecraft/client/resources/SkinManager.java b/net/minecraft/client/resources/SkinManager.java
-index 5826984..0d1a922 100644
+index 5826984..e8aba26 100644
 --- a/net/minecraft/client/resources/SkinManager.java
 +++ b/net/minecraft/client/resources/SkinManager.java
 @@ -24,6 +24,7 @@ import net.minecraft.client.renderer.ThreadDownloadImageData;
  import net.minecraft.client.renderer.texture.ITextureObject;
  import net.minecraft.client.renderer.texture.TextureManager;
  import net.minecraft.util.ResourceLocation;
-+import tk.wurst_client.capes.WurstCapes;
++import tk.wurst_client.hooks.CapesHook;
  
  public class SkinManager
  {
@@ -2759,7 +2759,7 @@ index 5826984..0d1a922 100644
                  }
  
 +				// TODO: Client
-+				WurstCapes.checkCape(profile, map, skinAvailableCallback);
++				CapesHook.checkCape(profile, map);
 +
                  Minecraft.getMinecraft().addScheduledTask(new Runnable()
                  {
