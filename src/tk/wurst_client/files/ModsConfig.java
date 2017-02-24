@@ -17,6 +17,7 @@ import tk.wurst_client.features.mods.Mod;
 
 public final class ModsConfig extends Config
 {
+	// TODO: Rename to enabled-mods.json
 	public ModsConfig()
 	{
 		super("modules.json");

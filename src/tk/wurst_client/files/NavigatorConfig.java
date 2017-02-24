@@ -15,6 +15,7 @@ import tk.wurst_client.settings.Setting;
 
 public final class NavigatorConfig extends Config
 {
+	// TODO: split into settings and preferences
 	public NavigatorConfig()
 	{
 		super("navigator.json");
