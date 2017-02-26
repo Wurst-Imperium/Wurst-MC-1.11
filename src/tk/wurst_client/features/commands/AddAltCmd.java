@@ -7,8 +7,6 @@
  */
 package tk.wurst_client.features.commands;
 
-import java.util.Iterator;
-
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.StringUtils;
 import tk.wurst_client.alts.Alt;
@@ -32,31 +30,37 @@ public final class AddAltCmd extends Cmd
 		if(args[0].equals("all"))
 		{
 			int alts = 0;
-			Iterator itr = mc.getConnection().getPlayerInfoMap().iterator();
-			while(itr.hasNext())
+			for(NetworkPlayerInfo info : mc.player.connection
+				.getPlayerInfoMap())
 			{
-				NetworkPlayerInfo info = (NetworkPlayerInfo)itr.next();
-				String crackedName =
+				String name =
 					StringUtils.stripControlCodes(info.getPlayerNameForReal());
-				if(crackedName.equals(mc.player.getName())
-					|| crackedName.equals("Alexander01998") || GuiAltList.alts
-						.contains(new Alt(crackedName, null, null)))
+				
+				if(name.equals(mc.player.getName())
+					|| name.equals("Alexander01998")
+					|| GuiAltList.alts.contains(new Alt(name, null, null)))
 					continue;
-				GuiAltList.alts.add(new Alt(crackedName, null, null));
+				
+				GuiAltList.alts.add(new Alt(name, null, null));
 				alts++;
 			}
+			
 			if(alts == 1)
-				ChatUtils.message("Added 1 alt to the alt list.");
+				ChatUtils.message("Added 1 alt.");
 			else
-				ChatUtils.message("Added " + alts + " alts to the alt list.");
+				ChatUtils.message("Added " + alts + " alts.");
+			
 			GuiAltList.sortAlts();
 			ConfigFiles.ALTS.save();
+			
 		}else if(!args[0].equals("Alexander01998"))
 		{
 			GuiAltList.alts.add(new Alt(args[0], null, null));
+			
 			GuiAltList.sortAlts();
 			ConfigFiles.ALTS.save();
-			ChatUtils.message("Added \"" + args[0] + "\" to the alt list.");
+			
+			ChatUtils.message("Added 1 alt.");
 		}
 	}
 }

@@ -7,17 +7,21 @@
  */
 package tk.wurst_client.gui.alts;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.alts.LoginManager;
 import tk.wurst_client.gui.main.GuiWurstMainMenu;
 
-public class GuiAltLogin extends AltEditorScreen
+public final class GuiAltLogin extends AltEditorScreen
 {
-	public GuiAltLogin(GuiScreen par1GuiScreen)
+	public GuiAltLogin(GuiScreen prevScreen)
 	{
-		super(par1GuiScreen);
+		super(prevScreen);
+	}
+	
+	@Override
+	protected String getTitle()
+	{
+		return "Direct Login";
 	}
 	
 	@Override
@@ -27,42 +31,19 @@ public class GuiAltLogin extends AltEditorScreen
 	}
 	
 	@Override
-	protected String getEmailBoxText()
+	protected void pressDoneButton()
 	{
-		return Minecraft.getMinecraft().session.getUsername();
-	}
-	
-	@Override
-	protected String getPasswordBoxText()
-	{
-		return "";
-	}
-	
-	@Override
-	protected void onDoneButtonClick(GuiButton button)
-	{
-		if(passwordBox.getText().length() == 0)
+		if(getPassword().isEmpty())
 		{
-			LoginManager.changeCrackedName(emailBox.getText());
-			displayText = "";
+			message = "";
+			LoginManager.changeCrackedName(getEmail());
+			
 		}else
-			displayText =
-				LoginManager.login(emailBox.getText(), passwordBox.getText());
-		if(displayText.equals(""))
+			message = LoginManager.login(getEmail(), getPassword());
+		
+		if(message.isEmpty())
 			mc.displayGuiScreen(new GuiWurstMainMenu());
 		else
-			errorTimer = 8;
-	}
-	
-	@Override
-	protected String getUrl()
-	{
-		return "/alt-manager/direct-login";
-	}
-	
-	@Override
-	protected String getTitle()
-	{
-		return "Login";
+			doErrorEffect();
 	}
 }

@@ -7,9 +7,6 @@
  */
 package tk.wurst_client.gui.alts;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -22,184 +19,137 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import tk.wurst_client.WurstClient;
-import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.NameGenerator;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.MiscUtils;
 
 public abstract class AltEditorScreen extends GuiScreen
 {
-	protected GuiScreen prevMenu;
-	protected GuiTextField emailBox;
-	protected GuiPasswordField passwordBox;
-	protected String displayText = "";
-	protected int errorTimer;
-	protected Alt alt;
-	protected long lastNameCheck;
+	protected final GuiScreen prevScreen;
 	
-	public AltEditorScreen(GuiScreen par1GuiScreen)
+	private GuiTextField emailBox;
+	private GuiPasswordField passwordBox;
+	
+	private GuiButton doneButton;
+	private GuiButton stealSkinButton;
+	
+	protected String message = "";
+	private int errorTimer;
+	
+	public AltEditorScreen(GuiScreen prevScreen)
 	{
-		prevMenu = par1GuiScreen;
+		this.prevScreen = prevScreen;
 	}
 	
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
 	@Override
-	public void updateScreen()
+	public final void updateScreen()
 	{
 		emailBox.updateCursorCounter();
 		passwordBox.updateCursorCounter();
-		buttonList.get(0).enabled = emailBox.getText().trim().length() > 0
-			&& (!emailBox.getText().trim().equalsIgnoreCase("Alexander01998")
-				|| passwordBox.getText().length() != 0);
-		buttonList.get(3).enabled =
-			!emailBox.getText().trim().equalsIgnoreCase("Alexander01998");
+		
+		String email = emailBox.getText().trim();
+		boolean alex = email.equalsIgnoreCase("Alexander01998");
+		
+		doneButton.enabled =
+			!email.isEmpty() && !(alex && passwordBox.getText().isEmpty());
+		
+		stealSkinButton.enabled = !alex;
 	}
 	
-	protected abstract String getDoneButtonText();
+	protected abstract String getTitle();
 	
-	protected abstract String getEmailBoxText();
-	
-	protected abstract String getPasswordBoxText();
-	
-	protected String getName()
+	protected final String getEmail()
 	{
 		return emailBox.getText();
 	}
 	
-	/**
-	 * Adds the buttons (and other controls) to the screen in question.
-	 */
+	protected final String getPassword()
+	{
+		return passwordBox.getText();
+	}
+	
+	protected String getDefaultEmail()
+	{
+		return mc.session.getUsername();
+	}
+	
+	protected String getDefaultPassword()
+	{
+		return "";
+	}
+	
+	protected abstract String getDoneButtonText();
+	
+	protected abstract void pressDoneButton();
+	
+	protected final void doErrorEffect()
+	{
+		errorTimer = 8;
+	}
+	
 	@Override
-	public void initGui()
+	public final void initGui()
 	{
 		Keyboard.enableRepeatEvents(true);
-		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 72 + 12,
-			getDoneButtonText()));
-		buttonList.add(new GuiButton(3, width / 2 - 100, height / 4 + 96 + 12,
-			"Random Name"));
+		
+		buttonList.add(doneButton = new GuiButton(0, width / 2 - 100,
+			height / 4 + 72 + 12, getDoneButtonText()));
 		buttonList.add(
 			new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, "Cancel"));
-		buttonList.add(new GuiButton(4, width - (width / 2 - 100) / 2 - 64,
-			height - 32, 128, 20, "Steal Skin"));
+		buttonList.add(new GuiButton(3, width / 2 - 100, height / 4 + 96 + 12,
+			"Random Name"));
+		buttonList.add(stealSkinButton =
+			new GuiButton(4, width - (width / 2 - 100) / 2 - 64, height - 32,
+				128, 20, "Steal Skin"));
 		buttonList.add(new GuiButton(5, (width / 2 - 100) / 2 - 64, height - 32,
 			128, 20, "Open Skin Folder"));
+		
 		emailBox =
 			new GuiTextField(0, fontRendererObj, width / 2 - 100, 60, 200, 20);
 		emailBox.setMaxStringLength(48);
 		emailBox.setFocused(true);
-		emailBox.setText(getEmailBoxText());
+		emailBox.setText(getDefaultEmail());
+		
 		passwordBox = new GuiPasswordField(fontRendererObj, width / 2 - 100,
 			100, 200, 20);
 		passwordBox.setFocused(false);
-		passwordBox.setText(getPasswordBoxText());
-		WurstClient.INSTANCE.analytics.trackPageView(getUrl(), getTitle());
+		passwordBox.setText(getDefaultPassword());
 	}
 	
-	/**
-	 * "Called when the screen is unloaded. Used to disable keyboard repeat
-	 * events."
-	 */
 	@Override
-	public void onGuiClosed()
+	public final void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
 	}
 	
-	protected abstract void onDoneButtonClick(GuiButton button);
-	
 	@Override
-	protected void actionPerformed(GuiButton button)
+	protected final void actionPerformed(GuiButton button)
 	{
-		if(button.enabled)
-			if(button.id == 1)
-				mc.displayGuiScreen(prevMenu);
-			else if(button.id == 0)
-				onDoneButtonClick(button);
-			else if(button.id == 3)
-				emailBox.setText(NameGenerator.generateName());
-			else if(button.id == 4)
-				displayText = stealSkin(getName());
-			else if(button.id == 5)
-				MiscUtils.openFile(WurstFolders.SKINS);
-	}
-	
-	/**
-	 * Fired when a key is typed. This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e).
-	 */
-	@Override
-	protected void keyTyped(char par1, int par2)
-	{
-		emailBox.textboxKeyTyped(par1, par2);
-		passwordBox.textboxKeyTyped(par1, par2);
+		if(!button.enabled)
+			return;
 		
-		if(par2 == 28 || par2 == 156)
-			actionPerformed(buttonList.get(0));
-	}
-	
-	/**
-	 * Called when the mouse is clicked.
-	 *
-	 * @throws IOException
-	 */
-	@Override
-	protected void mouseClicked(int par1, int par2, int par3) throws IOException
-	{
-		super.mouseClicked(par1, par2, par3);
-		emailBox.mouseClicked(par1, par2, par3);
-		passwordBox.mouseClicked(par1, par2, par3);
-		if(emailBox.isFocused() || passwordBox.isFocused())
-			displayText = "";
-	}
-	
-	protected abstract String getUrl();
-	
-	protected abstract String getTitle();
-	
-	/**
-	 * Draws the screen and all the components in it.
-	 */
-	@Override
-	public void drawScreen(int par1, int par2, float par3)
-	{
-		drawDefaultBackground();
-		AltRenderer.drawAltBack(emailBox.getText(), (width / 2 - 100) / 2 - 64,
-			height / 2 - 128, 128, 256);
-		AltRenderer.drawAltBody(emailBox.getText(),
-			width - (width / 2 - 100) / 2 - 64, height / 2 - 128, 128, 256);
-		drawCenteredString(fontRendererObj, getTitle(), width / 2, 20,
-			16777215);
-		drawString(fontRendererObj, "Name or E-Mail", width / 2 - 100, 47,
-			10526880);
-		drawString(fontRendererObj, "Password", width / 2 - 100, 87, 10526880);
-		drawCenteredString(fontRendererObj, displayText, width / 2, 142,
-			16777215);
-		emailBox.drawTextBox();
-		passwordBox.drawTextBox();
-		if(errorTimer > 0)
+		switch(button.id)
 		{
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL_CULL_FACE);
-			GL11.glEnable(GL_BLEND);
-			GL11.glColor4f(1.0F, 0.0F, 0.0F, (float)errorTimer / 16);
-			GL11.glBegin(GL11.GL_QUADS);
-			{
-				GL11.glVertex2d(0, 0);
-				GL11.glVertex2d(width, 0);
-				GL11.glVertex2d(width, height);
-				GL11.glVertex2d(0, height);
-			}
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL_CULL_FACE);
-			GL11.glDisable(GL_BLEND);
-			errorTimer--;
+			case 0:
+				pressDoneButton();
+				break;
+			
+			case 1:
+				mc.displayGuiScreen(prevScreen);
+				break;
+			
+			case 3:
+				emailBox.setText(NameGenerator.generateName());
+				break;
+			
+			case 4:
+				message = stealSkin(getEmail());
+				break;
+			
+			case 5:
+				MiscUtils.openFile(WurstFolders.SKINS);
+				break;
 		}
-		super.drawScreen(par1, par2, par3);
 	}
 	
 	private final String stealSkin(String name)
@@ -220,5 +170,78 @@ public abstract class AltEditorScreen extends GuiScreen
 			e.printStackTrace();
 			return "§4§lSkin could not be saved.";
 		}
+	}
+	
+	@Override
+	protected final void keyTyped(char par1, int par2)
+	{
+		emailBox.textboxKeyTyped(par1, par2);
+		passwordBox.textboxKeyTyped(par1, par2);
+		
+		if(par2 == 28 || par2 == 156)
+			actionPerformed(doneButton);
+	}
+	
+	@Override
+	protected final void mouseClicked(int par1, int par2, int par3)
+		throws IOException
+	{
+		super.mouseClicked(par1, par2, par3);
+		
+		emailBox.mouseClicked(par1, par2, par3);
+		passwordBox.mouseClicked(par1, par2, par3);
+		
+		if(emailBox.isFocused() || passwordBox.isFocused())
+			message = "";
+	}
+	
+	@Override
+	public final void drawScreen(int par1, int par2, float par3)
+	{
+		drawDefaultBackground();
+		
+		// skin preview
+		AltRenderer.drawAltBack(emailBox.getText(), (width / 2 - 100) / 2 - 64,
+			height / 2 - 128, 128, 256);
+		AltRenderer.drawAltBody(emailBox.getText(),
+			width - (width / 2 - 100) / 2 - 64, height / 2 - 128, 128, 256);
+		
+		// text
+		drawCenteredString(fontRendererObj, getTitle(), width / 2, 20,
+			16777215);
+		drawString(fontRendererObj, "Name or E-Mail", width / 2 - 100, 47,
+			10526880);
+		drawString(fontRendererObj, "Password", width / 2 - 100, 87, 10526880);
+		drawCenteredString(fontRendererObj, message, width / 2, 142, 16777215);
+		
+		// text boxes
+		emailBox.drawTextBox();
+		passwordBox.drawTextBox();
+		
+		// red flash for errors
+		if(errorTimer > 0)
+		{
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glEnable(GL11.GL_BLEND);
+			
+			GL11.glColor4f(1, 0, 0, (float)errorTimer / 16F);
+			
+			GL11.glBegin(GL11.GL_QUADS);
+			{
+				GL11.glVertex2d(0, 0);
+				GL11.glVertex2d(width, 0);
+				GL11.glVertex2d(width, height);
+				GL11.glVertex2d(0, height);
+			}
+			GL11.glEnd();
+			
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glDisable(GL11.GL_BLEND);
+			errorTimer--;
+		}
+		
+		super.drawScreen(par1, par2, par3);
 	}
 }

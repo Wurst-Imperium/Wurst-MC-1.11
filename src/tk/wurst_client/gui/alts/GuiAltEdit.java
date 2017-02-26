@@ -7,20 +7,37 @@
  */
 package tk.wurst_client.gui.alts;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.LoginManager;
 import tk.wurst_client.files.ConfigFiles;
 
-public class GuiAltEdit extends AltEditorScreen
+public final class GuiAltEdit extends AltEditorScreen
 {
 	private Alt editedAlt;
 	
-	public GuiAltEdit(GuiScreen par1GuiScreen, Alt editedAlt)
+	public GuiAltEdit(GuiScreen prevScreen, Alt editedAlt)
 	{
-		super(par1GuiScreen);
+		super(prevScreen);
 		this.editedAlt = editedAlt;
+	}
+	
+	@Override
+	protected String getTitle()
+	{
+		return "Edit Alt";
+	}
+	
+	@Override
+	protected String getDefaultEmail()
+	{
+		return editedAlt.getEmail();
+	}
+	
+	@Override
+	protected String getDefaultPassword()
+	{
+		return editedAlt.getPassword();
 	}
 	
 	@Override
@@ -30,56 +47,32 @@ public class GuiAltEdit extends AltEditorScreen
 	}
 	
 	@Override
-	protected String getEmailBoxText()
+	protected void pressDoneButton()
 	{
-		return editedAlt.getEmail();
-	}
-	
-	@Override
-	protected String getPasswordBoxText()
-	{
-		return editedAlt.getPassword();
-	}
-	
-	@Override
-	protected void onDoneButtonClick(GuiButton button)
-	{// Save
-		if(passwordBox.getText().length() == 0)
+		if(getPassword().isEmpty())
 		{
-			// Cracked
-			displayText = "";
+			// cracked
+			message = "";
 			GuiAltList.alts.set(GuiAltList.alts.indexOf(editedAlt),
-				new Alt(emailBox.getText(), null, null, editedAlt.isStarred()));
+				new Alt(getEmail(), null, null, editedAlt.isStarred()));
 			
 		}else
 		{
-			// Premium
-			displayText =
-				LoginManager.login(emailBox.getText(), passwordBox.getText());
-			if(displayText.equals(""))
+			// premium
+			message = LoginManager.login(getEmail(), getPassword());
+			if(message.isEmpty())
 				GuiAltList.alts.set(GuiAltList.alts.indexOf(editedAlt),
-					new Alt(emailBox.getText(), passwordBox.getText(),
-						mc.session.getUsername(), editedAlt.isStarred()));
+					new Alt(getEmail(), getPassword(), mc.session.getUsername(),
+						editedAlt.isStarred()));
 		}
 		
-		if(displayText.equals(""))
+		if(message.isEmpty())
 		{
 			GuiAltList.sortAlts();
 			ConfigFiles.ALTS.save();
-			mc.displayGuiScreen(prevMenu);
+			mc.displayGuiScreen(prevScreen);
+			
 		}else
-			errorTimer = 8;
-	}
-	
-	@Override
-	protected String getUrl()
-	{
-		return "/alt-manager/edit";
-	}
-	
-	@Override
-	protected String getTitle()
-	{
-		return "Edit this Alt";
+			doErrorEffect();
 	}
 }

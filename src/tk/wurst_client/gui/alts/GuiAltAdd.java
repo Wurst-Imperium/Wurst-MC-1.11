@@ -7,18 +7,22 @@
  */
 package tk.wurst_client.gui.alts;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import tk.wurst_client.alts.Alt;
 import tk.wurst_client.alts.LoginManager;
 import tk.wurst_client.files.ConfigFiles;
 
-public class GuiAltAdd extends AltEditorScreen
+public final class GuiAltAdd extends AltEditorScreen
 {
-	public GuiAltAdd(GuiScreen par1GuiScreen)
+	public GuiAltAdd(GuiScreen prevScreen)
 	{
-		super(par1GuiScreen);
+		super(prevScreen);
+	}
+	
+	@Override
+	protected String getTitle()
+	{
+		return "New Alt";
 	}
 	
 	@Override
@@ -28,50 +32,31 @@ public class GuiAltAdd extends AltEditorScreen
 	}
 	
 	@Override
-	protected String getEmailBoxText()
+	protected void pressDoneButton()
 	{
-		return Minecraft.getMinecraft().session.getUsername();
-	}
-	
-	@Override
-	protected String getPasswordBoxText()
-	{
-		return "";
-	}
-	
-	@Override
-	protected void onDoneButtonClick(GuiButton button)
-	{
-		if(passwordBox.getText().length() == 0)
-		{// Cracked
-			GuiAltList.alts.add(new Alt(emailBox.getText(), null, null));
-			displayText = "";
+		if(getPassword().isEmpty())
+		{
+			// add cracked alt
+			message = "";
+			GuiAltList.alts.add(new Alt(getEmail(), null, null));
+			
 		}else
-		{// Premium
-			displayText =
-				LoginManager.login(emailBox.getText(), passwordBox.getText());
-			if(displayText.equals(""))
-				GuiAltList.alts.add(new Alt(emailBox.getText(),
-					passwordBox.getText(), mc.session.getUsername()));
+		{
+			// add premium alt
+			message = LoginManager.login(getEmail(), getPassword());
+			
+			if(message.isEmpty())
+				GuiAltList.alts.add(new Alt(getEmail(), getPassword(),
+					mc.session.getUsername()));
 		}
-		if(displayText.equals(""))
+		
+		if(message.isEmpty())
 		{
 			GuiAltList.sortAlts();
 			ConfigFiles.ALTS.save();
-			mc.displayGuiScreen(prevMenu);
+			mc.displayGuiScreen(prevScreen);
+			
 		}else
-			errorTimer = 8;
-	}
-	
-	@Override
-	protected String getUrl()
-	{
-		return "/alt-manager/add";
-	}
-	
-	@Override
-	protected String getTitle()
-	{
-		return "Add an Alt";
+			doErrorEffect();
 	}
 }
