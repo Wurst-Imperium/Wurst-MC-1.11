@@ -9,7 +9,6 @@ package tk.wurst_client.altmanager.screens;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -42,17 +41,12 @@ public final class GuiAltList extends GuiSlot
 	{
 		// totally overcomplicated sorting algorithm
 		
-		Collections.sort(alts, new Comparator<Alt>()
-		{
-			@Override
-			public int compare(Alt o1, Alt o2)
-			{
-				if(o1 == null || o2 == null)
-					return 0;
-				
-				return o1.getNameOrEmail()
-					.compareToIgnoreCase(o2.getNameOrEmail());
-			}
+		Collections.sort(alts, (o1, o2) -> {
+			
+			if(o1 == null || o2 == null)
+				return 0;
+			
+			return o1.getNameOrEmail().compareToIgnoreCase(o2.getNameOrEmail());
 		});
 		
 		ArrayList<Alt> newAlts = new ArrayList<>();
