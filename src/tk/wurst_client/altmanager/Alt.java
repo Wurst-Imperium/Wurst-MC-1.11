@@ -7,7 +7,7 @@
  */
 package tk.wurst_client.altmanager;
 
-public class Alt
+public final class Alt
 {
 	private String email;
 	private String name;

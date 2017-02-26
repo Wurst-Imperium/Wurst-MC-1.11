@@ -18,7 +18,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
-public class LoginManager
+public final class LoginManager
 {
 	public static String login(String email, String password)
 	{

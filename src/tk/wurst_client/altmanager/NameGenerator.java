@@ -9,7 +9,7 @@ package tk.wurst_client.altmanager;
 
 import java.util.Random;
 
-public class NameGenerator
+public final class NameGenerator
 {
 	private static final Random random = new Random();
 	
