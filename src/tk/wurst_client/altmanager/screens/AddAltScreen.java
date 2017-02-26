@@ -5,15 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.gui.alts;
+package tk.wurst_client.altmanager.screens;
 
 import net.minecraft.client.gui.GuiScreen;
-import tk.wurst_client.alts.LoginManager;
-import tk.wurst_client.gui.main.GuiWurstMainMenu;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.LoginManager;
+import tk.wurst_client.files.ConfigFiles;
 
-public final class GuiAltLogin extends AltEditorScreen
+public final class AddAltScreen extends AltEditorScreen
 {
-	public GuiAltLogin(GuiScreen prevScreen)
+	public AddAltScreen(GuiScreen prevScreen)
 	{
 		super(prevScreen);
 	}
@@ -21,13 +22,13 @@ public final class GuiAltLogin extends AltEditorScreen
 	@Override
 	protected String getTitle()
 	{
-		return "Direct Login";
+		return "New Alt";
 	}
 	
 	@Override
 	protected String getDoneButtonText()
 	{
-		return "Login";
+		return "Add";
 	}
 	
 	@Override
@@ -35,15 +36,27 @@ public final class GuiAltLogin extends AltEditorScreen
 	{
 		if(getPassword().isEmpty())
 		{
+			// add cracked alt
 			message = "";
-			LoginManager.changeCrackedName(getEmail());
+			GuiAltList.alts.add(new Alt(getEmail(), null, null));
 			
 		}else
+		{
+			// add premium alt
 			message = LoginManager.login(getEmail(), getPassword());
+			
+			if(message.isEmpty())
+				GuiAltList.alts.add(new Alt(getEmail(), getPassword(),
+					mc.session.getUsername()));
+		}
 		
 		if(message.isEmpty())
-			mc.displayGuiScreen(new GuiWurstMainMenu());
-		else
+		{
+			GuiAltList.sortAlts();
+			ConfigFiles.ALTS.save();
+			mc.displayGuiScreen(prevScreen);
+			
+		}else
 			doErrorEffect();
 	}
 }

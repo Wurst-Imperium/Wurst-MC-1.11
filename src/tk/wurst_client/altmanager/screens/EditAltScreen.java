@@ -5,18 +5,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.gui.alts;
+package tk.wurst_client.altmanager.screens;
 
 import net.minecraft.client.gui.GuiScreen;
-import tk.wurst_client.alts.Alt;
-import tk.wurst_client.alts.LoginManager;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.LoginManager;
 import tk.wurst_client.files.ConfigFiles;
 
-public final class GuiAltEdit extends AltEditorScreen
+public final class EditAltScreen extends AltEditorScreen
 {
 	private Alt editedAlt;
 	
-	public GuiAltEdit(GuiScreen prevScreen, Alt editedAlt)
+	public EditAltScreen(GuiScreen prevScreen, Alt editedAlt)
 	{
 		super(prevScreen);
 		this.editedAlt = editedAlt;

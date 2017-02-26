@@ -8,7 +8,7 @@
 package tk.wurst_client.bot.commands;
 
 import net.minecraft.client.Minecraft;
-import tk.wurst_client.alts.LoginManager;
+import tk.wurst_client.altmanager.LoginManager;
 
 @Command.Info(help = "Logs you in with a premium or cracked account.",
 	name = "login",

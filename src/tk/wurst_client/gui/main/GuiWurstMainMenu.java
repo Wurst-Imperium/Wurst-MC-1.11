@@ -36,8 +36,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tk.wurst_client.WurstClient;
+import tk.wurst_client.altmanager.screens.AltManagerScreen;
 import tk.wurst_client.files.ConfigFiles;
-import tk.wurst_client.gui.alts.GuiAlts;
 import tk.wurst_client.utils.JsonUtils;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -162,7 +162,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		switch(button.id)
 		{
 			case 3:
-				mc.displayGuiScreen(new GuiAlts(this));
+				mc.displayGuiScreen(new AltManagerScreen(this));
 				break;
 		}
 	}

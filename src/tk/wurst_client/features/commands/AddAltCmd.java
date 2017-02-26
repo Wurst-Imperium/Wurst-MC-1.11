@@ -9,9 +9,9 @@ package tk.wurst_client.features.commands;
 
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.StringUtils;
-import tk.wurst_client.alts.Alt;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.screens.GuiAltList;
 import tk.wurst_client.files.ConfigFiles;
-import tk.wurst_client.gui.alts.GuiAltList;
 import tk.wurst_client.utils.ChatUtils;
 
 @Cmd.Info(

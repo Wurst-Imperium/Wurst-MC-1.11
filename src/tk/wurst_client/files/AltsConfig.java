@@ -14,9 +14,9 @@ import java.util.Map.Entry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import tk.wurst_client.alts.Alt;
-import tk.wurst_client.alts.Encryption;
-import tk.wurst_client.gui.alts.GuiAltList;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.Encryption;
+import tk.wurst_client.altmanager.screens.GuiAltList;
 import tk.wurst_client.utils.JsonUtils;
 
 public final class AltsConfig extends Config

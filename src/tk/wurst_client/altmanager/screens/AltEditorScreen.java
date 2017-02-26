@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.gui.alts;
+package tk.wurst_client.altmanager.screens;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import tk.wurst_client.alts.NameGenerator;
+import tk.wurst_client.altmanager.AltRenderer;
+import tk.wurst_client.altmanager.PasswordField;
+import tk.wurst_client.altmanager.NameGenerator;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.utils.MiscUtils;
 
@@ -28,7 +30,7 @@ public abstract class AltEditorScreen extends GuiScreen
 	protected final GuiScreen prevScreen;
 	
 	private GuiTextField emailBox;
-	private GuiPasswordField passwordBox;
+	private PasswordField passwordBox;
 	
 	private GuiButton doneButton;
 	private GuiButton stealSkinButton;
@@ -110,7 +112,7 @@ public abstract class AltEditorScreen extends GuiScreen
 		emailBox.setFocused(true);
 		emailBox.setText(getDefaultEmail());
 		
-		passwordBox = new GuiPasswordField(fontRendererObj, width / 2 - 100,
+		passwordBox = new PasswordField(fontRendererObj, width / 2 - 100,
 			100, 200, 20);
 		passwordBox.setFocused(false);
 		passwordBox.setText(getDefaultPassword());

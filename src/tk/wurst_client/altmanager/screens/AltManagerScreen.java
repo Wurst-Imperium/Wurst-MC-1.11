@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.gui.alts;
+package tk.wurst_client.altmanager.screens;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
@@ -23,15 +23,16 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
-import tk.wurst_client.alts.Alt;
-import tk.wurst_client.alts.LoginManager;
-import tk.wurst_client.alts.NameGenerator;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.AltRenderer;
+import tk.wurst_client.altmanager.LoginManager;
+import tk.wurst_client.altmanager.NameGenerator;
 import tk.wurst_client.files.ConfigFiles;
 import tk.wurst_client.files.WurstFolders;
 import tk.wurst_client.hooks.FrameHook;
 import tk.wurst_client.utils.MiscUtils;
 
-public final class GuiAlts extends GuiScreen
+public final class AltManagerScreen extends GuiScreen
 {
 	public static GuiAltList altList;
 	
@@ -39,7 +40,7 @@ public final class GuiAlts extends GuiScreen
 	private boolean shouldAsk = true;
 	private int errorTimer;
 	
-	public GuiAlts(GuiScreen par1GuiScreen)
+	public AltManagerScreen(GuiScreen par1GuiScreen)
 	{
 		prevMenu = par1GuiScreen;
 	}
@@ -120,10 +121,10 @@ public final class GuiAlts extends GuiScreen
 			}
 		}else if(button.id == 1)
 			// "Direct Login" button
-			mc.displayGuiScreen(new GuiAltLogin(this));
+			mc.displayGuiScreen(new DirectLoginScreen(this));
 		else if(button.id == 2)
 			// "Add" button
-			mc.displayGuiScreen(new GuiAltAdd(this));
+			mc.displayGuiScreen(new AddAltScreen(this));
 		else if(button.id == 3)
 		{
 			// "Star" button
@@ -136,7 +137,7 @@ public final class GuiAlts extends GuiScreen
 		{
 			// "Edit" button
 			Alt alt = altList.getSelectedAlt();
-			mc.displayGuiScreen(new GuiAltEdit(this, alt));
+			mc.displayGuiScreen(new EditAltScreen(this, alt));
 			
 		}else if(button.id == 5)
 		{

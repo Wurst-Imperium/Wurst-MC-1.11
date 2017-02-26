@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package tk.wurst_client.gui.alts;
+package tk.wurst_client.altmanager.screens;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,11 +17,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.util.math.MathHelper;
-import tk.wurst_client.alts.Alt;
+import tk.wurst_client.altmanager.Alt;
+import tk.wurst_client.altmanager.AltRenderer;
 
 public final class GuiAltList extends GuiSlot
 {
-	public GuiAltList(Minecraft mc, GuiAlts prevMenu)
+	public GuiAltList(Minecraft mc, AltManagerScreen prevMenu)
 	{
 		super(mc, prevMenu.width, prevMenu.height, 36, prevMenu.height - 56,
 			30);
@@ -35,7 +36,7 @@ public final class GuiAltList extends GuiSlot
 	public static int premiumAlts;
 	public static int crackedAlts;
 	
-	private GuiAlts prevMenu;
+	private AltManagerScreen prevMenu;
 	
 	public static void sortAlts()
 	{
