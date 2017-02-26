@@ -36,13 +36,13 @@ public final class AltManagerScreen extends GuiScreen
 {
 	public static GuiAltList altList;
 	
-	private GuiScreen prevMenu;
+	private GuiScreen prevScreen;
 	private boolean shouldAsk = true;
 	private int errorTimer;
 	
 	public AltManagerScreen(GuiScreen par1GuiScreen)
 	{
-		prevMenu = par1GuiScreen;
+		prevScreen = par1GuiScreen;
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public final class AltManagerScreen extends GuiScreen
 			if(alt.isCracked())
 			{
 				LoginManager.changeCrackedName(alt.getEmail());
-				mc.displayGuiScreen(prevMenu);
+				mc.displayGuiScreen(prevScreen);
 				
 			}else
 			{
@@ -112,7 +112,7 @@ public final class AltManagerScreen extends GuiScreen
 				
 				if(reply.isEmpty())
 				{
-					mc.displayGuiScreen(prevMenu);
+					mc.displayGuiScreen(prevScreen);
 					alt.setChecked(mc.session.getUsername());
 					ConfigFiles.ALTS.save();
 					
@@ -150,7 +150,7 @@ public final class AltManagerScreen extends GuiScreen
 			
 		}else if(button.id == 6)
 			// "Cancel" button
-			mc.displayGuiScreen(prevMenu);
+			mc.displayGuiScreen(prevScreen);
 		else if(button.id == 7)
 			// "Import Alts" button
 			new Thread(() -> {

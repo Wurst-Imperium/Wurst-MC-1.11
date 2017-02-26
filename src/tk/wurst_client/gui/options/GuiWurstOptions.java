@@ -22,7 +22,7 @@ import tk.wurst_client.utils.MiscUtils;
 
 public class GuiWurstOptions extends GuiScreen
 {
-	private GuiScreen prevMenu;
+	private GuiScreen prevScreen;
 	private String[] modListModes = {"Auto", "Count", "Hidden"};
 	private String[] toolTips = {"",
 		"Add/remove friends by clicking them with\n"
@@ -48,7 +48,7 @@ public class GuiWurstOptions extends GuiScreen
 	
 	public GuiWurstOptions(GuiScreen par1GuiScreen)
 	{
-		prevMenu = par1GuiScreen;
+		prevScreen = par1GuiScreen;
 	}
 	
 	@Override
@@ -106,7 +106,7 @@ public class GuiWurstOptions extends GuiScreen
 			return;
 		
 		if(button.id == 0)
-			mc.displayGuiScreen(prevMenu);
+			mc.displayGuiScreen(prevScreen);
 		else if(button.id == 1)
 		{// Click Friends
 			WurstClient.INSTANCE.options.middleClickFriends =

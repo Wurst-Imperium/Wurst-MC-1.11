@@ -21,12 +21,12 @@ import tk.wurst_client.altmanager.AltRenderer;
 
 public final class GuiAltList extends GuiSlot
 {
-	public GuiAltList(Minecraft mc, AltManagerScreen prevMenu)
+	public GuiAltList(Minecraft mc, AltManagerScreen prevScreen)
 	{
-		super(mc, prevMenu.width, prevMenu.height, 36, prevMenu.height - 56,
+		super(mc, prevScreen.width, prevScreen.height, 36, prevScreen.height - 56,
 			30);
 		
-		this.prevMenu = prevMenu;
+		this.prevScreen = prevScreen;
 	}
 	
 	private int selectedSlot;
@@ -35,7 +35,7 @@ public final class GuiAltList extends GuiSlot
 	public static int premiumAlts;
 	public static int crackedAlts;
 	
-	private AltManagerScreen prevMenu;
+	private AltManagerScreen prevScreen;
 	
 	public static void sortAlts()
 	{
@@ -123,7 +123,7 @@ public final class GuiAltList extends GuiSlot
 		selectedSlot = var1;
 		
 		if(doubleClick)
-			prevMenu.actionPerformed(new GuiButton(0, 0, 0, null));
+			prevScreen.actionPerformed(new GuiButton(0, 0, 0, null));
 	}
 	
 	@Override

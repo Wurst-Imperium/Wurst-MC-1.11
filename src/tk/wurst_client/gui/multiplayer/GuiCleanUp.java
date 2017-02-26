@@ -22,7 +22,7 @@ import tk.wurst_client.files.ConfigFiles;
 
 public class GuiCleanUp extends GuiScreen
 {
-	private GuiMultiplayer prevMenu;
+	private GuiMultiplayer prevScreen;
 	private boolean removeAll;
 	private String[] toolTips = {"",
 		"Start the Clean Up with the settings\n" + "you specified above.\n"
@@ -44,7 +44,7 @@ public class GuiCleanUp extends GuiScreen
 	
 	public GuiCleanUp(GuiMultiplayer prevMultiplayerMenu)
 	{
-		prevMenu = prevMultiplayerMenu;
+		prevScreen = prevMultiplayerMenu;
 	}
 	
 	/**
@@ -114,25 +114,25 @@ public class GuiCleanUp extends GuiScreen
 	{
 		if(clickedButton.enabled)
 			if(clickedButton.id == 0)
-				mc.displayGuiScreen(prevMenu);
+				mc.displayGuiScreen(prevScreen);
 			else if(clickedButton.id == 1)
 			{// Clean Up
 				WurstClient.INSTANCE.analytics.trackEvent("clean up", "start");
 				if(removeAll)
 				{
-					prevMenu.savedServerList.clearServerList();
-					prevMenu.savedServerList.saveServerList();
-					prevMenu.serverListSelector.setSelectedSlotIndex(-1);
-					prevMenu.serverListSelector
-						.updateOnlineServers(prevMenu.savedServerList);
-					mc.displayGuiScreen(prevMenu);
+					prevScreen.savedServerList.clearServerList();
+					prevScreen.savedServerList.saveServerList();
+					prevScreen.serverListSelector.setSelectedSlotIndex(-1);
+					prevScreen.serverListSelector
+						.updateOnlineServers(prevScreen.savedServerList);
+					mc.displayGuiScreen(prevScreen);
 					return;
 				}
 				for(int i =
-					prevMenu.savedServerList.countServers() - 1; i >= 0; i--)
+					prevScreen.savedServerList.countServers() - 1; i >= 0; i--)
 				{
 					ServerData server =
-						prevMenu.savedServerList.getServerData(i);
+						prevScreen.savedServerList.getServerData(i);
 					if(WurstClient.INSTANCE.options.cleanupUnknown
 						&& server.serverMOTD.equals(
 							TextFormatting.DARK_RED + "Can\'t resolve hostname")
@@ -145,26 +145,26 @@ public class GuiCleanUp extends GuiScreen
 						|| WurstClient.INSTANCE.options.cleanupGriefMe
 							&& server.serverName.startsWith("Grief me"))
 					{
-						prevMenu.savedServerList.removeServerData(i);
-						prevMenu.savedServerList.saveServerList();
-						prevMenu.serverListSelector.setSelectedSlotIndex(-1);
-						prevMenu.serverListSelector
-							.updateOnlineServers(prevMenu.savedServerList);
+						prevScreen.savedServerList.removeServerData(i);
+						prevScreen.savedServerList.saveServerList();
+						prevScreen.serverListSelector.setSelectedSlotIndex(-1);
+						prevScreen.serverListSelector
+							.updateOnlineServers(prevScreen.savedServerList);
 					}
 				}
 				if(WurstClient.INSTANCE.options.cleanupRename)
-					for(int i = 0; i < prevMenu.savedServerList
+					for(int i = 0; i < prevScreen.savedServerList
 						.countServers(); i++)
 					{
 						ServerData server =
-							prevMenu.savedServerList.getServerData(i);
+							prevScreen.savedServerList.getServerData(i);
 						server.serverName = "Grief me #" + (i + 1);
-						prevMenu.savedServerList.saveServerList();
-						prevMenu.serverListSelector.setSelectedSlotIndex(-1);
-						prevMenu.serverListSelector
-							.updateOnlineServers(prevMenu.savedServerList);
+						prevScreen.savedServerList.saveServerList();
+						prevScreen.serverListSelector.setSelectedSlotIndex(-1);
+						prevScreen.serverListSelector
+							.updateOnlineServers(prevScreen.savedServerList);
 					}
-				mc.displayGuiScreen(prevMenu);
+				mc.displayGuiScreen(prevScreen);
 			}else if(clickedButton.id == 2)
 			{// Unknown host
 				WurstClient.INSTANCE.options.cleanupUnknown =
