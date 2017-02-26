@@ -26,7 +26,7 @@ import tk.wurst_client.utils.RenderUtils;
 
 public class NavigatorMainScreen extends NavigatorScreen
 {
-	private static ArrayList<Feature> navigatorDisplayList = new ArrayList<>();
+	private static final ArrayList<Feature> navigatorDisplayList = new ArrayList<>();
 	private GuiTextField searchBar;
 	private int hoveredFeature = -1;
 	private boolean hoveringArrow;

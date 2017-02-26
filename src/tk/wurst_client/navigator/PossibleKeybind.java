@@ -7,10 +7,10 @@
  */
 package tk.wurst_client.navigator;
 
-public class PossibleKeybind
+public final class PossibleKeybind
 {
-	private String command;
-	private String description;
+	private final String command;
+	private final String description;
 	
 	public PossibleKeybind(String command, String description)
 	{
