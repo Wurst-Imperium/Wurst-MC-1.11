@@ -200,7 +200,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		{
 			WurstClient.INSTANCE.analytics.trackEvent("updater",
 				"update to v" + WurstClient.INSTANCE.updater.getLatestVersion(),
-				"from " + WurstClient.INSTANCE.updater.getCurrentVersion());
+				"from " + WurstClient.VERSION);
 			WurstClient.INSTANCE.updater.update();
 			startupMessageDisabled = true;
 		}
