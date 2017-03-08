@@ -53,7 +53,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 	private static boolean startupMessageDisabled = false;
 	
 	private String noticeText = "";
-	private String noticeLink = "https://www.wurst-client.tk/minecraft-1-9/";
+	private String noticeLink =
+		"https://www.wurstclient.net/download/minecraft-1-11-x/";
 	
 	private int noticeWidth2;
 	private int noticeWidth1;
@@ -82,7 +83,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 				try
 				{
 					URLConnection connection = new URL(
-						"https://www.wurst-client.tk/api/v1/newsfeed.json")
+						"https://www.wurstclient.net/api/v1/newsfeed.json")
 							.openConnection();
 					connection.connect();
 					news = JsonUtils.jsonParser
@@ -180,7 +181,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 					"go play");
 			else
 			{
-				MiscUtils.openLink("https://www.wurst-client.tk/changelog/");
+				MiscUtils.openLink("https://www.wurstclient.net/changelog/");
 				WurstClient.INSTANCE.analytics.trackEvent("changelog",
 					"view changelog");
 			}
@@ -211,7 +212,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		try
 		{
 			HttpsURLConnection connection = (HttpsURLConnection)new URL(
-				"https://www.wurst-client.tk/api/v1/messages.json")
+				"https://www.wurstclient.net/api/v1/messages.json")
 					.openConnection();
 			connection.connect();
 			
@@ -336,7 +337,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		drawString(fontRendererObj, "Copyright Alexander01998", 8, 18,
 			0xffffff);
 		drawString(fontRendererObj, "All rights reserved.", 8, 28, 0xffffff);
-		drawCenteredString(fontRendererObj, "§nwww.Wurst-Client.tk", width / 2,
+		drawCenteredString(fontRendererObj, "§nwww.WurstClient.net", width / 2,
 			height - 26, 0xffffff);
 		
 		// buttons
@@ -399,21 +400,18 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		int linkWidth = fontRendererObj.getStringWidth("§nwww.Wurst-Client.tk");
+		int linkWidth = fontRendererObj.getStringWidth("§nwww.WurstClient.net");
 		
 		if(mouseButton == 0 && mouseY >= height - 26 && mouseY < height - 16
 			&& mouseX > width / 2 - linkWidth / 2
 			&& mouseX < width / 2 + linkWidth / 2)
 		{
-			MiscUtils.openLink("https://www.Wurst-Client.tk/");
-			WurstClient.INSTANCE.analytics.trackPageView("/wurst-client-dot-tk",
-				"www.Wurst-Client.tk");
+			MiscUtils.openLink("https://www.wurstclient.net/");
 		}
 		
 		if(news != null && mouseButton == 0 && mouseY >= height - 10)
 		{
-			MiscUtils.openLink("https://www.wurst-client.tk/news");
-			WurstClient.INSTANCE.analytics.trackPageView("/news", "Wurst News");
+			MiscUtils.openLink("https://www.wurstclient.net/news");
 		}
 		
 		// notice

@@ -60,7 +60,7 @@ public class Java8Checker
 				try
 				{
 					Desktop.getDesktop().browse(new URI(
-						"https://www.wurst-client.tk/redirect/outdated-java-help/"));
+						"https://www.wurstclient.net/redirect/outdated-java-help/"));
 				}catch(Exception e1)
 				{
 					System.err.println("Failed to open link");

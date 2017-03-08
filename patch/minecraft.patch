@@ -1,6 +1,6 @@
-From eb4db917324d16c613a385adaef059cf09309281 Mon Sep 17 00:00:00 2001
+From af43140c02a4b7dc5b12b0215b5688a071d0b279 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 24 Feb 2017 19:20:55 +0100
+Date: Wed, 8 Mar 2017 17:31:40 +0100
 Subject: [PATCH] mod
 
 ---
@@ -46,7 +46,7 @@ Subject: [PATCH] mod
  .../client/renderer/texture/TextureUtil.java       |   2 +-
  net/minecraft/client/resources/SkinManager.java    |   4 +
  net/minecraft/client/settings/KeyBinding.java      |   2 +-
- net/minecraft/crash/CrashReport.java               |  44 +++-
+ net/minecraft/crash/CrashReport.java               |  42 +++-
  net/minecraft/entity/Entity.java                   | 186 +++++++++--------
  net/minecraft/entity/EntityLivingBase.java         |  16 +-
  net/minecraft/entity/player/EntityPlayer.java      |  12 +-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1197 insertions(+), 445 deletions(-)
+ 54 files changed, 1195 insertions(+), 445 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -2778,7 +2778,7 @@ index d935c1d..8c9f231 100644
  
      public static void onTick(int keyCode)
 diff --git a/net/minecraft/crash/CrashReport.java b/net/minecraft/crash/CrashReport.java
-index 217b744..687514a 100644
+index 217b744..519c94e 100644
 --- a/net/minecraft/crash/CrashReport.java
 +++ b/net/minecraft/crash/CrashReport.java
 @@ -13,6 +13,8 @@ import java.util.Date;
@@ -2802,7 +2802,7 @@ index 217b744..687514a 100644
          this.theReportCategory.setDetail("Operating System", new ICrashReportDetail<String>()
          {
              public String call()
-@@ -229,7 +236,13 @@ public class CrashReport
+@@ -229,7 +236,11 @@ public class CrashReport
      public String getCompleteReport()
      {
          StringBuilder stringbuilder = new StringBuilder();
@@ -2811,13 +2811,11 @@ index 217b744..687514a 100644
 +		// TODO: Client
 +		stringbuilder.append("```\n");
 +		stringbuilder.append("---- Wurst Client Crash Report ----\n");
-+		stringbuilder.append(
-+			"Go to https://www.wurst-client.tk/bugs/ to report this crash.\n");
 +        
          stringbuilder.append("// ");
          stringbuilder.append(getWittyComment());
          stringbuilder.append("\n\n");
-@@ -249,6 +262,10 @@ public class CrashReport
+@@ -249,6 +260,10 @@ public class CrashReport
  
          stringbuilder.append("\n\n");
          this.getSectionsInStringBuilder(stringbuilder);
@@ -2828,7 +2826,7 @@ index 217b744..687514a 100644
          return stringbuilder.toString();
      }
  
-@@ -371,7 +388,30 @@ public class CrashReport
+@@ -371,7 +386,30 @@ public class CrashReport
       */
      private static String getWittyComment()
      {

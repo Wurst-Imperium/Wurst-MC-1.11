@@ -80,7 +80,7 @@ public enum WurstClient
 		Fonts.loadFonts();
 		updater.checkForUpdate();
 		analytics =
-			new AnalyticsManager("UA-52838431-5", "client.wurst-client.tk");
+			new AnalyticsManager("UA-52838431-5", "client.wurstclient.net");
 		ConfigFiles.OPTIONS.save();
 		
 		FrameHook.maximize();

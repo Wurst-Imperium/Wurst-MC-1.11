@@ -65,7 +65,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 				primaryButton.displayString = feature.getPrimaryAction();
 				break;
 			case 1:
-				MiscUtils.openLink("https://www.wurst-client.tk/wiki/"
+				MiscUtils.openLink("https://www.wurstclient.net/wiki/"
 					+ feature.getHelpPage() + "/");
 				wurst.navigator.analytics.trackEvent("help", "open",
 					feature.getName());

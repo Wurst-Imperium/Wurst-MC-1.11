@@ -208,7 +208,7 @@ public final class ForceOpMod extends Mod implements ChatInputListener
 						try
 						{
 							String howToLink =
-								"http://www.wurst-client.tk/Mods/Force_OP_(AuthMeCracker)/";
+								"http://www.wurstclient.net/Mods/Force_OP_(AuthMeCracker)/";
 							Desktop.getDesktop().browse(new URI(howToLink));
 						}catch(Throwable var5)
 						{

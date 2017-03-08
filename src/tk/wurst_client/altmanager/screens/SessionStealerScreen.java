@@ -177,7 +177,7 @@ public final class SessionStealerScreen extends GuiScreen
 		}else if(button.id == 2)
 		{
 			MiscUtils.openLink(
-				"https://www.wurst-client.tk/wiki/Special_Features/Force_OP_(Session_Stealer)/");
+				"https://www.wurstclient.net/wiki/Special_Features/Force_OP_(Session_Stealer)/");
 		}
 	}
 	

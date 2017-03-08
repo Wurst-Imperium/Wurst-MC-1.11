@@ -8,7 +8,7 @@ Wurst is a so-called "hacked client" for Minecraft - basically a mod that allows
 
 ### For Users
 
-If you just want to use Wurst, [download it](https://www.wurst-client.tk/download/) from the official website and [install it](https://www.wurst-client.tk/wiki/Installation/) on your computer.
+If you just want to use Wurst, [download it](https://www.wurstclient.net/download/) from the official website and [install it](https://www.wurstclient.net/how-to-install/) on your computer.
 
 ### For Developers (Windows only)
 
@@ -28,7 +28,7 @@ All errors should have disappeared by now and you should be able to launch Wurst
 
 ## Contributing
 
-Pull Requests are very welcome! Just make sure that you submit a separate one for each new feature or bugfix that you make. You know, things get a bit messy otherwise...
+Pull Requests are welcome! Just make sure that you submit a separate one for each new feature or bugfix that you make. You know, things get a bit messy otherwise...
 
 ## License
 

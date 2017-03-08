@@ -107,7 +107,7 @@ public class NavigatorMainScreen extends NavigatorScreen
 				Feature feature = navigatorDisplayList.get(hoveredFeature);
 				if(feature.getHelpPage().isEmpty())
 					return;
-				MiscUtils.openLink("https://www.wurst-client.tk/wiki/"
+				MiscUtils.openLink("https://www.wurstclient.net/wiki/"
 					+ feature.getHelpPage() + "/");
 				WurstClient wurst = WurstClient.INSTANCE;
 				wurst.navigator.addPreference(feature.getName());
