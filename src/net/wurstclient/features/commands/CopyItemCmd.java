@@ -39,23 +39,23 @@ public final class CopyItemCmd extends Cmd
 					switch(args[1].toLowerCase())
 					{
 						case "hand":
-							item = player.inventory.getCurrentItem();
-							break;
+						item = player.inventory.getCurrentItem();
+						break;
 						case "head":
-							item = player.inventory.armorItemInSlot(3);
-							break;
+						item = player.inventory.armorItemInSlot(3);
+						break;
 						case "chest":
-							item = player.inventory.armorItemInSlot(2);
-							break;
+						item = player.inventory.armorItemInSlot(2);
+						break;
 						case "legs":
-							item = player.inventory.armorItemInSlot(1);
-							break;
+						item = player.inventory.armorItemInSlot(1);
+						break;
 						case "feet":
-							item = player.inventory.armorItemInSlot(0);
-							break;
+						item = player.inventory.armorItemInSlot(0);
+						break;
 						default:
-							syntaxError();
-							break;
+						syntaxError();
+						break;
 					}
 					break;
 				}

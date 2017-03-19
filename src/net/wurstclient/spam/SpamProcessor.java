@@ -306,23 +306,23 @@ public class SpamProcessor
 				null, new String[]{"Go to line", "Show help"}, 0))
 			{
 				case 0:
-					spammerMod.goToLine(e.line);
-					break;
+				spammerMod.goToLine(e.line);
+				break;
 				case 1:
-					try
-					{
-						JOptionPane.showOptionDialog(spammerMod.getDialog(),
-							e.getHelp(), "Help", JOptionPane.DEFAULT_OPTION,
-							JOptionPane.INFORMATION_MESSAGE, null,
-							new String[]{"OK"}, 0);
-					}catch(HeadlessException e1)
-					{
-						e1.printStackTrace();
-					}
-					break;
+				try
+				{
+					JOptionPane.showOptionDialog(spammerMod.getDialog(),
+						e.getHelp(), "Help", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.INFORMATION_MESSAGE, null,
+						new String[]{"OK"}, 0);
+				}catch(HeadlessException e1)
+				{
+					e1.printStackTrace();
+				}
+				break;
 				
 				default:
-					break;
+				break;
 			}
 			return null;
 		}catch(Exception e)

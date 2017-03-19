@@ -61,15 +61,15 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		switch(button.id)
 		{
 			case 0:
-				feature.doPrimaryAction();
-				primaryButton.displayString = feature.getPrimaryAction();
-				break;
+			feature.doPrimaryAction();
+			primaryButton.displayString = feature.getPrimaryAction();
+			break;
 			case 1:
-				MiscUtils.openLink("https://www.wurstclient.net/wiki/"
-					+ feature.getHelpPage() + "/");
-				wurst.navigator.analytics.trackEvent("help", "open",
-					feature.getName());
-				break;
+			MiscUtils.openLink("https://www.wurstclient.net/wiki/"
+				+ feature.getHelpPage() + "/");
+			wurst.navigator.analytics.trackEvent("help", "open",
+				feature.getName());
+			break;
 		}
 		
 		wurst.navigator.addPreference(feature.getName());

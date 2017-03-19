@@ -163,8 +163,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		switch(button.id)
 		{
 			case 3:
-				mc.displayGuiScreen(new AltManagerScreen(this));
-				break;
+			mc.displayGuiScreen(new AltManagerScreen(this));
+			break;
 		}
 	}
 	
@@ -360,23 +360,23 @@ public class GuiWurstMainMenu extends GuiMainMenu
 				switch(button.id)
 				{
 					case 20:
-						tooltip.add("Wurst YouTube Channel");
-						break;
+					tooltip.add("Wurst YouTube Channel");
+					break;
 					case 21:
-						tooltip.add("Wurst Twitter Account");
-						break;
+					tooltip.add("Wurst Twitter Account");
+					break;
 					case 22:
-						tooltip.add("Wurst Google+ Page");
-						break;
+					tooltip.add("Wurst Google+ Page");
+					break;
 					case 23:
-						tooltip.add("Wurst Source Code");
-						break;
+					tooltip.add("Wurst Source Code");
+					break;
 					case 24:
-						tooltip.add("Wurst Feedback");
-						break;
+					tooltip.add("Wurst Feedback");
+					break;
 					case 25:
-						tooltip.add("Wurst Merchandise");
-						break;
+					tooltip.add("Wurst Merchandise");
+					break;
 				}
 				drawHoveringText(tooltip, mouseX, mouseY);
 				break;

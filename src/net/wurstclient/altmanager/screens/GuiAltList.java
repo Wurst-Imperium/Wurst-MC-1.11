@@ -23,8 +23,8 @@ public final class GuiAltList extends GuiSlot
 {
 	public GuiAltList(Minecraft mc, AltManagerScreen prevScreen)
 	{
-		super(mc, prevScreen.width, prevScreen.height, 36, prevScreen.height - 56,
-			30);
+		super(mc, prevScreen.width, prevScreen.height, 36,
+			prevScreen.height - 56, 30);
 		
 		this.prevScreen = prevScreen;
 	}

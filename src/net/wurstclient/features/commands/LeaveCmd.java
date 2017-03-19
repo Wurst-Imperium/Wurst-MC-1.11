@@ -33,22 +33,22 @@ public final class LeaveCmd extends Cmd
 		switch(args.length)
 		{
 			case 0:
-				disconnectWithMode(wurst.mods.autoLeaveMod.mode.getSelected());
-				break;
+			disconnectWithMode(wurst.mods.autoLeaveMod.mode.getSelected());
+			break;
 			case 1:
-				if(args[0].equalsIgnoreCase("taco"))
-					for(int i = 0; i < 128; i++)
-						mc.player.sendAutomaticChatMessage("Taco!");
-				else
-					disconnectWithMode(parseMode(args[0]));
-				break;
+			if(args[0].equalsIgnoreCase("taco"))
+				for(int i = 0; i < 128; i++)
+					mc.player.sendAutomaticChatMessage("Taco!");
+			else
+				disconnectWithMode(parseMode(args[0]));
+			break;
 			case 2:
-				wurst.mods.autoLeaveMod.mode.setSelected(parseMode(args[1]));
-				ConfigFiles.OPTIONS.save();
-				ChatUtils.message("AutoLeave mode set to \"" + args[1] + "\".");
-				break;
+			wurst.mods.autoLeaveMod.mode.setSelected(parseMode(args[1]));
+			ConfigFiles.OPTIONS.save();
+			ChatUtils.message("AutoLeave mode set to \"" + args[1] + "\".");
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 	
@@ -69,20 +69,20 @@ public final class LeaveCmd extends Cmd
 		switch(mode)
 		{
 			case 0:
-				mc.world.sendQuittingDisconnectingPacket();
-				break;
+			mc.world.sendQuittingDisconnectingPacket();
+			break;
 			case 1:
-				mc.player.connection.sendPacket(new CPacketChatMessage("§"));
-				break;
+			mc.player.connection.sendPacket(new CPacketChatMessage("§"));
+			break;
 			case 2:
-				mc.player.connection.sendPacket(
-					new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
+			mc.player.connection.sendPacket(
+				new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
 			case 3:
-				mc.player.connection.sendPacket(
-					new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
-				break;
+			mc.player.connection.sendPacket(
+				new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 	

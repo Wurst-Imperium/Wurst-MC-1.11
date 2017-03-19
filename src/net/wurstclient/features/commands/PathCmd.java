@@ -67,20 +67,20 @@ public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 			switch(args[0])
 			{
 				case "-debug":
-					debugMode.toggle();
-					ChatUtils.message("Debug mode "
-						+ (debugMode.isChecked() ? "on" : "off") + ".");
-					return;
+				debugMode.toggle();
+				ChatUtils.message("Debug mode "
+					+ (debugMode.isChecked() ? "on" : "off") + ".");
+				return;
 				case "-depth":
-					depthTest.toggle();
-					ChatUtils.message("Depth test "
-						+ (depthTest.isChecked() ? "on" : "off") + ".");
-					return;
+				depthTest.toggle();
+				ChatUtils.message("Depth test "
+					+ (depthTest.isChecked() ? "on" : "off") + ".");
+				return;
 				case "-refresh":
-					if(lastGoal == null)
-						error("Cannot refresh: no previous path.");
-					refresh = true;
-					break;
+				if(lastGoal == null)
+					error("Cannot refresh: no previous path.");
+				refresh = true;
+				break;
 			}
 		
 		// disable if enabled

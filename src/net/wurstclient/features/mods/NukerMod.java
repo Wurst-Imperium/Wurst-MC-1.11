@@ -31,8 +31,8 @@ import net.wurstclient.utils.BlockUtils.BlockValidator;
 	name = "Nuker",
 	help = "Mods/Nuker")
 @Mod.Bypasses
-public final class NukerMod extends Mod implements LeftClickListener, UpdateListener,
-	PostUpdateListener, RenderListener
+public final class NukerMod extends Mod implements LeftClickListener,
+	UpdateListener, PostUpdateListener, RenderListener
 {
 	public int id = 0;
 	private BlockPos currentBlock;
@@ -50,24 +50,24 @@ public final class NukerMod extends Mod implements LeftClickListener, UpdateList
 			{
 				default:
 				case 0:
-					// normal mode
-					validator = (pos) -> true;
-					break;
+				// normal mode
+				validator = (pos) -> true;
+				break;
 				
 				case 1:
-					// id mode
-					validator = (pos) -> id == BlockUtils.getId(pos);
-					break;
+				// id mode
+				validator = (pos) -> id == BlockUtils.getId(pos);
+				break;
 				
 				case 2:
-					// flat mode
-					validator = (pos) -> pos.getY() >= mc.player.posY;
-					break;
+				// flat mode
+				validator = (pos) -> pos.getY() >= mc.player.posY;
+				break;
 				
 				case 3:
-					// smash mode
-					validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
-					break;
+				// smash mode
+				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+				break;
 			}
 		}
 	};
@@ -85,11 +85,11 @@ public final class NukerMod extends Mod implements LeftClickListener, UpdateList
 		switch(mode.getSelected())
 		{
 			case 0:
-				return "Nuker";
+			return "Nuker";
 			case 1:
-				return "IDNuker [" + id + "]";
+			return "IDNuker [" + id + "]";
 			default:
-				return mode.getSelectedMode() + "Nuker";
+			return mode.getSelectedMode() + "Nuker";
 		}
 	}
 	
@@ -288,14 +288,14 @@ public final class NukerMod extends Mod implements LeftClickListener, UpdateList
 			default:
 			case OFF:
 			case MINEPLEX:
-				range.resetUsableMax();
-				break;
+			range.resetUsableMax();
+			break;
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
-				range.setUsableMax(4.25);
-				break;
+			range.setUsableMax(4.25);
+			break;
 		}
 	}
 }

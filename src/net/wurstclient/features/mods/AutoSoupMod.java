@@ -142,12 +142,12 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		switch(bypassLevel)
 		{
 			case GHOST_MODE:
-				ignoreScreen.lock(() -> false);
-				break;
+			ignoreScreen.lock(() -> false);
+			break;
 			
 			default:
-				ignoreScreen.unlock();
-				break;
+			ignoreScreen.unlock();
+			break;
 		}
 	}
 	

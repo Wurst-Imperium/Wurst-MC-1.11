@@ -55,16 +55,16 @@ public class ModeSetting implements Setting
 			switch(i % 3)
 			{
 				case 0:
-					x -= 150;
-					y = 60 + featureScreen.getTextHeight() + 3;
-					featureScreen.addText("\n\n");
-					break;
+				x -= 150;
+				y = 60 + featureScreen.getTextHeight() + 3;
+				featureScreen.addText("\n\n");
+				break;
 				case 1:
-					x -= 49;
-					break;
+				x -= 49;
+				break;
 				case 2:
-					x += 52;
-					break;
+				x += 52;
+				break;
 			}
 			final int iFinal = i;
 			ButtonData button = featureScreen.new ButtonData(x, y, 97, 14,

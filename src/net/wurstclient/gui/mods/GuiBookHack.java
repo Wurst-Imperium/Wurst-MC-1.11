@@ -52,15 +52,15 @@ public class GuiBookHack extends GuiScreen
 		switch(button.id)
 		{
 			case 0:
-				prevScreen.signWithCommand(commandBox.getText());
-				WurstClient.INSTANCE.analytics.trackEvent("bookhack", "sign");
-				break;
+			prevScreen.signWithCommand(commandBox.getText());
+			WurstClient.INSTANCE.analytics.trackEvent("bookhack", "sign");
+			break;
 			case 1:
-				Minecraft.getMinecraft().displayGuiScreen(prevScreen);
-				WurstClient.INSTANCE.analytics.trackEvent("bookhack", "cancel");
-				break;
+			Minecraft.getMinecraft().displayGuiScreen(prevScreen);
+			WurstClient.INSTANCE.analytics.trackEvent("bookhack", "cancel");
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 	

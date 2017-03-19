@@ -148,17 +148,17 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				speed.resetUsableMax();
-				range.resetUsableMax();
-				break;
+			speed.resetUsableMax();
+			range.resetUsableMax();
+			break;
 			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
-				speed.setUsableMax(12);
-				range.setUsableMax(4.25);
-				break;
+			speed.setUsableMax(12);
+			range.setUsableMax(4.25);
+			break;
 		}
 	}
 }

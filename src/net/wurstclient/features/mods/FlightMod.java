@@ -79,43 +79,43 @@ public final class FlightMod extends Mod implements UpdateListener
 		{
 			case LATEST_NCP:
 			case OLDER_NCP:
-				if(!mc.player.onGround)
-					if(mc.gameSettings.keyBindJump.pressed
-						&& mc.player.posY < startY - 1)
-						mc.player.motionY = 0.2;
-					else
-						mc.player.motionY = -0.02;
-				break;
+			if(!mc.player.onGround)
+				if(mc.gameSettings.keyBindJump.pressed
+					&& mc.player.posY < startY - 1)
+					mc.player.motionY = 0.2;
+				else
+					mc.player.motionY = -0.02;
+			break;
 			
 			case ANTICHEAT:
 			case MINEPLEX:
-				updateMS();
-				if(!mc.player.onGround)
-					if(mc.gameSettings.keyBindJump.pressed && hasTimePassedS(2))
-					{
-						mc.player.setPosition(mc.player.posX,
-							mc.player.posY + 8, mc.player.posZ);
-						updateLastMS();
-					}else if(mc.gameSettings.keyBindSneak.pressed)
-						mc.player.motionY = -0.4;
-					else
-						mc.player.motionY = -0.02;
-				mc.player.jumpMovementFactor = 0.04F;
-				break;
+			updateMS();
+			if(!mc.player.onGround)
+				if(mc.gameSettings.keyBindJump.pressed && hasTimePassedS(2))
+				{
+					mc.player.setPosition(mc.player.posX, mc.player.posY + 8,
+						mc.player.posZ);
+					updateLastMS();
+				}else if(mc.gameSettings.keyBindSneak.pressed)
+					mc.player.motionY = -0.4;
+				else
+					mc.player.motionY = -0.02;
+			mc.player.jumpMovementFactor = 0.04F;
+			break;
 			
 			case OFF:
 			default:
-				mc.player.capabilities.isFlying = false;
-				mc.player.motionX = 0;
-				mc.player.motionY = 0;
-				mc.player.motionZ = 0;
-				mc.player.jumpMovementFactor = speed.getValueF();
-				
-				if(mc.gameSettings.keyBindJump.pressed)
-					mc.player.motionY += speed.getValue();
-				if(mc.gameSettings.keyBindSneak.pressed)
-					mc.player.motionY -= speed.getValue();
-				break;
+			mc.player.capabilities.isFlying = false;
+			mc.player.motionX = 0;
+			mc.player.motionY = 0;
+			mc.player.motionZ = 0;
+			mc.player.jumpMovementFactor = speed.getValueF();
+			
+			if(mc.gameSettings.keyBindJump.pressed)
+				mc.player.motionY += speed.getValue();
+			if(mc.gameSettings.keyBindSneak.pressed)
+				mc.player.motionY -= speed.getValue();
+			break;
 		}
 	}
 }

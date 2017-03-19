@@ -30,7 +30,8 @@ import net.wurstclient.utils.ChatUtils;
 	tags = "base finder, factions",
 	help = "Mods/BaseFinder")
 @Mod.Bypasses
-public final class BaseFinderMod extends Mod implements UpdateListener, RenderListener
+public final class BaseFinderMod extends Mod
+	implements UpdateListener, RenderListener
 {
 	private static final List<Block> NATURAL_BLOCKS = Arrays.<Block> asList(
 		Blocks.AIR, Blocks.STONE, Blocks.DIRT, Blocks.GRASS, Blocks.GRAVEL,

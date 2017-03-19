@@ -112,8 +112,8 @@ public abstract class AltEditorScreen extends GuiScreen
 		emailBox.setFocused(true);
 		emailBox.setText(getDefaultEmail());
 		
-		passwordBox = new PasswordField(fontRendererObj, width / 2 - 100,
-			100, 200, 20);
+		passwordBox =
+			new PasswordField(fontRendererObj, width / 2 - 100, 100, 200, 20);
 		passwordBox.setFocused(false);
 		passwordBox.setText(getDefaultPassword());
 	}
@@ -133,24 +133,24 @@ public abstract class AltEditorScreen extends GuiScreen
 		switch(button.id)
 		{
 			case 0:
-				pressDoneButton();
-				break;
+			pressDoneButton();
+			break;
 			
 			case 1:
-				mc.displayGuiScreen(prevScreen);
-				break;
+			mc.displayGuiScreen(prevScreen);
+			break;
 			
 			case 3:
-				emailBox.setText(NameGenerator.generateName());
-				break;
+			emailBox.setText(NameGenerator.generateName());
+			break;
 			
 			case 4:
-				message = stealSkin(getEmail());
-				break;
+			message = stealSkin(getEmail());
+			break;
 			
 			case 5:
-				MiscUtils.openFile(WurstFolders.SKINS);
-				break;
+			MiscUtils.openFile(WurstFolders.SKINS);
+			break;
 		}
 	}
 	

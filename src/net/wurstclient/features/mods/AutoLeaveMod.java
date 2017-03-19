@@ -81,21 +81,21 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 		switch(mode.getSelected())
 		{
 			case 0:
-				mc.world.sendQuittingDisconnectingPacket();
-				break;
+			mc.world.sendQuittingDisconnectingPacket();
+			break;
 			
 			case 1:
-				mc.player.connection.sendPacket(new CPacketChatMessage("§"));
-				break;
+			mc.player.connection.sendPacket(new CPacketChatMessage("§"));
+			break;
 			
 			case 2:
-				mc.player.connection.sendPacket(
-					new CPacketPlayer.Position(3.1e7, 100, 3.1e7, false));
-				break;
+			mc.player.connection.sendPacket(
+				new CPacketPlayer.Position(3.1e7, 100, 3.1e7, false));
+			break;
 			
 			case 3:
-				EntityUtils.sendAttackPacket(mc.player);
-				break;
+			EntityUtils.sendAttackPacket(mc.player);
+			break;
 		}
 		
 		// disable

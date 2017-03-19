@@ -75,25 +75,25 @@ public final class CriticalsMod extends Mod implements LeftClickListener
 			switch(mode)
 			{
 				case 0:
-					mc.player.motionY = 0.1F;
-					mc.player.fallDistance = 0.1F;
-					mc.player.onGround = false;
-					break;
+				mc.player.motionY = 0.1F;
+				mc.player.fallDistance = 0.1F;
+				mc.player.onGround = false;
+				break;
 				case 1:
-					double posX = mc.player.posX;
-					double posY = mc.player.posY;
-					double posZ = mc.player.posZ;
-					NetHandlerPlayClient connection = mc.player.connection;
-					
-					connection.sendPacket(new CPacketPlayer.Position(posX,
-						posY + 0.0625D, posZ, true));
-					connection.sendPacket(
-						new CPacketPlayer.Position(posX, posY, posZ, false));
-					connection.sendPacket(new CPacketPlayer.Position(posX,
-						posY + 1.1E-5D, posZ, false));
-					connection.sendPacket(
-						new CPacketPlayer.Position(posX, posY, posZ, false));
-					break;
+				double posX = mc.player.posX;
+				double posY = mc.player.posY;
+				double posZ = mc.player.posZ;
+				NetHandlerPlayClient connection = mc.player.connection;
+				
+				connection.sendPacket(new CPacketPlayer.Position(posX,
+					posY + 0.0625D, posZ, true));
+				connection.sendPacket(
+					new CPacketPlayer.Position(posX, posY, posZ, false));
+				connection.sendPacket(new CPacketPlayer.Position(posX,
+					posY + 1.1E-5D, posZ, false));
+				connection.sendPacket(
+					new CPacketPlayer.Position(posX, posY, posZ, false));
+				break;
 			}
 	}
 }

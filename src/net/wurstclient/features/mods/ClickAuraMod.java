@@ -185,24 +185,24 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				speed.resetUsableMax();
-				range.resetUsableMax();
-				hitThroughWalls.unlock();
-				break;
+			speed.resetUsableMax();
+			range.resetUsableMax();
+			hitThroughWalls.unlock();
+			break;
 			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-				speed.setUsableMax(12);
-				range.setUsableMax(4.25);
-				hitThroughWalls.unlock();
-				break;
+			speed.setUsableMax(12);
+			range.setUsableMax(4.25);
+			hitThroughWalls.unlock();
+			break;
 			
 			case GHOST_MODE:
-				speed.setUsableMax(12);
-				range.setUsableMax(4.25);
-				hitThroughWalls.lock(() -> false);
-				break;
+			speed.setUsableMax(12);
+			range.setUsableMax(4.25);
+			hitThroughWalls.lock(() -> false);
+			break;
 		}
 	}
 }

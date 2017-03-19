@@ -50,20 +50,20 @@ public class NavigatorRemoveKeybindScreen extends NavigatorScreen
 		switch(button.id)
 		{
 			case 0:
-				WurstClient wurst = WurstClient.INSTANCE;
-				if(wurst.keybinds.get(selectedKey).size() == 1)
-					wurst.keybinds.remove(selectedKey);
-				else
-					wurst.keybinds.get(selectedKey)
-						.remove(existingKeybinds.get(selectedKey).getCommand());
-				ConfigFiles.KEYBINDS.save();
-				mc.displayGuiScreen(parent);
-				wurst.navigator.addPreference(parent.getFeature().getName());
-				ConfigFiles.NAVIGATOR.save();
-				break;
+			WurstClient wurst = WurstClient.INSTANCE;
+			if(wurst.keybinds.get(selectedKey).size() == 1)
+				wurst.keybinds.remove(selectedKey);
+			else
+				wurst.keybinds.get(selectedKey)
+					.remove(existingKeybinds.get(selectedKey).getCommand());
+			ConfigFiles.KEYBINDS.save();
+			mc.displayGuiScreen(parent);
+			wurst.navigator.addPreference(parent.getFeature().getName());
+			ConfigFiles.NAVIGATOR.save();
+			break;
 			case 1:
-				mc.displayGuiScreen(parent);
-				break;
+			mc.displayGuiScreen(parent);
+			break;
 		}
 	}
 	

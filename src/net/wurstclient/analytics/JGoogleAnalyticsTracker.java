@@ -490,45 +490,45 @@ public class JGoogleAnalyticsTracker
 		switch(mode)
 		{
 			case MULTI_THREAD:
-				Thread t = new Thread(asyncThreadGroup,
-					"AnalyticsThread-" + asyncThreadGroup.activeCount())
+			Thread t = new Thread(asyncThreadGroup,
+				"AnalyticsThread-" + asyncThreadGroup.activeCount())
+			{
+				@Override
+				public void run()
 				{
-					@Override
-					public void run()
+					synchronized(JGoogleAnalyticsTracker.class)
+					{
+						asyncThreadsRunning++;
+					}
+					try
+					{
+						dispatchRequest(url, userAgent);
+					}finally
 					{
 						synchronized(JGoogleAnalyticsTracker.class)
 						{
-							asyncThreadsRunning++;
-						}
-						try
-						{
-							dispatchRequest(url, userAgent);
-						}finally
-						{
-							synchronized(JGoogleAnalyticsTracker.class)
-							{
-								asyncThreadsRunning--;
-							}
+							asyncThreadsRunning--;
 						}
 					}
-				};
-				t.setDaemon(true);
-				t.start();
-				break;
-			case SYNCHRONOUS:
-				dispatchRequest(url, userAgent);
-				break;
-			default: // in case it's null, we default to the single-thread
-				synchronized(fifo)
-				{
-					fifo.addLast(url);
-					fifo.notify();
 				}
-				if(!backgroundThreadMayRun)
-					logger.log(Level.SEVERE,
-						"A tracker request has been added to the queue but the background thread isn't running.",
-						url);
-				break;
+			};
+			t.setDaemon(true);
+			t.start();
+			break;
+			case SYNCHRONOUS:
+			dispatchRequest(url, userAgent);
+			break;
+			default: // in case it's null, we default to the single-thread
+			synchronized(fifo)
+			{
+				fifo.addLast(url);
+				fifo.notify();
+			}
+			if(!backgroundThreadMayRun)
+				logger.log(Level.SEVERE,
+					"A tracker request has been added to the queue but the background thread isn't running.",
+					url);
+			break;
 		}
 	}
 	
@@ -564,11 +564,11 @@ public class JGoogleAnalyticsTracker
 		switch(gaVersion)
 		{
 			case V_4_7_2:
-				builder = new GoogleAnalyticsV4_7_2(configData);
-				break;
+			builder = new GoogleAnalyticsV4_7_2(configData);
+			break;
 			default:
-				builder = new GoogleAnalyticsV4_7_2(configData);
-				break;
+			builder = new GoogleAnalyticsV4_7_2(configData);
+			break;
 		}
 	}
 	

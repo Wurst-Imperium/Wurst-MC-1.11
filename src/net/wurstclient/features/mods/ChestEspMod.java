@@ -37,7 +37,8 @@ import net.wurstclient.utils.RenderUtils;
 	tags = "ChestFinder, chest esp, chest finder",
 	help = "Mods/ChestESP")
 @Mod.Bypasses
-public final class ChestEspMod extends Mod implements UpdateListener, RenderListener
+public final class ChestEspMod extends Mod
+	implements UpdateListener, RenderListener
 {
 	private final ArrayList<AxisAlignedBB> basicNew = new ArrayList<>();
 	private final ArrayList<AxisAlignedBB> basicEmpty = new ArrayList<>();

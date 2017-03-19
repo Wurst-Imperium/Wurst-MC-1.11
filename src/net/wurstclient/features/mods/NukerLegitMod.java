@@ -67,25 +67,25 @@ public final class NukerLegitMod extends Mod
 			{
 				default:
 				case 0:
-					// normal mode
-					validator = (pos) -> true;
-					break;
+				// normal mode
+				validator = (pos) -> true;
+				break;
 				
 				case 1:
-					// id mode
-					validator = (
-						pos) -> wurst.mods.nukerMod.id == BlockUtils.getId(pos);
-					break;
+				// id mode
+				validator =
+					(pos) -> wurst.mods.nukerMod.id == BlockUtils.getId(pos);
+				break;
 				
 				case 2:
-					// flat mode
-					validator = (pos) -> pos.getY() >= mc.player.posY;
-					break;
+				// flat mode
+				validator = (pos) -> pos.getY() >= mc.player.posY;
+				break;
 				
 				case 3:
-					// smash mode
-					validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
-					break;
+				// smash mode
+				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+				break;
 			}
 		}
 	};
@@ -104,11 +104,11 @@ public final class NukerLegitMod extends Mod
 		switch(mode.getSelected())
 		{
 			case 0:
-				return "NukerLegit";
+			return "NukerLegit";
 			case 1:
-				return "IDNukerLegit [" + wurst.mods.nukerMod.id + "]";
+			return "IDNukerLegit [" + wurst.mods.nukerMod.id + "]";
 			default:
-				return mode.getSelectedMode() + "NukerLegit";
+			return mode.getSelectedMode() + "NukerLegit";
 		}
 	}
 	

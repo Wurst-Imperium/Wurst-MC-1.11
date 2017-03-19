@@ -26,7 +26,8 @@ import net.wurstclient.utils.RenderUtils;
 
 public class NavigatorMainScreen extends NavigatorScreen
 {
-	private static final ArrayList<Feature> navigatorDisplayList = new ArrayList<>();
+	private static final ArrayList<Feature> navigatorDisplayList =
+		new ArrayList<>();
 	private GuiTextField searchBar;
 	private int hoveredFeature = -1;
 	private boolean hoveringArrow;
@@ -192,14 +193,14 @@ public class NavigatorMainScreen extends NavigatorScreen
 			switch(i % 3)
 			{
 				case 0:
-					xi = x - 104;
-					break;
+				xi = x - 104;
+				break;
 				case 1:
-					xi = x;
-					break;
+				xi = x;
+				break;
 				case 2:
-					xi = x + 104;
-					break;
+				xi = x + 104;
+				break;
 			}
 			
 			// feature & area

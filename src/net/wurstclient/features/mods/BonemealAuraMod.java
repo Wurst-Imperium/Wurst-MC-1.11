@@ -118,14 +118,14 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				range.resetUsableMax();
-				break;
+			range.resetUsableMax();
+			break;
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
-				range.setUsableMax(4.25);
-				break;
+			range.setUsableMax(4.25);
+			break;
 		}
 	}
 	

@@ -631,18 +631,18 @@ public final class TemplateToolMod extends Mod
 			switch(button.id)
 			{
 				case 0:
-					if(nameField.getText().isEmpty()
-						|| wurst.mods.templateToolMod.file == null)
-						return;
-					
-					mc.displayGuiScreen(null);
-					wurst.mods.templateToolMod.saveFile();
-					
-					break;
+				if(nameField.getText().isEmpty()
+					|| wurst.mods.templateToolMod.file == null)
+					return;
+				
+				mc.displayGuiScreen(null);
+				wurst.mods.templateToolMod.saveFile();
+				
+				break;
 				case 1:
-					mc.displayGuiScreen(null);
-					wurst.mods.templateToolMod.setEnabled(false);
-					break;
+				mc.displayGuiScreen(null);
+				wurst.mods.templateToolMod.setEnabled(false);
+				break;
 			}
 		}
 		

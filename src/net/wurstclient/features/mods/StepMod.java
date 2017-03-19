@@ -82,14 +82,14 @@ public final class StepMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-				height.unlock();
-				break;
+			height.unlock();
+			break;
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
-				height.lock(() -> 1);
-				break;
+			height.lock(() -> 1);
+			break;
 		}
 	}
 	

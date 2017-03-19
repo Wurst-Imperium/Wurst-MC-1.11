@@ -54,16 +54,16 @@ public class GuiCmdBlock extends GuiScreen
 		switch(button.id)
 		{
 			case 0:
-				Minecraft.getMinecraft().displayGuiScreen(prevScreen);
-				mod.createCmdBlock(commandBox.getText());
-				WurstClient.INSTANCE.analytics.trackEvent("cmdblock", "create");
-				break;
+			Minecraft.getMinecraft().displayGuiScreen(prevScreen);
+			mod.createCmdBlock(commandBox.getText());
+			WurstClient.INSTANCE.analytics.trackEvent("cmdblock", "create");
+			break;
 			case 1:
-				Minecraft.getMinecraft().displayGuiScreen(prevScreen);
-				WurstClient.INSTANCE.analytics.trackEvent("cmdblock", "cancel");
-				break;
+			Minecraft.getMinecraft().displayGuiScreen(prevScreen);
+			WurstClient.INSTANCE.analytics.trackEvent("cmdblock", "cancel");
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 	

@@ -64,44 +64,41 @@ public class GuiZoomManager extends GuiScreen implements GuiPressAKeyCallback
 			switch(button.id)
 			{
 				case 0:
-					// Back
-					mc.displayGuiScreen(prevScreen);
-					break;
+				// Back
+				mc.displayGuiScreen(prevScreen);
+				break;
 				case 1:
-					// Zoom Key
-					mc.displayGuiScreen(new GuiPressAKey(this));
-					break;
+				// Zoom Key
+				mc.displayGuiScreen(new GuiPressAKey(this));
+				break;
 				case 2:
-					// Zoom Level More
-					WurstClient.INSTANCE.options.zoom.level =
-						Math.min(Math.round(
-							WurstClient.INSTANCE.options.zoom.level * 10F + 1F)
-							/ 10F, 10F);
-					ConfigFiles.OPTIONS.save();
-					break;
+				// Zoom Level More
+				WurstClient.INSTANCE.options.zoom.level = Math.min(Math.round(
+					WurstClient.INSTANCE.options.zoom.level * 10F + 1F) / 10F,
+					10F);
+				ConfigFiles.OPTIONS.save();
+				break;
 				case 3:
-					// Zoom Level Less
-					WurstClient.INSTANCE.options.zoom.level =
-						Math.max(Math.round(
-							WurstClient.INSTANCE.options.zoom.level * 10F - 1F)
-							/ 10F, 1F);
-					ConfigFiles.OPTIONS.save();
-					break;
+				// Zoom Level Less
+				WurstClient.INSTANCE.options.zoom.level = Math.max(Math.round(
+					WurstClient.INSTANCE.options.zoom.level * 10F - 1F) / 10F,
+					1F);
+				ConfigFiles.OPTIONS.save();
+				break;
 				case 4:
-					// Zoom Level Default
-					WurstClient.INSTANCE.options.zoom.level =
-						new OptionsManager().zoom.level;
-					ConfigFiles.OPTIONS.save();
-					break;
+				// Zoom Level Default
+				WurstClient.INSTANCE.options.zoom.level =
+					new OptionsManager().zoom.level;
+				ConfigFiles.OPTIONS.save();
+				break;
 				case 5:
-					// Use Mouse Wheel
-					WurstClient.INSTANCE.options.zoom.scroll =
-						!WurstClient.INSTANCE.options.zoom.scroll;
-					ConfigFiles.OPTIONS.save();
-					buttonList.get(5).displayString = "Use Mouse Wheel: "
-						+ (WurstClient.INSTANCE.options.zoom.scroll ? "ON"
-							: "OFF");
-					break;
+				// Use Mouse Wheel
+				WurstClient.INSTANCE.options.zoom.scroll =
+					!WurstClient.INSTANCE.options.zoom.scroll;
+				ConfigFiles.OPTIONS.save();
+				buttonList.get(5).displayString = "Use Mouse Wheel: "
+					+ (WurstClient.INSTANCE.options.zoom.scroll ? "ON" : "OFF");
+				break;
 			}
 	}
 	

@@ -235,109 +235,105 @@ public final class PasswordField extends Gui
 			switch(p_146201_1_)
 			{
 				case 1:
-					func_146202_e();
-					func_146199_i(0);
-					return true;
+				func_146202_e();
+				func_146199_i(0);
+				return true;
 				
 				case 3:
-					GuiScreen.setClipboardString(func_146207_c());
-					return true;
+				GuiScreen.setClipboardString(func_146207_c());
+				return true;
 				
 				case 22:
-					if(field_146226_p)
-						func_146191_b(GuiScreen.getClipboardString());
-					
-					return true;
+				if(field_146226_p)
+					func_146191_b(GuiScreen.getClipboardString());
+				
+				return true;
 				
 				case 24:
-					GuiScreen.setClipboardString(func_146207_c());
-					
-					if(field_146226_p)
-						func_146191_b("");
-					
-					return true;
+				GuiScreen.setClipboardString(func_146207_c());
+				
+				if(field_146226_p)
+					func_146191_b("");
+				
+				return true;
 				
 				default:
-					switch(p_146201_2_)
+				switch(p_146201_2_)
+				{
+					case 14:
+					if(GuiScreen.isCtrlKeyDown())
 					{
-						case 14:
-							if(GuiScreen.isCtrlKeyDown())
-							{
-								if(field_146226_p)
-									func_146177_a(-1);
-							}else if(field_146226_p)
-								func_146175_b(-1);
-							
-							return true;
+						if(field_146226_p)
+							func_146177_a(-1);
+					}else if(field_146226_p)
+						func_146175_b(-1);
+					
+					return true;
+					
+					case 199:
+					if(GuiScreen.isShiftKeyDown())
+						func_146199_i(0);
+					else
+						func_146196_d();
+					
+					return true;
+					
+					case 203:
+					if(GuiScreen.isShiftKeyDown())
+					{
+						if(GuiScreen.isCtrlKeyDown())
+							func_146199_i(func_146183_a(-1, func_146186_n()));
+						else
+							func_146199_i(func_146186_n() - 1);
+					}else if(GuiScreen.isCtrlKeyDown())
+						func_146190_e(func_146187_c(-1));
+					else
+						func_146182_d(-1);
+					
+					return true;
+					
+					case 205:
+					if(GuiScreen.isShiftKeyDown())
+					{
+						if(GuiScreen.isCtrlKeyDown())
+							func_146199_i(func_146183_a(1, func_146186_n()));
+						else
+							func_146199_i(func_146186_n() + 1);
+					}else if(GuiScreen.isCtrlKeyDown())
+						func_146190_e(func_146187_c(1));
+					else
+						func_146182_d(1);
+					
+					return true;
+					
+					case 207:
+					if(GuiScreen.isShiftKeyDown())
+						func_146199_i(field_146216_j.length());
+					else
+						func_146202_e();
+					
+					return true;
+					
+					case 211:
+					if(GuiScreen.isCtrlKeyDown())
+					{
+						if(field_146226_p)
+							func_146177_a(1);
+					}else if(field_146226_p)
+						func_146175_b(1);
+					
+					return true;
+					
+					default:
+					if(ChatAllowedCharacters.isAllowedCharacter(p_146201_1_))
+					{
+						if(field_146226_p)
+							func_146191_b(Character.toString(p_146201_1_));
 						
-						case 199:
-							if(GuiScreen.isShiftKeyDown())
-								func_146199_i(0);
-							else
-								func_146196_d();
-							
-							return true;
-						
-						case 203:
-							if(GuiScreen.isShiftKeyDown())
-							{
-								if(GuiScreen.isCtrlKeyDown())
-									func_146199_i(
-										func_146183_a(-1, func_146186_n()));
-								else
-									func_146199_i(func_146186_n() - 1);
-							}else if(GuiScreen.isCtrlKeyDown())
-								func_146190_e(func_146187_c(-1));
-							else
-								func_146182_d(-1);
-							
-							return true;
-						
-						case 205:
-							if(GuiScreen.isShiftKeyDown())
-							{
-								if(GuiScreen.isCtrlKeyDown())
-									func_146199_i(
-										func_146183_a(1, func_146186_n()));
-								else
-									func_146199_i(func_146186_n() + 1);
-							}else if(GuiScreen.isCtrlKeyDown())
-								func_146190_e(func_146187_c(1));
-							else
-								func_146182_d(1);
-							
-							return true;
-						
-						case 207:
-							if(GuiScreen.isShiftKeyDown())
-								func_146199_i(field_146216_j.length());
-							else
-								func_146202_e();
-							
-							return true;
-						
-						case 211:
-							if(GuiScreen.isCtrlKeyDown())
-							{
-								if(field_146226_p)
-									func_146177_a(1);
-							}else if(field_146226_p)
-								func_146175_b(1);
-							
-							return true;
-						
-						default:
-							if(ChatAllowedCharacters
-								.isAllowedCharacter(p_146201_1_))
-							{
-								if(field_146226_p)
-									func_146191_b(
-										Character.toString(p_146201_1_));
-								
-								return true;
-							}else
-								return false;
-					}
+						return true;
+					}else
+						return false;
+				}
 			}
 	}
 	

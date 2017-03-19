@@ -116,11 +116,11 @@ public final class ExtraElytraMod extends Mod implements UpdateListener
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-				easyFly.unlock();
-				break;
+			easyFly.unlock();
+			break;
 			case GHOST_MODE:
-				easyFly.lock(() -> false);
-				break;
+			easyFly.lock(() -> false);
+			break;
 		}
 	}
 }
