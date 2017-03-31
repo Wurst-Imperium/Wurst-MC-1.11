@@ -10,9 +10,9 @@ package net.wurstclient.features.mods;
 import net.minecraft.entity.Entity;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityUtils;
+import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.PlayerUtils;
 import net.wurstclient.utils.RotationUtils;
-import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @Mod.Info(
 	description = "A bot that follows the closest entity and protects it from other entities.\n"

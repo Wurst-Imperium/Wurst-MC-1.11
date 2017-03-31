@@ -9,11 +9,10 @@ package net.wurstclient.features.commands;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
-
-import java.util.TreeSet;
 
 @Cmd.Info(description = "Lists all keybinds.",
 	name = "binds",

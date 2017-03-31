@@ -17,9 +17,9 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
+import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.PlayerUtils;
 import net.wurstclient.utils.RotationUtils;
-import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @Mod.Info(
 	description = "Automatically attacks the closest valid entity while teleporting around it.",

@@ -405,14 +405,10 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		if(mouseButton == 0 && mouseY >= height - 26 && mouseY < height - 16
 			&& mouseX > width / 2 - linkWidth / 2
 			&& mouseX < width / 2 + linkWidth / 2)
-		{
 			MiscUtils.openLink("https://www.wurstclient.net/");
-		}
 		
 		if(news != null && mouseButton == 0 && mouseY >= height - 10)
-		{
 			MiscUtils.openLink("https://www.wurstclient.net/news");
-		}
 		
 		// notice
 		if(noticeText.length() > 0 && mouseX >= noticeX1 && mouseX <= noticeX2

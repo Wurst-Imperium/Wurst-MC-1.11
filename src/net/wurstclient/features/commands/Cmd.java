@@ -19,8 +19,8 @@ import net.wurstclient.navigator.PossibleKeybind;
 import net.wurstclient.settings.Setting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
-import net.wurstclient.utils.MiscUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
+import net.wurstclient.utils.MiscUtils;
 
 public abstract class Cmd extends Feature
 {

@@ -140,15 +140,13 @@ public final class AltManagerScreen extends GuiScreen
 			mc.displayGuiScreen(new EditAltScreen(this, alt));
 			
 		}else if(button.id == 5)
-		{
 			// "Delete" button
 			mc.displayGuiScreen(
 				new GuiYesNo(this, "Are you sure you want to remove this alt?",
 					"\"" + altList.getSelectedAlt().getNameOrEmail()
 						+ "\" will be lost forever! (A long time!)",
 					"Delete", "Cancel", 1));
-			
-		}else if(button.id == 6)
+		else if(button.id == 6)
 			// "Cancel" button
 			mc.displayGuiScreen(prevScreen);
 		else if(button.id == 7)
@@ -291,7 +289,7 @@ public final class AltManagerScreen extends GuiScreen
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glEnable(GL11.GL_BLEND);
 			
-			GL11.glColor4f(1, 0, 0, (float)errorTimer / 16F);
+			GL11.glColor4f(1, 0, 0, errorTimer / 16F);
 			
 			GL11.glBegin(GL11.GL_QUADS);
 			{

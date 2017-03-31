@@ -175,10 +175,8 @@ public final class SessionStealerScreen extends GuiScreen
 			mc.displayGuiScreen(prevScreen);
 			
 		}else if(button.id == 2)
-		{
 			MiscUtils.openLink(
 				"https://www.wurstclient.net/wiki/Special_Features/Force_OP_(Session_Stealer)/");
-		}
 	}
 	
 	@Override

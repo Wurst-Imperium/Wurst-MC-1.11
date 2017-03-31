@@ -21,8 +21,8 @@ import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
-import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
+import net.wurstclient.utils.RenderUtils;
 
 @Mod.Info(
 	description = "Slower Nuker that bypasses all AntiCheat plugins.\n"
