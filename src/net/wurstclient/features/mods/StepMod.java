@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2017 | Wurst-Imperium | All rights reserved.
+ * Copyright Â© 2014 - 2017 | Wurst-Imperium | All rights reserved.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -119,11 +119,13 @@ public final class StepMod extends Mod implements UpdateListener
 		for(BlockPos collisionBlock : collisionBlocks)
 			if(!(player.world.getBlockState(collisionBlock.add(0, 1, 0))
 				.getBlock() instanceof BlockFenceGate))
-				if(player.world.getBlockState(collisionBlock.add(0, 1, 0))
-					.getBlock().getCollisionBoundingBox(
-						mc.world.getBlockState(collisionBlock), mc.world,
-						belowPlayerPos) != null)
-					return false;
+				if(!(player.world.getBlockState(collisionBlock.add(0, 1, 0))
+						.getBlock() instanceof BlockSnow))
+					if(player.world.getBlockState(collisionBlock.add(0, 1, 0))
+						.getBlock().getCollisionBoundingBox(
+							mc.world.getBlockState(collisionBlock), mc.world,
+							belowPlayerPos) != null)
+						return false;
 				
 		return true;
 	}
