@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.block.material.Material;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Makes you fall like if you had a hang glider.",
@@ -31,12 +32,14 @@ public final class GlideMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.motionY < 0 && mc.player.isAirBorne
-			&& !mc.player.isInWater() && !mc.player.isOnLadder()
-			&& !mc.player.isInsideOfMaterial(Material.LAVA))
+		if(WMinecraft.getPlayer().motionY < 0
+			&& WMinecraft.getPlayer().isAirBorne
+			&& !WMinecraft.getPlayer().isInWater()
+			&& !WMinecraft.getPlayer().isOnLadder()
+			&& !WMinecraft.getPlayer().isInsideOfMaterial(Material.LAVA))
 		{
-			mc.player.motionY = -0.125f;
-			mc.player.jumpMovementFactor *= 1.21337f;
+			WMinecraft.getPlayer().motionY = -0.125f;
+			WMinecraft.getPlayer().jumpMovementFactor *= 1.21337f;
 		}
 	}
 }

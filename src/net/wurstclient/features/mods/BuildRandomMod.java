@@ -11,6 +11,7 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -69,8 +70,9 @@ public final class BuildRandomMod extends Mod implements UpdateListener
 		do
 		{
 			// generate random position
-			pos = new BlockPos(mc.player).add(random.nextInt(bound) - range,
-				random.nextInt(bound) - range, random.nextInt(bound) - range);
+			pos = new BlockPos(WMinecraft.getPlayer()).add(
+				random.nextInt(bound) - range, random.nextInt(bound) - range,
+				random.nextInt(bound) - range);
 			attempts++;
 		}while(attempts < 128 && !tryToPlaceBlock(legitMode, pos));
 	}

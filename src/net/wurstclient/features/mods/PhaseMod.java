@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -31,14 +32,14 @@ public final class PhaseMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		mc.player.noClip = false;
+		WMinecraft.getPlayer().noClip = false;
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		mc.player.noClip = true;
-		mc.player.fallDistance = 0;
-		mc.player.onGround = true;
+		WMinecraft.getPlayer().noClip = true;
+		WMinecraft.getPlayer().fallDistance = 0;
+		WMinecraft.getPlayer().onGround = true;
 	}
 }

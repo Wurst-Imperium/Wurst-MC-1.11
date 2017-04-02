@@ -13,6 +13,7 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -72,7 +73,8 @@ public final class AutoEatMod extends Mod implements UpdateListener
 		for(int i = 0; i < 9; i++)
 		{
 			// filter out non-food items
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(stack == null || !(stack.getItem() instanceof ItemFood))
 				continue;
 			
@@ -95,10 +97,10 @@ public final class AutoEatMod extends Mod implements UpdateListener
 		
 		// save old slot
 		if(!isEating())
-			oldSlot = mc.player.inventory.currentItem;
+			oldSlot = WMinecraft.getPlayer().inventory.currentItem;
 		
 		// set slot
-		mc.player.inventory.currentItem = bestSlot;
+		WMinecraft.getPlayer().inventory.currentItem = bestSlot;
 		
 		// eat food
 		mc.gameSettings.keyBindUseItem.pressed = true;
@@ -123,7 +125,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 	private boolean shouldEat()
 	{
 		// check hunger
-		if(!mc.player.canEat(false))
+		if(!WMinecraft.getPlayer().canEat(false))
 			return false;
 		
 		// check screen
@@ -163,7 +165,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 		mc.gameSettings.keyBindUseItem.pressed = false;
 		
 		// reset slot
-		mc.player.inventory.currentItem = oldSlot;
+		WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 		oldSlot = -1;
 	}
 }

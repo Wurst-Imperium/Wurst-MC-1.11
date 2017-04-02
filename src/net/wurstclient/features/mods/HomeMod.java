@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -42,7 +43,7 @@ public final class HomeMod extends Mod
 		if(disableTimer == 4)
 			setEnabled(false);
 		else if(disableTimer == 0)
-			mc.player.sendChatMessage("/home");
+			WMinecraft.getPlayer().sendChatMessage("/home");
 		disableTimer++;
 	}
 	

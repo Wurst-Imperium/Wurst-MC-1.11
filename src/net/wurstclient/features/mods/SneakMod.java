@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketEntityAction.Action;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -35,8 +36,8 @@ public final class SneakMod extends Mod
 		wurst.events.remove(PostUpdateListener.class, this);
 		
 		mc.gameSettings.keyBindSneak.pressed = false;
-		mc.player.connection.sendPacket(
-			new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
+		WMinecraft.getPlayer().connection.sendPacket(new CPacketEntityAction(
+			WMinecraft.getPlayer(), Action.STOP_SNEAKING));
 	}
 	
 	@Override
@@ -45,21 +46,24 @@ public final class SneakMod extends Mod
 		if(wurst.special.yesCheatSpf.getBypassLevel()
 			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
 		{
-			mc.player.connection.sendPacket(
-				new CPacketEntityAction(mc.player, Action.START_SNEAKING));
-			mc.player.connection.sendPacket(
-				new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
+					Action.START_SNEAKING));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
+					Action.STOP_SNEAKING));
 		}else
-			mc.player.connection.sendPacket(
-				new CPacketEntityAction(mc.player, Action.START_SNEAKING));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
+					Action.START_SNEAKING));
 	}
 	
 	@Override
 	public void afterUpdate()
 	{
-		mc.player.connection.sendPacket(
-			new CPacketEntityAction(mc.player, Action.STOP_SNEAKING));
-		mc.player.connection.sendPacket(
-			new CPacketEntityAction(mc.player, Action.START_SNEAKING));
+		WMinecraft.getPlayer().connection.sendPacket(new CPacketEntityAction(
+			WMinecraft.getPlayer(), Action.STOP_SNEAKING));
+		WMinecraft.getPlayer().connection.sendPacket(new CPacketEntityAction(
+			WMinecraft.getPlayer(), Action.START_SNEAKING));
 	}
 }

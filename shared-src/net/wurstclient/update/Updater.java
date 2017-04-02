@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class Updater
 {
@@ -39,8 +40,7 @@ public class Updater
 		{
 			json = fetchJson(
 				"https://api.github.com/repos/Wurst-Imperium/Wurst-MC-"
-					+ WurstClient.MINECRAFT_VERSION + "/releases")
-						.getAsJsonArray();
+					+ WMinecraft.VERSION + "/releases").getAsJsonArray();
 			
 			for(JsonElement release : json)
 				if(currentVersion.isPreRelease() || !release.getAsJsonObject()
@@ -99,7 +99,7 @@ public class Updater
 				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "java",
 					"-jar", path.toString(), "update", "" + latestVersionId,
 					path.getParent().toString(),
-					"Wurst-Imperium/Wurst-MC-" + WurstClient.MINECRAFT_VERSION);
+					"Wurst-Imperium/Wurst-MC-" + WMinecraft.VERSION);
 				pb.redirectErrorStream(true);
 				Process p = pb.start();
 				

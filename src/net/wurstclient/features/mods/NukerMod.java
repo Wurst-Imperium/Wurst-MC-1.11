@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.PostUpdateListener;
@@ -61,7 +62,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 				
 				case 2:
 				// flat mode
-				validator = (pos) -> pos.getY() >= mc.player.posY;
+				validator = (pos) -> pos.getY() >= WMinecraft.getPlayer().posY;
 				break;
 				
 				case 3:
@@ -170,7 +171,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 			.getValidBlocksByDistance(range.getValue(), !legit, validator);
 		
 		// nuke all
-		if(mc.player.capabilities.isCreativeMode && !legit)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode && !legit)
 		{
 			mc.playerController.resetBlockRemoving();
 			

@@ -1,6 +1,6 @@
-From f74f76d815bc45dcad118b7e95b279ff3a50f626 Mon Sep 17 00:00:00 2001
+From 7c0753ec3d7d5c54a72766efbb7f9e5dd6c7266c Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Wed, 8 Mar 2017 17:41:22 +0100
+Date: Sun, 2 Apr 2017 16:22:01 +0200
 Subject: [PATCH] mod
 
 ---
@@ -18,14 +18,14 @@ Subject: [PATCH] mod
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
  net/minecraft/client/gui/GuiIngame.java            |  13 ++
  net/minecraft/client/gui/GuiIngameMenu.java        |  54 ++++-
- net/minecraft/client/gui/GuiMainMenu.java          |  31 ++-
+ net/minecraft/client/gui/GuiMainMenu.java          |  48 ++++-
  net/minecraft/client/gui/GuiMemoryErrorScreen.java |   4 +-
  net/minecraft/client/gui/GuiMultiplayer.java       |  91 ++++++++-
  net/minecraft/client/gui/GuiNewChat.java           |  11 +
  net/minecraft/client/gui/GuiScreen.java            |   6 +-
  net/minecraft/client/gui/GuiScreenBook.java        |  62 ++++++
  net/minecraft/client/gui/GuiScreenServerList.java  |   7 +
- .../client/gui/ServerListEntryNormal.java          |  15 +-
+ .../client/gui/ServerListEntryNormal.java          |  16 +-
  net/minecraft/client/gui/achievement/GuiStats.java |  16 ++
  net/minecraft/client/gui/inventory/GuiChest.java   |  78 ++++++++
  .../client/gui/inventory/GuiContainer.java         |   5 +
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1195 insertions(+), 445 deletions(-)
+ 54 files changed, 1206 insertions(+), 452 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -1238,20 +1238,50 @@ index cbd9720..ae879d4 100644
      }
  }
 diff --git a/net/minecraft/client/gui/GuiMainMenu.java b/net/minecraft/client/gui/GuiMainMenu.java
-index ba01f04..0e0215c 100644
+index ba01f04..ef2eae4 100644
 --- a/net/minecraft/client/gui/GuiMainMenu.java
 +++ b/net/minecraft/client/gui/GuiMainMenu.java
-@@ -28,6 +28,9 @@ import net.minecraft.util.text.TextFormatting;
+@@ -1,6 +1,5 @@
+ package net.minecraft.client.gui;
+ 
+-import com.google.common.collect.Lists;
+ import java.io.BufferedReader;
+ import java.io.Closeable;
+ import java.io.IOException;
+@@ -10,6 +9,16 @@ import java.util.Calendar;
+ import java.util.Date;
+ import java.util.List;
+ import java.util.Random;
++
++import org.apache.commons.io.Charsets;
++import org.apache.commons.io.IOUtils;
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++import org.lwjgl.opengl.GLContext;
++import org.lwjgl.util.glu.Project;
++
++import com.google.common.collect.Lists;
++
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.OpenGlHelper;
+@@ -28,12 +37,9 @@ import net.minecraft.util.text.TextFormatting;
  import net.minecraft.world.demo.DemoWorldServer;
  import net.minecraft.world.storage.ISaveFormat;
  import net.minecraft.world.storage.WorldInfo;
+-import org.apache.commons.io.Charsets;
+-import org.apache.commons.io.IOUtils;
+-import org.apache.logging.log4j.LogManager;
+-import org.apache.logging.log4j.Logger;
+-import org.lwjgl.opengl.GLContext;
+-import org.lwjgl.util.glu.Project;
 +import net.wurstclient.WurstClient;
++import net.wurstclient.compatibility.WMinecraft;
 +import net.wurstclient.hooks.ServerHook;
-+
- import org.apache.commons.io.Charsets;
- import org.apache.commons.io.IOUtils;
- import org.apache.logging.log4j.LogManager;
-@@ -44,7 +47,7 @@ public class GuiMainMenu extends GuiScreen
+ 
+ public class GuiMainMenu extends GuiScreen
+ {
+@@ -44,7 +50,7 @@ public class GuiMainMenu extends GuiScreen
      private final float updateCounter;
  
      /** The splash message. */
@@ -1260,7 +1290,7 @@ index ba01f04..0e0215c 100644
      private GuiButton buttonResetDemo;
  
      /** Timer used to rotate the panorama, increases every tick. */
-@@ -230,7 +233,13 @@ public class GuiMainMenu extends GuiScreen
+@@ -230,7 +236,13 @@ public class GuiMainMenu extends GuiScreen
          else if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31)
          {
              this.splashText = "OOoooOOOoooo! Spooky!";
@@ -1274,7 +1304,7 @@ index ba01f04..0e0215c 100644
  
          int i = 24;
          int j = this.height / 4 + 48;
-@@ -282,7 +291,23 @@ public class GuiMainMenu extends GuiScreen
+@@ -282,7 +294,23 @@ public class GuiMainMenu extends GuiScreen
      {
          this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
          this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
@@ -1283,7 +1313,7 @@ index ba01f04..0e0215c 100644
 +		// TODO: Client
 +		if(WurstClient.INSTANCE.isEnabled())
 +		{
-+			boolean realms = WurstClient.ENABLE_REALMS;
++			boolean realms = WMinecraft.REALMS;
 +			buttonList.add(
 +				new GuiButton(3, width / 2 - 100, p_73969_1_ + p_73969_2_ * 2,
 +					realms ? 98 : 200, 20, "Alt Manager"));
@@ -1299,7 +1329,7 @@ index ba01f04..0e0215c 100644
      }
  
      /**
-@@ -520,7 +545,7 @@ public class GuiMainMenu extends GuiScreen
+@@ -520,7 +548,7 @@ public class GuiMainMenu extends GuiScreen
      /**
       * Renders the skybox in the main menu
       */
@@ -1689,19 +1719,20 @@ index 0ea5063..16eb0ed 100644
              }
          }
 diff --git a/net/minecraft/client/gui/ServerListEntryNormal.java b/net/minecraft/client/gui/ServerListEntryNormal.java
-index 4c49d3e..831f161 100644
+index 4c49d3e..d11da9e 100644
 --- a/net/minecraft/client/gui/ServerListEntryNormal.java
 +++ b/net/minecraft/client/gui/ServerListEntryNormal.java
-@@ -18,6 +18,8 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
+@@ -18,6 +18,9 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
  import net.minecraft.client.renderer.texture.TextureUtil;
  import net.minecraft.util.ResourceLocation;
  import net.minecraft.util.text.TextFormatting;
 +import net.wurstclient.WurstClient;
++import net.wurstclient.compatibility.WMinecraft;
 +
  import org.apache.commons.lang3.Validate;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
-@@ -36,7 +38,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
+@@ -36,7 +39,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
      private DynamicTexture icon;
      private long lastClickTime;
  
@@ -1710,19 +1741,19 @@ index 4c49d3e..831f161 100644
      {
          this.owner = p_i45048_1_;
          this.server = serverIn;
-@@ -77,7 +79,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
+@@ -77,7 +80,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
  
          boolean flag = this.server.version > 315;
          boolean flag1 = this.server.version < 315;
 -        boolean flag2 = flag || flag1;
 +
 +		// TODO: Client
-+		boolean flag2 = !WurstClient.PROTOCOLS.containsKey(server.version);
++		boolean flag2 = !WMinecraft.PROTOCOLS.containsKey(server.version);
 +        
          this.mc.fontRendererObj.drawString(this.server.serverName, x + 32 + 3, y + 1, 16777215);
          List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
  
-@@ -86,7 +91,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
+@@ -86,7 +92,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
              this.mc.fontRendererObj.drawString((String)list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
          }
  

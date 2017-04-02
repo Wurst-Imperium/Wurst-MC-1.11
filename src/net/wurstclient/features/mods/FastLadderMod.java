@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Allows you to climb up ladders twice as fast.",
@@ -31,7 +32,8 @@ public final class FastLadderMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.isOnLadder() && mc.player.isCollidedHorizontally)
-			mc.player.motionY = 0.2872;
+		if(WMinecraft.getPlayer().isOnLadder()
+			&& WMinecraft.getPlayer().isCollidedHorizontally)
+			WMinecraft.getPlayer().motionY = 0.2872;
 	}
 }

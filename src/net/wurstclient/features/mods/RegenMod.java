@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -34,11 +35,13 @@ public final class RegenMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(!mc.player.capabilities.isCreativeMode
-			&& mc.player.getFoodStats().getFoodLevel() > 17
-			&& mc.player.getHealth() < 20 && mc.player.getHealth() != 0
-			&& mc.player.onGround)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode
+			&& WMinecraft.getPlayer().getFoodStats().getFoodLevel() > 17
+			&& WMinecraft.getPlayer().getHealth() < 20
+			&& WMinecraft.getPlayer().getHealth() != 0
+			&& WMinecraft.getPlayer().onGround)
 			for(int i = 0; i < 1000; i++)
-				mc.player.connection.sendPacket(new CPacketPlayer());
+				WMinecraft.getPlayer().connection
+					.sendPacket(new CPacketPlayer());
 	}
 }

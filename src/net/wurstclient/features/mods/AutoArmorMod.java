@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -61,7 +62,8 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 		// initialize with currently equipped armor
 		for(int armorType = 0; armorType < 4; armorType++)
 		{
-			ItemStack oldArmor = mc.player.inventory.armorItemInSlot(armorType);
+			ItemStack oldArmor =
+				WMinecraft.getPlayer().inventory.armorItemInSlot(armorType);
 			if(oldArmor != null && oldArmor.getItem() instanceof ItemArmor)
 				bestArmorValues[armorType] =
 					((ItemArmor)oldArmor.getItem()).damageReduceAmount;
@@ -72,7 +74,8 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 		// search inventory for better armor
 		for(int slot = 0; slot < 36; slot++)
 		{
-			ItemStack stack = mc.player.inventory.getStackInSlot(slot);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(slot);
 			if(stack == null || !(stack.getItem() instanceof ItemArmor))
 				continue;
 			
@@ -97,9 +100,10 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 				
 			// check if armor can be swapped
 			// needs 1 free slot where it can put the old armor
-			ItemStack oldArmor = mc.player.inventory.armorItemInSlot(armorType);
+			ItemStack oldArmor =
+				WMinecraft.getPlayer().inventory.armorItemInSlot(armorType);
 			if(oldArmor == null || !InventoryUtils.isEmptySlot(oldArmor)
-				|| mc.player.inventory.getFirstEmptyStack() != -1)
+				|| WMinecraft.getPlayer().inventory.getFirstEmptyStack() != -1)
 			{
 				// hotbar fix
 				if(slot < 9)
@@ -107,9 +111,9 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 				
 				// swap armor
 				mc.playerController.windowClick(0, 8 - armorType, 0,
-					ClickType.QUICK_MOVE, mc.player);
+					ClickType.QUICK_MOVE, WMinecraft.getPlayer());
 				mc.playerController.windowClick(0, slot, 0,
-					ClickType.QUICK_MOVE, mc.player);
+					ClickType.QUICK_MOVE, WMinecraft.getPlayer());
 				
 				break;
 			}

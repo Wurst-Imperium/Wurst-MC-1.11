@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.RenderListener;
@@ -79,7 +80,7 @@ public final class NukerLegitMod extends Mod
 				
 				case 2:
 				// flat mode
-				validator = (pos) -> pos.getY() >= mc.player.posY;
+				validator = (pos) -> pos.getY() >= WMinecraft.getPlayer().posY;
 				break;
 				
 				case 3:

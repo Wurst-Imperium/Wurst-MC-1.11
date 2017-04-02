@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
@@ -69,7 +70,7 @@ public final class ProphuntEspMod extends Mod implements RenderListener
 		GL11.glColor4f(1, 0, 0, alpha);
 		
 		// draw boxes
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 		{
 			if(!(entity instanceof EntityLiving))
 				continue;
@@ -77,7 +78,7 @@ public final class ProphuntEspMod extends Mod implements RenderListener
 			if(!entity.isInvisible())
 				continue;
 			
-			if(mc.player.getDistanceSqToEntity(entity) < 0.25)
+			if(WMinecraft.getPlayer().getDistanceSqToEntity(entity) < 0.25)
 				continue;
 			
 			GL11.glPushMatrix();

@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -62,9 +63,10 @@ public final class PlayerEspMod extends Mod implements RenderListener
 			-mc.getRenderManager().renderPosZ);
 		
 		// draw boxes
-		for(EntityPlayer entity : mc.world.playerEntities)
+		for(EntityPlayer entity : WMinecraft.getWorld().playerEntities)
 		{
-			if(entity == mc.player || entity instanceof EntityFakePlayer)
+			if(entity == WMinecraft.getPlayer()
+				|| entity instanceof EntityFakePlayer)
 				continue;
 			
 			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
@@ -80,7 +82,8 @@ public final class PlayerEspMod extends Mod implements RenderListener
 				GL11.glColor4f(0, 0, 1, 0.5F);
 			else
 			{
-				float factor = mc.player.getDistanceToEntity(entity) / 20F;
+				float factor =
+					WMinecraft.getPlayer().getDistanceToEntity(entity) / 20F;
 				if(factor > 2)
 					factor = 2;
 				GL11.glColor4f(2 - factor, factor, 0, 0.5F);

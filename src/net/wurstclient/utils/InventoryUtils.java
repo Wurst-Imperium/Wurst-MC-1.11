@@ -7,7 +7,6 @@
  */
 package net.wurstclient.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -18,10 +17,10 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class InventoryUtils
 {
-	private static final Minecraft mc = Minecraft.getMinecraft();
 	private static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
 	
 	public static boolean placeStackInHotbar(ItemStack stack)
@@ -29,7 +28,7 @@ public class InventoryUtils
 		for(int i = 0; i < 9; i++)
 			if(isSlotEmpty(i))
 			{
-				mc.player.connection.sendPacket(
+				WMinecraft.getPlayer().connection.sendPacket(
 					new CPacketCreativeInventoryAction(36 + i, stack));
 				return true;
 			}
@@ -39,12 +38,13 @@ public class InventoryUtils
 	
 	public static void placeStackInArmor(int armorSlot, ItemStack stack)
 	{
-		mc.player.inventory.armorInventory.set(armorSlot, stack);
+		WMinecraft.getPlayer().inventory.armorInventory.set(armorSlot, stack);
 	}
 	
 	public static boolean isSlotEmpty(int slot)
 	{
-		return mc.player.inventory.getStackInSlot(slot).getItem() == NULL_ITEM;
+		return WMinecraft.getPlayer().inventory.getStackInSlot(slot)
+			.getItem() == NULL_ITEM;
 	}
 	
 	public static boolean isEmptySlot(ItemStack slot)
@@ -83,7 +83,7 @@ public class InventoryUtils
 	
 	public static boolean checkHeldItem(ItemValidator validator)
 	{
-		ItemStack stack = mc.player.inventory.getCurrentItem();
+		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		
 		if(isEmptySlot(stack))
 			return false;

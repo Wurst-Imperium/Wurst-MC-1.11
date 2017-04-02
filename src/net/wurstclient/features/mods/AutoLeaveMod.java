@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.ModeSetting;
@@ -65,36 +66,37 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check gamemode
-		if(mc.player.capabilities.isCreativeMode)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode)
 			return;
 		
 		// check for other players
 		if(mc.isSingleplayer()
-			|| mc.player.connection.getPlayerInfoMap().size() == 1)
+			|| WMinecraft.getPlayer().connection.getPlayerInfoMap().size() == 1)
 			return;
 		
 		// check health
-		if(mc.player.getHealth() > health.getValueF() * 2F)
+		if(WMinecraft.getPlayer().getHealth() > health.getValueF() * 2F)
 			return;
 		
 		// leave server
 		switch(mode.getSelected())
 		{
 			case 0:
-			mc.world.sendQuittingDisconnectingPacket();
+			WMinecraft.getWorld().sendQuittingDisconnectingPacket();
 			break;
 			
 			case 1:
-			mc.player.connection.sendPacket(new CPacketChatMessage("§"));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketChatMessage("§"));
 			break;
 			
 			case 2:
-			mc.player.connection.sendPacket(
+			WMinecraft.getPlayer().connection.sendPacket(
 				new CPacketPlayer.Position(3.1e7, 100, 3.1e7, false));
 			break;
 			
 			case 3:
-			EntityUtils.sendAttackPacket(mc.player);
+			EntityUtils.sendAttackPacket(WMinecraft.getPlayer());
 			break;
 		}
 		

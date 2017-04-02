@@ -14,19 +14,20 @@ import java.util.Set;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.BlockUtils;
 
 public class PathFinder
 {
 	private final WurstClient wurst = WurstClient.INSTANCE;
-	private final Minecraft mc = Minecraft.getMinecraft();
 	
-	private final boolean invulnerable = mc.player.capabilities.isCreativeMode;
-	private final boolean creativeFlying = mc.player.capabilities.isFlying;
+	private final boolean invulnerable =
+		WMinecraft.getPlayer().capabilities.isCreativeMode;
+	private final boolean creativeFlying =
+		WMinecraft.getPlayer().capabilities.isFlying;
 	protected final boolean flying =
 		creativeFlying || wurst.mods.flightMod.isActive();
 	private final boolean immuneToFallDamage =
@@ -55,7 +56,7 @@ public class PathFinder
 	
 	public PathFinder(BlockPos goal)
 	{
-		start = new PathPos(new BlockPos(mc.player));
+		start = new PathPos(new BlockPos(WMinecraft.getPlayer()));
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
@@ -235,7 +236,7 @@ public class PathFinder
 	private boolean canGoThrough(BlockPos pos)
 	{
 		// check if loaded
-		if(!mc.world.isBlockLoaded(pos, false))
+		if(!WMinecraft.getWorld().isBlockLoaded(pos, false))
 			return false;
 		
 		// check if solid
@@ -486,7 +487,7 @@ public class PathFinder
 			throw new IllegalStateException("Path is not formatted!");
 		
 		// check player abilities
-		if(invulnerable != mc.player.capabilities.isCreativeMode
+		if(invulnerable != WMinecraft.getPlayer().capabilities.isCreativeMode
 			|| flying != (creativeFlying || wurst.mods.flightMod.isActive())
 			|| immuneToFallDamage != (invulnerable
 				|| wurst.mods.noFallMod.isActive())

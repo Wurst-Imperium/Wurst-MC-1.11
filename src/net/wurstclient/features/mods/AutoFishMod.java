@@ -12,6 +12,7 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -52,7 +53,7 @@ public final class AutoFishMod extends Mod
 	public void onUpdate()
 	{
 		// check if inventory is full
-		if(mc.player.inventory.getFirstEmptyStack() == -1)
+		if(WMinecraft.getPlayer().inventory.getFirstEmptyStack() == -1)
 		{
 			ChatUtils.message("Inventory is full.");
 			setEnabled(false);
@@ -64,7 +65,8 @@ public final class AutoFishMod extends Mod
 		for(int i = 0; i < 9; i++)
 		{
 			// skip non-rod items
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(InventoryUtils.isEmptySlot(stack)
 				|| !(stack.getItem() instanceof ItemFishingRod))
 				continue;
@@ -77,9 +79,9 @@ public final class AutoFishMod extends Mod
 		if(rodInHotbar != -1)
 		{
 			// select fishing rod
-			if(mc.player.inventory.currentItem != rodInHotbar)
+			if(WMinecraft.getPlayer().inventory.currentItem != rodInHotbar)
 			{
-				mc.player.inventory.currentItem = rodInHotbar;
+				WMinecraft.getPlayer().inventory.currentItem = rodInHotbar;
 				return;
 			}
 			
@@ -91,7 +93,7 @@ public final class AutoFishMod extends Mod
 			}
 			
 			// check bobber
-			if(mc.player.fishEntity != null)
+			if(WMinecraft.getPlayer().fishEntity != null)
 				return;
 			
 			// cast rod
@@ -104,7 +106,8 @@ public final class AutoFishMod extends Mod
 		for(int i = 9; i < 36; i++)
 		{
 			// skip non-rod items
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(InventoryUtils.isEmptySlot(stack)
 				|| !(stack.getItem() instanceof ItemFishingRod))
 				continue;
@@ -137,20 +140,20 @@ public final class AutoFishMod extends Mod
 		boolean swap = false;
 		if(hotbarSlot == -1)
 		{
-			hotbarSlot = mc.player.inventory.currentItem;
+			hotbarSlot = WMinecraft.getPlayer().inventory.currentItem;
 			swap = true;
 		}
 		
 		// place rod in hotbar slot
 		mc.playerController.windowClick(0, rodInInventory, 0, ClickType.PICKUP,
-			mc.player);
+			WMinecraft.getPlayer());
 		mc.playerController.windowClick(0, 36 + hotbarSlot, 0, ClickType.PICKUP,
-			mc.player);
+			WMinecraft.getPlayer());
 		
 		// swap old hotbar item with rod
 		if(swap)
 			mc.playerController.windowClick(0, rodInInventory, 0,
-				ClickType.PICKUP, mc.player);
+				ClickType.PICKUP, WMinecraft.getPlayer());
 	}
 	
 	@Override
@@ -172,7 +175,7 @@ public final class AutoFishMod extends Mod
 	private void rightClick()
 	{
 		// check held item
-		ItemStack stack = mc.player.inventory.getCurrentItem();
+		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(InventoryUtils.isEmptySlot(stack)
 			|| !(stack.getItem() instanceof ItemFishingRod))
 			return;

@@ -7,8 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -35,8 +35,8 @@ public final class HeadlessMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
-			Minecraft.getMinecraft().player.rotationYaw, 180F,
-			Minecraft.getMinecraft().player.onGround));
+		WMinecraft.getPlayer().connection.sendPacket(
+			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw, 180F,
+				WMinecraft.getPlayer().onGround));
 	}
 }

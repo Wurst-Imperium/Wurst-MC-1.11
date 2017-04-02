@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -36,19 +37,19 @@ public final class AntiFireMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check gamemode
-		if(mc.player.capabilities.isCreativeMode)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode)
 			return;
 		
 		// check onGround
-		if(!mc.player.onGround)
+		if(!WMinecraft.getPlayer().onGround)
 			return;
 		
 		// check if burning
-		if(!mc.player.isBurning())
+		if(!WMinecraft.getPlayer().isBurning())
 			return;
 		
 		// send updates
 		for(int i = 0; i < 100; i++)
-			mc.player.connection.sendPacket(new CPacketPlayer());
+			WMinecraft.getPlayer().connection.sendPacket(new CPacketPlayer());
 	}
 }

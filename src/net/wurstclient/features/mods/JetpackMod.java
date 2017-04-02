@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -40,6 +41,6 @@ public final class JetpackMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		if(mc.gameSettings.keyBindJump.pressed)
-			mc.player.jump();
+			WMinecraft.getPlayer().jump();
 	}
 }

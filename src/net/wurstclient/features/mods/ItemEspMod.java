@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
@@ -64,7 +65,7 @@ public final class ItemEspMod extends Mod implements RenderListener
 		GL11.glColor4d(1, 1, 0, 0.5F);
 		
 		// draw boxes
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 		{
 			if(!(entity instanceof EntityItem))
 				continue;

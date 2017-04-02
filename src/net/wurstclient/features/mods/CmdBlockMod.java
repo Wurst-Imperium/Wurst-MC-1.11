@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.gui.mods.GuiCmdBlock;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
@@ -28,7 +29,7 @@ public final class CmdBlockMod extends Mod
 	public void onEnable()
 	{
 		// check gamemode
-		if(!mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);

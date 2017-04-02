@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.BlockUtils;
@@ -43,7 +44,7 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		BlockPos belowPlayer = new BlockPos(mc.player).down();
+		BlockPos belowPlayer = new BlockPos(WMinecraft.getPlayer()).down();
 		
 		// check if block is already placed
 		if(!BlockUtils.getMaterial(belowPlayer).isReplaceable())
@@ -54,7 +55,8 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 		for(int i = 0; i < 9; i++)
 		{
 			// filter out non-block items
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(InventoryUtils.isEmptySlot(stack)
 				|| !(stack.getItem() instanceof ItemBlock))
 				continue;
@@ -73,13 +75,13 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 			return;
 		
 		// set slot
-		int oldSlot = mc.player.inventory.currentItem;
-		mc.player.inventory.currentItem = newSlot;
+		int oldSlot = WMinecraft.getPlayer().inventory.currentItem;
+		WMinecraft.getPlayer().inventory.currentItem = newSlot;
 		
 		// place block
 		BlockUtils.placeBlockLegit(belowPlayer);
 		
 		// reset slot
-		mc.player.inventory.currentItem = oldSlot;
+		WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 	}
 }

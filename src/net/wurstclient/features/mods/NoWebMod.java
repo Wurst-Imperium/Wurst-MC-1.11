@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -33,6 +34,6 @@ public final class NoWebMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		mc.player.isInWeb = false;
+		WMinecraft.getPlayer().isInWeb = false;
 	}
 }

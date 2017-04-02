@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.entity.Entity;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
@@ -147,7 +148,7 @@ public final class ProtectMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check if player died, friend died or friend disappeared
-		if(mc.player.getHealth() <= 0
+		if(WMinecraft.getPlayer().getHealth() <= 0
 			|| !EntityUtils.isCorrectEntity(friend, friendSettingsKeep))
 		{
 			friend = null;
@@ -160,13 +161,14 @@ public final class ProtectMod extends Mod implements UpdateListener
 		enemy = EntityUtils.getClosestEntityOtherThan(friend, enemySettings);
 		
 		// jump if necessary
-		if(mc.player.isCollidedHorizontally && mc.player.onGround)
-			mc.player.jump();
+		if(WMinecraft.getPlayer().isCollidedHorizontally
+			&& WMinecraft.getPlayer().onGround)
+			WMinecraft.getPlayer().jump();
 		
 		// swim up if necessary
-		if(mc.player.isInWater()
-			&& mc.player.posY < (enemy != null ? enemy.posY : friend.posY))
-			mc.player.motionY += 0.04;
+		if(WMinecraft.getPlayer().isInWater() && WMinecraft
+			.getPlayer().posY < (enemy != null ? enemy.posY : friend.posY))
+			WMinecraft.getPlayer().motionY += 0.04;
 		
 		// update timer
 		updateMS();
@@ -176,13 +178,13 @@ public final class ProtectMod extends Mod implements UpdateListener
 			// follow friend
 			RotationUtils.faceEntityClient(friend);
 			mc.gameSettings.keyBindForward.pressed =
-				mc.player.getDistanceToEntity(friend) > distanceF;
+				WMinecraft.getPlayer().getDistanceToEntity(friend) > distanceF;
 		}else
 		{
 			// follow enemy
 			RotationUtils.faceEntityClient(enemy);
 			mc.gameSettings.keyBindForward.pressed =
-				mc.player.getDistanceToEntity(enemy) > distanceE;
+				WMinecraft.getPlayer().getDistanceToEntity(enemy) > distanceE;
 			
 			// check timer / cooldown
 			if(wurst.mods.killauraMod.useCooldown != null

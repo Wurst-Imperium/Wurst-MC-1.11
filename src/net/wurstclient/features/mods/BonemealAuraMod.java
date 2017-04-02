@@ -17,6 +17,7 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
@@ -76,7 +77,7 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 			return;
 		
 		// check held item
-		ItemStack stack = mc.player.inventory.getCurrentItem();
+		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(InventoryUtils.isEmptySlot(stack)
 			|| !(stack.getItem() instanceof ItemDye)
 			|| stack.getMetadata() != 15)
@@ -134,7 +135,7 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 		Block block = BlockUtils.getBlock(pos);
 		
 		if(!(block instanceof IGrowable) || block instanceof BlockGrass
-			|| !((IGrowable)block).canGrow(mc.world, pos,
+			|| !((IGrowable)block).canGrow(WMinecraft.getWorld(), pos,
 				BlockUtils.getState(pos), false))
 			return false;
 		

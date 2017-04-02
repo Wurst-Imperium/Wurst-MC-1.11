@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -53,12 +54,14 @@ public final class KaboomMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check fly-kick
-		if(!mc.player.capabilities.isCreativeMode && !mc.player.onGround)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode
+			&& !WMinecraft.getPlayer().onGround)
 			return;
 		
 		// do explosion particles
-		new Explosion(mc.world, mc.player, mc.player.posX, mc.player.posY,
-			mc.player.posZ, 6F, false, true).doExplosionB(true);
+		new Explosion(WMinecraft.getWorld(), WMinecraft.getPlayer(),
+			WMinecraft.getPlayer().posX, WMinecraft.getPlayer().posY,
+			WMinecraft.getPlayer().posZ, 6F, false, true).doExplosionB(true);
 		
 		// get valid blocks
 		Iterable<BlockPos> validBlocks =

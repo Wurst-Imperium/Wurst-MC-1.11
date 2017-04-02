@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.navigator.gui.NavigatorScreen;
 
 @Mod.Info(
@@ -30,7 +31,7 @@ public final class MenuWalkMod extends Mod
 			return false;
 		
 		// check if there is a player to move
-		if(mc.player == null)
+		if(WMinecraft.getPlayer() == null)
 			return false;
 		
 		// check if player is viewing chat

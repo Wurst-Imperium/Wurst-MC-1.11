@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.util.ResourceLocation;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.MiscUtils;
@@ -74,7 +75,7 @@ public final class GiveCmd extends Cmd
 		// validate input
 		if(args.length < 1)
 			syntaxError();
-		if(!mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 			error("Creative mode only.");
 		
 		// list all templates

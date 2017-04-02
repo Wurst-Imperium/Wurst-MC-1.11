@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -27,7 +28,7 @@ public final class TrollPotionMod extends Mod
 	public void onEnable()
 	{
 		// check gamemode
-		if(!mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);

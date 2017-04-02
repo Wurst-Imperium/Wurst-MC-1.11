@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -37,22 +38,25 @@ public final class SpeedHackMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// return if sneaking or not walking
-		if(mc.player.isSneaking()
-			|| mc.player.moveForward == 0 && mc.player.moveStrafing == 0)
+		if(WMinecraft.getPlayer().isSneaking()
+			|| WMinecraft.getPlayer().moveForward == 0
+				&& WMinecraft.getPlayer().moveStrafing == 0)
 			return;
 		
 		// activate sprint if walking forward
-		if(mc.player.moveForward > 0 && !mc.player.isCollidedHorizontally)
-			mc.player.setSprinting(true);
+		if(WMinecraft.getPlayer().moveForward > 0
+			&& !WMinecraft.getPlayer().isCollidedHorizontally)
+			WMinecraft.getPlayer().setSprinting(true);
 		
 		// activate mini jump if on ground
-		if(mc.player.onGround)
+		if(WMinecraft.getPlayer().onGround)
 		{
-			mc.player.motionY += 0.1;
-			mc.player.motionX *= 1.8;
-			mc.player.motionZ *= 1.8;
-			double currentSpeed = Math.sqrt(Math.pow(mc.player.motionX, 2)
-				+ Math.pow(mc.player.motionZ, 2));
+			WMinecraft.getPlayer().motionY += 0.1;
+			WMinecraft.getPlayer().motionX *= 1.8;
+			WMinecraft.getPlayer().motionZ *= 1.8;
+			double currentSpeed =
+				Math.sqrt(Math.pow(WMinecraft.getPlayer().motionX, 2)
+					+ Math.pow(WMinecraft.getPlayer().motionZ, 2));
 			
 			// limit speed to highest value that works on NoCheat+ version
 			// 3.13.0-BETA-sMD5NET-b878
@@ -60,8 +64,10 @@ public final class SpeedHackMod extends Mod implements UpdateListener
 			double maxSpeed = 0.66F;
 			if(currentSpeed > maxSpeed)
 			{
-				mc.player.motionX = mc.player.motionX / currentSpeed * maxSpeed;
-				mc.player.motionZ = mc.player.motionZ / currentSpeed * maxSpeed;
+				WMinecraft.getPlayer().motionX =
+					WMinecraft.getPlayer().motionX / currentSpeed * maxSpeed;
+				WMinecraft.getPlayer().motionZ =
+					WMinecraft.getPlayer().motionZ / currentSpeed * maxSpeed;
 			}
 		}
 	}

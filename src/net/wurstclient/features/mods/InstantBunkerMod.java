@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -50,8 +51,8 @@ public final class InstantBunkerMod extends Mod
 	{
 		// initialize
 		// get start pos and facings
-		BlockPos startPos = new BlockPos(mc.player);
-		EnumFacing facing = mc.player.getHorizontalFacing();
+		BlockPos startPos = new BlockPos(WMinecraft.getPlayer());
+		EnumFacing facing = WMinecraft.getPlayer().getHorizontalFacing();
 		EnumFacing facing2 = facing.rotateYCCW();
 		
 		// set positions

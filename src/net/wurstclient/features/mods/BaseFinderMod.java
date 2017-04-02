@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.BlockUtils;
@@ -125,7 +126,7 @@ public final class BaseFinderMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		int modulo = mc.player.ticksExisted % 64;
+		int modulo = WMinecraft.getPlayer().ticksExisted % 64;
 		
 		// reset matching blocks
 		if(modulo == 0)
@@ -134,7 +135,8 @@ public final class BaseFinderMod extends Mod
 		int startY = 255 - modulo * 4;
 		int endY = startY - 4;
 		
-		BlockPos playerPos = new BlockPos(mc.player.posX, 0, mc.player.posZ);
+		BlockPos playerPos = new BlockPos(WMinecraft.getPlayer().posX, 0,
+			WMinecraft.getPlayer().posZ);
 		
 		// search matching blocks
 		loop: for(int y = startY; y > endY; y--)

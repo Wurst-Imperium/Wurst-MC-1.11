@@ -7,24 +7,22 @@
  */
 package net.wurstclient.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class EntityFakePlayer extends EntityOtherPlayerMP
 {
-	private static Minecraft mc = Minecraft.getMinecraft();
-	
 	public EntityFakePlayer()
 	{
-		super(mc.world, mc.player.getGameProfile());
-		copyLocationAndAnglesFrom(mc.player);
+		super(WMinecraft.getWorld(), WMinecraft.getPlayer().getGameProfile());
+		copyLocationAndAnglesFrom(WMinecraft.getPlayer());
 		
 		// fix inventory
-		clonePlayer(mc.player, true);
+		clonePlayer(WMinecraft.getPlayer(), true);
 		
 		// fix rotation
-		rotationYawHead = mc.player.rotationYawHead;
-		renderYawOffset = mc.player.renderYawOffset;
+		rotationYawHead = WMinecraft.getPlayer().rotationYawHead;
+		renderYawOffset = WMinecraft.getPlayer().renderYawOffset;
 		
 		// fix cape movement
 		chasingPosX = posX;
@@ -32,17 +30,17 @@ public class EntityFakePlayer extends EntityOtherPlayerMP
 		chasingPosZ = posZ;
 		
 		// spawn
-		mc.world.addEntityToWorld(getEntityId(), this);
+		WMinecraft.getWorld().addEntityToWorld(getEntityId(), this);
 	}
 	
 	public void resetPlayerPosition()
 	{
-		mc.player.setPositionAndRotation(posX, posY, posZ, rotationYaw,
-			rotationPitch);
+		WMinecraft.getPlayer().setPositionAndRotation(posX, posY, posZ,
+			rotationYaw, rotationPitch);
 	}
 	
 	public void despawn()
 	{
-		mc.world.removeEntityFromWorld(getEntityId());
+		WMinecraft.getWorld().removeEntityFromWorld(getEntityId());
 	}
 }

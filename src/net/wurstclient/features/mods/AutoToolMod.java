@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
@@ -58,7 +59,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		// reset slot
 		if(oldSlot != -1)
 		{
-			mc.player.inventory.currentItem = oldSlot;
+			WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
 	}
@@ -78,14 +79,14 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		// reset slot
 		if(timer <= 0)
 		{
-			mc.player.inventory.currentItem = oldSlot;
+			WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 			oldSlot = -1;
 			return;
 		}
 		
 		// update timer
 		if(!mc.gameSettings.keyBindAttack.pressed
-			|| mc.player.capabilities.isCreativeMode
+			|| WMinecraft.getPlayer().capabilities.isCreativeMode
 			|| !BlockUtils.canBeClicked(pos))
 			timer--;
 	}
@@ -97,7 +98,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 			return;
 		
 		// check gamemode
-		if(mc.player.capabilities.isCreativeMode)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode)
 			return;
 		
 		// check if block can be clicked
@@ -106,9 +107,9 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		
 		// initialize speed & slot
 		float bestSpeed;
-		if(mc.player.inventory.getCurrentItem() != null)
-			bestSpeed = InventoryUtils
-				.getStrVsBlock(mc.player.inventory.getCurrentItem(), pos);
+		if(WMinecraft.getPlayer().inventory.getCurrentItem() != null)
+			bestSpeed = InventoryUtils.getStrVsBlock(
+				WMinecraft.getPlayer().inventory.getCurrentItem(), pos);
 		else
 			bestSpeed = 1;
 		int bestSlot = -1;
@@ -117,7 +118,8 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		for(int i = 0; i < 9; i++)
 		{
 			// skip empty slots
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(InventoryUtils.isEmptySlot(stack))
 				continue;
 			
@@ -142,10 +144,10 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		
 		// save old slot
 		if(oldSlot == -1)
-			oldSlot = mc.player.inventory.currentItem;
+			oldSlot = WMinecraft.getPlayer().inventory.currentItem;
 		
 		// set slot
-		mc.player.inventory.currentItem = bestSlot;
+		WMinecraft.getPlayer().inventory.currentItem = bestSlot;
 		
 		// save position
 		this.pos = pos;

@@ -11,6 +11,7 @@ import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
@@ -28,7 +29,7 @@ public final class LeaveCmd extends Cmd
 		if(args.length > 2)
 			syntaxError();
 		if(mc.isIntegratedServerRunning()
-			&& mc.player.connection.getPlayerInfoMap().size() == 1)
+			&& WMinecraft.getPlayer().connection.getPlayerInfoMap().size() == 1)
 			error("Cannot leave server when in singleplayer.");
 		switch(args.length)
 		{
@@ -38,7 +39,7 @@ public final class LeaveCmd extends Cmd
 			case 1:
 			if(args[0].equalsIgnoreCase("taco"))
 				for(int i = 0; i < 128; i++)
-					mc.player.sendAutomaticChatMessage("Taco!");
+					WMinecraft.getPlayer().sendAutomaticChatMessage("Taco!");
 			else
 				disconnectWithMode(parseMode(args[0]));
 			break;
@@ -69,17 +70,18 @@ public final class LeaveCmd extends Cmd
 		switch(mode)
 		{
 			case 0:
-			mc.world.sendQuittingDisconnectingPacket();
+			WMinecraft.getWorld().sendQuittingDisconnectingPacket();
 			break;
 			case 1:
-			mc.player.connection.sendPacket(new CPacketChatMessage("§"));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketChatMessage("§"));
 			break;
 			case 2:
-			mc.player.connection.sendPacket(
+			WMinecraft.getPlayer().connection.sendPacket(
 				new CPacketPlayer.Position(3.1e7d, 100, 3.1e7d, false));
 			case 3:
-			mc.player.connection.sendPacket(
-				new CPacketUseEntity(mc.player, EnumHand.MAIN_HAND));
+			WMinecraft.getPlayer().connection.sendPacket(new CPacketUseEntity(
+				WMinecraft.getPlayer(), EnumHand.MAIN_HAND));
 			break;
 			default:
 			break;

@@ -7,8 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -35,9 +35,11 @@ public final class HeadRollMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(
-			Minecraft.getMinecraft().player.rotationYaw,
-			(float)Math.sin(mc.player.ticksExisted % 20 / 10d * Math.PI) * 90,
-			mc.player.onGround));
+		WMinecraft.getPlayer().connection.sendPacket(
+			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
+				(float)Math.sin(
+					WMinecraft.getPlayer().ticksExisted % 20 / 10d * Math.PI)
+					* 90,
+				WMinecraft.getPlayer().onGround));
 	}
 }

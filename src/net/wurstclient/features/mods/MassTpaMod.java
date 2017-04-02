@@ -14,6 +14,7 @@ import java.util.Random;
 
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.StringUtils;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -39,7 +40,8 @@ public final class MassTpaMod extends Mod
 	public void onEnable()
 	{
 		i = 0;
-		Iterator itr = mc.player.connection.getPlayerInfoMap().iterator();
+		Iterator itr =
+			WMinecraft.getPlayer().connection.getPlayerInfoMap().iterator();
 		players = new ArrayList<>();
 		while(itr.hasNext())
 			players.add(StringUtils.stripControlCodes(
@@ -63,8 +65,8 @@ public final class MassTpaMod extends Mod
 		if(hasTimePassedS(speed))
 		{
 			String name = players.get(i);
-			if(!name.equals(mc.player.getName()))
-				mc.player.sendChatMessage("/tpa " + name);
+			if(!name.equals(WMinecraft.getPlayer().getName()))
+				WMinecraft.getPlayer().sendChatMessage("/tpa " + name);
 			updateLastMS();
 			i++;
 			if(i >= players.size())

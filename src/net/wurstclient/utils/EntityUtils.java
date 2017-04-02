@@ -27,6 +27,7 @@ import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumHand;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class EntityUtils
 {
@@ -46,13 +47,13 @@ public class EntityUtils
 	
 	public static void attackEntity(Entity entity)
 	{
-		mc.playerController.attackEntity(mc.player, entity);
+		mc.playerController.attackEntity(WMinecraft.getPlayer(), entity);
 		PlayerUtils.swingArmClient();
 	}
 	
 	public static void sendAttackPacket(Entity entity)
 	{
-		mc.player.connection
+		WMinecraft.getPlayer().connection
 			.sendPacket(new CPacketUseEntity(entity, EnumHand.MAIN_HAND));
 	}
 	
@@ -73,7 +74,7 @@ public class EntityUtils
 			return false;
 		
 		// entities outside the range
-		if(mc.player.getDistanceToEntity(en) > settings.getRange())
+		if(WMinecraft.getPlayer().getDistanceToEntity(en) > settings.getRange())
 			return false;
 		
 		// entities outside the FOV
@@ -82,7 +83,8 @@ public class EntityUtils
 			return false;
 		
 		// entities behind walls
-		if(!settings.targetBehindWalls() && !mc.player.canEntityBeSeen(en))
+		if(!settings.targetBehindWalls()
+			&& !WMinecraft.getPlayer().canEntityBeSeen(en))
 			return false;
 		
 		// friends
@@ -118,11 +120,12 @@ public class EntityUtils
 				return false;
 			
 			// the user
-			if(en == mc.player)
+			if(en == WMinecraft.getPlayer())
 				return false;
 			
 			// Freecam entity
-			if(((EntityPlayer)en).getName().equals(mc.player.getName()))
+			if(((EntityPlayer)en).getName()
+				.equals(WMinecraft.getPlayer().getName()))
 				return false;
 			
 			// mobs
@@ -194,7 +197,7 @@ public class EntityUtils
 	{
 		ArrayList<Entity> validEntities = new ArrayList<>();
 		
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 		{
 			if(isCorrectEntity(entity, settings))
 				validEntities.add(entity);
@@ -210,10 +213,11 @@ public class EntityUtils
 	{
 		Entity closestEntity = null;
 		
-		for(Entity entity : mc.world.loadedEntityList)
-			if(isCorrectEntity(entity, settings) && (closestEntity == null
-				|| mc.player.getDistanceToEntity(entity) < mc.player
-					.getDistanceToEntity(closestEntity)))
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
+			if(isCorrectEntity(entity, settings)
+				&& (closestEntity == null || WMinecraft.getPlayer()
+					.getDistanceToEntity(entity) < WMinecraft.getPlayer()
+						.getDistanceToEntity(closestEntity)))
 				closestEntity = entity;
 			
 		return closestEntity;
@@ -224,7 +228,7 @@ public class EntityUtils
 		Entity bestEntity = null;
 		float bestAngle = Float.POSITIVE_INFINITY;
 		
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 		{
 			if(!isCorrectEntity(entity, settings))
 				continue;
@@ -247,10 +251,10 @@ public class EntityUtils
 	{
 		Entity closestEnemy = null;
 		
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 			if(isCorrectEntity(entity, settings) && entity != otherEntity
-				&& (closestEnemy == null
-					|| mc.player.getDistanceToEntity(entity) < mc.player
+				&& (closestEnemy == null || WMinecraft.getPlayer()
+					.getDistanceToEntity(entity) < WMinecraft.getPlayer()
 						.getDistanceToEntity(closestEnemy)))
 				closestEnemy = entity;
 			
@@ -259,7 +263,7 @@ public class EntityUtils
 	
 	public static Entity getEntityWithName(String name, TargetSettings settings)
 	{
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 			if(isCorrectEntity(entity, settings)
 				&& entity.getName().equalsIgnoreCase(name))
 				return entity;
@@ -269,7 +273,7 @@ public class EntityUtils
 	
 	public static Entity getEntityWithId(UUID id, TargetSettings settings)
 	{
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 			if(isCorrectEntity(entity, settings)
 				&& entity.getUniqueID().equals(id))
 				return entity;

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -36,11 +37,11 @@ public final class FastEatMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check if alive
-		if(mc.player.getHealth() <= 0)
+		if(WMinecraft.getPlayer().getHealth() <= 0)
 			return;
 		
 		// check onGround
-		if(!mc.player.onGround)
+		if(!WMinecraft.getPlayer().onGround)
 			return;
 		
 		// check if eating
@@ -48,7 +49,7 @@ public final class FastEatMod extends Mod implements UpdateListener
 			return;
 		
 		// check hunger level
-		if(!mc.player.getFoodStats().needFood())
+		if(!WMinecraft.getPlayer().getFoodStats().needFood())
 			return;
 		
 		// check held item
@@ -57,6 +58,7 @@ public final class FastEatMod extends Mod implements UpdateListener
 		
 		// send packets
 		for(int i = 0; i < 100; i++)
-			mc.player.connection.sendPacket(new CPacketPlayer(false));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketPlayer(false));
 	}
 }

@@ -9,6 +9,7 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -25,12 +26,12 @@ public final class CopyItemCmd extends Cmd
 	{
 		if(args.length != 2)
 			syntaxError();
-		if(!mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 			error("Creative mode only.");
 		
 		// find item
 		ItemStack item = null;
-		for(Object entity : mc.world.loadedEntityList)
+		for(Object entity : WMinecraft.getWorld().loadedEntityList)
 			if(entity instanceof EntityOtherPlayerMP)
 			{
 				EntityOtherPlayerMP player = (EntityOtherPlayerMP)entity;

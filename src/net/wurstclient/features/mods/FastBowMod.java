@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.InventoryUtils;
@@ -44,15 +45,16 @@ public final class FastBowMod extends Mod implements UpdateListener
 			return;
 		
 		// check fly-kick
-		if(!mc.player.onGround && !mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().onGround
+			&& !WMinecraft.getPlayer().capabilities.isCreativeMode)
 			return;
 		
 		// check health
-		if(mc.player.getHealth() <= 0)
+		if(WMinecraft.getPlayer().getHealth() <= 0)
 			return;
 		
 		// check held item
-		ItemStack stack = mc.player.inventory.getCurrentItem();
+		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(InventoryUtils.isEmptySlot(stack)
 			|| !(stack.getItem() instanceof ItemBow))
 			return;
@@ -60,9 +62,10 @@ public final class FastBowMod extends Mod implements UpdateListener
 		PlayerUtils.processRightClick();
 		
 		for(int i = 0; i < 20; i++)
-			mc.player.connection.sendPacket(new CPacketPlayer(false));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketPlayer(false));
 		
-		mc.playerController.onStoppedUsingItem(mc.player);
+		mc.playerController.onStoppedUsingItem(WMinecraft.getPlayer());
 	}
 	
 	@Override

@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.entity.Entity;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -89,10 +90,10 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 		}
 		
 		// save old data
-		wasInvisible = entity.isInvisibleToPlayer(mc.player);
+		wasInvisible = entity.isInvisibleToPlayer(WMinecraft.getPlayer());
 		
 		// enable NoClip
-		mc.player.noClip = true;
+		WMinecraft.getPlayer().noClip = true;
 		
 		// spawn fake player
 		fakePlayer = new EntityFakePlayer();
@@ -119,7 +120,7 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 		}
 		
 		// disable NoClip
-		mc.player.noClip = false;
+		WMinecraft.getPlayer().noClip = false;
 		
 		// remove fake player
 		fakePlayer.resetPlayerPosition();
@@ -148,10 +149,10 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 		}
 		
 		// update position, rotation, etc.
-		mc.player.copyLocationAndAnglesFrom(entity);
-		mc.player.motionX = 0;
-		mc.player.motionY = 0;
-		mc.player.motionZ = 0;
+		WMinecraft.getPlayer().copyLocationAndAnglesFrom(entity);
+		WMinecraft.getPlayer().motionX = 0;
+		WMinecraft.getPlayer().motionY = 0;
+		WMinecraft.getPlayer().motionZ = 0;
 		
 		// set entity invisible
 		entity.setInvisible(true);

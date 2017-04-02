@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -29,14 +30,14 @@ public final class CrashChestMod extends Mod
 	{
 		if(!InventoryUtils.isSlotEmpty(36))
 		{
-			if(mc.player.inventory.getStackInSlot(36).getDisplayName()
-				.equals("§6§lCOPY ME"))
+			if(WMinecraft.getPlayer().inventory.getStackInSlot(36)
+				.getDisplayName().equals("§6§lCOPY ME"))
 				ChatUtils.error("You already have a CrashChest.");
 			else
 				ChatUtils.error("Please take off your shoes.");
 			setEnabled(false);
 			return;
-		}else if(!mc.player.capabilities.isCreativeMode)
+		}else if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);

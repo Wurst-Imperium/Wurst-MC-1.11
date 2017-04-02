@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.BlockVine;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RotationUtils;
 
@@ -27,7 +28,7 @@ public class WalkPathProcessor extends PathProcessor
 	public void process()
 	{
 		// get positions
-		BlockPos pos = new BlockPos(mc.player);
+		BlockPos pos = new BlockPos(WMinecraft.getPlayer());
 		BlockPos nextPos = path.get(index);
 		
 		// update index
@@ -52,7 +53,8 @@ public class WalkPathProcessor extends PathProcessor
 		{
 			mc.gameSettings.keyBindForward.pressed = true;
 			
-			if(mc.player.isInWater() && mc.player.posY < nextPos.getY())
+			if(WMinecraft.getPlayer().isInWater()
+				&& WMinecraft.getPlayer().posY < nextPos.getY())
 				mc.gameSettings.keyBindJump.pressed = true;
 			
 			// vertical movement
@@ -93,7 +95,7 @@ public class WalkPathProcessor extends PathProcessor
 					index++;
 				
 				// walk off the edge
-				if(mc.player.onGround)
+				if(WMinecraft.getPlayer().onGround)
 					mc.gameSettings.keyBindForward.pressed = true;
 			}
 	}
@@ -102,6 +104,6 @@ public class WalkPathProcessor extends PathProcessor
 	public void lockControls()
 	{
 		super.lockControls();
-		mc.player.capabilities.isFlying = false;
+		WMinecraft.getPlayer().capabilities.isFlying = false;
 	}
 }

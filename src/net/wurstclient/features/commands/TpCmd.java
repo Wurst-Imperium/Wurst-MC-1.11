@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.commands;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @Cmd.Info(
@@ -35,6 +36,6 @@ public final class TpCmd extends Cmd
 	public void execute(String[] args) throws CmdError
 	{
 		int[] pos = argsToPos(targetSettings, args);
-		mc.player.setPosition(pos[0], pos[1], pos[2]);
+		WMinecraft.getPlayer().setPosition(pos[0], pos[1], pos[2]);
 	}
 }

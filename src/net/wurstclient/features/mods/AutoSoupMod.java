@@ -15,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -77,25 +78,27 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		for(int i = 0; i < 36; i++)
 		{
 			// filter out non-bowl items and empty bowl slot
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			if(stack == null || stack.getItem() != Items.BOWL || i == 9)
 				continue;
 			
 			// check if empty bowl slot contains a non-bowl item
-			ItemStack emptyBowlStack = mc.player.inventory.getStackInSlot(9);
+			ItemStack emptyBowlStack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(9);
 			boolean swap = !InventoryUtils.isEmptySlot(emptyBowlStack)
 				&& emptyBowlStack.getItem() != Items.BOWL;
 			
 			// place bowl in empty bowl slot
 			mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
-				ClickType.PICKUP, mc.player);
+				ClickType.PICKUP, WMinecraft.getPlayer());
 			mc.playerController.windowClick(0, 9, 0, ClickType.PICKUP,
-				mc.player);
+				WMinecraft.getPlayer());
 			
 			// place non-bowl item from empty bowl slot in current slot
 			if(swap)
 				mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
-					ClickType.PICKUP, mc.player);
+					ClickType.PICKUP, WMinecraft.getPlayer());
 		}
 		
 		// search soup in hotbar
@@ -113,10 +116,10 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 			
 			// save old slot
 			if(oldSlot == -1)
-				oldSlot = mc.player.inventory.currentItem;
+				oldSlot = WMinecraft.getPlayer().inventory.currentItem;
 			
 			// set slot
-			mc.player.inventory.currentItem = soupInHotbar;
+			WMinecraft.getPlayer().inventory.currentItem = soupInHotbar;
 			
 			// eat soup
 			mc.gameSettings.keyBindUseItem.pressed = true;
@@ -133,7 +136,7 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		// move soup in inventory to hotbar
 		if(soupInInventory != -1)
 			mc.playerController.windowClick(0, soupInInventory, 0,
-				ClickType.QUICK_MOVE, mc.player);
+				ClickType.QUICK_MOVE, WMinecraft.getPlayer());
 	}
 	
 	@Override
@@ -155,7 +158,8 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 	{
 		for(int i = startSlot; i < endSlot; i++)
 		{
-			ItemStack stack = mc.player.inventory.getStackInSlot(i);
+			ItemStack stack =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i);
 			
 			if(stack != null && stack.getItem() instanceof ItemSoup)
 				return i;
@@ -167,7 +171,7 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 	private boolean shouldEatSoup()
 	{
 		// check health
-		if(mc.player.getHealth() > health.getValueF() * 2F)
+		if(WMinecraft.getPlayer().getHealth() > health.getValueF() * 2F)
 			return false;
 		
 		// check screen
@@ -202,7 +206,7 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		mc.gameSettings.keyBindUseItem.pressed = false;
 		
 		// reset slot
-		mc.player.inventory.currentItem = oldSlot;
+		WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 		oldSlot = -1;
 	}
 }

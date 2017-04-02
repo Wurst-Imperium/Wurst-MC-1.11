@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -73,11 +74,12 @@ public final class BowAimbotMod extends Mod
 		// check if using item
 		if(!mc.gameSettings.keyBindUseItem.pressed)
 			return;
-		if(!mc.player.isHandActive() && !wurst.mods.fastBowMod.isActive())
+		if(!WMinecraft.getPlayer().isHandActive()
+			&& !wurst.mods.fastBowMod.isActive())
 			return;
 		
 		// check if item is bow
-		ItemStack item = mc.player.inventory.getCurrentItem();
+		ItemStack item = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(item == null || !(item.getItem() instanceof ItemBow))
 			return;
 		
@@ -87,7 +89,7 @@ public final class BowAimbotMod extends Mod
 			return;
 		
 		// set velocity
-		velocity = (72000 - mc.player.getItemInUseCount()) / 20F;
+		velocity = (72000 - WMinecraft.getPlayer().getItemInUseCount()) / 20F;
 		velocity = (velocity * velocity + velocity * 2) / 3;
 		if(velocity > 1)
 			velocity = 1;
@@ -99,15 +101,16 @@ public final class BowAimbotMod extends Mod
 		// set position to aim at
 		double d = RotationUtils.getEyesPos()
 			.distanceTo(target.boundingBox.getCenter());
-		double posX =
-			target.posX + (target.posX - target.prevPosX) * d - mc.player.posX;
+		double posX = target.posX + (target.posX - target.prevPosX) * d
+			- WMinecraft.getPlayer().posX;
 		double posY = target.posY + (target.posY - target.prevPosY) * d
-			+ target.height * 0.5 - mc.player.posY - mc.player.getEyeHeight();
-		double posZ =
-			target.posZ + (target.posZ - target.prevPosZ) * d - mc.player.posZ;
+			+ target.height * 0.5 - WMinecraft.getPlayer().posY
+			- WMinecraft.getPlayer().getEyeHeight();
+		double posZ = target.posZ + (target.posZ - target.prevPosZ) * d
+			- WMinecraft.getPlayer().posZ;
 		
 		// set yaw
-		mc.player.rotationYaw =
+		WMinecraft.getPlayer().rotationYaw =
 			(float)Math.toDegrees(Math.atan2(posZ, posX)) - 90;
 		
 		// calculate needed pitch
@@ -124,7 +127,7 @@ public final class BowAimbotMod extends Mod
 		if(Float.isNaN(neededPitch))
 			RotationUtils.faceEntityClient(target);
 		else
-			mc.player.rotationPitch = neededPitch;
+			WMinecraft.getPlayer().rotationPitch = neededPitch;
 	}
 	
 	@Override

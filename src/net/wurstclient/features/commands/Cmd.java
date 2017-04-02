@@ -11,9 +11,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Feature;
 import net.wurstclient.navigator.PossibleKeybind;
 import net.wurstclient.settings.Setting;
@@ -184,10 +184,9 @@ public abstract class Cmd extends Feature
 		int[] pos = new int[3];
 		if(args.length == 3)
 		{
-			int[] playerPos =
-				new int[]{(int)Minecraft.getMinecraft().player.posX,
-					(int)Minecraft.getMinecraft().player.posY,
-					(int)Minecraft.getMinecraft().player.posZ};
+			int[] playerPos = new int[]{(int)WMinecraft.getPlayer().posX,
+				(int)WMinecraft.getPlayer().posY,
+				(int)WMinecraft.getPlayer().posZ};
 			for(int i = 0; i < args.length; i++)
 				if(MiscUtils.isInteger(args[i]))
 					pos[i] = Integer.parseInt(args[i]);

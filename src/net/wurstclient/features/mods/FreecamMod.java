@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityFakePlayer;
 
@@ -44,17 +45,19 @@ public final class FreecamMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		mc.player.motionX = 0;
-		mc.player.motionY = 0;
-		mc.player.motionZ = 0;
+		WMinecraft.getPlayer().motionX = 0;
+		WMinecraft.getPlayer().motionY = 0;
+		WMinecraft.getPlayer().motionZ = 0;
 		
-		mc.player.jumpMovementFactor =
+		WMinecraft.getPlayer().jumpMovementFactor =
 			wurst.mods.flightMod.speed.getValueF() / 10F;
 		
 		if(mc.gameSettings.keyBindJump.pressed)
-			mc.player.motionY += wurst.mods.flightMod.speed.getValue();
+			WMinecraft.getPlayer().motionY +=
+				wurst.mods.flightMod.speed.getValue();
 		
 		if(mc.gameSettings.keyBindSneak.pressed)
-			mc.player.motionY -= wurst.mods.flightMod.speed.getValue();
+			WMinecraft.getPlayer().motionY -=
+				wurst.mods.flightMod.speed.getValue();
 	}
 }

@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 
 @Mod.Info(
@@ -25,7 +26,7 @@ public final class CrashTagMod extends Mod
 	public void onEnable()
 	{
 		// check gamemode
-		if(!mc.player.capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);
@@ -33,7 +34,7 @@ public final class CrashTagMod extends Mod
 		}
 		
 		// check held item
-		ItemStack heldStack = mc.player.inventory.getCurrentItem();
+		ItemStack heldStack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(heldStack == null || !(heldStack.getItem() instanceof ItemNameTag))
 		{
 			ChatUtils.error("You need a nametag in your hand.");
@@ -49,8 +50,8 @@ public final class CrashTagMod extends Mod
 		
 		// open & close the inventory
 		// for some reason that's needed for the item to update
-		mc.displayGuiScreen(new GuiInventory(mc.player));
-		mc.player.closeScreen();
+		mc.displayGuiScreen(new GuiInventory(WMinecraft.getPlayer()));
+		WMinecraft.getPlayer().closeScreen();
 		
 		ChatUtils.message("Nametag modified.");
 		setEnabled(false);

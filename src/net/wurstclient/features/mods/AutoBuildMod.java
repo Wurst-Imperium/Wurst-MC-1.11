@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.ai.AutoBuildAI;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.RightClickEvent;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.RightClickListener;
@@ -141,7 +142,7 @@ public final class AutoBuildMod extends Mod
 		// get start pos and facings
 		BlockPos startPos =
 			mc.objectMouseOver.getBlockPos().offset(mc.objectMouseOver.sideHit);
-		EnumFacing front = mc.player.getHorizontalFacing();
+		EnumFacing front = WMinecraft.getPlayer().getHorizontalFacing();
 		EnumFacing left = front.rotateYCCW();
 		
 		// set positions
@@ -200,7 +201,7 @@ public final class AutoBuildMod extends Mod
 		// move automatically
 		if(useAi.isChecked())
 		{
-			BlockPos playerPos = new BlockPos(mc.player);
+			BlockPos playerPos = new BlockPos(WMinecraft.getPlayer());
 			Vec3d eyesPos = RotationUtils.getEyesPos();
 			if(playerPos.equals(pos) || playerPos.equals(pos.down())
 				|| eyesPos.squareDistanceTo(new Vec3d(pos).addVector(0.5, 0.5,

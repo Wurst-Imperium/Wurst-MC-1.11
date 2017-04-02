@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 
@@ -42,18 +43,19 @@ public final class BunnyHopMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check onGround
-		if(!mc.player.onGround)
+		if(!WMinecraft.getPlayer().onGround)
 			return;
 		
 		// check if sneaking
-		if(mc.player.isSneaking())
+		if(WMinecraft.getPlayer().isSneaking())
 			return;
 		
 		// check if moving
-		if(mc.player.moveForward == 0 && mc.player.moveStrafing == 0)
+		if(WMinecraft.getPlayer().moveForward == 0
+			&& WMinecraft.getPlayer().moveStrafing == 0)
 			return;
 		
 		// jump
-		mc.player.jump();
+		WMinecraft.getPlayer().jump();
 	}
 }

@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.potion.Potion;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Blocks bad potion effects.",
@@ -40,11 +41,11 @@ public final class AntiPotionMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check gamemode
-		if(mc.player.capabilities.isCreativeMode)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode)
 			return;
 		
 		// check onGround
-		if(!mc.player.onGround)
+		if(!WMinecraft.getPlayer().onGround)
 			return;
 		
 		// check effects
@@ -53,16 +54,16 @@ public final class AntiPotionMod extends Mod implements UpdateListener
 		
 		// send packets
 		for(int i = 0; i < 1000; i++)
-			mc.player.connection.sendPacket(new CPacketPlayer());
+			WMinecraft.getPlayer().connection.sendPacket(new CPacketPlayer());
 	}
 	
 	private boolean hasBadEffect()
 	{
-		if(mc.player.getActivePotionEffects().isEmpty())
+		if(WMinecraft.getPlayer().getActivePotionEffects().isEmpty())
 			return false;
 		
 		for(Potion effect : blockedEffects)
-			if(mc.player.isPotionActive(effect))
+			if(WMinecraft.getPlayer().isPotionActive(effect))
 				return true;
 			
 		return false;

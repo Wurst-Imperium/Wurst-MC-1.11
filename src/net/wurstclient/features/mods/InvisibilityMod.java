@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 
@@ -35,11 +36,11 @@ public final class InvisibilityMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.getHealth() <= 0)
+		if(WMinecraft.getPlayer().getHealth() <= 0)
 			if(isEnabled())
 			{
 				// Respawning too early for server-side invisibility
-				mc.player.respawnPlayer();
+				WMinecraft.getPlayer().respawnPlayer();
 				ChatUtils.message("You should now be invisible.");
 			}else
 			{

@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
@@ -62,7 +63,7 @@ public final class MobEspMod extends Mod implements RenderListener
 			-mc.getRenderManager().renderPosZ);
 		
 		// draw boxes
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 		{
 			if(!(entity instanceof EntityLiving))
 				continue;
@@ -74,7 +75,8 @@ public final class MobEspMod extends Mod implements RenderListener
 			GL11.glPushMatrix();
 			
 			// set color
-			float factor = mc.player.getDistanceToEntity(entity) / 20F;
+			float factor =
+				WMinecraft.getPlayer().getDistanceToEntity(entity) / 20F;
 			if(factor > 2)
 				factor = 2;
 			GL11.glColor4f(2 - factor, factor, 0, 0.5F);

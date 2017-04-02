@@ -7,7 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
-import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -50,16 +50,15 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown =
-		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null
-			: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+		{
+			@Override
+			public void update()
 			{
-				@Override
-				public void update()
-				{
-					speed.setDisabled(isChecked());
-				}
-			};
+				speed.setDisabled(isChecked());
+			}
+		};
 	public SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
 	public SliderSetting range =

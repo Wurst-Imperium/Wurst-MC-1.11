@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -60,15 +61,16 @@ public final class TracersMod extends Mod implements RenderListener
 		
 		// set start position
 		Vec3d start = RotationUtils.getClientLookVec()
-			.addVector(0, mc.player.getEyeHeight(), 0)
+			.addVector(0, WMinecraft.getPlayer().getEyeHeight(), 0)
 			.addVector(mc.getRenderManager().renderPosX,
 				mc.getRenderManager().renderPosY,
 				mc.getRenderManager().renderPosZ);
 		
 		GL11.glBegin(GL11.GL_LINES);
-		for(EntityPlayer entity : mc.world.playerEntities)
+		for(EntityPlayer entity : WMinecraft.getWorld().playerEntities)
 		{
-			if(entity == mc.player || entity instanceof EntityFakePlayer)
+			if(entity == WMinecraft.getPlayer()
+				|| entity instanceof EntityFakePlayer)
 				continue;
 			
 			if(!wurst.special.targetSpf.sleepingPlayers.isChecked()
@@ -90,7 +92,8 @@ public final class TracersMod extends Mod implements RenderListener
 				GL11.glColor4f(0, 0, 1, 0.5F);
 			else
 			{
-				float factor = mc.player.getDistanceToEntity(entity) / 40F;
+				float factor =
+					WMinecraft.getPlayer().getDistanceToEntity(entity) / 40F;
 				if(factor > 1)
 					factor = 1;
 				

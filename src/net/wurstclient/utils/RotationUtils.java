@@ -7,35 +7,38 @@
  */
 package net.wurstclient.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class RotationUtils
 {
-	private static final Minecraft mc = Minecraft.getMinecraft();
-	
 	private static boolean fakeRotation;
 	private static float serverYaw;
 	private static float serverPitch;
 	
 	public static Vec3d getEyesPos()
 	{
-		return new Vec3d(mc.player.posX,
-			mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+		return new Vec3d(WMinecraft.getPlayer().posX,
+			WMinecraft.getPlayer().posY + WMinecraft.getPlayer().getEyeHeight(),
+			WMinecraft.getPlayer().posZ);
 	}
 	
 	public static Vec3d getClientLookVec()
 	{
-		float f = MathHelper
-			.cos(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper
-			.sin(-mc.player.rotationYaw * 0.017453292F - (float)Math.PI);
-		float f2 = -MathHelper.cos(-mc.player.rotationPitch * 0.017453292F);
-		float f3 = MathHelper.sin(-mc.player.rotationPitch * 0.017453292F);
+		float f =
+			MathHelper.cos(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
+				- (float)Math.PI);
+		float f1 =
+			MathHelper.sin(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
+				- (float)Math.PI);
+		float f2 = -MathHelper
+			.cos(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
+		float f3 = MathHelper
+			.sin(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
 		return new Vec3d(f1 * f2, f3, f * f2);
 	}
 	
@@ -92,19 +95,20 @@ public class RotationUtils
 	{
 		float[] rotations = getNeededRotations(vec);
 		
-		mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0],
-			rotations[1], mc.player.onGround));
+		WMinecraft.getPlayer().connection.sendPacket(new CPacketPlayer.Rotation(
+			rotations[0], rotations[1], WMinecraft.getPlayer().onGround));
 	}
 	
 	public static boolean faceVectorClient(Vec3d vec)
 	{
 		float[] rotations = getNeededRotations(vec);
 		
-		float oldYaw = mc.player.prevRotationYaw;
-		float oldPitch = mc.player.prevRotationPitch;
+		float oldYaw = WMinecraft.getPlayer().prevRotationYaw;
+		float oldPitch = WMinecraft.getPlayer().prevRotationPitch;
 		
-		mc.player.rotationYaw = limitAngleChange(oldYaw, rotations[0], 30);
-		mc.player.rotationPitch = rotations[1];
+		WMinecraft.getPlayer().rotationYaw =
+			limitAngleChange(oldYaw, rotations[0], 30);
+		WMinecraft.getPlayer().rotationPitch = rotations[1];
 		
 		return Math.abs(oldYaw - rotations[0])
 			+ Math.abs(oldPitch - rotations[1]) < 1F;
@@ -146,10 +150,11 @@ public class RotationUtils
 	{
 		float[] rotations = getNeededRotations(vec);
 		
-		float oldYaw = mc.player.prevRotationYaw;
+		float oldYaw = WMinecraft.getPlayer().prevRotationYaw;
 		
-		mc.player.rotationYaw = limitAngleChange(oldYaw, rotations[0], 30);
-		mc.player.rotationPitch = 0;
+		WMinecraft.getPlayer().rotationYaw =
+			limitAngleChange(oldYaw, rotations[0], 30);
+		WMinecraft.getPlayer().rotationPitch = 0;
 		
 		return Math.abs(oldYaw - rotations[0]) < 1F;
 	}
@@ -159,9 +164,11 @@ public class RotationUtils
 		float[] needed = getNeededRotations(vec);
 		
 		float diffYaw =
-			MathHelper.wrapDegrees(mc.player.rotationYaw) - needed[0];
+			MathHelper.wrapDegrees(WMinecraft.getPlayer().rotationYaw)
+				- needed[0];
 		float diffPitch =
-			MathHelper.wrapDegrees(mc.player.rotationPitch) - needed[1];
+			MathHelper.wrapDegrees(WMinecraft.getPlayer().rotationPitch)
+				- needed[1];
 		
 		float angle =
 			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
@@ -192,8 +199,9 @@ public class RotationUtils
 		}
 		
 		// slowly synchronize server rotation with client
-		serverYaw = limitAngleChange(serverYaw, mc.player.rotationYaw, 30);
-		serverPitch = mc.player.rotationPitch;
+		serverYaw =
+			limitAngleChange(serverYaw, WMinecraft.getPlayer().rotationYaw, 30);
+		serverPitch = WMinecraft.getPlayer().rotationPitch;
 	}
 	
 	public static float getServerYaw()

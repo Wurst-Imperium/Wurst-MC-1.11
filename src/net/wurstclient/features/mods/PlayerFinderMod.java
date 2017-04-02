@@ -16,6 +16,7 @@ import net.minecraft.network.play.server.SPacketSpawnGlobalEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.RenderListener;
@@ -90,7 +91,7 @@ public final class PlayerFinderMod extends Mod
 		{
 			// set start position
 			Vec3d start = RotationUtils.getClientLookVec()
-				.addVector(0, mc.player.getEyeHeight(), 0)
+				.addVector(0, WMinecraft.getPlayer().getEyeHeight(), 0)
 				.addVector(mc.getRenderManager().renderPosX,
 					mc.getRenderManager().renderPosY,
 					mc.getRenderManager().renderPosZ);
@@ -129,7 +130,7 @@ public final class PlayerFinderMod extends Mod
 	@Override
 	public void onReceivedPacket(PacketInputEvent event)
 	{
-		if(mc.player == null)
+		if(WMinecraft.getPlayer() == null)
 			return;
 		
 		Packet packet = event.getPacket();
@@ -158,7 +159,7 @@ public final class PlayerFinderMod extends Mod
 			return;
 		
 		// check distance to player
-		BlockPos playerPos = new BlockPos(mc.player);
+		BlockPos playerPos = new BlockPos(WMinecraft.getPlayer());
 		if(Math.abs(playerPos.getX() - newPos.getX()) > 250
 			|| Math.abs(playerPos.getZ() - newPos.getZ()) > 250)
 			pos = newPos;

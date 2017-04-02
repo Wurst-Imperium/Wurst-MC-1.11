@@ -37,6 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.wurstclient.WurstClient;
 import net.wurstclient.altmanager.screens.AltManagerScreen;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.JsonUtils;
 import net.wurstclient.utils.MiscUtils;
@@ -319,7 +320,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		GlStateManager.popMatrix();
 		
 		// text
-		String vMinecraft = "Minecraft " + WurstClient.MINECRAFT_VERSION;
+		String vMinecraft = "Minecraft " + WMinecraft.VERSION;
 		String cMinecraft1 = "Copyright Mojang AB";
 		String cMinecraft2 = "Do not distribute!";
 		drawString(fontRendererObj, vMinecraft,

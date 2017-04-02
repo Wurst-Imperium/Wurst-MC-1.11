@@ -13,6 +13,7 @@ import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.util.math.MathHelper;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
@@ -55,39 +56,46 @@ public final class ExtraElytraMod extends Mod implements UpdateListener
 	{
 		updateMS();
 		
-		ItemStack chest =
-			mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+		ItemStack chest = WMinecraft.getPlayer()
+			.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 		if(chest == null || chest.getItem() != Items.ELYTRA)
 			return;
 		
-		if(mc.player.isElytraFlying())
+		if(WMinecraft.getPlayer().isElytraFlying())
 		{
-			if(stopInWater.isChecked() && mc.player.isInWater())
+			if(stopInWater.isChecked() && WMinecraft.getPlayer().isInWater())
 			{
-				mc.player.connection.sendPacket(new CPacketEntityAction(
-					mc.player, CPacketEntityAction.Action.START_FALL_FLYING));
+				WMinecraft.getPlayer().connection
+					.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
+						CPacketEntityAction.Action.START_FALL_FLYING));
 				return;
 			}
 			
 			if(easyFly.isChecked())
 			{
 				if(mc.gameSettings.keyBindJump.pressed)
-					mc.player.motionY += 0.08;
+					WMinecraft.getPlayer().motionY += 0.08;
 				else if(mc.gameSettings.keyBindSneak.pressed)
-					mc.player.motionY -= 0.04;
+					WMinecraft.getPlayer().motionY -= 0.04;
 				
 				if(mc.gameSettings.keyBindForward.pressed
-					&& mc.player.getPosition().getY() < 256)
+					&& WMinecraft.getPlayer().getPosition().getY() < 256)
 				{
-					float yaw = (float)Math.toRadians(mc.player.rotationYaw);
-					mc.player.motionX -= MathHelper.sin(yaw) * 0.05F;
-					mc.player.motionZ += MathHelper.cos(yaw) * 0.05F;
+					float yaw = (float)Math
+						.toRadians(WMinecraft.getPlayer().rotationYaw);
+					WMinecraft.getPlayer().motionX -=
+						MathHelper.sin(yaw) * 0.05F;
+					WMinecraft.getPlayer().motionZ +=
+						MathHelper.cos(yaw) * 0.05F;
 				}else if(mc.gameSettings.keyBindBack.pressed
-					&& mc.player.getPosition().getY() < 256)
+					&& WMinecraft.getPlayer().getPosition().getY() < 256)
 				{
-					float yaw = (float)Math.toRadians(mc.player.rotationYaw);
-					mc.player.motionX += MathHelper.sin(yaw) * 0.05F;
-					mc.player.motionZ -= MathHelper.cos(yaw) * 0.05F;
+					float yaw = (float)Math
+						.toRadians(WMinecraft.getPlayer().rotationYaw);
+					WMinecraft.getPlayer().motionX +=
+						MathHelper.sin(yaw) * 0.05F;
+					WMinecraft.getPlayer().motionZ -=
+						MathHelper.cos(yaw) * 0.05F;
 				}
 			}
 		}else if(instantFly.isChecked() && ItemElytra.isBroken(chest)
@@ -96,12 +104,13 @@ public final class ExtraElytraMod extends Mod implements UpdateListener
 			if(hasTimePassedM(1000))
 			{
 				updateLastMS();
-				mc.player.setJumping(false);
-				mc.player.setSprinting(true);
-				mc.player.jump();
+				WMinecraft.getPlayer().setJumping(false);
+				WMinecraft.getPlayer().setSprinting(true);
+				WMinecraft.getPlayer().jump();
 			}
-			mc.player.connection.sendPacket(new CPacketEntityAction(mc.player,
-				CPacketEntityAction.Action.START_FALL_FLYING));
+			WMinecraft.getPlayer().connection
+				.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
+					CPacketEntityAction.Action.START_FALL_FLYING));
 		}
 	}
 	

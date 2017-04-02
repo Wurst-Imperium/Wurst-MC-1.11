@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -44,7 +45,7 @@ public final class ThrowMod extends Mod implements UpdateListener
 			&& mc.gameSettings.keyBindUseItem.pressed)
 		{
 			if(mc.objectMouseOver == null
-				|| mc.player.inventory.getCurrentItem() == null)
+				|| WMinecraft.getPlayer().inventory.getCurrentItem() == null)
 				return;
 			for(int i = 0; i < wurst.options.throwAmount - 1; i++)
 				mc.rightClickMouse();

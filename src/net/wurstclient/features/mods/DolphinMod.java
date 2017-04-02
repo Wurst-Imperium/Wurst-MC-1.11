@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Automatically swims like a dolphin.",
@@ -31,7 +32,8 @@ public final class DolphinMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.isInWater() && !mc.gameSettings.keyBindSneak.pressed)
-			mc.player.motionY += 0.04;
+		if(WMinecraft.getPlayer().isInWater()
+			&& !mc.gameSettings.keyBindSneak.pressed)
+			WMinecraft.getPlayer().motionY += 0.04;
 	}
 }

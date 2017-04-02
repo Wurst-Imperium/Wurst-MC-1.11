@@ -10,7 +10,7 @@ package net.wurstclient.features.mods;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
-import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
@@ -63,16 +63,15 @@ public final class TpAuraMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown =
-		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null
-			: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+		{
+			@Override
+			public void update()
 			{
-				@Override
-				public void update()
-				{
-					speed.setDisabled(isChecked());
-				}
-			};
+				speed.setDisabled(isChecked());
+			}
+		};
 	public SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
 	public SliderSetting range =
@@ -157,8 +156,9 @@ public final class TpAuraMod extends Mod implements UpdateListener
 			return;
 		
 		// teleport
-		mc.player.setPosition(entity.posX + random.nextInt(3) * 2 - 2,
-			entity.posY, entity.posZ + random.nextInt(3) * 2 - 2);
+		WMinecraft.getPlayer().setPosition(
+			entity.posX + random.nextInt(3) * 2 - 2, entity.posY,
+			entity.posZ + random.nextInt(3) * 2 - 2);
 		
 		// check timer / cooldown
 		if(useCooldown != null && useCooldown.isChecked()

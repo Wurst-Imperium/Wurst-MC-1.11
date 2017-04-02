@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -76,7 +77,7 @@ public final class TunnellerMod extends Mod
 			BlockUtils.getValidBlocks(1, (p) -> true);
 		
 		// nuke all
-		if(mc.player.capabilities.isCreativeMode && !legit)
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode && !legit)
 		{
 			mc.playerController.resetBlockRemoving();
 			
@@ -144,7 +145,7 @@ public final class TunnellerMod extends Mod
 			return;
 		
 		// check if block can be destroyed instantly
-		if(mc.player.capabilities.isCreativeMode
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode
 			|| BlockUtils.getHardness(currentBlock) >= 1)
 			RenderUtils.nukerBox(currentBlock, 1);
 		else

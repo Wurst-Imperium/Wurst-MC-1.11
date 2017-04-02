@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.DeathListener;
 
 @Mod.Info(description = "Automatically respawns you whenever you die.",
@@ -31,7 +32,7 @@ public final class AutoRespawnMod extends Mod implements DeathListener
 	@Override
 	public void onDeath()
 	{
-		mc.player.respawnPlayer();
+		WMinecraft.getPlayer().respawnPlayer();
 		mc.displayGuiScreen(null);
 	}
 }

@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.features.Feature;
@@ -69,21 +70,22 @@ public final class CriticalsMod extends Mod implements LeftClickListener
 	{
 		if(!wurst.mods.criticalsMod.isActive())
 			return;
-		if(!mc.player.isInWater()
-			&& !mc.player.isInsideOfMaterial(Material.LAVA)
-			&& mc.player.onGround)
+		if(!WMinecraft.getPlayer().isInWater()
+			&& !WMinecraft.getPlayer().isInsideOfMaterial(Material.LAVA)
+			&& WMinecraft.getPlayer().onGround)
 			switch(mode)
 			{
 				case 0:
-				mc.player.motionY = 0.1F;
-				mc.player.fallDistance = 0.1F;
-				mc.player.onGround = false;
+				WMinecraft.getPlayer().motionY = 0.1F;
+				WMinecraft.getPlayer().fallDistance = 0.1F;
+				WMinecraft.getPlayer().onGround = false;
 				break;
 				case 1:
-				double posX = mc.player.posX;
-				double posY = mc.player.posY;
-				double posZ = mc.player.posZ;
-				NetHandlerPlayClient connection = mc.player.connection;
+				double posX = WMinecraft.getPlayer().posX;
+				double posY = WMinecraft.getPlayer().posY;
+				double posZ = WMinecraft.getPlayer().posZ;
+				NetHandlerPlayClient connection =
+					WMinecraft.getPlayer().connection;
 				
 				connection.sendPacket(new CPacketPlayer.Position(posX,
 					posY + 0.0625D, posZ, true));

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -54,7 +55,7 @@ public final class BlinkMod extends Mod implements PacketOutputListener
 		
 		// send & delete saved packets
 		for(Packet packet : packets)
-			mc.player.connection.sendPacket(packet);
+			WMinecraft.getPlayer().connection.sendPacket(packet);
 		packets.clear();
 		
 		fakePlayer.despawn();

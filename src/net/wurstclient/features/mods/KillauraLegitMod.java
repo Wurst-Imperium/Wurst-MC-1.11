@@ -8,7 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.entity.Entity;
-import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
@@ -55,16 +55,15 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown =
-		WurstClient.MINECRAFT_VERSION.equals("1.8") ? null
-			: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
+		{
+			@Override
+			public void update()
 			{
-				@Override
-				public void update()
-				{
-					speed.setDisabled(isChecked());
-				}
-			};
+				speed.setDisabled(isChecked());
+			}
+		};
 	public SliderSetting speed =
 		new SliderSetting("Speed", 12, 0.1, 12, 0.1, ValueDisplay.DECIMAL);
 	public SliderSetting range =
@@ -149,8 +148,9 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 			return;
 		
 		// Criticals
-		if(wurst.mods.criticalsMod.isActive() && mc.player.onGround)
-			mc.player.jump();
+		if(wurst.mods.criticalsMod.isActive()
+			&& WMinecraft.getPlayer().onGround)
+			WMinecraft.getPlayer().jump();
 		
 		// attack entity
 		EntityUtils.attackEntity(entity);

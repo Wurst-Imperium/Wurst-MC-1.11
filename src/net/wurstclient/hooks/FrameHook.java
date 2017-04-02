@@ -31,8 +31,8 @@ import org.lwjgl.opengl.Display;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.util.ResourceLocation;
-import net.wurstclient.WurstClient;
 import net.wurstclient.bot.WurstBot;
+import net.wurstclient.compatibility.WMinecraft;
 
 public class FrameHook
 {
@@ -46,7 +46,7 @@ public class FrameHook
 			return;
 		
 		// create frame
-		frame = new JFrame("Minecraft " + WurstClient.MINECRAFT_VERSION);
+		frame = new JFrame("Minecraft " + WMinecraft.VERSION);
 		
 		// add LWJGL
 		Canvas canvas = new Canvas();

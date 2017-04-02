@@ -13,6 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -53,18 +54,18 @@ public final class JesusMod extends Mod
 			return;
 		
 		// move up in water
-		if(mc.player.isInWater())
+		if(WMinecraft.getPlayer().isInWater())
 		{
-			mc.player.motionY = 0.11;
+			WMinecraft.getPlayer().motionY = 0.11;
 			tickTimer = 0;
 			return;
 		}
 		
 		// simulate jumping out of water
 		if(tickTimer == 0)
-			mc.player.motionY = 0.30;
+			WMinecraft.getPlayer().motionY = 0.30;
 		else if(tickTimer == 1)
-			mc.player.motionY = 0;
+			WMinecraft.getPlayer().motionY = 0;
 		
 		// update timer
 		tickTimer++;
@@ -85,18 +86,18 @@ public final class JesusMod extends Mod
 			return;
 		
 		// check inWater
-		if(mc.player.isInWater())
+		if(WMinecraft.getPlayer().isInWater())
 			return;
 		
 		// check fall distance
-		if(mc.player.fallDistance > 3F)
+		if(WMinecraft.getPlayer().fallDistance > 3F)
 			return;
 		
 		if(!isOverLiquid())
 			return;
 		
 		// if not actually moving, cancel packet
-		if(mc.player.movementInput == null)
+		if(WMinecraft.getPlayer().movementInput == null)
 		{
 			event.cancel();
 			return;
@@ -116,7 +117,7 @@ public final class JesusMod extends Mod
 		double z = packet.getZ(0);
 		
 		// offset y
-		if(mc.player.ticksExisted % 2 == 0)
+		if(WMinecraft.getPlayer().ticksExisted % 2 == 0)
 			y -= 0.05;
 		else
 			y += 0.05;
@@ -130,7 +131,7 @@ public final class JesusMod extends Mod
 				packet.getYaw(0), packet.getPitch(0), true);
 		
 		// send new packet
-		mc.player.connection.sendPacketBypass(newPacket);
+		WMinecraft.getPlayer().connection.sendPacketBypass(newPacket);
 	}
 	
 	private boolean isOverLiquid()
@@ -139,8 +140,9 @@ public final class JesusMod extends Mod
 		boolean foundSolid = false;
 		
 		// check collision boxes below player
-		for(AxisAlignedBB bb : mc.world.getCollisionBoxes(mc.player,
-			mc.player.boundingBox.offset(0, -0.5, 0)))
+		for(AxisAlignedBB bb : WMinecraft.getWorld().getCollisionBoxes(
+			WMinecraft.getPlayer(),
+			WMinecraft.getPlayer().boundingBox.offset(0, -0.5, 0)))
 		{
 			BlockPos pos = new BlockPos(bb.getCenter());
 			Material material = BlockUtils.getMaterial(pos);
@@ -156,7 +158,9 @@ public final class JesusMod extends Mod
 	
 	public boolean shouldBeSolid()
 	{
-		return isActive() && mc.player != null && mc.player.fallDistance <= 3
-			&& !mc.gameSettings.keyBindSneak.pressed && !mc.player.isInWater();
+		return isActive() && WMinecraft.getPlayer() != null
+			&& WMinecraft.getPlayer().fallDistance <= 3
+			&& !mc.gameSettings.keyBindSneak.pressed
+			&& !WMinecraft.getPlayer().isInWater();
 	}
 }

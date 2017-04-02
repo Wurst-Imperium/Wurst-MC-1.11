@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Allows you to fly with boats",
@@ -32,11 +33,11 @@ public final class BoatFlyMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check if riding
-		if(!mc.player.isRiding())
+		if(!WMinecraft.getPlayer().isRiding())
 			return;
 		
 		// fly
-		mc.player.getRidingEntity().motionY =
+		WMinecraft.getPlayer().getRidingEntity().motionY =
 			mc.gameSettings.keyBindJump.pressed ? 0.3 : 0;
 	}
 }

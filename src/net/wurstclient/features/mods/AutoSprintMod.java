@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(description = "Makes you sprint whenever you walk.",
@@ -31,8 +32,9 @@ public final class AutoSprintMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(!mc.player.isCollidedHorizontally && mc.player.moveForward > 0
-			&& !mc.player.isSneaking())
-			mc.player.setSprinting(true);
+		if(!WMinecraft.getPlayer().isCollidedHorizontally
+			&& WMinecraft.getPlayer().moveForward > 0
+			&& !WMinecraft.getPlayer().isSneaking())
+			WMinecraft.getPlayer().setSprinting(true);
 	}
 }

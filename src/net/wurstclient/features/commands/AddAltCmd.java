@@ -11,6 +11,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.StringUtils;
 import net.wurstclient.altmanager.Alt;
 import net.wurstclient.altmanager.screens.GuiAltList;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 
@@ -30,13 +31,13 @@ public final class AddAltCmd extends Cmd
 		if(args[0].equals("all"))
 		{
 			int alts = 0;
-			for(NetworkPlayerInfo info : mc.player.connection
+			for(NetworkPlayerInfo info : WMinecraft.getPlayer().connection
 				.getPlayerInfoMap())
 			{
 				String name =
 					StringUtils.stripControlCodes(info.getPlayerNameForReal());
 				
-				if(name.equals(mc.player.getName())
+				if(name.equals(WMinecraft.getPlayer().getName())
 					|| name.equals("Alexander01998")
 					|| GuiAltList.alts.contains(new Alt(name, null, null)))
 					continue;

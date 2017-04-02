@@ -12,8 +12,8 @@ import java.io.*;
 
 import javax.swing.JOptionPane;
 
-import net.minecraft.client.Minecraft;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.mods.SpammerMod;
 import net.wurstclient.files.WurstFolders;
 import net.wurstclient.hooks.FrameHook;
@@ -105,7 +105,7 @@ public class SpamProcessor
 				}catch(Exception e)
 				{
 					if(e instanceof NullPointerException
-						&& Minecraft.getMinecraft().player == null)
+						&& WMinecraft.getPlayer() == null)
 						return;
 					e.printStackTrace();
 					StringWriter tracewriter = new StringWriter();
@@ -136,21 +136,20 @@ public class SpamProcessor
 				return;
 			for(int i = 0; i < spam.split("\n").length; i++)
 			{
-				Minecraft.getMinecraft().player
+				WMinecraft.getPlayer()
 					.sendAutomaticChatMessage(spam.split("\n")[i]);
 				Thread.sleep(WurstClient.INSTANCE.options.spamDelay);
 			}
 		}catch(NullPointerException e)
 		{
-			if(Minecraft.getMinecraft().player != null)
+			if(WMinecraft.getPlayer() != null)
 				throw e;
 		}
 	}
 	
 	private static boolean canSpam()
 	{
-		return Minecraft.getMinecraft().player != null
-			&& Minecraft.getMinecraft().world != null;
+		return WMinecraft.getPlayer() != null && WMinecraft.getWorld() != null;
 	}
 	
 	public static String process(String spam, SpammerMod spammerMod,

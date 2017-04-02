@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -52,7 +53,7 @@ public final class AutoSwordMod extends Mod
 		// reset slot
 		if(oldSlot != -1)
 		{
-			mc.player.inventory.currentItem = oldSlot;
+			WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
 	}
@@ -70,7 +71,7 @@ public final class AutoSwordMod extends Mod
 		// reset slot
 		if(oldSlot != -1)
 		{
-			mc.player.inventory.currentItem = oldSlot;
+			WMinecraft.getPlayer().inventory.currentItem = oldSlot;
 			oldSlot = -1;
 		}
 		wurst.events.remove(UpdateListener.class, this);
@@ -105,7 +106,8 @@ public final class AutoSwordMod extends Mod
 			if(InventoryUtils.isSlotEmpty(i))
 				continue;
 			
-			Item item = mc.player.inventory.getStackInSlot(i).getItem();
+			Item item =
+				WMinecraft.getPlayer().inventory.getStackInSlot(i).getItem();
 			
 			// get damage
 			float damage = 0;
@@ -128,10 +130,10 @@ public final class AutoSwordMod extends Mod
 		
 		// save old slot
 		if(oldSlot == -1)
-			oldSlot = mc.player.inventory.currentItem;
+			oldSlot = WMinecraft.getPlayer().inventory.currentItem;
 		
 		// set slot
-		mc.player.inventory.currentItem = bestSlot;
+		WMinecraft.getPlayer().inventory.currentItem = bestSlot;
 		
 		// start timer
 		timer = 4;

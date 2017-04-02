@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(
@@ -32,13 +33,15 @@ public final class ParkourMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(mc.player.onGround && !mc.player.isSneaking()
+		if(WMinecraft.getPlayer().onGround
+			&& !WMinecraft.getPlayer().isSneaking()
 			&& !mc.gameSettings.keyBindSneak.pressed
 			&& !mc.gameSettings.keyBindJump.pressed
-			&& mc.world
-				.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox()
-					.offset(0, -0.5, 0).expand(-0.001, 0, -0.001))
+			&& WMinecraft.getWorld()
+				.getCollisionBoxes(WMinecraft.getPlayer(),
+					WMinecraft.getPlayer().getEntityBoundingBox()
+						.offset(0, -0.5, 0).expand(-0.001, 0, -0.001))
 				.isEmpty())
-			mc.player.jump();
+			WMinecraft.getPlayer().jump();
 	}
 }

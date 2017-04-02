@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.BlockUtils;
 
 public class RandomPathFinder extends PathFinder
@@ -25,7 +25,7 @@ public class RandomPathFinder extends PathFinder
 	
 	public RandomPathFinder(BlockPos center, float range)
 	{
-		super(new BlockPos(Minecraft.getMinecraft().player));
+		super(new BlockPos(WMinecraft.getPlayer()));
 		this.center = center;
 		rangeSq = (float)Math.pow(range, 2);
 		blockRange = (int)Math.ceil(range);
@@ -34,7 +34,7 @@ public class RandomPathFinder extends PathFinder
 	
 	public RandomPathFinder(RandomPathFinder pathFinder)
 	{
-		super(new BlockPos(Minecraft.getMinecraft().player));
+		super(new BlockPos(WMinecraft.getPlayer()));
 		thinkSpeed = pathFinder.thinkSpeed;
 		thinkTime = pathFinder.thinkTime;
 		fallingAllowed = pathFinder.fallingAllowed;

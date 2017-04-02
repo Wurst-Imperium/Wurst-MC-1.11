@@ -11,6 +11,7 @@ import java.util.Random;
 
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.ai.GoRandomAI;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
 @Mod.Info(name = "AntiAFK",
@@ -28,7 +29,7 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
-		ai = new GoRandomAI(new BlockPos(mc.player), 16F);
+		ai = new GoRandomAI(new BlockPos(WMinecraft.getPlayer()), 16F);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -45,7 +46,7 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		// check if player died
-		if(mc.player.getHealth() <= 0)
+		if(WMinecraft.getPlayer().getHealth() <= 0)
 		{
 			setEnabled(false);
 			return;
@@ -55,7 +56,8 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 		if(timer > 0)
 		{
 			timer--;
-			mc.gameSettings.keyBindJump.pressed = mc.player.isInWater();
+			mc.gameSettings.keyBindJump.pressed =
+				WMinecraft.getPlayer().isInWater();
 			return;
 		}
 		

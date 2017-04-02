@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
@@ -104,7 +105,7 @@ public final class ChestEspMod extends Mod
 		specialEnder.clear();
 		specialCart.clear();
 		
-		for(TileEntity tileEntity : mc.world.loadedTileEntityList)
+		for(TileEntity tileEntity : WMinecraft.getWorld().loadedTileEntityList)
 		{
 			// normal chests
 			if(tileEntity instanceof TileEntityChest)
@@ -162,7 +163,7 @@ public final class ChestEspMod extends Mod
 		}
 		
 		// minecarts
-		for(Entity entity : mc.world.loadedEntityList)
+		for(Entity entity : WMinecraft.getWorld().loadedEntityList)
 			if(entity instanceof EntityMinecartChest)
 				specialCart.add(entity);
 			
@@ -228,7 +229,7 @@ public final class ChestEspMod extends Mod
 	
 	public void openChest(BlockPos pos)
 	{
-		TileEntity tileEntity = mc.world.getTileEntity(pos);
+		TileEntity tileEntity = WMinecraft.getWorld().getTileEntity(pos);
 		if(tileEntity instanceof TileEntityChest)
 		{
 			openChest = (TileEntityChest)tileEntity;
