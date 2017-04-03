@@ -10,8 +10,8 @@ package net.wurstclient.utils;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 
 public class RotationUtils
@@ -29,25 +29,23 @@ public class RotationUtils
 	
 	public static Vec3d getClientLookVec()
 	{
-		float f =
-			MathHelper.cos(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
-				- (float)Math.PI);
-		float f1 =
-			MathHelper.sin(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
-				- (float)Math.PI);
-		float f2 = -MathHelper
-			.cos(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
-		float f3 = MathHelper
-			.sin(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
+		float f = WMath.cos(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
+			- (float)Math.PI);
+		float f1 = WMath.sin(-WMinecraft.getPlayer().rotationYaw * 0.017453292F
+			- (float)Math.PI);
+		float f2 =
+			-WMath.cos(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
+		float f3 =
+			WMath.sin(-WMinecraft.getPlayer().rotationPitch * 0.017453292F);
 		return new Vec3d(f1 * f2, f3, f * f2);
 	}
 	
 	public static Vec3d getServerLookVec()
 	{
-		float f = MathHelper.cos(-serverYaw * 0.017453292F - (float)Math.PI);
-		float f1 = MathHelper.sin(-serverYaw * 0.017453292F - (float)Math.PI);
-		float f2 = -MathHelper.cos(-serverPitch * 0.017453292F);
-		float f3 = MathHelper.sin(-serverPitch * 0.017453292F);
+		float f = WMath.cos(-serverYaw * 0.017453292F - (float)Math.PI);
+		float f1 = WMath.sin(-serverYaw * 0.017453292F - (float)Math.PI);
+		float f2 = -WMath.cos(-serverPitch * 0.017453292F);
+		float f3 = WMath.sin(-serverPitch * 0.017453292F);
 		return new Vec3d(f1 * f2, f3, f * f2);
 	}
 	
@@ -59,23 +57,22 @@ public class RotationUtils
 		double diffY = vec.yCoord - eyesPos.yCoord;
 		double diffZ = vec.zCoord - eyesPos.zCoord;
 		
-		double diffXZ = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
+		double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 		
 		float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
 		float pitch = (float)-Math.toDegrees(Math.atan2(diffY, diffXZ));
 		
-		return new float[]{MathHelper.wrapDegrees(yaw),
-			MathHelper.wrapDegrees(pitch)};
+		return new float[]{WMath.wrapDegrees(yaw), WMath.wrapDegrees(pitch)};
 	}
 	
 	public static float limitAngleChange(float current, float intended,
 		float maxChange)
 	{
-		float change = MathHelper.wrapDegrees(intended - current);
+		float change = WMath.wrapDegrees(intended - current);
 		
-		change = MathHelper.clamp(change, -maxChange, maxChange);
+		change = WMath.clamp(change, -maxChange, maxChange);
 		
-		return MathHelper.wrapDegrees(current + change);
+		return WMath.wrapDegrees(current + change);
 	}
 	
 	public static boolean faceVectorPacket(Vec3d vec)
@@ -164,14 +161,12 @@ public class RotationUtils
 		float[] needed = getNeededRotations(vec);
 		
 		float diffYaw =
-			MathHelper.wrapDegrees(WMinecraft.getPlayer().rotationYaw)
-				- needed[0];
+			WMath.wrapDegrees(WMinecraft.getPlayer().rotationYaw) - needed[0];
 		float diffPitch =
-			MathHelper.wrapDegrees(WMinecraft.getPlayer().rotationPitch)
-				- needed[1];
+			WMath.wrapDegrees(WMinecraft.getPlayer().rotationPitch) - needed[1];
 		
 		float angle =
-			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
+			(float)Math.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
 		
 		return angle;
 	}
@@ -184,7 +179,7 @@ public class RotationUtils
 		float diffPitch = serverPitch - needed[1];
 		
 		float angle =
-			MathHelper.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
+			(float)Math.sqrt(diffYaw * diffYaw + diffPitch * diffPitch);
 		
 		return angle;
 	}

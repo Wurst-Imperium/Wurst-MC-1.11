@@ -29,9 +29,9 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.RenderListener;
@@ -557,7 +557,7 @@ public final class TemplateToolMod extends Mod
 			sizeZ = Math.abs(startZ - endZ);
 			
 			totalBlocks = (sizeX + 1) * (sizeY + 1) * (sizeZ + 1);
-			scanSpeed = MathHelper.clamp(totalBlocks / 30, 1, 1024);
+			scanSpeed = WMath.clamp(totalBlocks / 30, 1, 1024);
 			iterator = BlockPos.getAllInBox(start, end).iterator();
 		}
 	}
@@ -576,7 +576,7 @@ public final class TemplateToolMod extends Mod
 		public Template(BlockPos firstBlock, int blocksFound)
 		{
 			totalBlocks = blocksFound;
-			scanSpeed = MathHelper.clamp(blocksFound / 15, 1, 1024);
+			scanSpeed = WMath.clamp(blocksFound / 15, 1, 1024);
 			
 			remainingBlocks = new TreeSet<>((o1, o2) -> {
 				

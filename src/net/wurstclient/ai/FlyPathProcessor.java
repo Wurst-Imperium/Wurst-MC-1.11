@@ -10,7 +10,7 @@ package net.wurstclient.ai;
 import java.util.ArrayList;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 
 public class FlyPathProcessor extends PathProcessor
@@ -87,7 +87,7 @@ public class FlyPathProcessor extends PathProcessor
 		
 		// limit vertical speed
 		WMinecraft.getPlayer().motionY =
-			MathHelper.clamp(WMinecraft.getPlayer().motionY, -0.25, 0.25);
+			WMath.clamp(WMinecraft.getPlayer().motionY, -0.25, 0.25);
 		
 		// horizontal movement
 		if(pos.getX() != nextPos.getX() || pos.getZ() != nextPos.getZ())

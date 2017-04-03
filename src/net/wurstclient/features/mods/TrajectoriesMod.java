@@ -15,8 +15,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.*;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
@@ -74,7 +74,7 @@ public final class TrajectoriesMod extends Mod implements RenderListener
 		// calculate starting position
 		double arrowPosX = player.lastTickPosX
 			+ (player.posX - player.lastTickPosX) * mc.timer.renderPartialTicks
-			- MathHelper.cos((float)Math.toRadians(player.rotationYaw)) * 0.16F;
+			- WMath.cos((float)Math.toRadians(player.rotationYaw)) * 0.16F;
 		double arrowPosY = player.lastTickPosY
 			+ (player.posY - player.lastTickPosY)
 				* Minecraft.getMinecraft().timer.renderPartialTicks
@@ -82,17 +82,17 @@ public final class TrajectoriesMod extends Mod implements RenderListener
 		double arrowPosZ = player.lastTickPosZ
 			+ (player.posZ - player.lastTickPosZ)
 				* Minecraft.getMinecraft().timer.renderPartialTicks
-			- MathHelper.sin((float)Math.toRadians(player.rotationYaw)) * 0.16F;
+			- WMath.sin((float)Math.toRadians(player.rotationYaw)) * 0.16F;
 		
 		// calculate starting motion
 		float arrowMotionFactor = usingBow ? 1F : 0.4F;
 		float yaw = (float)Math.toRadians(player.rotationYaw);
 		float pitch = (float)Math.toRadians(player.rotationPitch);
 		float arrowMotionX =
-			-MathHelper.sin(yaw) * MathHelper.cos(pitch) * arrowMotionFactor;
-		float arrowMotionY = -MathHelper.sin(pitch) * arrowMotionFactor;
+			-WMath.sin(yaw) * WMath.cos(pitch) * arrowMotionFactor;
+		float arrowMotionY = -WMath.sin(pitch) * arrowMotionFactor;
 		float arrowMotionZ =
-			MathHelper.cos(yaw) * MathHelper.cos(pitch) * arrowMotionFactor;
+			WMath.cos(yaw) * WMath.cos(pitch) * arrowMotionFactor;
 		double arrowMotion = Math.sqrt(arrowMotionX * arrowMotionX
 			+ arrowMotionY * arrowMotionY + arrowMotionZ * arrowMotionZ);
 		arrowMotionX /= arrowMotion;

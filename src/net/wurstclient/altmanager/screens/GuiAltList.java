@@ -15,9 +15,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
-import net.minecraft.util.math.MathHelper;
 import net.wurstclient.altmanager.Alt;
 import net.wurstclient.altmanager.AltRenderer;
+import net.wurstclient.compatibility.WMath;
 
 public final class GuiAltList extends GuiSlot
 {
@@ -91,7 +91,7 @@ public final class GuiAltList extends GuiSlot
 	
 	protected int getSelectedSlot()
 	{
-		return MathHelper.clamp(selectedSlot, -1, alts.size() - 1);
+		return WMath.clamp(selectedSlot, -1, alts.size() - 1);
 	}
 	
 	protected Alt getSelectedAlt()
@@ -144,9 +144,8 @@ public final class GuiAltList extends GuiSlot
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glEnable(GL11.GL_BLEND);
 			
-			float opacity =
-				0.3F - MathHelper.abs(MathHelper.sin(Minecraft.getSystemTime()
-					% 10000L / 10000F * (float)Math.PI * 2.0F) * 0.15F);
+			float opacity = 0.3F - Math.abs(WMath.sin(Minecraft.getSystemTime()
+				% 10000L / 10000F * (float)Math.PI * 2.0F) * 0.15F);
 			
 			GL11.glColor4f(0, 1, 0, opacity);
 			

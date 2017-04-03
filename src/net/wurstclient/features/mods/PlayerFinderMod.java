@@ -14,8 +14,8 @@ import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketSpawnGlobalEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
@@ -78,11 +78,9 @@ public final class PlayerFinderMod extends Mod
 		
 		// generate rainbow color
 		float x = System.currentTimeMillis() % 2000 / 1000F;
-		float red = 0.5F + 0.5F * MathHelper.sin(x * (float)Math.PI);
-		float green =
-			0.5F + 0.5F * MathHelper.sin((x + 4F / 3F) * (float)Math.PI);
-		float blue =
-			0.5F + 0.5F * MathHelper.sin((x + 8F / 3F) * (float)Math.PI);
+		float red = 0.5F + 0.5F * WMath.sin(x * (float)Math.PI);
+		float green = 0.5F + 0.5F * WMath.sin((x + 4F / 3F) * (float)Math.PI);
+		float blue = 0.5F + 0.5F * WMath.sin((x + 8F / 3F) * (float)Math.PI);
 		
 		GL11.glColor4f(red, green, blue, 0.5F);
 		

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.util.math.MathHelper;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.navigator.PossibleKeybind;
 import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
 
@@ -84,7 +84,7 @@ public class SliderSetting implements Setting, SliderLock
 	@Override
 	public final double getValue()
 	{
-		return MathHelper.clamp(isLocked() ? lock.getValue() : value, usableMin,
+		return WMath.clamp(isLocked() ? lock.getValue() : value, usableMin,
 			usableMax);
 	}
 	
@@ -104,7 +104,7 @@ public class SliderSetting implements Setting, SliderLock
 			return;
 		
 		value = (int)(value / increment) * increment;
-		value = MathHelper.clamp(value, usableMin, usableMax);
+		value = WMath.clamp(value, usableMin, usableMax);
 		this.value = value;
 		
 		update();
