@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.wurstclient.WurstClient;
@@ -26,10 +27,7 @@ import net.wurstclient.compatibility.WMinecraft;
 public class Updater
 {
 	private boolean outdated;
-	private JsonArray json;
-	
 	private String latestVersionString;
-	private int latestVersionId;
 	
 	public void checkForUpdate()
 	{
@@ -38,21 +36,27 @@ public class Updater
 		
 		try
 		{
-			json = fetchJson(
-				"https://api.github.com/repos/Wurst-Imperium/Wurst-MC-"
-					+ WMinecraft.VERSION + "/releases").getAsJsonArray();
+			JsonArray json = fetchJson(
+				"https://api.github.com/repos/Wurst-Imperium/Wurst-MCX/releases")
+					.getAsJsonArray();
 			
-			for(JsonElement release : json)
-				if(currentVersion.isPreRelease() || !release.getAsJsonObject()
-					.get("prerelease").getAsBoolean())
-				{
-					latestVersionString = release.getAsJsonObject()
-						.get("tag_name").getAsString().substring(1);
-					latestVersionId =
-						release.getAsJsonObject().get("id").getAsInt();
-					latestVersion = new Version(latestVersionString);
-					break;
-				}
+			for(JsonElement element : json)
+			{
+				JsonObject release = element.getAsJsonObject();
+				
+				if(!currentVersion.isPreRelease()
+					&& release.get("prerelease").getAsBoolean())
+					continue;
+				
+				if(!containsCompatibleAsset(
+					release.get("assets").getAsJsonArray()))
+					continue;
+				
+				latestVersionString =
+					release.get("tag_name").getAsString().substring(1);
+				latestVersion = new Version(latestVersionString);
+				break;
+			}
 			
 			if(latestVersion == null)
 				throw new NullPointerException("Latest version is missing!");
@@ -67,6 +71,20 @@ public class Updater
 		System.out.println("[Updater] Current version: " + currentVersion);
 		System.out.println("[Updater] Latest version: " + latestVersion);
 		outdated = currentVersion.shouldUpdateTo(latestVersion);
+	}
+	
+	private boolean containsCompatibleAsset(JsonArray assets)
+	{
+		for(JsonElement asset : assets)
+		{
+			if(!asset.getAsJsonObject().get("name").getAsString()
+				.endsWith("MC" + WMinecraft.VERSION + ".zip"))
+				continue;
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	private JsonElement fetchJson(String url) throws IOException
@@ -96,10 +114,10 @@ public class Updater
 					Files.copy(in, path);
 				}
 				
-				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "java",
-					"-jar", path.toString(), "update", "" + latestVersionId,
-					path.getParent().toString(),
-					"Wurst-Imperium/Wurst-MC-" + WMinecraft.VERSION);
+				ProcessBuilder pb =
+					new ProcessBuilder("cmd.exe", "/c", "java", "-jar",
+						path.toString(), "update", path.getParent().toString(),
+						latestVersionString, WMinecraft.VERSION);
 				pb.redirectErrorStream(true);
 				Process p = pb.start();
 				
