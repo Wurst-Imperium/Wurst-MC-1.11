@@ -17,8 +17,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.utils.BlockUtils;
 
 public class PathFinder
 {
@@ -226,8 +226,8 @@ public class PathFinder
 	
 	protected boolean canBeSolid(BlockPos pos)
 	{
-		Material material = BlockUtils.getMaterial(pos);
-		Block block = BlockUtils.getBlock(pos);
+		Material material = WBlock.getMaterial(pos);
+		Block block = WBlock.getBlock(pos);
 		return material.blocksMovement() && !(block instanceof BlockSign)
 			|| block instanceof BlockLadder || jesus
 				&& (material == Material.WATER || material == Material.LAVA);
@@ -240,8 +240,8 @@ public class PathFinder
 			return false;
 		
 		// check if solid
-		Material material = BlockUtils.getMaterial(pos);
-		Block block = BlockUtils.getBlock(pos);
+		Material material = WBlock.getMaterial(pos);
+		Block block = WBlock.getBlock(pos);
 		if(material.blocksMovement() && !(block instanceof BlockSign))
 			return false;
 		
@@ -261,7 +261,7 @@ public class PathFinder
 	private boolean canGoAbove(BlockPos pos)
 	{
 		// check for fences, etc.
-		Block block = BlockUtils.getBlock(pos);
+		Block block = WBlock.getBlock(pos);
 		if(block instanceof BlockFence || block instanceof BlockWall
 			|| block instanceof BlockFenceGate)
 			return false;
@@ -272,7 +272,7 @@ public class PathFinder
 	private boolean canSafelyStandOn(BlockPos pos)
 	{
 		// check if solid
-		Material material = BlockUtils.getMaterial(pos);
+		Material material = WBlock.getMaterial(pos);
 		if(!canBeSolid(pos))
 			return false;
 		
@@ -300,7 +300,7 @@ public class PathFinder
 			return true;
 		
 		// check if fall ends with slime block
-		if(BlockUtils.getBlock(down2) instanceof BlockSlime && fallingAllowed)
+		if(WBlock.getBlock(down2) instanceof BlockSlime && fallingAllowed)
 			return true;
 		
 		// check fall damage
@@ -319,7 +319,7 @@ public class PathFinder
 				return true;
 			
 			// check if block resets fall damage
-			Block prevBlock = BlockUtils.getBlock(prevPos);
+			Block prevBlock = WBlock.getBlock(prevPos);
 			if(prevBlock instanceof BlockLiquid
 				|| prevBlock instanceof BlockLadder
 				|| prevBlock instanceof BlockVine
@@ -335,13 +335,13 @@ public class PathFinder
 	private boolean canFlyAt(BlockPos pos)
 	{
 		return flying || !noSlowdownActive
-			&& BlockUtils.getMaterial(pos) == Material.WATER;
+			&& WBlock.getMaterial(pos) == Material.WATER;
 	}
 	
 	private boolean canClimbUpAt(BlockPos pos)
 	{
 		// check if this block works for climbing
-		Block block = BlockUtils.getBlock(pos);
+		Block block = WBlock.getBlock(pos);
 		if(!spider && !(block instanceof BlockLadder)
 			&& !(block instanceof BlockVine))
 			return false;
@@ -360,13 +360,13 @@ public class PathFinder
 	private boolean canMoveSidewaysInMidairAt(BlockPos pos)
 	{
 		// check feet
-		Block blockFeet = BlockUtils.getBlock(pos);
+		Block blockFeet = WBlock.getBlock(pos);
 		if(blockFeet instanceof BlockLiquid || blockFeet instanceof BlockLadder
 			|| blockFeet instanceof BlockVine || blockFeet instanceof BlockWeb)
 			return true;
 		
 		// check head
-		Block blockHead = BlockUtils.getBlock(pos.up());
+		Block blockHead = WBlock.getBlock(pos.up());
 		if(blockHead instanceof BlockLiquid || blockHead instanceof BlockWeb)
 			return true;
 		
@@ -382,7 +382,7 @@ public class PathFinder
 			cost *= 1.4142135623730951F;
 		
 		// liquids
-		Material nextMaterial = BlockUtils.getMaterial(next);
+		Material nextMaterial = WBlock.getMaterial(next);
 		if(nextMaterial == Material.WATER && !noSlowdownActive)
 			cost *= 1.3164437838225804F;
 		else if(nextMaterial == Material.LAVA)
@@ -390,7 +390,7 @@ public class PathFinder
 		
 		// soul sand
 		if(!canFlyAt(next)
-			&& BlockUtils.getBlock(next.down()) instanceof BlockSoulSand)
+			&& WBlock.getBlock(next.down()) instanceof BlockSoulSand)
 			cost *= 2.5F;
 		
 		return cost;

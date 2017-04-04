@@ -12,8 +12,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 import net.minecraft.block.Block;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.features.mods.XRayMod;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.XRayUtils;
 
 public class XRayConfig extends Config
@@ -48,7 +48,7 @@ public class XRayConfig extends Config
 		
 		JsonArray json = new JsonArray();
 		for(Block block : XRayMod.xrayBlocks)
-			json.add(new JsonPrimitive(BlockUtils.getName(block)));
+			json.add(new JsonPrimitive(WBlock.getName(block)));
 		
 		return json;
 	}

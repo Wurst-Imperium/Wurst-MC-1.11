@@ -10,11 +10,11 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @Mod.Info(
@@ -87,7 +87,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		// update timer
 		if(!mc.gameSettings.keyBindAttack.pressed
 			|| WMinecraft.getPlayer().capabilities.isCreativeMode
-			|| !BlockUtils.canBeClicked(pos))
+			|| !WBlock.canBeClicked(pos))
 			timer--;
 	}
 	
@@ -102,7 +102,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 			return;
 		
 		// check if block can be clicked
-		if(!BlockUtils.canBeClicked(pos))
+		if(!WBlock.canBeClicked(pos))
 			return;
 		
 		// initialize speed & slot

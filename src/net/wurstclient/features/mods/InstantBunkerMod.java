@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -89,7 +90,7 @@ public final class InstantBunkerMod extends Mod
 		if(!building)
 		{
 			for(BlockPos pos : positions)
-				if(BlockUtils.getMaterial(pos) == Material.AIR)
+				if(WBlock.getMaterial(pos) == Material.AIR)
 					BlockUtils.placeBlockSimple(pos);
 			PlayerUtils.swingArmClient();
 			setEnabled(false);
@@ -102,7 +103,7 @@ public final class InstantBunkerMod extends Mod
 		{
 			BlockPos pos = positions.get(blockIndex);
 			
-			if(BlockUtils.getMaterial(pos) == Material.AIR)
+			if(WBlock.getMaterial(pos) == Material.AIR)
 				BlockUtils.placeBlockLegit(pos);
 			else
 			{

@@ -17,6 +17,7 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -132,11 +133,11 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	
 	private boolean isCorrectBlock(BlockPos pos)
 	{
-		Block block = BlockUtils.getBlock(pos);
+		Block block = WBlock.getBlock(pos);
 		
 		if(!(block instanceof IGrowable) || block instanceof BlockGrass
 			|| !((IGrowable)block).canGrow(WMinecraft.getWorld(), pos,
-				BlockUtils.getState(pos), false))
+				WBlock.getState(pos), false))
 			return false;
 		
 		if(block instanceof BlockSapling)

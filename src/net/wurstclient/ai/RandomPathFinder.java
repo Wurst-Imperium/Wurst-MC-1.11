@@ -13,8 +13,8 @@ import java.util.Random;
 
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.utils.BlockUtils;
 
 public class RandomPathFinder extends PathFinder
 {
@@ -88,7 +88,7 @@ public class RandomPathFinder extends PathFinder
 			setCurrentToRandomNode();
 		while(center.distanceSq(current) > rangeSq
 			|| !flying && !canBeSolid(current.down())
-			|| BlockUtils.getBlock(current.up()) instanceof BlockLiquid);
+			|| WBlock.getBlock(current.up()) instanceof BlockLiquid);
 		
 		return super.formatPath();
 	}

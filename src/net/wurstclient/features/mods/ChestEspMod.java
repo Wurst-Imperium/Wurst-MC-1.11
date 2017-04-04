@@ -20,11 +20,11 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.RenderUtils;
@@ -118,15 +118,13 @@ public final class ChestEspMod extends Mod
 					continue;
 				
 				// get hitbox
-				AxisAlignedBB bb = BlockUtils.getBoundingBox(chest.getPos());
+				AxisAlignedBB bb = WBlock.getBoundingBox(chest.getPos());
 				
 				// larger box for double chest
 				if(chest.adjacentChestXNeg != null)
-					bb = bb.union(BlockUtils
-						.getBoundingBox(chest.adjacentChestXNeg.getPos()));
+					bb = bb.union(WBlock.getBoundingBox(chest.adjacentChestXNeg.getPos()));
 				else if(chest.adjacentChestZNeg != null)
-					bb = bb.union(BlockUtils
-						.getBoundingBox(chest.adjacentChestZNeg.getPos()));
+					bb = bb.union(WBlock.getBoundingBox(chest.adjacentChestZNeg.getPos()));
 				
 				boolean trapped = EntityUtils.isTrappedChest(chest);
 				
@@ -156,7 +154,7 @@ public final class ChestEspMod extends Mod
 			// ender chests
 			if(tileEntity instanceof TileEntityEnderChest)
 			{
-				AxisAlignedBB bb = BlockUtils.getBoundingBox(
+				AxisAlignedBB bb = WBlock.getBoundingBox(
 					((TileEntityEnderChest)tileEntity).getPos());
 				specialEnder.add(bb);
 			}

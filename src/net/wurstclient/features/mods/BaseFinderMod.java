@@ -17,10 +17,10 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.ChatUtils;
 
 @Mod.Info(
@@ -148,7 +148,7 @@ public final class BaseFinderMod extends Mod
 					
 					BlockPos pos = playerPos.add(x, y, z);
 					
-					if(NATURAL_BLOCKS.contains(BlockUtils.getBlock(pos)))
+					if(NATURAL_BLOCKS.contains(WBlock.getBlock(pos)))
 						continue;
 					
 					matchingBlocks.add(pos);

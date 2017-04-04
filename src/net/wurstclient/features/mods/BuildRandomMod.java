@@ -11,6 +11,7 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
@@ -79,7 +80,7 @@ public final class BuildRandomMod extends Mod implements UpdateListener
 	
 	private boolean tryToPlaceBlock(boolean legitMode, BlockPos pos)
 	{
-		if(BlockUtils.getMaterial(pos) != Material.AIR)
+		if(WBlock.getMaterial(pos) != Material.AIR)
 			return false;
 		
 		if(legitMode)

@@ -13,11 +13,11 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.utils.BlockUtils;
 
 @Mod.Info(
 	description = "Allows you to walk on water.\n"
@@ -145,7 +145,7 @@ public final class JesusMod extends Mod
 			WMinecraft.getPlayer().boundingBox.offset(0, -0.5, 0)))
 		{
 			BlockPos pos = new BlockPos(bb.getCenter());
-			Material material = BlockUtils.getMaterial(pos);
+			Material material = WBlock.getMaterial(pos);
 			
 			if(material == Material.WATER || material == Material.LAVA)
 				foundLiquid = true;

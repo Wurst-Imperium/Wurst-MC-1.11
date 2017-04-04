@@ -31,6 +31,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.ClickEvent;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.GUIRenderListener;
@@ -39,7 +40,6 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.files.WurstFolders;
 import net.wurstclient.font.Fonts;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.JsonUtils;
 import net.wurstclient.utils.RenderUtils;
@@ -146,7 +146,7 @@ public final class TemplateToolMod extends Mod
 				area.scannedBlocks++;
 				BlockPos pos = area.iterator.next();
 				
-				if(!BlockUtils.getMaterial(pos).isReplaceable())
+				if(!WBlock.getMaterial(pos).isReplaceable())
 					area.blocksFound.add(pos);
 			}
 			

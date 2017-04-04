@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
@@ -72,7 +73,7 @@ public final class SpeedNukerMod extends Mod
 				case 1:
 				// id mode
 				validator =
-					(pos) -> wurst.mods.nukerMod.id == BlockUtils.getId(pos);
+					(pos) -> wurst.mods.nukerMod.id == WBlock.getId(pos);
 				break;
 				
 				case 2:
@@ -82,7 +83,7 @@ public final class SpeedNukerMod extends Mod
 				
 				case 3:
 				// smash mode
-				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+				validator = (pos) -> WBlock.getHardness(pos) >= 1;
 				break;
 			}
 		}
@@ -158,13 +159,12 @@ public final class SpeedNukerMod extends Mod
 			return;
 		
 		// check material
-		if(BlockUtils
-			.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+		if(WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
 			return;
 		
 		// set id
 		wurst.mods.nukerMod.id =
-			BlockUtils.getId(mc.objectMouseOver.getBlockPos());
+			WBlock.getId(mc.objectMouseOver.getBlockPos());
 	}
 	
 	@Override

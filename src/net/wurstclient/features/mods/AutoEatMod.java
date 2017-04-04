@@ -13,12 +13,12 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
-import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.PlayerUtils;
 
 @Mod.Info(description = "Automatically eats food when necessary.",
@@ -142,7 +142,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 				return false;
 			
 			// clickable blocks
-			if(mc.objectMouseOver.getBlockPos() != null && BlockUtils.getBlock(
+			if(mc.objectMouseOver.getBlockPos() != null && WBlock.getBlock(
 				mc.objectMouseOver.getBlockPos()) instanceof BlockContainer)
 				return false;
 		}

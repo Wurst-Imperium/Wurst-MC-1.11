@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
@@ -146,7 +147,7 @@ public final class TunnellerMod extends Mod
 		
 		// check if block can be destroyed instantly
 		if(WMinecraft.getPlayer().capabilities.isCreativeMode
-			|| BlockUtils.getHardness(currentBlock) >= 1)
+			|| WBlock.getHardness(currentBlock) >= 1)
 			RenderUtils.nukerBox(currentBlock, 1);
 		else
 			RenderUtils.nukerBox(currentBlock,

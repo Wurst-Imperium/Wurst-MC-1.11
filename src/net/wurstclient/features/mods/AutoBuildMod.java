@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.ai.AutoBuildAI;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.RightClickEvent;
 import net.wurstclient.events.listeners.RenderListener;
@@ -135,8 +136,7 @@ public final class AutoBuildMod extends Mod
 		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK
-			|| mc.objectMouseOver.getBlockPos() == null || BlockUtils
-				.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			|| mc.objectMouseOver.getBlockPos() == null || WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
 			return;
 		
 		// get start pos and facings
@@ -155,7 +155,7 @@ public final class AutoBuildMod extends Mod
 		{
 			// build instantly
 			for(BlockPos pos : positions)
-				if(BlockUtils.getMaterial(pos) == Material.AIR)
+				if(WBlock.getMaterial(pos) == Material.AIR)
 					BlockUtils.placeBlockSimple(pos);
 				
 		}else
@@ -174,7 +174,7 @@ public final class AutoBuildMod extends Mod
 		BlockPos pos = positions.get(blockIndex);
 		
 		// skip already placed blocks
-		while(BlockUtils.getMaterial(pos) != Material.AIR)
+		while(WBlock.getMaterial(pos) != Material.AIR)
 		{
 			blockIndex++;
 			
@@ -233,7 +233,7 @@ public final class AutoBuildMod extends Mod
 				&& i < blockIndex + 64; i++)
 			{
 				pos = positions.get(i);
-				if(BlockUtils.getMaterial(pos) == Material.AIR)
+				if(WBlock.getMaterial(pos) == Material.AIR)
 					BlockUtils.placeBlockSimple(pos);
 			}
 		else if(mode.getSelected() == 1)

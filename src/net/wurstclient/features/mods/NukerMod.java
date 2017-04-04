@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
@@ -57,7 +58,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 				
 				case 1:
 				// id mode
-				validator = (pos) -> id == BlockUtils.getId(pos);
+				validator = (pos) -> id == WBlock.getId(pos);
 				break;
 				
 				case 2:
@@ -67,7 +68,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 				
 				case 3:
 				// smash mode
-				validator = (pos) -> BlockUtils.getHardness(pos) >= 1;
+				validator = (pos) -> WBlock.getHardness(pos) >= 1;
 				break;
 			}
 		}
@@ -146,12 +147,11 @@ public final class NukerMod extends Mod implements LeftClickListener,
 			return;
 		
 		// check material
-		if(BlockUtils
-			.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+		if(WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
 			return;
 		
 		// set id
-		id = BlockUtils.getId(mc.objectMouseOver.getBlockPos());
+		id = WBlock.getId(mc.objectMouseOver.getBlockPos());
 	}
 	
 	@Override
@@ -249,7 +249,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 		
 		// get progress
 		float progress;
-		if(BlockUtils.getHardness(currentBlock) < 1)
+		if(WBlock.getHardness(currentBlock) < 1)
 			progress = mc.playerController.curBlockDamageMP;
 		else
 			progress = 1;

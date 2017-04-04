@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
@@ -47,7 +48,7 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 		BlockPos belowPlayer = new BlockPos(WMinecraft.getPlayer()).down();
 		
 		// check if block is already placed
-		if(!BlockUtils.getMaterial(belowPlayer).isReplaceable())
+		if(!WBlock.getMaterial(belowPlayer).isReplaceable())
 			return;
 		
 		// search blocks in hotbar
