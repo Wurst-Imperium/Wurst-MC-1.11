@@ -9,10 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
-import net.wurstclient.utils.PlayerUtils;
 import net.wurstclient.utils.RotationUtils;
 
 @Mod.Info(
@@ -189,7 +189,7 @@ public final class ProtectMod extends Mod implements UpdateListener
 			// check timer / cooldown
 			if(wurst.mods.killauraMod.useCooldown != null
 				&& wurst.mods.killauraMod.useCooldown.isChecked()
-					? PlayerUtils.getCooldown() < 1
+					? WPlayer.getCooldown() < 1
 					: !hasTimePassedS(wurst.mods.killauraMod.speed.getValueF()))
 				return;
 			

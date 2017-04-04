@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
@@ -16,7 +17,6 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
-import net.wurstclient.utils.PlayerUtils;
 import net.wurstclient.utils.RotationUtils;
 
 @Mod.Info(
@@ -134,8 +134,7 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 		
 		// check timer / cooldown
 		if(useCooldown != null && useCooldown.isChecked()
-			? PlayerUtils.getCooldown() < 1
-			: !hasTimePassedS(speed.getValueF()))
+			? WPlayer.getCooldown() < 1 : !hasTimePassedS(speed.getValueF()))
 			return;
 		
 		// set entity

@@ -28,6 +28,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumHand;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayer;
 
 public class EntityUtils
 {
@@ -48,7 +49,7 @@ public class EntityUtils
 	public static void attackEntity(Entity entity)
 	{
 		mc.playerController.attackEntity(WMinecraft.getPlayer(), entity);
-		PlayerUtils.swingArmClient();
+		WPlayer.swingArmClient();
 	}
 	
 	public static void sendAttackPacket(Entity entity)
