@@ -136,7 +136,8 @@ public final class AutoBuildMod extends Mod
 		// check hitResult
 		if(mc.objectMouseOver == null
 			|| mc.objectMouseOver.typeOfHit != RayTraceResult.Type.BLOCK
-			|| mc.objectMouseOver.getBlockPos() == null || WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			|| mc.objectMouseOver.getBlockPos() == null || WBlock
+				.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
 			return;
 		
 		// get start pos and facings

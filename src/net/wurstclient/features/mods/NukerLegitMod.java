@@ -170,8 +170,7 @@ public final class NukerLegitMod extends Mod
 			return;
 		
 		// set id
-		wurst.mods.nukerMod.id =
-			WBlock.getId(mc.objectMouseOver.getBlockPos());
+		wurst.mods.nukerMod.id = WBlock.getId(mc.objectMouseOver.getBlockPos());
 	}
 	
 	@Override

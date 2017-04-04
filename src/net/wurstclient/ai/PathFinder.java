@@ -334,8 +334,8 @@ public class PathFinder
 	
 	private boolean canFlyAt(BlockPos pos)
 	{
-		return flying || !noSlowdownActive
-			&& WBlock.getMaterial(pos) == Material.WATER;
+		return flying
+			|| !noSlowdownActive && WBlock.getMaterial(pos) == Material.WATER;
 	}
 	
 	private boolean canClimbUpAt(BlockPos pos)

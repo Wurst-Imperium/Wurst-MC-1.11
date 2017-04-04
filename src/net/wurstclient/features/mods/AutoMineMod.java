@@ -51,6 +51,7 @@ public final class AutoMineMod extends Mod implements UpdateListener
 		}
 		
 		// press attack key if looking at block
-		mc.gameSettings.keyBindAttack.pressed = WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR;
+		mc.gameSettings.keyBindAttack.pressed = WBlock
+			.getMaterial(mc.objectMouseOver.getBlockPos()) != Material.AIR;
 	}
 }

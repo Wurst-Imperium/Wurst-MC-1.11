@@ -122,9 +122,11 @@ public final class ChestEspMod extends Mod
 				
 				// larger box for double chest
 				if(chest.adjacentChestXNeg != null)
-					bb = bb.union(WBlock.getBoundingBox(chest.adjacentChestXNeg.getPos()));
+					bb = bb.union(WBlock
+						.getBoundingBox(chest.adjacentChestXNeg.getPos()));
 				else if(chest.adjacentChestZNeg != null)
-					bb = bb.union(WBlock.getBoundingBox(chest.adjacentChestZNeg.getPos()));
+					bb = bb.union(WBlock
+						.getBoundingBox(chest.adjacentChestZNeg.getPos()));
 				
 				boolean trapped = EntityUtils.isTrappedChest(chest);
 				
