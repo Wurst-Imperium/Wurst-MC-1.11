@@ -15,11 +15,11 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
-import net.wurstclient.utils.PlayerUtils;
 
 @Mod.Info(description = "Automatically eats food when necessary.",
 	name = "AutoEat",
@@ -104,7 +104,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 		
 		// eat food
 		mc.gameSettings.keyBindUseItem.pressed = true;
-		PlayerUtils.processRightClick();
+		WPlayerController.processRightClick();
 	}
 	
 	@Override

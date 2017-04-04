@@ -23,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayerController;
 
 public final class BlockUtils
 {
@@ -62,8 +63,8 @@ public final class BlockUtils
 			RotationUtils.faceVectorPacketInstant(hitVec);
 			
 			// place block
-			PlayerUtils.processRightClickBlock(neighbor, side.getOpposite(),
-				hitVec);
+			WPlayerController.processRightClickBlock(neighbor,
+				side.getOpposite(), hitVec);
 			PlayerUtils.swingArmClient();
 			mc.rightClickDelayTimer = 4;
 			
@@ -94,8 +95,8 @@ public final class BlockUtils
 				continue;
 			
 			// place block
-			PlayerUtils.processRightClickBlock(neighbor, side.getOpposite(),
-				hitVec);
+			WPlayerController.processRightClickBlock(neighbor,
+				side.getOpposite(), hitVec);
 			
 			return true;
 		}
@@ -324,7 +325,7 @@ public final class BlockUtils
 				return true;
 			
 			// place block
-			PlayerUtils.processRightClickBlock(pos, side, hitVec);
+			WPlayerController.processRightClickBlock(pos, side, hitVec);
 			PlayerUtils.swingArmClient();
 			mc.rightClickDelayTimer = 4;
 			
@@ -355,7 +356,7 @@ public final class BlockUtils
 				continue;
 			
 			// place block
-			PlayerUtils.processRightClickBlock(pos, side, hitVec);
+			WPlayerController.processRightClickBlock(pos, side, hitVec);
 			
 			return true;
 		}
