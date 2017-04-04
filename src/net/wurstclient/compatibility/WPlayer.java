@@ -21,8 +21,7 @@ public class WPlayer
 	
 	public static void swingArmPacket()
 	{
-		WMinecraft.getPlayer().connection
-			.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+		WConnection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
 	}
 	
 	public static float getCooldown()

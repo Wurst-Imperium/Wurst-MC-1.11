@@ -11,6 +11,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -92,14 +93,14 @@ public final class AutoSplashPotMod extends Mod implements UpdateListener
 			
 			// throw potion in hotbar
 			WMinecraft.getPlayer().inventory.currentItem = potionInHotbar;
-			WMinecraft.getPlayer().connection.sendPacket(
+			WConnection.sendPacket(
 				new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
 					90.0F, WMinecraft.getPlayer().onGround));
 			WPlayerController.processRightClick();
 			
 			// reset slot and rotation
 			WMinecraft.getPlayer().inventory.currentItem = oldSlot;
-			WMinecraft.getPlayer().connection.sendPacket(
+			WConnection.sendPacket(
 				new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
 					WMinecraft.getPlayer().rotationPitch,
 					WMinecraft.getPlayer().onGround));

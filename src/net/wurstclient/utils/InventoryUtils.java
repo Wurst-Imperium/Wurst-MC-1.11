@@ -18,6 +18,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 
 public class InventoryUtils
@@ -29,7 +30,7 @@ public class InventoryUtils
 		for(int i = 0; i < 9; i++)
 			if(isSlotEmpty(i))
 			{
-				WMinecraft.getPlayer().connection.sendPacket(
+				WConnection.sendPacket(
 					new CPacketCreativeInventoryAction(36 + i, stack));
 				return true;
 			}

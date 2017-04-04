@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.InventoryUtils;
@@ -58,7 +59,6 @@ public final class FastEatMod extends Mod implements UpdateListener
 		
 		// send packets
 		for(int i = 0; i < 100; i++)
-			WMinecraft.getPlayer().connection
-				.sendPacket(new CPacketPlayer(false));
+			WConnection.sendPacket(new CPacketPlayer(false));
 	}
 }

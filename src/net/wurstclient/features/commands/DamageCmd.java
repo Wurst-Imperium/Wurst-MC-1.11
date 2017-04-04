@@ -7,8 +7,8 @@
  */
 package net.wurstclient.features.commands;
 
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.MiscUtils;
 
@@ -40,17 +40,16 @@ public final class DamageCmd extends Cmd
 		double posX = WMinecraft.getPlayer().posX;
 		double posY = WMinecraft.getPlayer().posY;
 		double posZ = WMinecraft.getPlayer().posZ;
-		NetHandlerPlayClient connection = WMinecraft.getPlayer().connection;
 		
 		// apply damage
 		for(int i = 0; i < 80 + 20 * (dmg - 1D); ++i)
 		{
-			connection.sendPacket(
+			WConnection.sendPacket(
 				new CPacketPlayer.Position(posX, posY + 0.049D, posZ, false));
-			connection.sendPacket(
+			WConnection.sendPacket(
 				new CPacketPlayer.Position(posX, posY, posZ, false));
 		}
-		connection
+		WConnection
 			.sendPacket(new CPacketPlayer.Position(posX, posY, posZ, true));
 	}
 }

@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 
@@ -92,8 +93,8 @@ public class RotationUtils
 	{
 		float[] rotations = getNeededRotations(vec);
 		
-		WMinecraft.getPlayer().connection.sendPacket(new CPacketPlayer.Rotation(
-			rotations[0], rotations[1], WMinecraft.getPlayer().onGround));
+		WConnection.sendPacket(new CPacketPlayer.Rotation(rotations[0],
+			rotations[1], WMinecraft.getPlayer().onGround));
 	}
 	
 	public static boolean faceVectorClient(Vec3d vec)

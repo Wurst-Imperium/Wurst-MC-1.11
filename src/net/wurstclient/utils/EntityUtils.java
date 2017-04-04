@@ -27,6 +27,7 @@ import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumHand;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 
@@ -54,7 +55,7 @@ public class EntityUtils
 	
 	public static void sendAttackPacket(Entity entity)
 	{
-		WMinecraft.getPlayer().connection
+		WConnection
 			.sendPacket(new CPacketUseEntity(entity, EnumHand.MAIN_HAND));
 	}
 	

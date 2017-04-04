@@ -14,6 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
@@ -131,7 +132,7 @@ public final class JesusMod extends Mod
 				packet.getYaw(0), packet.getPitch(0), true);
 		
 		// send new packet
-		WMinecraft.getPlayer().connection.sendPacketBypass(newPacket);
+		WConnection.sendPacketBypass(newPacket);
 	}
 	
 	private boolean isOverLiquid()

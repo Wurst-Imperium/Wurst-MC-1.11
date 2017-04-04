@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
@@ -50,6 +51,6 @@ public final class AntiFireMod extends Mod implements UpdateListener
 		
 		// send updates
 		for(int i = 0; i < 100; i++)
-			WMinecraft.getPlayer().connection.sendPacket(new CPacketPlayer());
+			WConnection.sendPacket(new CPacketPlayer());
 	}
 }

@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -62,8 +63,7 @@ public final class FastBowMod extends Mod implements UpdateListener
 		WPlayerController.processRightClick();
 		
 		for(int i = 0; i < 20; i++)
-			WMinecraft.getPlayer().connection
-				.sendPacket(new CPacketPlayer(false));
+			WConnection.sendPacket(new CPacketPlayer(false));
 		
 		mc.playerController.onStoppedUsingItem(WMinecraft.getPlayer());
 	}

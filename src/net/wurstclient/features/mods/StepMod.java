@@ -13,6 +13,7 @@ import net.minecraft.block.BlockFenceGate;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -61,12 +62,12 @@ public final class StepMod extends Mod implements UpdateListener
 				&& canStep() && !WMinecraft.getPlayer().movementInput.jump
 				&& WMinecraft.getPlayer().isCollidedHorizontally)
 			{
-				mc.getConnection().sendPacket(
+				WConnection.sendPacket(
 					new CPacketPlayer.Position(WMinecraft.getPlayer().posX,
 						WMinecraft.getPlayer().posY + 0.42D,
 						WMinecraft.getPlayer().posZ,
 						WMinecraft.getPlayer().onGround));
-				mc.getConnection().sendPacket(
+				WConnection.sendPacket(
 					new CPacketPlayer.Position(WMinecraft.getPlayer().posX,
 						WMinecraft.getPlayer().posY + 0.753D,
 						WMinecraft.getPlayer().posZ,
