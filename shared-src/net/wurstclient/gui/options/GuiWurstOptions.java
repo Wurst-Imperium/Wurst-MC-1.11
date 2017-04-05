@@ -34,9 +34,9 @@ public class GuiWurstOptions extends GuiScreen
 			+ "§nHidden§r: Renders nothing.",
 		"Automatically maximizes the Minecraft window.\n"
 			+ "Windows & Linux only!",
-		"Whether or not the Wurst News should be\n" + "shown in the main menu.",
 		"Sends anonymous usage statistics that\n"
 			+ "help us improve the Wurst Client.",
+		"",
 		"Keybinds allow you to toggle any mod\n"
 			+ "or command by simply pressing a\n" + "button.",
 		"Manager for the blocks that X-Ray will\n" + "show.",
@@ -68,14 +68,13 @@ public class GuiWurstOptions extends GuiScreen
 				+ modListModes[WurstClient.INSTANCE.options.modListMode]));
 		buttonList.add(new GuiButton(3, width / 2 - 154, height / 4 + 72 - 16,
 			100, 20, "AutoMaximize: " + (autoMaximize ? "ON" : "OFF")));
-		buttonList.add(new GuiButton(4, width / 2 - 154, height / 4 + 96 - 16,
-			100, 20, "Wurst News: "
-				+ (WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF")));
 		buttonList.add(
-			new GuiButton(5, width / 2 - 154, height / 4 + 120 - 16, 100, 20,
+			new GuiButton(4, width / 2 - 154, height / 4 + 96 - 16, 100, 20,
 				"Analytics: "
 					+ (WurstClient.INSTANCE.options.google_analytics.enabled
 						? "ON" : "OFF")));
+		// buttonList.add(new GuiButton(5, width / 2 - 154, height / 4 + 120 -
+		// 16, 100, 20, "???"));
 		buttonList.add(new GuiButton(6, width / 2 - 50, height / 4 + 24 - 16,
 			100, 20, "Keybinds"));
 		buttonList.add(new GuiButton(7, width / 2 - 50, height / 4 + 48 - 16,
@@ -89,11 +88,11 @@ public class GuiWurstOptions extends GuiScreen
 		buttonList.add(new GuiButton(11, width / 2 + 54, height / 4 + 24 - 16,
 			100, 20, "Official Website"));
 		buttonList.add(new GuiButton(12, width / 2 + 54, height / 4 + 48 - 16,
-			100, 20, "YouTube Channel"));
-		buttonList.add(new GuiButton(13, width / 2 + 54, height / 4 + 72 - 16,
 			100, 20, "Twitter Page"));
-		buttonList.add(new GuiButton(14, width / 2 + 54, height / 4 + 96 - 16,
+		buttonList.add(new GuiButton(13, width / 2 + 54, height / 4 + 72 - 16,
 			100, 20, "Discord Server"));
+		// buttonList.add(new GuiButton(14, width / 2 + 54, height / 4 + 96 -
+		// 16, 100, 20, "???"));
 		// buttonList.add(new GuiButton(15, width / 2 + 54, height / 4 + 120 -
 		// 16, 100, 20, "???"));
 		buttonList.get(3).enabled = !WMinecraft.isRunningOnMac();
@@ -108,7 +107,8 @@ public class GuiWurstOptions extends GuiScreen
 		if(button.id == 0)
 			mc.displayGuiScreen(prevScreen);
 		else if(button.id == 1)
-		{// Click Friends
+		{
+			// Click Friends
 			WurstClient.INSTANCE.options.middleClickFriends =
 				!WurstClient.INSTANCE.options.middleClickFriends;
 			button.displayString = "Click Friends: "
@@ -119,7 +119,8 @@ public class GuiWurstOptions extends GuiScreen
 				"click friends",
 				WurstClient.INSTANCE.options.middleClickFriends ? "ON" : "OFF");
 		}else if(button.id == 2)
-		{// Mod List
+		{
+			// Mod List
 			WurstClient.INSTANCE.options.modListMode++;
 			if(WurstClient.INSTANCE.options.modListMode > 2)
 				WurstClient.INSTANCE.options.modListMode = 0;
@@ -129,7 +130,8 @@ public class GuiWurstOptions extends GuiScreen
 			WurstClient.INSTANCE.analytics.trackEvent("options", "mod list",
 				modListModes[WurstClient.INSTANCE.options.modListMode]);
 		}else if(button.id == 3)
-		{// AutoMaximize
+		{
+			// AutoMaximize
 			autoMaximize = !autoMaximize;
 			button.displayString =
 				"AutoMaximize: " + (autoMaximize ? "ON" : "OFF");
@@ -137,16 +139,8 @@ public class GuiWurstOptions extends GuiScreen
 			WurstClient.INSTANCE.analytics.trackEvent("options", "automaximize",
 				autoMaximize ? "ON" : "OFF");
 		}else if(button.id == 4)
-		{// Wurst News
-			WurstClient.INSTANCE.options.wurstNews =
-				!WurstClient.INSTANCE.options.wurstNews;
-			button.displayString = "Wurst News: "
-				+ (WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
-			ConfigFiles.OPTIONS.save();
-			WurstClient.INSTANCE.analytics.trackEvent("options", "wurst news",
-				WurstClient.INSTANCE.options.wurstNews ? "ON" : "OFF");
-		}else if(button.id == 5)
-		{// Analytics
+		{
+			// Analytics
 			GoogleAnalytics analytics =
 				WurstClient.INSTANCE.options.google_analytics;
 			if(analytics.enabled)
@@ -159,6 +153,9 @@ public class GuiWurstOptions extends GuiScreen
 			button.displayString =
 				"Analytics: " + (analytics.enabled ? "ON" : "OFF");
 			ConfigFiles.OPTIONS.save();
+		}else if(button.id == 5)
+		{
+			
 		}else if(button.id == 6)
 			// Keybind Manager
 			mc.displayGuiScreen(new GuiKeybindManager(this));
@@ -177,12 +174,13 @@ public class GuiWurstOptions extends GuiScreen
 		}else if(button.id == 11)
 			MiscUtils.openLink("https://www.wurstclient.net/");
 		else if(button.id == 12)
-			MiscUtils.openLink("https://www.wurstclient.net/youtube/");
+			MiscUtils.openLink("https://twitter.com/Wurst_Imperium");
 		else if(button.id == 13)
-			MiscUtils.openLink("https://www.wurstclient.net/twitter/");
+			MiscUtils.openLink("https://discord.gg/2K8cFmG");
 		else if(button.id == 14)
-			MiscUtils.openLink("https://www.wurstclient.net/discord/");
-		else if(button.id == 15)
+		{
+			
+		}else if(button.id == 15)
 		{
 			
 		}
