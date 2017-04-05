@@ -106,5 +106,5 @@ public abstract class Command
 		throw new CmdError(message);
 	}
 	
-	public abstract void execute(String[] args) throws Command.CmdError;
+	public abstract void execute(String[] args) throws CmdError;
 }
