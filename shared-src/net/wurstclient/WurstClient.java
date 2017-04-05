@@ -8,6 +8,7 @@
 package net.wurstclient;
 
 import net.wurstclient.analytics.AnalyticsManager;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.EventManager;
 import net.wurstclient.features.commands.CmdManager;
 import net.wurstclient.features.mods.ModManager;
@@ -65,6 +66,8 @@ public enum WurstClient
 		updater.checkForUpdate();
 		analytics =
 			new AnalyticsManager("UA-52838431-5", "client.wurstclient.net");
+		analytics.trackPageView("/mc" + WMinecraft.VERSION + "/v" + VERSION,
+			"Wurst " + VERSION + " MC" + WMinecraft.VERSION);
 		ConfigFiles.OPTIONS.save();
 		
 		FrameHook.maximize();
