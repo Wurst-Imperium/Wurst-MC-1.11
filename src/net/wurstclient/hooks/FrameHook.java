@@ -103,7 +103,7 @@ public class FrameHook
 			load.close();
 			Minecraft.getMinecraft();
 			autoMaximizeEnabled =
-				line.equals("true") && !Minecraft.IS_RUNNING_ON_MAC;
+				line.equals("true") && !WMinecraft.isRunningOnMac();
 		}catch(IOException e)
 		{
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class FrameHook
 				autoMaximizeFile.getParentFile().mkdirs();
 			PrintWriter save =
 				new PrintWriter(new FileWriter(autoMaximizeFile));
-			save.println(Boolean.toString(!Minecraft.IS_RUNNING_ON_MAC));
+			save.println(Boolean.toString(!WMinecraft.isRunningOnMac()));
 			save.close();
 		}catch(IOException e)
 		{

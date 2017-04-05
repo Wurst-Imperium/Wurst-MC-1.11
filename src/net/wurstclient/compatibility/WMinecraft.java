@@ -34,4 +34,9 @@ public final class WMinecraft
 	{
 		return mc.world;
 	}
+	
+	public static boolean isRunningOnMac()
+	{
+		return Minecraft.IS_RUNNING_ON_MAC;
+	}
 }

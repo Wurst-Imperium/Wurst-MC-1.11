@@ -9,10 +9,10 @@ package net.wurstclient.gui.options;
 
 import java.util.Arrays;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.gui.options.keybinds.GuiKeybindManager;
 import net.wurstclient.gui.options.xray.GuiXRayBlocksManager;
@@ -96,7 +96,7 @@ public class GuiWurstOptions extends GuiScreen
 			100, 20, "Discord Server"));
 		// buttonList.add(new GuiButton(15, width / 2 + 54, height / 4 + 120 -
 		// 16, 100, 20, "???"));
-		buttonList.get(3).enabled = !Minecraft.IS_RUNNING_ON_MAC;
+		buttonList.get(3).enabled = !WMinecraft.isRunningOnMac();
 	}
 	
 	@Override
