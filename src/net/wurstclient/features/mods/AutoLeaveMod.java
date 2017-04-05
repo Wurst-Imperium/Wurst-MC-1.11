@@ -72,7 +72,7 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 		
 		// check for other players
 		if(mc.isSingleplayer()
-			|| WMinecraft.getPlayer().connection.getPlayerInfoMap().size() == 1)
+			|| WMinecraft.getConnection().getPlayerInfoMap().size() == 1)
 			return;
 		
 		// check health

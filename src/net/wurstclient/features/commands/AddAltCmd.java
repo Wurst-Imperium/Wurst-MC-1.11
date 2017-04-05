@@ -31,7 +31,7 @@ public final class AddAltCmd extends Cmd
 		if(args[0].equals("all"))
 		{
 			int alts = 0;
-			for(NetworkPlayerInfo info : WMinecraft.getPlayer().connection
+			for(NetworkPlayerInfo info : WMinecraft.getConnection()
 				.getPlayerInfoMap())
 			{
 				String name =

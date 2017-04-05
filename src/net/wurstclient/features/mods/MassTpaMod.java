@@ -41,7 +41,7 @@ public final class MassTpaMod extends Mod
 	{
 		i = 0;
 		Iterator itr =
-			WMinecraft.getPlayer().connection.getPlayerInfoMap().iterator();
+			WMinecraft.getConnection().getPlayerInfoMap().iterator();
 		players = new ArrayList<>();
 		while(itr.hasNext())
 			players.add(StringUtils.stripControlCodes(
