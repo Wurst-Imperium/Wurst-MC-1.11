@@ -16,16 +16,12 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map.Entry;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.client.Minecraft;
@@ -48,9 +44,6 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		new ResourceLocation("wurst/wurst_380.png");
 	private static final ResourceLocation santaHat =
 		new ResourceLocation("wurst/santa_hat.png");
-	private JsonObject news;
-	private String newsTicker;
-	private int newsWidth;
 	private static boolean startupMessageDisabled = false;
 	
 	private String noticeText = "";
@@ -67,34 +60,6 @@ public class GuiWurstMainMenu extends GuiMainMenu
 	public GuiWurstMainMenu()
 	{
 		super();
-		
-		if(WurstClient.INSTANCE.options.wurstNews)
-			downloadWurstNews();
-	}
-	
-	private void downloadWurstNews()
-	{
-		new Thread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					URLConnection connection = new URL(
-						"https://www.wurstclient.net/api/v1/newsfeed.json")
-							.openConnection();
-					connection.connect();
-					news = JsonUtils.jsonParser
-						.parse(
-							new InputStreamReader(connection.getInputStream()))
-						.getAsJsonObject();
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}).start();
 	}
 	
 	@Override
@@ -116,42 +81,6 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		noticeY1 = buttonList.get(0).yPosition - 24;
 		noticeX2 = noticeX1 + noticeWidth;
 		noticeY2 = noticeY1 + 24;
-		
-		// news
-		newsTicker = "";
-		new Thread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// wait for news to load
-				while(news == null)
-					try
-					{
-						Thread.sleep(50);
-					}catch(InterruptedException e1)
-					{
-						e1.printStackTrace();
-					}
-				
-				// build news ticker
-				try
-				{
-					for(Entry<String, JsonElement> entry : news.entrySet())
-						newsTicker += entry.getKey() + "§e+++§r";
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-				newsWidth = fontRendererObj.getStringWidth(newsTicker);
-				// divide by zero fix
-				if(newsWidth % 50 == 0)
-					newsWidth++;
-				while(fontRendererObj.getStringWidth(newsTicker) < Math
-					.max(width * 2, newsWidth * 2) && !newsTicker.isEmpty())
-					newsTicker += newsTicker;
-			}
-		}).start();
 	}
 	
 	@Override
@@ -180,7 +109,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 					"go play");
 			else
 			{
-				MiscUtils.openLink("https://www.wurstclient.net/changelog/");
+				MiscUtils.openLink("https://www.wurstclient.net/updates/wurst-"
+					+ WurstClient.VERSION.replace(".", "-"));
 				WurstClient.INSTANCE.analytics.trackEvent("changelog",
 					"view changelog");
 			}
@@ -267,7 +197,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		
 		// title image
 		mc.getTextureManager().bindTexture(title);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1, 1, 1, 1);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		int x = width / 2 - 256 / 2;
@@ -280,8 +210,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		float v = 0;
 		if(GuiMainMenu.splashText.equals("umop-apisdn!"))
 		{
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(-width, -h - 60, 0.0F);
+			GL11.glRotatef(180, 0, 0, 1);
+			GL11.glTranslatef(-width, -h - 60, 0);
 		}
 		drawModalRectWithCustomSizedTexture(x, y, u, v, w, h, fw, fh);
 		if(Calendar.getInstance().get(Calendar.MONTH) == Calendar.DECEMBER)
@@ -299,8 +229,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		}
 		if(GuiMainMenu.splashText.equals("umop-apisdn!"))
 		{
-			GL11.glRotatef(-180.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(-width, -h - 60, 0.0F);
+			GL11.glRotatef(-180, 0, 0, 1);
+			GL11.glTranslatef(-width, -h - 60, 0);
 		}
 		
 		// splash text
@@ -308,7 +238,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		GlStateManager.translate(width / 2 + 90, 72.0F, 0.0F);
 		GlStateManager.rotate(-20.0F, 0.0F, 0.0F, 1.0F);
 		float splashScale = 1.8F - Math.abs(WMath.sin(
-			Minecraft.getSystemTime() % 1000L / 1000.0F * (float)Math.PI * 2.0F)
+			Minecraft.getSystemTime() % 1000L / 1000F * (float)Math.PI * 2.0F)
 			* 0.1F);
 		splashScale = splashScale * 100.0F
 			/ (fontRendererObj.getStringWidth(splashText) + 32);
@@ -343,45 +273,6 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		for(Object button : buttonList)
 			((GuiButton)button).drawButton(mc, mouseX, mouseY);
 		
-		// news
-		if(!newsTicker.isEmpty() && newsWidth != 0)
-			drawString(fontRendererObj, newsTicker,
-				-(int)(Minecraft.getSystemTime() / 50 % newsWidth), height - 10,
-				-1);
-		
-		// tooltips
-		for(int i = 0; i < buttonList.size(); i++)
-		{
-			GuiButton button = buttonList.get(i);
-			if(button.isMouseOver())
-			{
-				ArrayList<String> tooltip = new ArrayList<>();
-				switch(button.id)
-				{
-					case 20:
-					tooltip.add("Wurst YouTube Channel");
-					break;
-					case 21:
-					tooltip.add("Wurst Twitter Account");
-					break;
-					case 22:
-					tooltip.add("Wurst Google+ Page");
-					break;
-					case 23:
-					tooltip.add("Wurst Source Code");
-					break;
-					case 24:
-					tooltip.add("Wurst Feedback");
-					break;
-					case 25:
-					tooltip.add("Wurst Merchandise");
-					break;
-				}
-				drawHoveringText(tooltip, mouseX, mouseY);
-				break;
-			}
-		}
-		
 		// notice
 		if(noticeText != null && noticeText.length() > 0)
 		{
@@ -399,15 +290,13 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		throws IOException
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		int linkWidth = fontRendererObj.getStringWidth("§nwww.WurstClient.net");
 		
+		// website link
+		int linkWidth = fontRendererObj.getStringWidth("§nwww.WurstClient.net");
 		if(mouseButton == 0 && mouseY >= height - 26 && mouseY < height - 16
 			&& mouseX > width / 2 - linkWidth / 2
 			&& mouseX < width / 2 + linkWidth / 2)
 			MiscUtils.openLink("https://www.wurstclient.net/");
-		
-		if(news != null && mouseButton == 0 && mouseY >= height - 10)
-			MiscUtils.openLink("https://www.wurstclient.net/news");
 		
 		// notice
 		if(noticeText.length() > 0 && mouseX >= noticeX1 && mouseX <= noticeX2
