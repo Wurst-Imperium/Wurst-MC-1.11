@@ -15,6 +15,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -111,7 +112,7 @@ public class Updater
 					getClass().getClassLoader().getResourceAsStream(
 						"assets/minecraft/wurst/Wurst-updater.jar"))
 				{
-					Files.copy(in, path);
+					Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
 				}
 				
 				ProcessBuilder pb =
