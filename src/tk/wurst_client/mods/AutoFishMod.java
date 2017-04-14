@@ -11,6 +11,7 @@ import net.minecraft.entity.projectile.EntityFishHook;
 import tk.wurst_client.events.listeners.UpdateListener;
 import tk.wurst_client.mods.Mod.Bypasses;
 import tk.wurst_client.mods.Mod.Info;
+import tk.wurst_client.utils.MiscUtils;
 
 @Info(
 	description = "Automatically catches fish.",
@@ -29,38 +30,28 @@ public class AutoFishMod extends Mod implements UpdateListener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
-	private int translate(double d) {
-		String s = String.valueOf(d);
-		s = s.replace(".", ",");
-		if (s.contains(",")) {
-			return Integer.valueOf(s.split(",")[0]);
-		} else {
-			return Integer.valueOf(s);
-		}
-	}
-	
 	@Override
 	public void onUpdate()
 	{
-		if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
+		if (mc.thePlayer.fishEntity != null && !catching) {
 			try {
-				if (Minecraft.getMinecraft().player.fishEntity != null && !catching) {
+				if (mc.thePlayer.fishEntity != null && !catching) {
 					if (lastY == 0) {
-						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
+						lastY = (int)mc.thePlayer.fishEntity.posY;
 					}
-					if (lastY != translate(Minecraft.getMinecraft().player.fishEntity.posY)) {
-						lastY = translate(Minecraft.getMinecraft().player.fishEntity.posY);
+					if (lastY != (int)mc.thePlayer.fishEntity.posY) {
+						lastY = (int)mc.thePlayer.fishEntity.posY;
 						catching = true;
 						new Thread() {
 							@Override
 							public void run() {
-								Minecraft.getMinecraft().rightClickMouse();
+								mc.rightClickMouse();
 								try {
 									Thread.sleep(1000);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
-								Minecraft.getMinecraft().rightClickMouse();
+								mc.rightClickMouse();
 								try {
 									Thread.sleep(1000);
 								} catch (InterruptedException e) {
