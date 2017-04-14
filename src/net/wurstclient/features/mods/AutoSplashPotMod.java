@@ -8,7 +8,6 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
@@ -116,8 +115,7 @@ public final class AutoSplashPotMod extends Mod implements UpdateListener
 		
 		// move potion in inventory to hotbar
 		if(potionInInventory != -1)
-			mc.playerController.windowClick(0, potionInInventory, 0,
-				ClickType.QUICK_MOVE, WMinecraft.getPlayer());
+			WPlayerController.windowClick_QUICK_MOVE(potionInInventory);
 	}
 	
 	@Override

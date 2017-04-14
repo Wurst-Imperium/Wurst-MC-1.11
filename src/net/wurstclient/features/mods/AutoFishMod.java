@@ -8,11 +8,11 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -145,15 +145,12 @@ public final class AutoFishMod extends Mod
 		}
 		
 		// place rod in hotbar slot
-		mc.playerController.windowClick(0, rodInInventory, 0, ClickType.PICKUP,
-			WMinecraft.getPlayer());
-		mc.playerController.windowClick(0, 36 + hotbarSlot, 0, ClickType.PICKUP,
-			WMinecraft.getPlayer());
+		WPlayerController.windowClick_PICKUP(rodInInventory);
+		WPlayerController.windowClick_PICKUP(36 + hotbarSlot);
 		
 		// swap old hotbar item with rod
 		if(swap)
-			mc.playerController.windowClick(0, rodInInventory, 0,
-				ClickType.PICKUP, WMinecraft.getPlayer());
+			WPlayerController.windowClick_PICKUP(rodInInventory);
 	}
 	
 	@Override

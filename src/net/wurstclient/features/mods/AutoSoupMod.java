@@ -12,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WBlock;
@@ -90,15 +89,12 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 				&& emptyBowlStack.getItem() != Items.BOWL;
 			
 			// place bowl in empty bowl slot
-			mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
-				ClickType.PICKUP, WMinecraft.getPlayer());
-			mc.playerController.windowClick(0, 9, 0, ClickType.PICKUP,
-				WMinecraft.getPlayer());
+			WPlayerController.windowClick_PICKUP(i < 9 ? 36 + i : i);
+			WPlayerController.windowClick_PICKUP(9);
 			
 			// place non-bowl item from empty bowl slot in current slot
 			if(swap)
-				mc.playerController.windowClick(0, i < 9 ? 36 + i : i, 0,
-					ClickType.PICKUP, WMinecraft.getPlayer());
+				WPlayerController.windowClick_PICKUP(i < 9 ? 36 + i : i);
 		}
 		
 		// search soup in hotbar
@@ -135,8 +131,7 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		
 		// move soup in inventory to hotbar
 		if(soupInInventory != -1)
-			mc.playerController.windowClick(0, soupInInventory, 0,
-				ClickType.QUICK_MOVE, WMinecraft.getPlayer());
+			WPlayerController.windowClick_QUICK_MOVE(soupInInventory);
 	}
 	
 	@Override
