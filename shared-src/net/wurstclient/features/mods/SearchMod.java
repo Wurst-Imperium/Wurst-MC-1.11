@@ -9,8 +9,11 @@ package net.wurstclient.features.mods;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -53,8 +56,48 @@ public final class SearchMod extends Mod
 	@Override
 	public void onRender(float partialTicks)
 	{
-		for(BlockPos blockPos : matchingBlocks)
-			RenderUtils.searchBox(blockPos);
+		// GL settings
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glLineWidth(2);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-mc.getRenderManager().renderPosX,
+			-mc.getRenderManager().renderPosY,
+			-mc.getRenderManager().renderPosZ);
+		
+		// generate rainbow color
+		float x = System.currentTimeMillis() % 2000 / 1000F;
+		float red = 0.5F + 0.5F * WMath.sin(x * (float)Math.PI);
+		float green = 0.5F + 0.5F * WMath.sin((x + 4F / 3F) * (float)Math.PI);
+		float blue = 0.5F + 0.5F * WMath.sin((x + 8F / 3F) * (float)Math.PI);
+		
+		// render boxes
+		for(BlockPos pos : matchingBlocks)
+		{
+			GL11.glPushMatrix();
+			GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
+			
+			GL11.glColor4f(red, green, blue, 0.5F);
+			RenderUtils.drawOutlinedBox();
+			
+			GL11.glColor4f(red, green, blue, 0.25F);
+			RenderUtils.drawSolidBox();
+			
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glPopMatrix();
+		
+		// GL resets
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 	}
 	
 	@Override
