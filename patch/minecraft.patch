@@ -1,6 +1,6 @@
-From f9608eedfa8e1e7afcc89d09154f0bee6d905af3 Mon Sep 17 00:00:00 2001
+From 400f3bab4c46b4bd03b48920344e472f10b13ce7 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sun, 16 Apr 2017 12:19:56 +0200
+Date: Wed, 19 Apr 2017 07:56:03 +0200
 Subject: [PATCH] mod
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   5 +-
  net/minecraft/block/BlockSoulSand.java             |   5 +
  net/minecraft/client/Minecraft.java                | 222 +++++++++++----------
- net/minecraft/client/entity/EntityPlayerSP.java    | 101 +++++++---
+ net/minecraft/client/entity/EntityPlayerSP.java    | 106 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  87 ++++++++
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |   7 +
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  32 ++-
- 54 files changed, 1210 insertions(+), 454 deletions(-)
+ 54 files changed, 1214 insertions(+), 455 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -659,7 +659,7 @@ index 37e735f..83684be 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..65bd3d7 100644
+index 0728387..3d73f7d 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -773,11 +773,11 @@ index 0728387..65bd3d7 100644
 +				|| (WurstClient.INSTANCE.mods.potionSaverMod.isActive()
 +					&& !getActivePotionEffects().isEmpty() && motionX == 0
 +					&& motionZ == 0))
-+			{
+ 			{
+-                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 +				
 +			}else if (this.isRiding())
-             {
--                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
++            {
 +				// TODO: Client
 +				this.connection
 +					.sendPacket(new CPacketPlayer.PositionRotation(this.motionX,
@@ -835,7 +835,20 @@ index 0728387..65bd3d7 100644
  	}
  
      public void swingArm(EnumHand hand)
-@@ -1146,7 +1186,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -945,8 +985,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
+         boolean flag2 = this.movementInput.moveForward >= 0.8F;
+         this.movementInput.updatePlayerMoveState();
+ 
+-        if (this.isHandActive() && !this.isRiding())
++		// TODO: Client
++		if(this.isHandActive() && !this.isRiding()
++			&& !WurstClient.INSTANCE.mods.noSlowdownMod.isActive())
+ 		{
++        	
+             this.movementInput.moveStrafe *= 0.2F;
+             this.movementInput.moveForward *= 0.2F;
+             this.sprintToggleTimer = 0;
+@@ -1146,7 +1189,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
      public boolean isAutoJumpEnabled()
      {
