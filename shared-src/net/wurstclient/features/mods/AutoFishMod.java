@@ -16,6 +16,7 @@ import net.wurstclient.compatibility.WSoundEvents;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
@@ -30,7 +31,16 @@ import net.wurstclient.utils.InventoryUtils;
 public final class AutoFishMod extends Mod
 	implements UpdateListener, PacketInputListener
 {
+	private final CheckboxSetting overfillInventory =
+		new CheckboxSetting("Overfill inventory", false);
+	
 	private int timer;
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(overfillInventory);
+	}
 	
 	@Override
 	public void onEnable()
@@ -53,7 +63,8 @@ public final class AutoFishMod extends Mod
 	public void onUpdate()
 	{
 		// check if inventory is full
-		if(WMinecraft.getPlayer().inventory.getFirstEmptyStack() == -1)
+		if(!overfillInventory.isChecked()
+			&& WMinecraft.getPlayer().inventory.getFirstEmptyStack() == -1)
 		{
 			ChatUtils.message("Inventory is full.");
 			setEnabled(false);
