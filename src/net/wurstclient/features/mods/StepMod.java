@@ -113,7 +113,7 @@ public final class StepMod extends Mod implements UpdateListener
 				player.getEntityBoundingBox().maxY + 0.001D,
 				player.getEntityBoundingBox().maxZ + 0.001D);
 		
-		if(player.world.isAreaLoaded(pos1, pos2))
+		if(WMinecraft.getWorld().isAreaLoaded(pos1, pos2))
 			for(int x = pos1.getX(); x <= pos2.getX(); x++)
 				for(int y = pos1.getY(); y <= pos2.getY(); y++)
 					for(int z = pos1.getZ(); z <= pos2.getZ(); z++)
@@ -123,11 +123,11 @@ public final class StepMod extends Mod implements UpdateListener
 		BlockPos belowPlayerPos =
 			new BlockPos(player.posX, player.posY - 1.0D, player.posZ);
 		for(BlockPos collisionBlock : collisionBlocks)
-			if(!(player.world.getBlockState(collisionBlock.add(0, 1, 0))
+			if(!(WMinecraft.getWorld()
+				.getBlockState(collisionBlock.add(0, 1, 0))
 				.getBlock() instanceof BlockFenceGate))
-				if(player.world.getBlockState(collisionBlock.add(0, 1, 0))
-					.getBlock().getCollisionBoundingBox(
-						WMinecraft.getWorld().getBlockState(collisionBlock),
+				if(WMinecraft.getWorld()
+					.getBlockState(collisionBlock.add(0, 1, 0)).getBoundingBox(
 						WMinecraft.getWorld(), belowPlayerPos) != null)
 					return false;
 				
