@@ -7,7 +7,6 @@
  */
 package net.wurstclient.features.mods;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,7 +35,7 @@ public final class TrollPotionMod extends Mod
 		}
 		
 		// generate potion
-		ItemStack stack = new ItemStack(Items.SPLASH_POTION);
+		ItemStack stack = InventoryUtils.createSplashPotion();
 		NBTTagList effects = new NBTTagList();
 		for(int i = 1; i <= 23; i++)
 		{
