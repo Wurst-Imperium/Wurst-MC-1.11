@@ -7,7 +7,6 @@
  */
 package net.wurstclient.gui.options.keybinds;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,31 +14,28 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.wurstclient.WurstClient;
-import net.wurstclient.features.mods.Mod;
 
-public class GuiKeybindList extends GuiSlot
+public final class GuiKeybindList extends GuiSlot
 {
-	public GuiKeybindList(Minecraft par1Minecraft, GuiScreen prevScreen)
-	{
-		super(par1Minecraft, prevScreen.width, prevScreen.height, 36,
-			prevScreen.height - 56, 30);
-		mc = par1Minecraft;
-	}
-	
 	private int selectedSlot;
 	private Minecraft mc;
-	@Deprecated
-	public static ArrayList<Mod> mods = new ArrayList<>();
 	
-	@Override
-	protected boolean isSelected(int id)
+	public GuiKeybindList(Minecraft mc, GuiScreen prevScreen)
 	{
-		return selectedSlot == id;
+		super(mc, prevScreen.width, prevScreen.height, 36,
+			prevScreen.height - 56, 30);
+		this.mc = mc;
 	}
 	
-	protected int getSelectedSlot()
+	public int getSelectedSlot()
 	{
 		return selectedSlot;
+	}
+	
+	@Override
+	protected boolean isSelected(int index)
+	{
+		return selectedSlot == index;
 	}
 	
 	@Override
@@ -49,23 +45,28 @@ public class GuiKeybindList extends GuiSlot
 	}
 	
 	@Override
-	protected void elementClicked(int var1, boolean var2, int var3, int var4)
+	protected void elementClicked(int index, boolean isDoubleClick, int mouseX,
+		int mouseY)
 	{
-		selectedSlot = var1;
+		selectedSlot = index;
 	}
 	
 	@Override
 	protected void drawBackground()
-	{}
+	{
+		
+	}
 	
 	@Override
-	protected void drawSlot(int id, int x, int y, int var4, int var5, int var6)
+	protected void drawSlot(int id, int x, int y, int slotHeight, int mouseX,
+		int mouseY)
 	{
 		Entry entry = WurstClient.INSTANCE.keybinds.entrySet()
 			.toArray(new Map.Entry[WurstClient.INSTANCE.keybinds.size()])[id];
+		
 		mc.fontRendererObj.drawString("Key: " + entry.getKey(), x + 3, y + 3,
-			10526880);
+			0xa0a0a0);
 		mc.fontRendererObj.drawString("Command: " + entry.getValue(), x + 3,
-			y + 15, 10526880);
+			y + 15, 0xa0a0a0);
 	}
 }
