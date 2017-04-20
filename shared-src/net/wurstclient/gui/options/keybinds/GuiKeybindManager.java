@@ -9,6 +9,7 @@ package net.wurstclient.gui.options.keybinds;
 
 import java.io.IOException;
 import java.util.Map.Entry;
+import java.util.Arrays;
 import java.util.TreeSet;
 
 import net.minecraft.client.gui.GuiButton;
@@ -66,8 +67,19 @@ public class GuiKeybindManager extends GuiScreen
 			if(clickedButton.id == 0)
 				mc.displayGuiScreen(new GuiKeybindChange(this, null));
 			else if(clickedButton.id == 3)
+			{
+				// force-add GUI keybind if missing
+				if(!WurstClient.INSTANCE.keybinds.containsValue(
+					new TreeSet<>(Arrays.asList(".t navigator"))))
+				{
+					WurstClient.INSTANCE.keybinds.put("LCONTROL",
+						".t navigator");
+					ConfigFiles.KEYBINDS.save();
+				}
+				
 				mc.displayGuiScreen(prevScreen);
-			else if(clickedButton.id == 4)
+				
+			}else if(clickedButton.id == 4)
 				mc.displayGuiScreen(new GuiYesNo(this,
 					"Are you sure you want to reset your keybinds?",
 					"This cannot be undone!", 0));
