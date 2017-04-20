@@ -119,6 +119,8 @@ public final class ChestEspMod extends Mod
 				
 				// get hitbox
 				AxisAlignedBB bb = WBlock.getBoundingBox(chest.getPos());
+				if(bb == null)
+					continue;
 				
 				// larger box for double chest
 				if(chest.adjacentChestXNeg != null)
