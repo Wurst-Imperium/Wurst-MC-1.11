@@ -18,11 +18,10 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.init.SoundEvents;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMath;
+import net.wurstclient.compatibility.WSoundEvents;
 import net.wurstclient.features.Feature;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.font.Fonts;
@@ -235,11 +234,9 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 		// buttons
 		if(activeButton != null)
 		{
-			mc.getSoundHandler().playSound(PositionedSoundRecord
-				.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			WSoundEvents.playButtonClick();
 			activeButton.press();
-			WurstClient wurst = WurstClient.INSTANCE;
-			wurst.navigator.addPreference(feature.getName());
+			WurstClient.INSTANCE.navigator.addPreference(feature.getName());
 			ConfigFiles.NAVIGATOR.save();
 			return;
 		}
