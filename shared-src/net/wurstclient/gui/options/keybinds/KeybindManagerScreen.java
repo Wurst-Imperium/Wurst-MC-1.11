@@ -24,7 +24,7 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.options.KeybindManager;
 
-public final class GuiKeybindManager extends GuiScreen
+public final class KeybindManagerScreen extends GuiScreen
 {
 	private final GuiScreen prevScreen;
 	
@@ -34,7 +34,7 @@ public final class GuiKeybindManager extends GuiScreen
 	private GuiButton removeButton;
 	private GuiButton backButton;
 	
-	public GuiKeybindManager(GuiScreen prevScreen)
+	public KeybindManagerScreen(GuiScreen prevScreen)
 	{
 		this.prevScreen = prevScreen;
 	}

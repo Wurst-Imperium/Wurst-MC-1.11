@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
-import net.wurstclient.gui.options.keybinds.GuiKeybindManager;
+import net.wurstclient.gui.options.keybinds.KeybindManagerScreen;
 import net.wurstclient.gui.options.xray.GuiXRayBlocksManager;
 import net.wurstclient.gui.options.zoom.GuiZoomManager;
 import net.wurstclient.options.OptionsManager.GoogleAnalytics;
@@ -158,7 +158,7 @@ public class GuiWurstOptions extends GuiScreen
 			
 		}else if(button.id == 6)
 			// Keybind Manager
-			mc.displayGuiScreen(new GuiKeybindManager(this));
+			mc.displayGuiScreen(new KeybindManagerScreen(this));
 		else if(button.id == 7)
 			// X-Ray Block Manager
 			mc.displayGuiScreen(new GuiXRayBlocksManager(this));
