@@ -64,14 +64,14 @@ public final class KeybindManagerScreen extends GuiScreen
 		switch(button.id)
 		{
 			case 0:
-			mc.displayGuiScreen(new GuiKeybindChange(this, null));
+			mc.displayGuiScreen(new KeybindEditorScreen(this, null));
 			break;
 			
 			case 1:
 			Entry<String, TreeSet<String>> entry = WurstClient.INSTANCE.keybinds
 				.entrySet().toArray(new Entry[WurstClient.INSTANCE.keybinds
 					.size()])[listGui.selectedSlot];
-			mc.displayGuiScreen(new GuiKeybindChange(this, entry));
+			mc.displayGuiScreen(new KeybindEditorScreen(this, entry));
 			break;
 			
 			case 2:

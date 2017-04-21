@@ -20,7 +20,7 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.gui.options.GuiPressAKey;
 import net.wurstclient.gui.options.GuiPressAKeyCallback;
 
-public final class GuiKeybindChange extends GuiScreen
+public final class KeybindEditorScreen extends GuiScreen
 	implements GuiPressAKeyCallback
 {
 	private final GuiScreen prevScreen;
@@ -29,7 +29,7 @@ public final class GuiKeybindChange extends GuiScreen
 	
 	private GuiTextField commandField;
 	
-	public GuiKeybindChange(GuiScreen prevScreen,
+	public KeybindEditorScreen(GuiScreen prevScreen,
 		Entry<String, TreeSet<String>> entry)
 	{
 		this.prevScreen = prevScreen;
