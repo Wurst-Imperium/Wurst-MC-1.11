@@ -10,12 +10,15 @@ package net.wurstclient.gui.options.keybinds;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.GuiYesNo;
 import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
@@ -25,7 +28,7 @@ public final class GuiKeybindManager extends GuiScreen
 {
 	private final GuiScreen prevScreen;
 	
-	private GuiKeybindList listGui;
+	private ListGui listGui;
 	private GuiButton addButton;
 	private GuiButton editButton;
 	private GuiButton removeButton;
@@ -39,9 +42,7 @@ public final class GuiKeybindManager extends GuiScreen
 	@Override
 	public void initGui()
 	{
-		listGui = new GuiKeybindList(mc, this);
-		listGui.registerScrollButtons(7, 8);
-		listGui.elementClicked(-1, false, 0, 0);
+		listGui = new ListGui(mc, width, height, 36, height - 56, 30);
 		
 		buttonList.add(addButton =
 			new GuiButton(0, width / 2 - 102, height - 52, 100, 20, "Add"));
@@ -67,18 +68,16 @@ public final class GuiKeybindManager extends GuiScreen
 			break;
 			
 			case 1:
-			Entry<String, TreeSet<String>> entry =
-				WurstClient.INSTANCE.keybinds.entrySet().toArray(
-					new Entry[WurstClient.INSTANCE.keybinds.size()])[listGui
-						.getSelectedSlot()];
+			Entry<String, TreeSet<String>> entry = WurstClient.INSTANCE.keybinds
+				.entrySet().toArray(new Entry[WurstClient.INSTANCE.keybinds
+					.size()])[listGui.selectedSlot];
 			mc.displayGuiScreen(new GuiKeybindChange(this, entry));
 			break;
 			
 			case 2:
-			Entry<String, String> entry1 =
-				WurstClient.INSTANCE.keybinds.entrySet().toArray(
-					new Entry[WurstClient.INSTANCE.keybinds.size()])[listGui
-						.getSelectedSlot()];
+			Entry<String, String> entry1 = WurstClient.INSTANCE.keybinds
+				.entrySet().toArray(new Entry[WurstClient.INSTANCE.keybinds
+					.size()])[listGui.selectedSlot];
 			WurstClient.INSTANCE.keybinds.remove(entry1.getKey());
 			ConfigFiles.KEYBINDS.save();
 			break;
@@ -144,11 +143,11 @@ public final class GuiKeybindManager extends GuiScreen
 	@Override
 	public void updateScreen()
 	{
-		boolean enabled = listGui.getSelectedSlot() > -1
-			&& listGui.getSelectedSlot() < listGui.getSize();
+		boolean inBounds = listGui.selectedSlot > -1
+			&& listGui.selectedSlot < listGui.getSize();
 		
-		editButton.enabled = enabled;
-		removeButton.enabled = enabled;
+		editButton.enabled = inBounds;
+		removeButton.enabled = inBounds;
 	}
 	
 	@Override
@@ -163,5 +162,54 @@ public final class GuiKeybindManager extends GuiScreen
 			width / 2, 20, 0xffffff);
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
+	}
+	
+	private static final class ListGui extends GuiSlot
+	{
+		private int selectedSlot = -1;
+		
+		public ListGui(Minecraft mc, int width, int height, int top, int bottom,
+			int slotHeight)
+		{
+			super(mc, width, height, top, bottom, slotHeight);
+		}
+		
+		@Override
+		protected boolean isSelected(int index)
+		{
+			return selectedSlot == index;
+		}
+		
+		@Override
+		protected int getSize()
+		{
+			return WurstClient.INSTANCE.keybinds.size();
+		}
+		
+		@Override
+		protected void elementClicked(int index, boolean isDoubleClick,
+			int mouseX, int mouseY)
+		{
+			selectedSlot = index;
+		}
+		
+		@Override
+		protected void drawBackground()
+		{
+			
+		}
+		
+		@Override
+		protected void drawSlot(int id, int x, int y, int slotHeight,
+			int mouseX, int mouseY)
+		{
+			Entry entry = WurstClient.INSTANCE.keybinds.entrySet().toArray(
+				new Map.Entry[WurstClient.INSTANCE.keybinds.size()])[id];
+			
+			mc.fontRendererObj.drawString("Key: " + entry.getKey(), x + 3,
+				y + 3, 0xa0a0a0);
+			mc.fontRendererObj.drawString("Command: " + entry.getValue(), x + 3,
+				y + 15, 0xa0a0a0);
+		}
 	}
 }
