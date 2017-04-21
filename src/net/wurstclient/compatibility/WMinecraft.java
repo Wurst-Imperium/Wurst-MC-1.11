@@ -12,7 +12,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 public final class WMinecraft
 {
 	public static final String VERSION = "1.11";
-	public static final boolean REALMS = false;
+	public static final boolean REALMS = true;
 	public static final boolean COOLDOWN = true;
 	
 	public static final NavigableMap<Integer, String> PROTOCOLS;
