@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -22,12 +20,14 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.gui.options.GuiPressAKey;
 import net.wurstclient.gui.options.GuiPressAKeyCallback;
 
-public class GuiKeybindChange extends GuiScreen implements GuiPressAKeyCallback
+public final class GuiKeybindChange extends GuiScreen
+	implements GuiPressAKeyCallback
 {
-	private GuiScreen prevScreen;
-	private GuiTextField commandBox;
-	private Entry<String, TreeSet<String>> entry;
+	private final GuiScreen prevScreen;
+	private final Entry<String, TreeSet<String>> entry;
 	private String key = "NONE";
+	
+	private GuiTextField commandField;
 	
 	public GuiKeybindChange(GuiScreen prevScreen,
 		Entry<String, TreeSet<String>> entry)
@@ -38,31 +38,20 @@ public class GuiKeybindChange extends GuiScreen implements GuiPressAKeyCallback
 			key = entry.getKey();
 	}
 	
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
-	@Override
-	public void updateScreen()
-	{
-		commandBox.updateCursorCounter();
-	}
-	
-	/**
-	 * Adds the buttons (and other controls) to the screen in question.
-	 */
 	@Override
 	public void initGui()
 	{
-		Keyboard.enableRepeatEvents(true);
 		buttonList.add(new GuiButton(0, width / 2 - 100, 60, "Change Key"));
 		buttonList
 			.add(new GuiButton(1, width / 2 - 100, height / 4 + 72, "Save"));
 		buttonList
 			.add(new GuiButton(2, width / 2 - 100, height / 4 + 96, "Cancel"));
-		commandBox =
+		
+		commandField =
 			new GuiTextField(0, fontRendererObj, width / 2 - 100, 100, 200, 20);
-		commandBox.setMaxStringLength(65536);
-		commandBox.setFocused(true);
+		commandField.setMaxStringLength(65536);
+		commandField.setFocused(true);
+		
 		if(entry != null)
 		{
 			String cmds = "";
@@ -72,83 +61,79 @@ public class GuiKeybindChange extends GuiScreen implements GuiPressAKeyCallback
 					cmds += ";";
 				cmds += cmd;
 			}
-			commandBox.setText(cmds);
+			commandField.setText(cmds);
 		}
 	}
 	
-	/**
-	 * "Called when the screen is unloaded. Used to disable keyboard repeat
-	 * events."
-	 */
 	@Override
-	public void onGuiClosed()
+	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		Keyboard.enableRepeatEvents(false);
+		if(!button.enabled)
+			return;
+		
+		switch(button.id)
+		{
+			case 0:
+			mc.displayGuiScreen(new GuiPressAKey(this));
+			break;
+			
+			case 1:
+			if(entry != null)
+				WurstClient.INSTANCE.keybinds.remove(entry.getKey());
+			
+			WurstClient.INSTANCE.keybinds.put(key, new TreeSet<>(
+				Arrays.asList(commandField.getText().split(";"))));
+			ConfigFiles.KEYBINDS.save();
+			
+			mc.displayGuiScreen(prevScreen);
+			break;
+			
+			case 2:
+			mc.displayGuiScreen(prevScreen);
+			break;
+		}
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton clickedButton)
+	protected void mouseClicked(int x, int y, int button) throws IOException
 	{
-		if(clickedButton.enabled)
-			if(clickedButton.id == 0)
-				mc.displayGuiScreen(new GuiPressAKey(this));
-			else if(clickedButton.id == 1)
-			{
-				if(entry != null)
-					WurstClient.INSTANCE.keybinds.remove(entry.getKey());
-				WurstClient.INSTANCE.keybinds.put(key, new TreeSet<>(
-					Arrays.asList(commandBox.getText().split(";"))));
-				ConfigFiles.KEYBINDS.save();
-				mc.displayGuiScreen(prevScreen);
-				WurstClient.INSTANCE.analytics.trackEvent("keybinds", "set",
-					key);
-			}else if(clickedButton.id == 2)
-				mc.displayGuiScreen(prevScreen);
+		super.mouseClicked(x, y, button);
+		commandField.mouseClicked(x, y, button);
 	}
 	
-	/**
-	 * Fired when a key is typed. This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e).
-	 */
 	@Override
-	protected void keyTyped(char par1, int par2)
+	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
-		commandBox.textboxKeyTyped(par1, par2);
+		commandField.textboxKeyTyped(typedChar, keyCode);
+	}
+	
+	@Override
+	public void updateScreen()
+	{
+		commandField.updateCursorCounter();
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		drawBackground(0);
+		
+		drawCenteredString(fontRendererObj,
+			(entry != null ? "Edit" : "Add") + " Keybind", width / 2, 20,
+			0xffffff);
+		
+		drawString(fontRendererObj, "Key: " + key, width / 2 - 100, 47,
+			0xa0a0a0);
+		drawString(fontRendererObj, "Commands (separated by \";\")",
+			width / 2 - 100, 87, 0xa0a0a0);
+		
+		commandField.drawTextBox();
+		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override
 	public void setKey(String key)
 	{
 		this.key = key;
-	}
-	
-	/**
-	 * Called when the mouse is clicked.
-	 *
-	 * @throws IOException
-	 */
-	@Override
-	protected void mouseClicked(int par1, int par2, int par3) throws IOException
-	{
-		super.mouseClicked(par1, par2, par3);
-		commandBox.mouseClicked(par1, par2, par3);
-	}
-	
-	/**
-	 * Draws the screen and all the components in it.
-	 */
-	@Override
-	public void drawScreen(int par1, int par2, float par3)
-	{
-		drawBackground(0);
-		drawCenteredString(fontRendererObj,
-			(entry != null ? "Edit" : "Add") + " Keybind", width / 2, 20,
-			16777215);
-		drawString(fontRendererObj, "Key: " + key, width / 2 - 100, 47,
-			10526880);
-		drawString(fontRendererObj, "Commands (separated by \";\")",
-			width / 2 - 100, 87, 10526880);
-		commandBox.drawTextBox();
-		super.drawScreen(par1, par2, par3);
 	}
 }
