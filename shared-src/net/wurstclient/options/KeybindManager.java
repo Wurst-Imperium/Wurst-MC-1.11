@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 public class KeybindManager extends TreeMap<String, TreeSet<String>>
 {
-	public KeybindManager()
+	public void loadDefaults()
 	{
 		put("B", ".t fastbreak", ".t fastplace");
 		put("C", ".t fullbright");

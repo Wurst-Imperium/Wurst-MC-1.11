@@ -8,9 +8,9 @@
 package net.wurstclient.gui.options.keybinds;
 
 import java.io.IOException;
-import java.util.Map.Entry;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.lwjgl.input.Keyboard;
@@ -22,7 +22,6 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.GuiYesNo;
 import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
-import net.wurstclient.options.KeybindManager;
 
 public final class KeybindManagerScreen extends GuiScreen
 {
@@ -107,7 +106,7 @@ public final class KeybindManagerScreen extends GuiScreen
 	{
 		if(confirmed)
 		{
-			WurstClient.INSTANCE.keybinds = new KeybindManager();
+			WurstClient.INSTANCE.keybinds.loadDefaults();
 			ConfigFiles.KEYBINDS.save();
 		}
 		

@@ -37,7 +37,7 @@ public enum WurstClient
 	public FriendsList friends;
 	public ModManager mods;
 	public Navigator navigator;
-	public KeybindManager keybinds;
+	public final KeybindManager keybinds = new KeybindManager();
 	public OptionsManager options;
 	public SpfManager special;
 	public Updater updater;
@@ -52,7 +52,7 @@ public enum WurstClient
 		special = new SpfManager();
 		files = new FileManager();
 		updater = new Updater();
-		keybinds = new KeybindManager();
+		keybinds.loadDefaults();
 		options = new OptionsManager();
 		friends = new FriendsList();
 		navigator = new Navigator();
