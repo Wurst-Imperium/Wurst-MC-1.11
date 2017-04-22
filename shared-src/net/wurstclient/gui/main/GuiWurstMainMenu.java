@@ -248,7 +248,7 @@ public class GuiWurstMainMenu extends GuiMainMenu
 		GlStateManager.popMatrix();
 		
 		// text
-		String vMinecraft = "Minecraft " + WMinecraft.VERSION;
+		String vMinecraft = "Minecraft " + WMinecraft.DISPLAY_VERSION;
 		String cMinecraft1 = "Copyright Mojang AB";
 		String cMinecraft2 = "Do not distribute!";
 		drawString(fontRendererObj, vMinecraft,
