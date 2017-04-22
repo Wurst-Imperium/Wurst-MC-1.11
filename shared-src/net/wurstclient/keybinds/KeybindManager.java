@@ -8,11 +8,15 @@
 package net.wurstclient.keybinds;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class KeybindManager extends TreeMap<String, TreeSet<String>>
+public class KeybindManager
 {
+	private final TreeMap<String, TreeSet<String>> map = new TreeMap<>();
+	
 	public void loadDefaults()
 	{
 		put("B", ".t fastbreak", ".t fastplace");
@@ -33,6 +37,41 @@ public class KeybindManager extends TreeMap<String, TreeSet<String>>
 	
 	public void put(String key, String... commands)
 	{
-		put(key, new TreeSet<>(Arrays.asList(commands)));
+		map.put(key, new TreeSet<>(Arrays.asList(commands)));
+	}
+
+	public int size()
+	{
+		return map.size();
+	}
+
+	public boolean containsValue(Object value)
+	{
+		return map.containsValue(value);
+	}
+
+	public TreeSet<String> get(Object key)
+	{
+		return map.get(key);
+	}
+
+	public TreeSet<String> put(String key, TreeSet<String> value)
+	{
+		return map.put(key, value);
+	}
+
+	public TreeSet<String> remove(Object key)
+	{
+		return map.remove(key);
+	}
+
+	public void clear()
+	{
+		map.clear();
+	}
+
+	public Set<Entry<String, TreeSet<String>>> entrySet()
+	{
+		return map.entrySet();
 	}
 }
