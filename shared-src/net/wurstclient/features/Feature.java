@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
 import net.wurstclient.WurstClient;
-import net.wurstclient.navigator.PossibleKeybind;
+import net.wurstclient.keybinds.PossibleKeybind;
 import net.wurstclient.settings.Setting;
 
 public abstract class Feature

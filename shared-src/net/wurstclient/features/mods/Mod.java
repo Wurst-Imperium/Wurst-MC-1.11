@@ -20,7 +20,7 @@ import net.minecraft.util.ReportedException;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.files.ConfigFiles;
-import net.wurstclient.navigator.PossibleKeybind;
+import net.wurstclient.keybinds.PossibleKeybind;
 import net.wurstclient.settings.Setting;
 
 public abstract class Mod extends Feature

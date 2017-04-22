@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import net.wurstclient.features.Feature;
-import net.wurstclient.navigator.PossibleKeybind;
+import net.wurstclient.keybinds.PossibleKeybind;
 import net.wurstclient.settings.Setting;
 
 public abstract class Spf extends Feature

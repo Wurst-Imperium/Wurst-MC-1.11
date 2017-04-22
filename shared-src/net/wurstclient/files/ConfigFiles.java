@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
+import net.wurstclient.keybinds.KeybindsConfig;
 
 public final class ConfigFiles
 {

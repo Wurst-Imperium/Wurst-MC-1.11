@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.navigator.gui;
+package net.wurstclient.keybinds;
 
 import static org.lwjgl.opengl.GL11.GL_SCISSOR_TEST;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -22,8 +22,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.font.Fonts;
-import net.wurstclient.navigator.PossibleKeybind;
-import net.wurstclient.options.KeybindManager;
+import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
+import net.wurstclient.navigator.gui.NavigatorScreen;
 import net.wurstclient.utils.RenderUtils;
 
 public class NavigatorNewKeybindScreen extends NavigatorScreen

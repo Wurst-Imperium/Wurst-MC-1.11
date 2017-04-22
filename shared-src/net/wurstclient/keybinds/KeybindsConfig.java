@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.files;
+package net.wurstclient.keybinds;
 
 import java.util.Arrays;
 import java.util.Map.Entry;
@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import net.wurstclient.WurstClient;
+import net.wurstclient.files.Config;
 
 public final class KeybindsConfig extends Config
 {

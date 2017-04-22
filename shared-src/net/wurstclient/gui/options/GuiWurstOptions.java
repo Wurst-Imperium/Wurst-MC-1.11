@@ -14,9 +14,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
-import net.wurstclient.gui.options.keybinds.KeybindManagerScreen;
 import net.wurstclient.gui.options.xray.GuiXRayBlocksManager;
 import net.wurstclient.gui.options.zoom.GuiZoomManager;
+import net.wurstclient.keybinds.KeybindManagerScreen;
 import net.wurstclient.options.OptionsManager.GoogleAnalytics;
 import net.wurstclient.utils.MiscUtils;
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
-import net.wurstclient.navigator.PossibleKeybind;
+import net.wurstclient.keybinds.PossibleKeybind;
 import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
 
 public interface Setting
