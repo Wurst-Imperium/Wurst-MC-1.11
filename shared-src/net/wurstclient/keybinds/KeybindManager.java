@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
 
 public class KeybindManager
@@ -54,6 +53,19 @@ public class KeybindManager
 			put(key, command);
 		else
 			map.get(key).add(command);
+		ConfigFiles.KEYBINDS.save();
+	}
+	
+	public void removeBind(String key, String command)
+	{
+		TreeSet<String> commands = map.get(key);
+		if(commands == null)
+			return;
+		
+		commands.remove(command);
+		if(commands.isEmpty())
+			map.remove(key);
+		
 		ConfigFiles.KEYBINDS.save();
 	}
 	
