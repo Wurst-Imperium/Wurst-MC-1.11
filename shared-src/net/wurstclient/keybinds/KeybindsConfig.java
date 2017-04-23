@@ -7,7 +7,6 @@
  */
 package net.wurstclient.keybinds;
 
-import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -45,12 +44,7 @@ public final class KeybindsConfig extends Config
 		}
 		
 		// force-add GUI keybind if missing
-		if(!WurstClient.INSTANCE.keybinds
-			.containsValue(new TreeSet<>(Arrays.asList(".t navigator"))))
-		{
-			WurstClient.INSTANCE.keybinds.put("LCONTROL", ".t navigator");
-			save();
-		}
+		WurstClient.INSTANCE.keybinds.forceAddGuiKeybind();
 	}
 	
 	@Override

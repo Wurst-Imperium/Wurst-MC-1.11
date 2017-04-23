@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import net.wurstclient.files.ConfigFiles;
+
 public class KeybindManager
 {
 	private final TreeMap<String, TreeSet<String>> map = new TreeMap<>();
@@ -35,6 +37,16 @@ public class KeybindManager
 		put("Z", ".t sneak");
 	}
 	
+	public void forceAddGuiKeybind()
+	{
+		for(TreeSet<String> value : map.values())
+			if(value.contains(".t navigator"))
+				return;
+			
+		put("LCONTROL", ".t navigator");
+		ConfigFiles.KEYBINDS.save();
+	}
+	
 	public void put(String key, String... commands)
 	{
 		map.put(key, new TreeSet<>(Arrays.asList(commands)));
@@ -43,11 +55,6 @@ public class KeybindManager
 	public int size()
 	{
 		return map.size();
-	}
-	
-	public boolean containsValue(Object value)
-	{
-		return map.containsValue(value);
 	}
 	
 	public TreeSet<String> get(Object key)

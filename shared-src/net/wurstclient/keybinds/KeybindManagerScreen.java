@@ -8,7 +8,6 @@
 package net.wurstclient.keybinds;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -82,14 +81,7 @@ public final class KeybindManagerScreen extends GuiScreen
 			break;
 			
 			case 3:
-			// force-add GUI keybind if missing
-			if(!WurstClient.INSTANCE.keybinds
-				.containsValue(new TreeSet<>(Arrays.asList(".t navigator"))))
-			{
-				WurstClient.INSTANCE.keybinds.put("LCONTROL", ".t navigator");
-				ConfigFiles.KEYBINDS.save();
-			}
-			
+			WurstClient.INSTANCE.keybinds.forceAddGuiKeybind();
 			mc.displayGuiScreen(prevScreen);
 			break;
 			
