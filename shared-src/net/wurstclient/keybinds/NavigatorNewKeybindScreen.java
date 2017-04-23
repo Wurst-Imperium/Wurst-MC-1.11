@@ -56,17 +56,12 @@ public class NavigatorNewKeybindScreen extends NavigatorScreen
 			case 0:
 			if(choosingKey)
 			{
-				WurstClient wurst = WurstClient.INSTANCE;
-				if(wurst.keybinds.get(selectedKey) != null)
-					wurst.keybinds.get(selectedKey).add(
-						possibleKeybinds.get(selectedCommand).getCommand());
-				else
-					wurst.keybinds.put(selectedKey,
-						possibleKeybinds.get(selectedCommand).getCommand());
-				ConfigFiles.KEYBINDS.save();
-				mc.displayGuiScreen(parent);
-				wurst.navigator.addPreference(parent.getFeature().getName());
+				WurstClient.INSTANCE.keybinds.addBind(selectedKey,
+					possibleKeybinds.get(selectedCommand).getCommand());
+				WurstClient.INSTANCE.navigator
+					.addPreference(parent.getFeature().getName());
 				ConfigFiles.NAVIGATOR.save();
+				mc.displayGuiScreen(parent);
 			}else
 			{
 				choosingKey = true;
