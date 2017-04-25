@@ -15,11 +15,7 @@ import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Fills the server console with errors so that admins can't see what you are doing.\n"
-		+ "Patched on Spigot.",
-	name = "LogSpammer",
-	help = "Mods/LogSpammer")
+@Mod.Info(help = "Mods/LogSpammer")
 @Mod.Bypasses(ghostMode = false)
 public final class LogSpammerMod extends Mod implements UpdateListener
 {
@@ -27,6 +23,13 @@ public final class LogSpammerMod extends Mod implements UpdateListener
 	private Random random;
 	private final String[] vulnerableChannels =
 		new String[]{"MC|BEdit", "MC|BSign", "MC|TrSel", "MC|PickItem"};
+	
+	public LogSpammerMod()
+	{
+		super("LogSpammer",
+			"Fills the server console with errors so that admins can't see what you are doing.\n"
+				+ "Patched on Spigot.");
+	}
 	
 	@Override
 	public void onEnable()

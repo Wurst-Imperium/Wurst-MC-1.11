@@ -15,13 +15,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 
-@Mod.Info(
-	description = "Breaks blocks around you like an explosion.\n"
-		+ "This can be a lot faster than Nuker if the server doesn't have NoCheat+.\n"
-		+ "It works best with fast tools and weak blocks.\n"
-		+ "Note that this is not an actual explosion.",
-	name = "Kaboom",
-	help = "Mods/Kaboom")
+@Mod.Info(help = "Mods/Kaboom")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -31,6 +25,15 @@ public final class KaboomMod extends Mod implements UpdateListener
 {
 	public final SliderSetting power =
 		new SliderSetting("Power", 128, 32, 512, 32, ValueDisplay.INTEGER);
+	
+	public KaboomMod()
+	{
+		super("Kaboom",
+			"Breaks blocks around you like an explosion.\n"
+				+ "This can be a lot faster than Nuker if the server doesn't have NoCheat+.\n"
+				+ "It works best with fast tools and weak blocks.\n"
+				+ "Note that this is not an actual explosion.");
+	}
 	
 	@Override
 	public void initSettings()

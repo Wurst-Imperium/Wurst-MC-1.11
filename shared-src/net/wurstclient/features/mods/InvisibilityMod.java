@@ -11,14 +11,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(
-	description = "Makes you invisible and invincible.\n"
-		+ "If you die and respawn near a certain player while\n"
-		+ "this mod is enabled, that player will be unable to see\n"
-		+ "you. Only works on vanilla servers!",
-	name = "Invisibility",
-	tags = "Invisible, GodMode, god mode",
-	help = "Mods/Invisibility")
+@Mod.Info(tags = "Invisible, GodMode, god mode", help = "Mods/Invisibility")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -27,6 +20,15 @@ import net.wurstclient.utils.ChatUtils;
 @Mod.DontSaveState
 public final class InvisibilityMod extends Mod implements UpdateListener
 {
+	public InvisibilityMod()
+	{
+		super("Invisibility",
+			"Makes you invisible and invincible.\n"
+				+ "If you die and respawn near a certain player while\n"
+				+ "this mod is enabled, that player will be unable to see\n"
+				+ "you. Only works on vanilla servers!");
+	}
+	
 	@Override
 	public void onEnable()
 	{

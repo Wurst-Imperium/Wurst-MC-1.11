@@ -9,13 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.util.text.ITextComponent;
 
-@Mod.Info(
-	description = "Instantly writes whatever text you want on every sign\n"
-		+ "you place. Once activated, you can write normally on\n"
-		+ "one sign to specify the text for all other signs.",
-	name = "AutoSign",
-	tags = "auto sign",
-	help = "Mods/AutoSign")
+@Mod.Info(tags = "auto sign", help = "Mods/AutoSign")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -24,6 +18,14 @@ import net.minecraft.util.text.ITextComponent;
 public final class AutoSignMod extends Mod
 {
 	public ITextComponent[] signText;
+	
+	public AutoSignMod()
+	{
+		super("AutoSign",
+			"Instantly writes whatever text you want on every sign\n"
+				+ "you place. Once activated, you can write normally on\n"
+				+ "one sign to specify the text for all other signs.");
+	}
 	
 	@Override
 	public void onEnable()

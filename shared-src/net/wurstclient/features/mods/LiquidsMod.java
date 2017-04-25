@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(description = "Allows you to interact with liquid blocks.",
-	name = "Liquids",
-	help = "Mods/Liquids")
+@Mod.Info(help = "Mods/Liquids")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class LiquidsMod extends Mod
 {
-	
+	public LiquidsMod()
+	{
+		super("Liquids", "Allows you to interact with liquid blocks.");
+	}
 }

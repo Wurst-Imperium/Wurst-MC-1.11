@@ -22,12 +22,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "Automatically attacks entities around you.\n"
-		+ "Can be configured in various ways to attack only some entities and ignore others.",
-	name = "Killaura",
-	tags = "kill aura",
-	help = "Mods/Killaura")
+@Mod.Info(tags = "kill aura", help = "Mods/Killaura")
 @Mod.Bypasses
 public final class KillauraMod extends Mod implements UpdateListener
 {
@@ -176,6 +171,12 @@ public final class KillauraMod extends Mod implements UpdateListener
 			return teamColors.getSelected();
 		}
 	};
+	
+	public KillauraMod()
+	{
+		super("Killaura", "Automatically attacks entities around you.\n"
+			+ "Can be configured in various ways to attack only some entities and ignore others.");
+	}
 	
 	@Override
 	public void initSettings()

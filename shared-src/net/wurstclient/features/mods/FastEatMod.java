@@ -14,14 +14,16 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Allows you to eat food much faster.\n" + "OM! NOM! NOM!",
-	name = "FastEat",
-	tags = "FastNom, fast eat, fast nom",
-	help = "Mods/FastEat")
+@Mod.Info(tags = "FastNom, fast eat, fast nom", help = "Mods/FastEat")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class FastEatMod extends Mod implements UpdateListener
 {
+	public FastEatMod()
+	{
+		super("FastEat",
+			"Allows you to eat food much faster.\n" + "OM! NOM! NOM!");
+	}
+	
 	@Override
 	public void onEnable()
 	{

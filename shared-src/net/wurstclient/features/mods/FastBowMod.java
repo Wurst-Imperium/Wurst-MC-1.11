@@ -17,15 +17,17 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Turns your bow into a machine gun.\n"
-		+ "Tip: This works with BowAimbot.",
-	name = "FastBow",
-	tags = "RapidFire, BowSpam, fast bow, rapid fire, bow spam",
+@Mod.Info(tags = "RapidFire, BowSpam, fast bow, rapid fire, bow spam",
 	help = "Mods/FastBow")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class FastBowMod extends Mod implements UpdateListener
 {
+	public FastBowMod()
+	{
+		super("FastBow", "Turns your bow into a machine gun.\n"
+			+ "Tip: This also works with BowAimbot.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

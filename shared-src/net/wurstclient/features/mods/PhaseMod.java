@@ -10,18 +10,19 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Exploits a bug in NoCheat+ that allows you to glitch\n"
-		+ "through blocks.",
-	name = "Phase",
-	tags = "Phaze",
-	help = "Mods/Phase")
+@Mod.Info(tags = "Phaze", help = "Mods/Phase")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	antiCheat = false,
 	mineplex = false)
 public final class PhaseMod extends Mod implements UpdateListener
 {
+	public PhaseMod()
+	{
+		super("Phase", "Exploits a bug in NoCheat+ that allows you to glitch\n"
+			+ "through blocks.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

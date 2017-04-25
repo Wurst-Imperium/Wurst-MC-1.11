@@ -18,11 +18,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
 
-@Mod.Info(
-	description = "Automatically leaves the server when your health is low.\n"
-		+ "The Chars, TP and SelfHurt modes can bypass CombatLog and similar plugins.",
-	name = "AutoLeave",
-	tags = "AutoDisconnect, auto leave, auto disconnect",
+@Mod.Info(tags = "AutoDisconnect, auto leave, auto disconnect",
 	help = "Mods/AutoLeave")
 @Mod.Bypasses
 public final class AutoLeaveMod extends Mod implements UpdateListener
@@ -31,6 +27,13 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 		new SliderSetting("Health", 4, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
 	public ModeSetting mode = new ModeSetting("Mode",
 		new String[]{"Quit", "Chars", "TP", "SelfHurt"}, 0);
+	
+	public AutoLeaveMod()
+	{
+		super("AutoLeave",
+			"Automatically leaves the server when your health is low.\n"
+				+ "The Chars, TP and SelfHurt modes can bypass CombatLog and similar plugins.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

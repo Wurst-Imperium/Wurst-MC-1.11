@@ -15,15 +15,18 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "A bot that follows the closest entity and protects it from other entities.\n"
-		+ "Use .protect <entity> to protect a specific entity instead of the closest one.",
-	name = "Protect",
-	help = "Mods/Protect")
+@Mod.Info(help = "Mods/Protect")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class ProtectMod extends Mod implements UpdateListener
 {
+	public ProtectMod()
+	{
+		super("Protect",
+			"A bot that follows the closest entity and protects it from other entities.\n"
+				+ "Use .protect <entity> to protect a specific entity instead of the closest one.");
+	}
+	
 	private Entity friend;
 	private Entity enemy;
 	private float range = 6F;

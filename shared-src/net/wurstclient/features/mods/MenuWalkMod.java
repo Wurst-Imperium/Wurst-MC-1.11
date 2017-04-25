@@ -15,15 +15,18 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.navigator.gui.NavigatorScreen;
 
-@Mod.Info(
-	description = "Allows you to walk while viewing a menu (e.g. the inventory\n"
-		+ "menu).",
-	name = "MenuWalk",
-	tags = "InventoryWalk, menu walk, inventory walk",
+@Mod.Info(tags = "InventoryWalk, menu walk, inventory walk",
 	help = "Mods/MenuWalk")
 @Mod.Bypasses
 public final class MenuWalkMod extends Mod
 {
+	public MenuWalkMod()
+	{
+		super("MenuWalk",
+			"Allows you to walk while viewing a menu (e.g. the inventory\n"
+				+ "menu).");
+	}
+	
 	public boolean shouldAllowWalking()
 	{
 		// check if mod is active

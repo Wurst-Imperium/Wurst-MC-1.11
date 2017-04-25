@@ -21,10 +21,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
 
-@Mod.Info(description = "Automatically eats food when necessary.",
-	name = "AutoEat",
-	tags = "AutoSoup,auto eat,auto soup",
-	help = "Mods/AutoEat")
+@Mod.Info(tags = "AutoSoup,auto eat,auto soup", help = "Mods/AutoEat")
 @Mod.Bypasses
 public final class AutoEatMod extends Mod implements UpdateListener
 {
@@ -32,6 +29,11 @@ public final class AutoEatMod extends Mod implements UpdateListener
 		new CheckboxSetting("Ignore screen", true);
 	
 	private int oldSlot = -1;
+	
+	public AutoEatMod()
+	{
+		super("AutoEat", "Automatically eats food when necessary.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

@@ -10,16 +10,18 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Uses an item multiple times.\n"
-		+ "This can cause a lot of lag and even crash a server.\n"
-		+ "Works best with snowballs or eggs.\n"
-		+ "Use the .throw command to change the amount of uses per click.",
-	name = "Throw",
-	help = "Mods/Throw")
+@Mod.Info(help = "Mods/Throw")
 @Mod.Bypasses(ghostMode = false)
 public final class ThrowMod extends Mod implements UpdateListener
 {
+	public ThrowMod()
+	{
+		super("Throw", "Uses an item multiple times.\n"
+			+ "This can cause a lot of lag and even crash a server.\n"
+			+ "Works best with snowballs or eggs.\n"
+			+ "Use the .throw command to change the amount of uses per click.");
+	}
+	
 	@Override
 	public String getRenderName()
 	{

@@ -14,16 +14,19 @@ import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.utils.MiscUtils;
 
-@Mod.Info(
-	description = "Blocks chat spam by adding a counter to repeated messages.\n"
-		+ "Example:\n" + "Spam!\n" + "Spam!\n" + "Spam!\n"
-		+ "Will be replaced with:\n" + "Spam! [x3]",
-	name = "AntiSpam",
-	tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",
+@Mod.Info(tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",
 	help = "Mods/AntiSpam")
 @Mod.Bypasses
 public final class AntiSpamMod extends Mod implements ChatInputListener
 {
+	public AntiSpamMod()
+	{
+		super("AntiSpam",
+			"Blocks chat spam by adding a counter to repeated messages.\n"
+				+ "Example:\n" + "Spam!\n" + "Spam!\n" + "Spam!\n"
+				+ "Will be replaced with:\n" + "Spam! [x3]");
+	}
+	
 	@Override
 	public void onEnable()
 	{

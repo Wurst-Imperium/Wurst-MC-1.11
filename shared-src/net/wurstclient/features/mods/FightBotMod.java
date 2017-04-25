@@ -24,12 +24,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "A bot that automatically fights for you.\n"
-		+ "It walks around and kills everything.\n" + "Good for MobArena.",
-	name = "FightBot",
-	tags = "fight bot",
-	help = "Mods/FightBot")
+@Mod.Info(tags = "fight bot", help = "Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FightBotMod extends Mod implements UpdateListener
@@ -82,8 +77,14 @@ public final class FightBotMod extends Mod implements UpdateListener
 		public float getRange()
 		{
 			return range.getValueF();
-		};
+		}
 	};
+	
+	public FightBotMod()
+	{
+		super("FightBot", "A bot that automatically fights for you.\n"
+			+ "It walks around and kills everything.\n" + "Good for MobArena.");
+	}
 	
 	@Override
 	public void initSettings()

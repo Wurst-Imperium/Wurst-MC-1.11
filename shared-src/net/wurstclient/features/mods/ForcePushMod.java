@@ -14,12 +14,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(
-	description = "Pushes mobs like crazy.\n" + "They'll literally fly away!\n"
-		+ "Can sometimes get you kicked for \"Flying is not enabled\".",
-	name = "ForcePush",
-	tags = "force push",
-	help = "Mods/ForcePush")
+@Mod.Info(tags = "force push", help = "Mods/ForcePush")
 @Mod.Bypasses
 public final class ForcePushMod extends Mod implements UpdateListener
 {
@@ -29,7 +24,7 @@ public final class ForcePushMod extends Mod implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 		
 		@Override
 		public float getRange()
@@ -37,6 +32,13 @@ public final class ForcePushMod extends Mod implements UpdateListener
 			return 1F;
 		}
 	};
+	
+	public ForcePushMod()
+	{
+		super("ForcePush", "Pushes mobs like crazy.\n"
+			+ "They'll literally fly away!\n"
+			+ "Can sometimes get you kicked for \"Flying is not enabled\".");
+	}
 	
 	@Override
 	public void onEnable()

@@ -33,10 +33,6 @@ import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
 @Mod.Info(
-	description = "Automatically builds the selected template whenever you place a block.\n"
-		+ "Can fully bypass NoCheat+ while YesCheat+ is enabled.\n"
-		+ "Templates can be customized. Press the \"Help\" button for details.",
-	name = "AutoBuild",
 	tags = "AutoBridge, AutoFloor, AutoNazi, AutoPenis, AutoPillar, AutoWall, AutoWurst, auto build",
 	help = "Mods/AutoBuild")
 @Mod.Bypasses
@@ -66,6 +62,14 @@ public final class AutoBuildMod extends Mod
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
 	
 	private AutoBuildAI ai;
+	
+	public AutoBuildMod()
+	{
+		super("AutoBuild",
+			"Automatically builds the selected template whenever you place a block.\n"
+				+ "Can fully bypass NoCheat+ while YesCheat+ is enabled.\n"
+				+ "Templates can be customized. Press the \"Help\" button for details.");
+	}
 	
 	@Override
 	public String getRenderName()

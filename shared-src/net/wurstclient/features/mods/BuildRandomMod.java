@@ -19,14 +19,16 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.utils.BlockUtils;
 
-@Mod.Info(description = "Places random blocks around you.",
-	name = "BuildRandom",
-	tags = "build random",
-	help = "Mods/BuildRandom")
+@Mod.Info(tags = "build random", help = "Mods/BuildRandom")
 @Mod.Bypasses
 public final class BuildRandomMod extends Mod implements UpdateListener
 {
 	private final Random random = new Random();
+	
+	public BuildRandomMod()
+	{
+		super("BuildRandom", "Places random blocks around you.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

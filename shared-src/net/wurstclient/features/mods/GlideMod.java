@@ -11,12 +11,15 @@ import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Makes you fall like if you had a hang glider.",
-	name = "Glide",
-	help = "Mods/Glide")
+@Mod.Info(help = "Mods/Glide")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class GlideMod extends Mod implements UpdateListener
 {
+	public GlideMod()
+	{
+		super("Glide", "Makes you fall like if you had a hang glider.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

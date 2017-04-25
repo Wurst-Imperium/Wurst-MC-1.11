@@ -28,11 +28,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically uses bone meal on specific types of plants.\n"
-		+ "Use the checkboxes to specify the types of plants.",
-	name = "BonemealAura",
-	tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
+@Mod.Info(tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
 	help = "Mods/BonemealAura")
 @Mod.Bypasses
 public final class BonemealAuraMod extends Mod implements UpdateListener
@@ -46,6 +42,13 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	private final CheckboxSetting stems = new CheckboxSetting("Stems", true);
 	private final CheckboxSetting cocoa = new CheckboxSetting("Cocoa", true);
 	private final CheckboxSetting other = new CheckboxSetting("Other", false);
+	
+	public BonemealAuraMod()
+	{
+		super("BonemealAura",
+			"Automatically uses bone meal on specific types of plants.\n"
+				+ "Use the checkboxes to specify the types of plants.");
+	}
 	
 	@Override
 	public void initSettings()

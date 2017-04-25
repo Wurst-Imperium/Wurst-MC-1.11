@@ -4,9 +4,7 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(
-	description = "Allows you to alter the client-side weather, time and moon phase.",
-	name = "NoWeather")
+@Mod.Info
 @Mod.Bypasses
 public final class NoWeatherMod extends Mod
 {
@@ -36,6 +34,12 @@ public final class NoWeatherMod extends Mod
 		};
 	public SliderSetting moonPhase =
 		new SliderSetting("Moon Phase", 0, 0, 7, 1, ValueDisplay.INTEGER);
+	
+	public NoWeatherMod()
+	{
+		super("NoWeather",
+			"Allows you to alter the client-side weather, time and moon phase.");
+	}
 	
 	@Override
 	public void initSettings()

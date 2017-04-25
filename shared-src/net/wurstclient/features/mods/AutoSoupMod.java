@@ -25,13 +25,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically eats soup if your health is lower than or equal to the set value.\n"
-		+ "Note: This mod ignores hunger and assumes that eating soup directly refills your health.\n"
-		+ "If the server you are playing on is not configured to do that, use AutoEat instead.",
-	name = "AutoSoup",
-	tags = "AutoStew, auto soup, auto stew",
-	help = "Mods/AutoSoup")
+@Mod.Info(tags = "AutoStew, auto soup, auto stew", help = "Mods/AutoSoup")
 @Mod.Bypasses
 public final class AutoSoupMod extends Mod implements UpdateListener
 {
@@ -41,6 +35,14 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 		new CheckboxSetting("Ignore screen", true);
 	
 	private int oldSlot = -1;
+	
+	public AutoSoupMod()
+	{
+		super("AutoSoup",
+			"Automatically eats soup if your health is lower than or equal to the set value.\n"
+				+ "Note: This mod ignores hunger and assumes that eating soup directly refills your health.\n"
+				+ "If the server you are playing on is not configured to do that, use AutoEat instead.");
+	}
 	
 	@Override
 	public void initSettings()

@@ -7,13 +7,13 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Protects you from falling down as if you were sneaking.",
-	name = "SafeWalk",
-	tags = "safe walk",
-	help = "Mods/SafeWalk")
+@Mod.Info(tags = "safe walk", help = "Mods/SafeWalk")
 @Mod.Bypasses
 public final class SafeWalkMod extends Mod
 {
-	
+	public SafeWalkMod()
+	{
+		super("SafeWalk",
+			"Protects you from falling down as if you were sneaking.");
+	}
 }

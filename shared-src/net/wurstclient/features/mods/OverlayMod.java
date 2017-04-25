@@ -14,12 +14,15 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Renders the Nuker animation when you mine a block.",
-	name = "Overlay",
-	help = "Mods/Overlay")
+@Mod.Info(help = "Mods/Overlay")
 @Mod.Bypasses
 public final class OverlayMod extends Mod implements RenderListener
 {
+	public OverlayMod()
+	{
+		super("Overlay", "Renders the Nuker animation when you mine a block.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

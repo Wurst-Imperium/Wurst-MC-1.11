@@ -10,15 +10,16 @@ package net.wurstclient.features.mods;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 
-@Mod.Info(
-	description = "Allows you to place blocks 5 times faster.\n"
-		+ "Tip: This can speed up AutoBuild.",
-	name = "FastPlace",
-	tags = "fast place",
-	help = "Mods/FastPlace")
+@Mod.Info(tags = "fast place", help = "Mods/FastPlace")
 @Mod.Bypasses
 public final class FastPlaceMod extends Mod implements UpdateListener
 {
+	public FastPlaceMod()
+	{
+		super("FastPlace", "Allows you to place blocks 5 times faster.\n"
+			+ "Tip: This can speed up AutoBuild.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

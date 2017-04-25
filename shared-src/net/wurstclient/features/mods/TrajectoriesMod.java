@@ -24,14 +24,17 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(name = "Trajectories",
-	description = "Predicts the flight path of arrows and throwable items.",
-	
-	tags = "AimAssist, ArrowPrediction, aim assist, arrow prediction",
+@Mod.Info(tags = "AimAssist, ArrowPrediction, aim assist, arrow prediction",
 	help = "Mods/Trajectories")
 @Mod.Bypasses
 public final class TrajectoriesMod extends Mod implements RenderListener
 {
+	public TrajectoriesMod()
+	{
+		super("Trajectories",
+			"Predicts the flight path of arrows and throwable items.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

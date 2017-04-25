@@ -29,14 +29,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Allows you to see chests through walls.\n"
-		+ "Works with normal chests, trapped chests, ender chests and minecart chests.\n"
-		+ "For normal and trapped chests, ChestESP will remember which ones you have already\n"
-		+ "opened and remind you whether or not they are empty by slightly altering their overlay.",
-	name = "ChestESP",
-	tags = "ChestFinder, chest esp, chest finder",
-	help = "Mods/ChestESP")
+@Mod.Info(tags = "ChestFinder, chest esp, chest finder", help = "Mods/ChestESP")
 @Mod.Bypasses
 public final class ChestEspMod extends Mod
 	implements UpdateListener, RenderListener
@@ -58,6 +51,14 @@ public final class ChestEspMod extends Mod
 	private final LinkedHashSet<BlockPos> emptyChests = new LinkedHashSet<>();
 	private final LinkedHashSet<BlockPos> nonEmptyChests =
 		new LinkedHashSet<>();
+	
+	public ChestEspMod()
+	{
+		super("ChestESP", "Allows you to see chests through walls.\n"
+			+ "Works with normal chests, trapped chests, ender chests and minecart chests.\n"
+			+ "For normal and trapped chests, ChestESP will remember which ones you have already\n"
+			+ "opened and remind you whether or not they are empty by slightly altering their overlay.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

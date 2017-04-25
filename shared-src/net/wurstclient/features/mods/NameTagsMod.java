@@ -7,14 +7,14 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Changes the scale of the nametags so you can always read them.\n"
-		+ "Also allows you to see the nametags of sneaking players.",
-	name = "NameTags",
-	tags = "name tags",
-	help = "Mods/NameTags")
+@Mod.Info(tags = "name tags", help = "Mods/NameTags")
 @Mod.Bypasses
 public final class NameTagsMod extends Mod
 {
-	
+	public NameTagsMod()
+	{
+		super("NameTags",
+			"Changes the scale of the nametags so you can always read them.\n"
+				+ "Also allows you to see the nametags of sneaking players.");
+	}
 }

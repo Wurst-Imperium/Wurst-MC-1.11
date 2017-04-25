@@ -10,15 +10,18 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Allows you to climb up walls like a spider.",
-	name = "Spider",
-	help = "Mods/Spider")
+@Mod.Info(help = "Mods/Spider")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
 public final class SpiderMod extends Mod implements UpdateListener
 {
+	public SpiderMod()
+	{
+		super("Spider", "Allows you to climb up walls like a spider.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

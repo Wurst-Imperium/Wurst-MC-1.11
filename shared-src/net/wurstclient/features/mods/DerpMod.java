@@ -12,15 +12,16 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "While this is active, other people will think you are\n"
-		+ "derping around.",
-	name = "Derp",
-	tags = "Retarded",
-	help = "Mods/Derp")
+@Mod.Info(tags = "Retarded", help = "Mods/Derp")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class DerpMod extends Mod implements UpdateListener
 {
+	public DerpMod()
+	{
+		super("Derp", "While this is active, other people will think you are\n"
+			+ "derping around.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

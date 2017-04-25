@@ -16,19 +16,21 @@ import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(
-	description = "Allows you to you fly.\n"
-		+ "Bypasses NoCheat+ if YesCheat+ is enabled.\n"
-		+ "Bypasses MAC if AntiMAC is enabled.",
-	name = "Flight",
-	tags = "FlyHack,fly hack,flying",
-	help = "Mods/Flight")
+@Mod.Info(tags = "FlyHack,fly hack,flying", help = "Mods/Flight")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class FlightMod extends Mod implements UpdateListener
 {
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 1, 0.05, 5, 0.05, ValueDisplay.DECIMAL);
 	private double startY;
+	
+	public FlightMod()
+	{
+		super("Flight",
+			"Allows you to you fly.\n"
+				+ "Bypasses NoCheat+ if YesCheat+ is enabled.\n"
+				+ "Bypasses MAC if AntiMAC is enabled.");
+	}
 	
 	@Override
 	public void initSettings()

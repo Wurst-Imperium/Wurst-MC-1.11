@@ -22,10 +22,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 
-@Mod.Info(description = "Faster Nuker that cannot bypass NoCheat+.",
-	name = "SpeedNuker",
-	tags = "FastNuker, speed nuker, fast nuker",
-	help = "Mods/SpeedNuker")
+@Mod.Info(tags = "FastNuker, speed nuker, fast nuker", help = "Mods/SpeedNuker")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -52,7 +49,7 @@ public final class SpeedNukerMod extends Mod
 					range.unlock();
 					mode.unlock();
 				}
-			};
+			}
 		};
 	public final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
@@ -88,6 +85,11 @@ public final class SpeedNukerMod extends Mod
 			}
 		}
 	};
+	
+	public SpeedNukerMod()
+	{
+		super("SpeedNuker", "Faster Nuker that cannot bypass NoCheat+.");
+	}
 	
 	@Override
 	public void initSettings()

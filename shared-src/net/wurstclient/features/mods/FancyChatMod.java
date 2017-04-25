@@ -10,17 +10,19 @@ package net.wurstclient.features.mods;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
 
-@Mod.Info(
-	description = "Replaces ASCII characters in sent chat messages with fancier unicode characters. Can be\n"
-		+ "used to bypass curse word filters on some servers. Does not work on servers that block\n"
-		+ "unicode characters.",
-	name = "FancyChat",
-	tags = "fancy chat",
-	help = "Mods/FancyChat")
+@Mod.Info(tags = "fancy chat", help = "Mods/FancyChat")
 @Mod.Bypasses(ghostMode = false, mineplex = false)
 public final class FancyChatMod extends Mod implements ChatOutputListener
 {
 	private final String blacklist = "(){}[]|";
+	
+	public FancyChatMod()
+	{
+		super("FancyChat",
+			"Replaces ASCII characters in sent chat messages with fancier unicode characters. Can be\n"
+				+ "used to bypass curse word filters on some servers. Does not work on servers that block\n"
+				+ "unicode characters.");
+	}
 	
 	@Override
 	public void onEnable()

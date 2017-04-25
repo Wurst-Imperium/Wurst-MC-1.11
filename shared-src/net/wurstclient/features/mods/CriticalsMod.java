@@ -17,15 +17,17 @@ import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.ModeSetting;
 
-@Mod.Info(description = "Changes all your hits to critical hits.",
-	name = "Criticals",
-	tags = "Crits",
-	help = "Mods/Criticals")
+@Mod.Info(tags = "Crits", help = "Mods/Criticals")
 @Mod.Bypasses(ghostMode = false)
 public final class CriticalsMod extends Mod implements LeftClickListener
 {
 	private int mode = 1;
 	private String[] modes = new String[]{"Jump", "Packet"};
+	
+	public CriticalsMod()
+	{
+		super("Criticals", "Changes all your hits to critical hits.");
+	}
 	
 	@Override
 	public void initSettings()

@@ -7,12 +7,13 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Blocks the overlays of pumpkins, water, fire, and lava.",
-	name = "NoOverlay",
-	tags = "AntiPumkin, no overlay")
+@Mod.Info(tags = "AntiPumkin, no overlay")
 @Mod.Bypasses
 public final class NoOverlayMod extends Mod
 {
-	
+	public NoOverlayMod()
+	{
+		super("NoOverlay",
+			"Blocks the overlays of pumpkins, water, fire, and lava.");
+	}
 }

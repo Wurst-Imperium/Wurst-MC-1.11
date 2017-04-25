@@ -19,11 +19,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "Slower Killaura that bypasses any AntiCheat plugins.\n"
-		+ "Not required on normal NoCheat+ servers!",
-	name = "KillauraLegit",
-	tags = "LegitAura, killaura legit, kill aura legit, legit aura",
+@Mod.Info(tags = "LegitAura, killaura legit, kill aura legit, legit aura",
 	help = "Mods/KillauraLegit")
 @Mod.Bypasses
 public final class KillauraLegitMod extends Mod implements UpdateListener
@@ -85,6 +81,13 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 			return fov.getValueF();
 		}
 	};
+	
+	public KillauraLegitMod()
+	{
+		super("KillauraLegit",
+			"Slower Killaura that bypasses any AntiCheat plugins.\n"
+				+ "Not required on normal NoCheat+ servers!");
+	}
 	
 	@Override
 	public void initSettings()

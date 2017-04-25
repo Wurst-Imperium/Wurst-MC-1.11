@@ -17,10 +17,7 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(
-	description = "A bot that follows the closest entity.\n" + "Very annoying.",
-	name = "Follow",
-	help = "Mods/Follow")
+@Mod.Info(help = "Mods/Follow")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FollowMod extends Mod implements UpdateListener
@@ -37,8 +34,14 @@ public final class FollowMod extends Mod implements UpdateListener
 			public void update()
 			{
 				entity = null;
-			};
+			}
 		};
+	
+	public FollowMod()
+	{
+		super("Follow",
+			"A bot that follows the closest entity.\n" + "Very annoying.");
+	}
 	
 	@Override
 	public void initSettings()

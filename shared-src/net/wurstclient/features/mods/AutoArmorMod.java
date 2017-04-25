@@ -16,14 +16,16 @@ import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(description = "Manages your armor automatically.",
-	name = "AutoArmor",
-	tags = "auto armor",
-	help = "Mods/AutoArmor")
+@Mod.Info(tags = "auto armor", help = "Mods/AutoArmor")
 @Mod.Bypasses
 public final class AutoArmorMod extends Mod implements UpdateListener
 {
 	private int timer;
+	
+	public AutoArmorMod()
+	{
+		super("AutoArmor", "Manages your armor automatically.");
+	}
 	
 	@Override
 	public void onEnable()

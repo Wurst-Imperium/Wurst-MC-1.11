@@ -11,13 +11,17 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Makes you jump automatically when reaching the edge of a block.\n"
-		+ "Useful for parkours, Jump'n'Runs, etc.",
-	name = "Parkour")
+@Mod.Info
 @Mod.Bypasses
 public final class ParkourMod extends Mod implements UpdateListener
 {
+	public ParkourMod()
+	{
+		super("Parkour",
+			"Makes you jump automatically when reaching the edge of a block.\n"
+				+ "Useful for parkours, Jump'n'Runs, etc.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

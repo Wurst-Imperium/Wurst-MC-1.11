@@ -20,18 +20,21 @@ import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Allows you to walk on water.\n"
-		+ "The real Jesus used this hack ~2000 years ago.\n"
-		+ "Bypasses NoCheat+ if YesCheat+ is enabled.",
-	name = "Jesus",
-	help = "Mods/Jesus")
+@Mod.Info(help = "Mods/Jesus")
 @Mod.Bypasses(ghostMode = false)
 public final class JesusMod extends Mod
 	implements UpdateListener, PacketOutputListener
 {
 	private int tickTimer = 10;
 	private int packetTimer = 0;
+	
+	public JesusMod()
+	{
+		super("Jesus",
+			"Allows you to walk on water.\n"
+				+ "The real Jesus used this hack ~2000 years ago.\n"
+				+ "Bypasses NoCheat+ if YesCheat+ is enabled.");
+	}
 	
 	@Override
 	public void onEnable()

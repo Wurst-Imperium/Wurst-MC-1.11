@@ -15,16 +15,18 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Generates a CrashChest. Give a lot of these to another\n"
-		+ "player to make them crash. They will not be able to join the server\n"
-		+ "ever again!",
-	name = "CrashChest",
-	tags = "crash chest",
-	help = "Mods/CrashChest")
+@Mod.Info(tags = "crash chest", help = "Mods/CrashChest")
 @Mod.Bypasses
 public final class CrashChestMod extends Mod
 {
+	public CrashChestMod()
+	{
+		super("CrashChest",
+			"Generates a CrashChest. Give a lot of these to another\n"
+				+ "player to make them crash. They will not be able to join the server\n"
+				+ "ever again!");
+	}
+	
 	@Override
 	public void onEnable()
 	{

@@ -10,16 +10,18 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Allows you to freely move through blocks.\n"
-		+ "A block (e.g. sand) must fall on your head to activate it.\n"
-		+ "Warning: You will take damage while moving through blocks!",
-	name = "NoClip",
-	tags = "no clip",
-	help = "Mods/NoClip")
+@Mod.Info(tags = "no clip", help = "Mods/NoClip")
 @Mod.Bypasses
 public final class NoClipMod extends Mod implements UpdateListener
 {
+	public NoClipMod()
+	{
+		super("NoClip",
+			"Allows you to freely move through blocks.\n"
+				+ "A block (e.g. sand) must fall on your head to activate it.\n"
+				+ "Warning: You will take damage while moving through blocks!");
+	}
+	
 	@Override
 	public void onEnable()
 	{

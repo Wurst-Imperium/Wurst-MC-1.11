@@ -7,13 +7,13 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Freezes all potion effects while you are standing still.",
-	name = "PotionSaver",
-	tags = "potion saver",
-	help = "Mods/PotionSaver")
+@Mod.Info(tags = "potion saver", help = "Mods/PotionSaver")
 @Mod.Bypasses
 public final class PotionSaverMod extends Mod
 {
-	
+	public PotionSaverMod()
+	{
+		super("PotionSaver",
+			"Freezes all potion effects while you are standing still.");
+	}
 }

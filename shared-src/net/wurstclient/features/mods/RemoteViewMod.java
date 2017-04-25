@@ -15,12 +15,7 @@ import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(
-	description = "Allows you to see the world as someone else.\n"
-		+ "Use the .rv command to make it target a specific entity.",
-	name = "RemoteView",
-	tags = "remote view",
-	help = "Mods/RemoteView")
+@Mod.Info(tags = "remote view", help = "Mods/RemoteView")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class RemoteViewMod extends Mod implements UpdateListener
@@ -71,6 +66,12 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 			return true;
 		}
 	};
+	
+	public RemoteViewMod()
+	{
+		super("RemoteView", "Allows you to see the world as someone else.\n"
+			+ "Use the .rv command to make it target a specific entity.");
+	}
 	
 	@Override
 	public void onEnable()

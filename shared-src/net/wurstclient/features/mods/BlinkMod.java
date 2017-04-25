@@ -16,11 +16,7 @@ import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.utils.EntityFakePlayer;
 
-@Mod.Info(
-	description = "Suspends all motion updates while enabled.\n"
-		+ "Can be used for teleportation, instant picking up of items and more.",
-	name = "Blink",
-	help = "Mods/Blink")
+@Mod.Info(help = "Mods/Blink")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class BlinkMod extends Mod implements PacketOutputListener
@@ -28,6 +24,12 @@ public final class BlinkMod extends Mod implements PacketOutputListener
 	private final ArrayList<Packet> packets = new ArrayList<>();
 	private EntityFakePlayer fakePlayer;
 	private int blinkTime;
+	
+	public BlinkMod()
+	{
+		super("Blink", "Suspends all motion updates while enabled.\n"
+			+ "Can be used for teleportation, instant picking up of items and more.");
+	}
 	
 	@Override
 	public String getRenderName()

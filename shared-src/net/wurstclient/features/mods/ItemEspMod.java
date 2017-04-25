@@ -17,15 +17,17 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Allows you to see items through walls.",
-	name = "ItemESP",
-	tags = "item esp",
-	help = "Mods/ItemESP")
+@Mod.Info(tags = "item esp", help = "Mods/ItemESP")
 @Mod.Bypasses
 public final class ItemEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB ITEM_BOX =
 		new AxisAlignedBB(-0.175, 0, -0.175, 0.175, 0.35, 0.175);
+	
+	public ItemEspMod()
+	{
+		super("ItemESP", "Allows you to see items through walls.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

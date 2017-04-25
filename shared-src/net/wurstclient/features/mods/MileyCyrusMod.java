@@ -9,14 +9,16 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Makes you twerk like Miley Cyrus!",
-	name = "MileyCyrus",
-	tags = "miley cyrus, twerk",
-	help = "Mods/MileyCyrus")
+@Mod.Info(tags = "miley cyrus, twerk", help = "Mods/MileyCyrus")
 @Mod.Bypasses
 public final class MileyCyrusMod extends Mod implements UpdateListener
 {
 	private int timer;
+	
+	public MileyCyrusMod()
+	{
+		super("MileyCyrus", "Makes you twerk like Miley Cyrus!");
+	}
 	
 	@Override
 	public void onEnable()

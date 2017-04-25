@@ -21,11 +21,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically throws instant health splash potions if your health is lower than or equal to\n"
-		+ "the set value.",
-	name = "AutoSplashPot",
-	tags = "AutoPotion,auto potion,auto splash potion",
+@Mod.Info(tags = "AutoPotion,auto potion,auto splash potion",
 	help = "Mods/AutoSplashPot")
 @Mod.Bypasses
 public final class AutoSplashPotMod extends Mod implements UpdateListener
@@ -36,6 +32,13 @@ public final class AutoSplashPotMod extends Mod implements UpdateListener
 		new CheckboxSetting("Ignore screen", true);
 	
 	private int timer;
+	
+	public AutoSplashPotMod()
+	{
+		super("AutoSplashPot",
+			"Automatically throws instant health splash potions if your health is lower than or equal to\n"
+				+ "the set value.");
+	}
 	
 	@Override
 	public void initSettings()

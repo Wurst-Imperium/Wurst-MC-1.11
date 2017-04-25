@@ -20,12 +20,7 @@ import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(
-	description = "Sends a TPA request to all players.\n"
-		+ "Stops if someone accepts.",
-	name = "MassTPA",
-	tags = "mass tpa",
-	help = "Mods/MassTPA")
+@Mod.Info(tags = "mass tpa", help = "Mods/MassTPA")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class MassTpaMod extends Mod
@@ -35,6 +30,12 @@ public final class MassTpaMod extends Mod
 	private int i;
 	private ArrayList<String> players;
 	private Random random = new Random();
+	
+	public MassTpaMod()
+	{
+		super("MassTPA", "Sends a TPA request to all players.\n"
+			+ "Stops if someone accepts.");
+	}
 	
 	@Override
 	public void onEnable()

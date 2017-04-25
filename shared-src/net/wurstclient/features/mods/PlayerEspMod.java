@@ -17,15 +17,17 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Allows you to see players through walls.",
-	name = "PlayerESP",
-	tags = "player esp",
-	help = "Mods/PlayerESP")
+@Mod.Info(tags = "player esp", help = "Mods/PlayerESP")
 @Mod.Bypasses
 public final class PlayerEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB PLAYER_BOX =
 		new AxisAlignedBB(-0.35, 0, -0.35, 0.35, 1.9, 0.35);
+	
+	public PlayerEspMod()
+	{
+		super("PlayerESP", "Allows you to see players through walls.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

@@ -12,15 +12,17 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "While this is active, other people will think you are\n"
-		+ "headless. Looks hilarious!",
-	name = "Headless",
-	tags = "head less",
-	help = "Mods/Headless")
+@Mod.Info(tags = "head less", help = "Mods/Headless")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class HeadlessMod extends Mod implements UpdateListener
 {
+	public HeadlessMod()
+	{
+		super("Headless",
+			"While this is active, other people will think you are\n"
+				+ "headless. Looks hilarious!");
+	}
+	
 	@Override
 	public void onEnable()
 	{

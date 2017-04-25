@@ -21,11 +21,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "Faster Killaura that attacks multiple entities at once.",
-	name = "MultiAura",
-	tags = "ForceField, multi aura, force field",
-	help = "Mods/MultiAura")
+@Mod.Info(tags = "ForceField, multi aura, force field", help = "Mods/MultiAura")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -99,6 +95,12 @@ public final class MultiAuraMod extends Mod implements UpdateListener
 			return fov.getValueF();
 		}
 	};
+	
+	public MultiAuraMod()
+	{
+		super("MultiAura",
+			"Faster Killaura that attacks multiple entities at once.");
+	}
 	
 	@Override
 	public void initSettings()

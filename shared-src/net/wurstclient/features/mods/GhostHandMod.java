@@ -7,16 +7,18 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Allows you to reach specific blocks through walls.\n"
-		+ "Use .ghosthand id <block id> or .ghosthand name <block name>\n"
-		+ "to specify it.",
-	name = "GhostHand",
-	tags = "ghost hand",
-	help = "Mods/GhostHand")
+@Mod.Info(tags = "ghost hand", help = "Mods/GhostHand")
 @Mod.Bypasses(ghostMode = false)
 public final class GhostHandMod extends Mod
 {
+	public GhostHandMod()
+	{
+		super("GhostHand",
+			"Allows you to reach specific blocks through walls.\n"
+				+ "Use .ghosthand id <block id> or .ghosthand name <block name>\n"
+				+ "to specify it.");
+	}
+	
 	@Override
 	public String getRenderName()
 	{

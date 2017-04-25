@@ -21,10 +21,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "Automatically attacks the closest valid entity while teleporting around it.",
-	name = "TP-Aura",
-	tags = "TpAura, EnderAura, Ender-Aura, tp aura, ender aura",
+@Mod.Info(tags = "TpAura, EnderAura, Ender-Aura, tp aura, ender aura",
 	help = "Mods/TP-Aura")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
@@ -32,6 +29,12 @@ import net.wurstclient.utils.RotationUtils;
 	antiCheat = false)
 public final class TpAuraMod extends Mod implements UpdateListener
 {
+	public TpAuraMod()
+	{
+		super("TP-Aura",
+			"Automatically attacks the closest valid entity while teleporting around it.");
+	}
+	
 	private Random random = new Random();
 	
 	public CheckboxSetting useKillaura =

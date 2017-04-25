@@ -10,18 +10,20 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Cancels slowness effects caused by water, soul sand and\n"
-		+ "using items.",
-	name = "NoSlowdown",
-	tags = "no slowdown, no slow down",
-	help = "Mods/NoSlowdown")
+@Mod.Info(tags = "no slowdown, no slow down", help = "Mods/NoSlowdown")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
 	antiCheat = false)
 public final class NoSlowdownMod extends Mod implements UpdateListener
 {
+	public NoSlowdownMod()
+	{
+		super("NoSlowdown",
+			"Cancels slowness effects caused by water, soul sand and\n"
+				+ "using items.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

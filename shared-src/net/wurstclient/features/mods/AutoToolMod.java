@@ -17,12 +17,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically uses the best tool in your hotbar to mine blocks.\n"
-		+ "Tip: This works with Nuker.",
-	name = "AutoTool",
-	tags = "auto tool",
-	help = "Mods/AutoTool")
+@Mod.Info(tags = "auto tool", help = "Mods/AutoTool")
 @Mod.Bypasses
 public final class AutoToolMod extends Mod implements UpdateListener
 {
@@ -32,6 +27,13 @@ public final class AutoToolMod extends Mod implements UpdateListener
 	
 	public CheckboxSetting useSwords =
 		new CheckboxSetting("Use swords as tools", false);
+	
+	public AutoToolMod()
+	{
+		super("AutoTool",
+			"Automatically uses the best tool in your hotbar to mine blocks.\n"
+				+ "Tip: This works with Nuker.");
+	}
 	
 	@Override
 	public void initSettings()

@@ -11,14 +11,16 @@ import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Automatically mines a block as soon as you look at it.",
-	name = "AutoMine",
-	tags = "AutoBreak, auto mine, auto break",
-	help = "Mods/AutoMine")
+@Mod.Info(tags = "AutoBreak, auto mine, auto break", help = "Mods/AutoMine")
 @Mod.Bypasses
 public final class AutoMineMod extends Mod implements UpdateListener
 {
+	public AutoMineMod()
+	{
+		super("AutoMine",
+			"Automatically mines a block as soon as you look at it.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

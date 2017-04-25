@@ -11,13 +11,15 @@ import org.lwjgl.input.Keyboard;
 
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Automatically walks all the time.",
-	name = "AutoWalk",
-	tags = "auto walk",
-	help = "Mods/AutoWalk")
+@Mod.Info(tags = "auto walk", help = "Mods/AutoWalk")
 @Mod.Bypasses
 public final class AutoWalkMod extends Mod implements UpdateListener
 {
+	public AutoWalkMod()
+	{
+		super("AutoWalk", "Automatically walks all the time.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

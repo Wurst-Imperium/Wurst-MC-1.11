@@ -10,10 +10,7 @@ package net.wurstclient.features.mods;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(description = "Makes you jump much higher.",
-	name = "HighJump",
-	tags = "high jump",
-	help = "Mods/HighJump")
+@Mod.Info(tags = "high jump", help = "Mods/HighJump")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -23,6 +20,11 @@ public final class HighJumpMod extends Mod
 {
 	public final SliderSetting height =
 		new SliderSetting("Height", 6, 1, 100, 1, ValueDisplay.INTEGER);
+	
+	public HighJumpMod()
+	{
+		super("HighJump", "Makes you jump much higher.");
+	}
 	
 	@Override
 	public void initSettings()

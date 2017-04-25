@@ -10,13 +10,15 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Allows you to climb up ladders twice as fast.",
-	name = "FastLadder",
-	tags = "FastClimb, fast ladder, fast climb",
-	help = "Mods/FastLadder")
+@Mod.Info(tags = "FastClimb, fast ladder, fast climb", help = "Mods/FastLadder")
 @Mod.Bypasses(ghostMode = false)
 public final class FastLadderMod extends Mod implements UpdateListener
 {
+	public FastLadderMod()
+	{
+		super("FastLadder", "Allows you to climb up ladders twice as fast.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

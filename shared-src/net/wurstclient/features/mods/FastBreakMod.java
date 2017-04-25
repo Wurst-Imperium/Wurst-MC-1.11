@@ -13,9 +13,6 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @Mod.Info(
-	description = "Allows you to break blocks faster.\n"
-		+ "Tip: This works with Nuker.",
-	name = "FastBreak",
 	tags = "SpeedMine, SpeedyGonzales, fast break, speed mine, speedy gonzales",
 	help = "Mods/FastBreak")
 @Mod.Bypasses
@@ -32,6 +29,12 @@ public final class FastBreakMod extends Mod
 		};
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 2, 1, 5, 0.05, ValueDisplay.DECIMAL);
+	
+	public FastBreakMod()
+	{
+		super("FastBreak", "Allows you to break blocks faster.\n"
+			+ "Tip: This works with Nuker.");
+	}
 	
 	@Override
 	public void initSettings()

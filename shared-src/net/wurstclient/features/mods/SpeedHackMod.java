@@ -10,18 +10,20 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Allows you to run roughly 2.5x faster than you would by\n"
-		+ "sprinting and jumping.\n"
-		+ "Notice: This mod was patched in NoCheat+ version 3.13.2. It will\n"
-		+ "only bypass older versions of NoCheat+. Type \"/ncp version\" to\n"
-		+ "check the NoCheat+ version of a server.",
-	name = "SpeedHack",
-	tags = "speed hack",
-	help = "Mods/SpeedHack")
+@Mod.Info(tags = "speed hack", help = "Mods/SpeedHack")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class SpeedHackMod extends Mod implements UpdateListener
 {
+	public SpeedHackMod()
+	{
+		super("SpeedHack",
+			"Allows you to run roughly 2.5x faster than you would by\n"
+				+ "sprinting and jumping.\n"
+				+ "Notice: This mod was patched in NoCheat+ version 3.13.2. It will\n"
+				+ "only bypass older versions of NoCheat+. Type \"/ncp version\" to\n"
+				+ "check the NoCheat+ version of a server.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

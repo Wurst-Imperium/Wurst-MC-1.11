@@ -11,17 +11,18 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.EntityFakePlayer;
 
-@Mod.Info(
-	description = "Allows you to fly out of your body.\n"
-		+ "Looks similar to spectator mode.",
-	name = "Freecam",
-	tags = "free cam, spectator",
-	help = "Mods/Freecam")
+@Mod.Info(tags = "free cam, spectator", help = "Mods/Freecam")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class FreecamMod extends Mod implements UpdateListener
 {
 	private EntityFakePlayer fakePlayer;
+	
+	public FreecamMod()
+	{
+		super("Freecam", "Allows you to fly out of your body.\n"
+			+ "Looks similar to spectator mode.");
+	}
 	
 	@Override
 	public void onEnable()

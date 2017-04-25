@@ -14,15 +14,18 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Generates a potion that can kill anything, even players in Creative mode.\n"
-		+ "Requires Creative mode.",
-	name = "KillPotion",
-	tags = "KillerPotion,kill potion,killer potion",
+@Mod.Info(tags = "KillerPotion,kill potion,killer potion",
 	help = "Mods/KillerPotion")
 @Mod.Bypasses
 public final class KillPotionMod extends Mod
 {
+	public KillPotionMod()
+	{
+		super("KillPotion",
+			"Generates a potion that can kill anything, even players in Creative mode.\n"
+				+ "Requires Creative mode.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

@@ -10,13 +10,15 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Automatically swims like a dolphin.",
-	name = "Dolphin",
-	tags = "AutoSwim, auto swim",
-	help = "Mods/Dolphin")
+@Mod.Info(tags = "AutoSwim, auto swim", help = "Mods/Dolphin")
 @Mod.Bypasses
 public final class DolphinMod extends Mod implements UpdateListener
 {
+	public DolphinMod()
+	{
+		super("Dolphin", "Automatically swims like a dolphin.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

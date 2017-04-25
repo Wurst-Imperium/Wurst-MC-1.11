@@ -20,14 +20,17 @@ import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(description = "Allows you to step up full blocks.",
-	name = "Step",
-	help = "Mods/Step")
+@Mod.Info(help = "Mods/Step")
 @Mod.Bypasses
 public final class StepMod extends Mod implements UpdateListener
 {
 	public SliderSetting height =
 		new SliderSetting("Height", 1, 1, 100, 1, ValueDisplay.INTEGER);
+	
+	public StepMod()
+	{
+		super("Step", "Allows you to step up full blocks.");
+	}
 	
 	@Override
 	public void initSettings()

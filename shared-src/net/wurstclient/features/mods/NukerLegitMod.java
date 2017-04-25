@@ -26,11 +26,7 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Slower Nuker that bypasses all AntiCheat plugins.\n"
-		+ "Not required on normal NoCheat+ servers!",
-	name = "NukerLegit",
-	tags = "LegitNuker, nuker legit, legit nuker",
+@Mod.Info(tags = "LegitNuker, nuker legit, legit nuker",
 	help = "Mods/NukerLegit")
 @Mod.Bypasses
 public final class NukerLegitMod extends Mod
@@ -55,7 +51,7 @@ public final class NukerLegitMod extends Mod
 					range.unlock();
 					mode.unlock();
 				}
-			};
+			}
 		};
 	public final SliderSetting range =
 		new SliderSetting("Range", 4.25, 1, 4.25, 0.05, ValueDisplay.DECIMAL);
@@ -91,6 +87,13 @@ public final class NukerLegitMod extends Mod
 			}
 		}
 	};
+	
+	public NukerLegitMod()
+	{
+		super("NukerLegit",
+			"Slower Nuker that bypasses all AntiCheat plugins.\n"
+				+ "Not required on normal NoCheat+ servers!");
+	}
 	
 	@Override
 	public void initSettings()

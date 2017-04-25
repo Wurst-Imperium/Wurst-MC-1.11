@@ -9,14 +9,16 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.navigator.gui.NavigatorMainScreen;
 
-@Mod.Info(description = "",
-	name = "Navigator",
-	tags = "ClickGUI",
-	help = "Mods/Navigator")
+@Mod.Info(tags = "ClickGUI", help = "Mods/Navigator")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class NavigatorMod extends Mod
 {
+	public NavigatorMod()
+	{
+		super("Navigator", "");
+	}
+	
 	@Override
 	public void onEnable()
 	{

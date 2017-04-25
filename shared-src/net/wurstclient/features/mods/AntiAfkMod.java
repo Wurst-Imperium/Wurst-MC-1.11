@@ -14,10 +14,7 @@ import net.wurstclient.ai.GoRandomAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(name = "AntiAFK",
-	description = "Walks around randomly to hide you from AFK detectors.",
-	tags = "AFKBot,anti afk,afk bot",
-	help = "Mods/AntiAFK")
+@Mod.Info(tags = "AFKBot,anti afk,afk bot", help = "Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class AntiAfkMod extends Mod implements UpdateListener
@@ -25,6 +22,12 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 	private GoRandomAI ai;
 	private int timer;
 	private Random random = new Random();
+	
+	public AntiAfkMod()
+	{
+		super("AntiAFK",
+			"Walks around randomly to hide you from AFK detectors.");
+	}
 	
 	@Override
 	public void onEnable()

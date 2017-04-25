@@ -23,13 +23,7 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(
-	description = "Finds player bases by searching for man-made blocks.\n"
-		+ "The blocks that it finds will be highlighted in red.\n"
-		+ "Good for finding faction bases.",
-	name = "BaseFinder",
-	tags = "base finder, factions",
-	help = "Mods/BaseFinder")
+@Mod.Info(tags = "base finder, factions", help = "Mods/BaseFinder")
 @Mod.Bypasses
 public final class BaseFinderMod extends Mod
 	implements UpdateListener, RenderListener
@@ -54,6 +48,14 @@ public final class BaseFinderMod extends Mod
 	
 	private int messageTimer = 0;
 	private int counter;
+	
+	public BaseFinderMod()
+	{
+		super("BaseFinder",
+			"Finds player bases by searching for man-made blocks.\n"
+				+ "The blocks that it finds will be highlighted in red.\n"
+				+ "Good for finding faction bases.");
+	}
 	
 	@Override
 	public String getRenderName()

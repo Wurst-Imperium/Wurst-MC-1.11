@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.wurstclient.utils.XRayUtils;
 
-@Mod.Info(description = "Allows you to see ores through walls.",
-	name = "X-Ray",
-	tags = "xray, x ray",
-	help = "Mods/X-Ray")
+@Mod.Info(tags = "xray, x ray", help = "Mods/X-Ray")
 @Mod.Bypasses
 public final class XRayMod extends Mod
 {
@@ -25,6 +22,11 @@ public final class XRayMod extends Mod
 	{
 		xrayBlocks = new ArrayList<>();
 		XRayUtils.initXRayBlocks();
+	}
+	
+	public XRayMod()
+	{
+		super("X-Ray", "Allows you to see ores through walls.");
 	}
 	
 	@Override

@@ -17,15 +17,17 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Allows you to see mobs through walls.",
-	name = "MobESP",
-	tags = "mob esp",
-	help = "Mods/MobESP")
+@Mod.Info(tags = "mob esp", help = "Mods/MobESP")
 @Mod.Bypasses
 public final class MobEspMod extends Mod implements RenderListener
 {
 	private static final AxisAlignedBB MOB_BOX =
 		new AxisAlignedBB(-0.5, 0, -0.5, 0.5, 1, 0.5);
+	
+	public MobEspMod()
+	{
+		super("MobESP", "Allows you to see mobs through walls.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

@@ -13,15 +13,18 @@ import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(
-	description = "Modifies a nametag so that it can kick people from the server.\n"
-		+ "Right click a mob with the modified nametag to kick all nearby players.",
-	name = "CrashTag",
-	tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
+@Mod.Info(tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
 	help = "Mods/CrashItem")
 @Mod.Bypasses
 public final class CrashTagMod extends Mod
 {
+	public CrashTagMod()
+	{
+		super("CrashTag",
+			"Modifies a nametag so that it can kick people from the server.\n"
+				+ "Right click a mob with the modified nametag to kick all nearby players.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

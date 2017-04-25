@@ -17,12 +17,15 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(description = "Draws lines to players around you.",
-	name = "Tracers",
-	help = "Mods/Tracers")
+@Mod.Info(help = "Mods/Tracers")
 @Mod.Bypasses
 public final class TracersMod extends Mod implements RenderListener
 {
+	public TracersMod()
+	{
+		super("Tracers", "Draws lines to players around you.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

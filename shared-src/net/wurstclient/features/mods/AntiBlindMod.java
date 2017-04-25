@@ -7,12 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(description = "Blocks blindness and nausea.",
-	name = "AntiBlind",
-	tags = "AntiBlindness, anti blindness",
-	help = "Mods/AntiBlind")
+@Mod.Info(tags = "AntiBlindness, anti blindness", help = "Mods/AntiBlind")
 @Mod.Bypasses
 public final class AntiBlindMod extends Mod
 {
-	
+	public AntiBlindMod()
+	{
+		super("AntiBlind", "Blocks blindness and nausea.");
+	}
 }

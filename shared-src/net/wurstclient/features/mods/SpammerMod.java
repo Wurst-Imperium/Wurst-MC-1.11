@@ -37,10 +37,7 @@ import net.wurstclient.spam.exceptions.UnreadableTagException;
 import net.wurstclient.spam.tag.Tag;
 import net.wurstclient.utils.MiscUtils;
 
-@Mod.Info(description = "It's called Spammer, but it's a lot more.\n"
-	+ "Special features:\n" + ">ASCII art\n" + ">Run any Wurst command\n"
-	+ ">Variables\n" + ">HTML-like tags & comments\n"
-	+ ">Integrated help system", name = "Spammer", help = "Mods/Spammer")
+@Mod.Info(help = "Mods/Spammer")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class SpammerMod extends Mod
@@ -49,6 +46,15 @@ public final class SpammerMod extends Mod
 	private static JSpinner delaySpinner;
 	private JTextArea spamArea;
 	private String spam;
+	
+	public SpammerMod()
+	{
+		super("Spammer",
+			"It's called Spammer, but it's a lot more.\n"
+				+ "Special features:\n" + ">ASCII art\n"
+				+ ">Run any Wurst command\n" + ">Variables\n"
+				+ ">HTML-like tags & comments\n" + ">Integrated help system");
+	}
 	
 	@Override
 	public void onEnable()

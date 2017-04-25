@@ -18,12 +18,15 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(description = "Automatically places blocks below your feet.",
-	name = "ScaffoldWalk",
-	tags = "scaffold walk, tower")
+@Mod.Info(tags = "scaffold walk, tower")
 @Mod.Bypasses(ghostMode = false)
 public final class ScaffoldWalkMod extends Mod implements UpdateListener
 {
+	public ScaffoldWalkMod()
+	{
+		super("ScaffoldWalk", "Automatically places blocks below your feet.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

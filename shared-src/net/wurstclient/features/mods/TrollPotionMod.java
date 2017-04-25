@@ -14,15 +14,16 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Generates an incredibly annoying potion.\n"
-		+ "Tip: AntiBlind makes you partially immune to it.",
-	name = "TrollPotion",
-	tags = "troll potion",
-	help = "Mods/TrollPotion")
+@Mod.Info(tags = "troll potion", help = "Mods/TrollPotion")
 @Mod.Bypasses
 public final class TrollPotionMod extends Mod
 {
+	public TrollPotionMod()
+	{
+		super("TrollPotion", "Generates an incredibly annoying potion.\n"
+			+ "Tip: AntiBlind makes you partially immune to it.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

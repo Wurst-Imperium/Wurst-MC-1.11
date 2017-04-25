@@ -12,15 +12,16 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Regenerates your health 1000 times faster.\n"
-		+ "Can cause unwanted \"Flying is not enabled!\" kicks.",
-	name = "Regen",
-	tags = "GodMode, god mode",
-	help = "Mods/Regen")
+@Mod.Info(tags = "GodMode, god mode", help = "Mods/Regen")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class RegenMod extends Mod implements UpdateListener
 {
+	public RegenMod()
+	{
+		super("Regen", "Regenerates your health 1000 times faster.\n"
+			+ "Can cause unwanted \"Flying is not enabled!\" kicks.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

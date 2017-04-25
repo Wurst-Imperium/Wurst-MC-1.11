@@ -25,9 +25,8 @@ import net.wurstclient.settings.Setting;
 
 public abstract class Mod extends Feature
 {
-	private final String name = getClass().getAnnotation(Info.class).name();
-	private final String description =
-		getClass().getAnnotation(Info.class).description();
+	private final String name;
+	private final String description;
 	private final String tags = getClass().getAnnotation(Info.class).tags();
 	private final String help = getClass().getAnnotation(Info.class).help();
 	
@@ -43,6 +42,12 @@ public abstract class Mod extends Feature
 	
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
+	
+	public Mod(String name, String description)
+	{
+		this.name = name;
+		this.description = description;
+	}
 	
 	@Override
 	public final ArrayList<PossibleKeybind> getPossibleKeybinds()
@@ -278,10 +283,6 @@ public abstract class Mod extends Feature
 	@Target(ElementType.TYPE)
 	public static @interface Info
 	{
-		String name();
-		
-		String description();
-		
 		String tags() default "";
 		
 		String help() default "";

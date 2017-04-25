@@ -7,12 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(description = "Allows you to see caves through walls.",
-	name = "CaveFinder",
-	tags = "cave finder",
-	help = "Mods/CaveFinder")
+@Mod.Info(tags = "cave finder", help = "Mods/CaveFinder")
 @Mod.Bypasses
 public final class CaveFinderMod extends Mod
 {
-	
+	public CaveFinderMod()
+	{
+		super("CaveFinder", "Allows you to see caves through walls.");
+	}
 }

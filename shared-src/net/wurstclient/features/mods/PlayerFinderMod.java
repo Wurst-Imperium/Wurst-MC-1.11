@@ -24,15 +24,17 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(description = "Finds far players during thunderstorms.",
-	name = "PlayerFinder",
-	tags = "player finder",
-	help = "Mods/PlayerFinder")
+@Mod.Info(tags = "player finder", help = "Mods/PlayerFinder")
 @Mod.Bypasses
 public final class PlayerFinderMod extends Mod
 	implements PacketInputListener, RenderListener
 {
 	private BlockPos pos;
+	
+	public PlayerFinderMod()
+	{
+		super("PlayerFinder", "Finds far players during thunderstorms.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

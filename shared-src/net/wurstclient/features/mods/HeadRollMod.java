@@ -12,15 +12,17 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "While this is active, other people will think you are\n"
-		+ "rolling your head around!\n" + "Looks a bit like nodding.",
-	name = "HeadRoll",
-	tags = "head roll",
-	help = "Mods/HeadRoll")
+@Mod.Info(tags = "head roll", help = "Mods/HeadRoll")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class HeadRollMod extends Mod implements UpdateListener
 {
+	public HeadRollMod()
+	{
+		super("HeadRoll",
+			"While this is active, other people will think you are\n"
+				+ "rolling your head around!\n" + "Looks a bit like nodding.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

@@ -10,13 +10,15 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Allows you to fly with boats",
-	name = "BoatFly",
-	tags = "BoatFlight, boat fly, boat flight",
-	help = "Mods/BoatFly")
+@Mod.Info(tags = "BoatFlight, boat fly, boat flight", help = "Mods/BoatFly")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class BoatFlyMod extends Mod implements UpdateListener
 {
+	public BoatFlyMod()
+	{
+		super("BoatFly", "Allows you to fly with boats");
+	}
+	
 	@Override
 	public void onEnable()
 	{

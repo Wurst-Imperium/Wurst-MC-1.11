@@ -18,13 +18,16 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(description = "Automatically attacks the entity you're looking at.",
-	name = "TriggerBot",
-	tags = "trigger bot",
-	help = "Mods/TriggerBot")
+@Mod.Info(tags = "trigger bot", help = "Mods/TriggerBot")
 @Mod.Bypasses
 public final class TriggerBotMod extends Mod implements UpdateListener
 {
+	public TriggerBotMod()
+	{
+		super("TriggerBot",
+			"Automatically attacks the entity you're looking at.");
+	}
+	
 	public CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{

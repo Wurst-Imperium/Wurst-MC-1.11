@@ -10,15 +10,20 @@ package net.wurstclient.features.mods;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(description = "Changes the speed of almost everything.\n"
-	+ "Tip: Slow speeds make aiming easier and work well with\n" + "NoCheat+.",
-	name = "Timer",
-	help = "Mods/Timer")
+@Mod.Info(help = "Mods/Timer")
 @Mod.Bypasses(ghostMode = false)
 public final class TimerMod extends Mod
 {
 	public final SliderSetting speed =
 		new SliderSetting("Speed", 2, 0.1, 10, 0.1, ValueDisplay.DECIMAL);
+	
+	public TimerMod()
+	{
+		super("Timer",
+			"Changes the speed of almost everything.\n"
+				+ "Tip: Slow speeds make aiming easier and work well with\n"
+				+ "NoCheat+.");
+	}
 	
 	@Override
 	public void initSettings()

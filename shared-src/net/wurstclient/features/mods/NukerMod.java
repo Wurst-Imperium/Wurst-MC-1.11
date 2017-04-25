@@ -27,11 +27,7 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Destroys blocks around you.\n"
-		+ "Use .nuker mode <mode> to change the mode.",
-	name = "Nuker",
-	help = "Mods/Nuker")
+@Mod.Info(help = "Mods/Nuker")
 @Mod.Bypasses
 public final class NukerMod extends Mod implements LeftClickListener,
 	UpdateListener, PostUpdateListener, RenderListener
@@ -73,6 +69,12 @@ public final class NukerMod extends Mod implements LeftClickListener,
 			}
 		}
 	};
+	
+	public NukerMod()
+	{
+		super("Nuker", "Destroys blocks around you.\n"
+			+ "Use .nuker mode <mode> to change the mode.");
+	}
 	
 	@Override
 	public void initSettings()

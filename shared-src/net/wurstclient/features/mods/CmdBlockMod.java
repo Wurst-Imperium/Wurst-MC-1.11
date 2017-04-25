@@ -16,15 +16,19 @@ import net.wurstclient.gui.mods.GuiCmdBlock;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Allows you to make a Command Block without having OP.\n"
-		+ "Requires creative mode.\n" + "Appears to be patched on Spigot.",
-	name = "CMD-Block",
-	tags = "CmdBlock, CommandBlock, cmd block, command block",
+@Mod.Info(tags = "CmdBlock, CommandBlock, cmd block, command block",
 	help = "Mods/CMD-Block")
 @Mod.Bypasses
 public final class CmdBlockMod extends Mod
 {
+	public CmdBlockMod()
+	{
+		super("CMD-Block",
+			"Allows you to make a Command Block without having OP.\n"
+				+ "Requires creative mode.\n"
+				+ "Appears to be patched on Spigot.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

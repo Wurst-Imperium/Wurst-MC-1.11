@@ -20,12 +20,7 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically catches fish until either all of your fishing rods are completely used up or your\n"
-		+ "inventory is completely full. If fishing rods are placed outside of the hotbar, they will\n"
-		+ "automatically be moved into the hotbar once needed.",
-	name = "AutoFish",
-	tags = "FishBot, auto fish, fish bot, fishing",
+@Mod.Info(tags = "FishBot, auto fish, fish bot, fishing",
 	help = "Mods/AutoFish")
 @Mod.Bypasses
 public final class AutoFishMod extends Mod
@@ -35,6 +30,14 @@ public final class AutoFishMod extends Mod
 		new CheckboxSetting("Overfill inventory", false);
 	
 	private int timer;
+	
+	public AutoFishMod()
+	{
+		super("AutoFish",
+			"Automatically catches fish until either all of your fishing rods are completely used up or your\n"
+				+ "inventory is completely full. If fishing rods are placed outside of the hotbar, they will\n"
+				+ "automatically be moved into the hotbar once needed.");
+	}
 	
 	@Override
 	public void initSettings()

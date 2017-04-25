@@ -11,16 +11,19 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 
-@Mod.Info(
-	description = "Switches the item in your hand all the time.\n"
-		+ "Tip: Use this in combination with BuildRandom while\n"
-		+ "having a lot of different colored wool blocks in your\n" + "hotbar.",
-	name = "AutoSwitch",
-	tags = "auto switch",
-	help = "Mods/AutoSwitch")
+@Mod.Info(tags = "auto switch", help = "Mods/AutoSwitch")
 @Mod.Bypasses
 public final class AutoSwitchMod extends Mod implements UpdateListener
 {
+	public AutoSwitchMod()
+	{
+		super("AutoSwitch",
+			"Switches the item in your hand all the time.\n"
+				+ "Tip: Use this in combination with BuildRandom while\n"
+				+ "having a lot of different colored wool blocks in your\n"
+				+ "hotbar.");
+	}
+	
 	@Override
 	public Feature[] getSeeAlso()
 	{

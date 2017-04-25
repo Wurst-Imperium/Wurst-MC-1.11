@@ -17,12 +17,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(
-	description = "Automatically uses the best weapon in your hotbar to attack entities.\n"
-		+ "Tip: This works with Killaura.",
-	name = "AutoSword",
-	tags = "auto sword",
-	help = "Mods/AutoSword")
+@Mod.Info(tags = "auto sword", help = "Mods/AutoSword")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -32,6 +27,13 @@ public final class AutoSwordMod extends Mod
 {
 	private int oldSlot = -1;
 	private int timer;
+	
+	public AutoSwordMod()
+	{
+		super("AutoSword",
+			"Automatically uses the best weapon in your hotbar to attack entities.\n"
+				+ "Tip: This works with Killaura.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

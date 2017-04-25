@@ -37,12 +37,6 @@ import net.wurstclient.files.WurstFolders;
 import net.wurstclient.utils.ChatUtils;
 
 @Mod.Info(
-	description = "Cracks AuthMe passwords. Can be used to get OP.\n"
-		+ "If you want to know how to use this, press the\n"
-		+ "\"How to use\" button. That will open an online\n"
-		+ "tutorial explaining exactly how to use it.\n"
-		+ "Don't message me on this!",
-	name = "ForceOP",
 	tags = "Force OP,AuthMe Cracker,AuthMeCracker,auth me cracker,admin hack,"
 		+ "AuthMe password cracker",
 	help = "Mods/Force_OP_(AuthMeCracker)")
@@ -83,6 +77,16 @@ public final class ForceOpMod extends Mod implements ChatInputListener
 	private boolean gotWrongPWMSG;
 	private int lastPW;
 	private JLabel lAttempts;
+	
+	public ForceOpMod()
+	{
+		super("ForceOP",
+			"Cracks AuthMe passwords. Can be used to get OP.\n"
+				+ "If you want to know how to use this, press the\n"
+				+ "\"How to use\" button. That will open an online\n"
+				+ "tutorial explaining exactly how to use it.\n"
+				+ "Don't message me on this!");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

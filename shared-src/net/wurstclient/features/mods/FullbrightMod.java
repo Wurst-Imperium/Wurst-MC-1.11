@@ -9,15 +9,14 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(description = "Allows you to see in the dark.",
-	name = "Fullbright",
-	tags = "NightVision, full bright, brightness, night vision",
+@Mod.Info(tags = "NightVision, full bright, brightness, night vision",
 	help = "Mods/Fullbright")
 @Mod.Bypasses
 public final class FullbrightMod extends Mod implements UpdateListener
 {
 	public FullbrightMod()
 	{
+		super("Fullbright", "Allows you to see in the dark.");
 		wurst.events.add(UpdateListener.class, this);
 	}
 	

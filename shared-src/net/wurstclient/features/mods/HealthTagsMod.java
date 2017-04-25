@@ -7,12 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(description = "Adds the health of players to their nametags.",
-	name = "HealthTags",
-	tags = "health tags",
-	help = "Mods/HealthTags")
+@Mod.Info(tags = "health tags", help = "Mods/HealthTags")
 @Mod.Bypasses
 public final class HealthTagsMod extends Mod
 {
-	
+	public HealthTagsMod()
+	{
+		super("HealthTags", "Adds the health of players to their nametags.");
+	}
 }

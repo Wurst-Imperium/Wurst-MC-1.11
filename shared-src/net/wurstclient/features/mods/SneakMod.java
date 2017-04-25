@@ -15,14 +15,16 @@ import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 
-@Mod.Info(description = "Automatically sneaks all the time.",
-	name = "Sneak",
-	tags = "AutoSneaking",
-	help = "Mods/Sneak")
+@Mod.Info(tags = "AutoSneaking", help = "Mods/Sneak")
 @Mod.Bypasses(ghostMode = false)
 public final class SneakMod extends Mod
 	implements UpdateListener, PostUpdateListener
 {
+	public SneakMod()
+	{
+		super("Sneak", "Automatically sneaks all the time.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

@@ -22,14 +22,17 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(description = "Digs a 3x3 tunnel around you.",
-	name = "Tunneller",
-	help = "Mods/Tunneller")
+@Mod.Info(help = "Mods/Tunneller")
 @Mod.Bypasses
 public final class TunnellerMod extends Mod
 	implements UpdateListener, PostUpdateListener, RenderListener
 {
 	private BlockPos currentBlock;
+	
+	public TunnellerMod()
+	{
+		super("Tunneller", "Digs a 3x3 tunnel around you.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

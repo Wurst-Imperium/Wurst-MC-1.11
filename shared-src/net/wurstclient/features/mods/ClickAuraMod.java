@@ -20,14 +20,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(
-	description = "Automatically attacks the closest valid entity whenever you click.\n"
-		+ "§lWarning:§r ClickAuras generally look more suspicious than Killauras\n"
-		+ "and are easier to detect. It is recommended to use Killaura or\n"
-		+ "TriggerBot instead.",
-	name = "ClickAura",
-	tags = "Click Aura,ClickAimbot,Click Aimbot",
-	help = "Mods/ClickAura")
+@Mod.Info(tags = "Click Aura,ClickAimbot,Click Aimbot", help = "Mods/ClickAura")
 @Mod.Bypasses(ghostMode = false)
 public final class ClickAuraMod extends Mod implements UpdateListener
 {
@@ -77,6 +70,15 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
 	public final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
+	
+	public ClickAuraMod()
+	{
+		super("ClickAura",
+			"Automatically attacks the closest valid entity whenever you click.\n"
+				+ "§lWarning:§r ClickAuras generally look more suspicious than Killauras\n"
+				+ "and are easier to detect. It is recommended to use Killaura or\n"
+				+ "TriggerBot instead.");
+	}
 	
 	private TargetSettings targetSettings = new TargetSettings()
 	{

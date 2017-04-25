@@ -23,10 +23,7 @@ import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Instantly builds a small bunker around you.",
-	name = "InstantBunker",
-	tags = "instant bunker",
-	help = "Mods/InstantBunker")
+@Mod.Info(tags = "instant bunker", help = "Mods/InstantBunker")
 @Mod.Bypasses
 public final class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener
@@ -46,6 +43,11 @@ public final class InstantBunkerMod extends Mod
 	private int blockIndex;
 	private boolean building;
 	private final ArrayList<BlockPos> positions = new ArrayList<>();
+	
+	public InstantBunkerMod()
+	{
+		super("InstantBunker", "Instantly builds a small bunker around you.");
+	}
 	
 	@Override
 	public void onEnable()

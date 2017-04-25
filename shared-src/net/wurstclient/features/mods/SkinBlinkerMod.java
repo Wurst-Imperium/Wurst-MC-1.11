@@ -12,15 +12,17 @@ import java.util.Set;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Makes your skin blink.\n"
-		+ "Requires a skin with a jacket, a hat or something similar.",
-	name = "SkinBlinker",
-	tags = "SpookySkin, skin blinker, spooky skin",
+@Mod.Info(tags = "SpookySkin, skin blinker, spooky skin",
 	help = "Mods/SkinBlinker")
 @Mod.Bypasses(ghostMode = false)
 public final class SkinBlinkerMod extends Mod implements UpdateListener
 {
+	public SkinBlinkerMod()
+	{
+		super("SkinBlinker", "Makes your skin blink.\n"
+			+ "Requires a skin with a jacket, a hat or something similar.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

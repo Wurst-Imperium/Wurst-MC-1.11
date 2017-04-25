@@ -7,12 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(description = "Disables the annoying effect when you get hurt.",
-	name = "NoHurtcam",
-	tags = "no hurtcam, no hurt cam",
-	help = "Mods/NoHurtcam")
+@Mod.Info(tags = "no hurtcam, no hurt cam", help = "Mods/NoHurtcam")
 @Mod.Bypasses
 public final class NoHurtcamMod extends Mod
 {
-	
+	public NoHurtcamMod()
+	{
+		super("NoHurtcam", "Disables the annoying effect when you get hurt.");
+	}
 }

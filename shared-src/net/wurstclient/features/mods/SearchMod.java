@@ -20,9 +20,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(description = "Helps you to find specific blocks.\n"
-	+ "Use .search id <block id> or .search name <block name>\n"
-	+ "to specify it.", name = "Search", help = "Mods/Search")
+@Mod.Info(help = "Mods/Search")
 @Mod.Bypasses
 public final class SearchMod extends Mod
 	implements UpdateListener, RenderListener
@@ -31,6 +29,14 @@ public final class SearchMod extends Mod
 	private int range = 50;
 	private int maxBlocks = 1000;
 	public boolean notify = true;
+	
+	public SearchMod()
+	{
+		super("Search",
+			"Helps you to find specific blocks.\n"
+				+ "Use .search id <block id> or .search name <block name>\n"
+				+ "to specify it.");
+	}
 	
 	@Override
 	public String getRenderName()

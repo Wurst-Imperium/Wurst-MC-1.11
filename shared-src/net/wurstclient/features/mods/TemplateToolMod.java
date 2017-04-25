@@ -44,9 +44,7 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.JsonUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(
-	description = "Allows you to create custom templates for AutoBuild by scanning existing buildings.",
-	name = "TemplateTool")
+@Mod.Info
 @Mod.Bypasses
 public final class TemplateToolMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener
@@ -56,6 +54,12 @@ public final class TemplateToolMod extends Mod
 	private Area area;
 	private Template template;
 	private File file;
+	
+	public TemplateToolMod()
+	{
+		super("TemplateTool",
+			"Allows you to create custom templates for AutoBuild by scanning existing buildings.");
+	}
 	
 	@Override
 	public Feature[] getSeeAlso()

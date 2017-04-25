@@ -7,13 +7,13 @@
  */
 package net.wurstclient.features.mods;
 
-@Mod.Info(
-	description = "Automatically steals everything from all chests you open.",
-	name = "AutoSteal",
-	tags = "auto steal",
-	help = "Mods/AutoSteal")
+@Mod.Info(tags = "auto steal", help = "Mods/AutoSteal")
 @Mod.Bypasses
 public final class AutoStealMod extends Mod
 {
-	
+	public AutoStealMod()
+	{
+		super("AutoSteal",
+			"Automatically steals everything from all chests you open.");
+	}
 }

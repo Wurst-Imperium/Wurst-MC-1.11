@@ -13,14 +13,17 @@ import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(description = "Types \"/home\" instantly.",
-	name = "/home",
-	help = "Mods/home")
+@Mod.Info(help = "Mods/home")
 @Mod.Bypasses
 public final class HomeMod extends Mod
 	implements UpdateListener, ChatInputListener
 {
 	private int disableTimer;
+	
+	public HomeMod()
+	{
+		super("/home", "Types \"/home\" instantly.");
+	}
 	
 	@Override
 	public void onEnable()

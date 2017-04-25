@@ -12,16 +12,19 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Blocks damage from catching on fire.\n"
-		+ "Does NOT block damage from standing inside of fire.\n"
-		+ "Requires a full hunger bar.",
-	name = "AntiFire",
-	tags = "anti fire, AntiBurn, anti burn, NoFire, no fire",
+@Mod.Info(tags = "anti fire, AntiBurn, anti burn, NoFire, no fire",
 	help = "Mods/AntiFire")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class AntiFireMod extends Mod implements UpdateListener
 {
+	public AntiFireMod()
+	{
+		super("AntiFire",
+			"Blocks damage from catching on fire.\n"
+				+ "Does NOT block damage from standing inside of fire.\n"
+				+ "Requires a full hunger bar.");
+	}
+	
 	@Override
 	public void onEnable()
 	{

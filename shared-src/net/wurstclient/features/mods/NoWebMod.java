@@ -10,15 +10,16 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 
-@Mod.Info(
-	description = "Prevents you from getting slowed down in webs.\n"
-		+ "Note: This has nothing to do with websites.",
-	name = "NoWeb",
-	tags = "no web",
-	help = "Mods/NoWeb")
+@Mod.Info(tags = "no web", help = "Mods/NoWeb")
 @Mod.Bypasses(ghostMode = false)
 public final class NoWebMod extends Mod implements UpdateListener
 {
+	public NoWebMod()
+	{
+		super("NoWeb", "Prevents you from getting slowed down in webs.\n"
+			+ "Note: This has nothing to do with websites.");
+	}
+	
 	@Override
 	public void onEnable()
 	{
