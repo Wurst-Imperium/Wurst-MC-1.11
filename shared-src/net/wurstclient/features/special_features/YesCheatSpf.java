@@ -10,8 +10,8 @@ package net.wurstclient.features.special_features;
 import java.util.HashSet;
 
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.Spf;
 import net.wurstclient.features.Mod.Bypasses;
+import net.wurstclient.features.Spf;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 
