@@ -16,20 +16,21 @@ import net.wurstclient.settings.Setting;
 
 public abstract class Spf extends Feature
 {
-	private final String name = getClass().getAnnotation(Info.class).name();
-	private final String description =
-		getClass().getAnnotation(Info.class).description();
+	private final String name;
+	private final String description;
 	private final String tags = getClass().getAnnotation(Info.class).tags();
 	private final String help = getClass().getAnnotation(Info.class).help();
-	protected ArrayList<Setting> settings = new ArrayList<>();
+	protected final ArrayList<Setting> settings = new ArrayList<>();
+	
+	public Spf(String name, String description)
+	{
+		this.name = name;
+		this.description = description;
+	}
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info
 	{
-		String name();
-		
-		String description();
-		
 		String tags() default "";
 		
 		String help() default "";

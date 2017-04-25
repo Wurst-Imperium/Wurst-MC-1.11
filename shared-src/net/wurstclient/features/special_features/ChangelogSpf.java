@@ -10,11 +10,14 @@ package net.wurstclient.features.special_features;
 import net.wurstclient.features.Spf;
 import net.wurstclient.utils.MiscUtils;
 
-@Spf.Info(description = "Opens the changelog in your browser.",
-	name = "Changelog",
-	tags = "change log,new features,wurst update")
+@Spf.Info(tags = "change log,new features,wurst update")
 public final class ChangelogSpf extends Spf
 {
+	public ChangelogSpf()
+	{
+		super("Changelog", "Opens the changelog in your browser.");
+	}
+	
 	@Override
 	public String getPrimaryAction()
 	{

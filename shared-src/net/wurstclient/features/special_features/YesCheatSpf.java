@@ -16,8 +16,6 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 
 @Spf.Info(
-	description = "Makes other features bypass AntiCheat plugins or blocks them if they can't.",
-	name = "YesCheat+",
 	tags = "YesCheatPlus, NoCheat+, NoCheatPlus, AntiMAC, yes cheat plus, no cheat plus, anti mac, ncp bypasses",
 	help = "Special_Features/YesCheat")
 public final class YesCheatSpf extends Spf
@@ -30,6 +28,9 @@ public final class YesCheatSpf extends Spf
 	
 	public YesCheatSpf()
 	{
+		super("YesCheat+",
+			"Makes other features bypass AntiCheat plugins or blocks them if they can't.");
+		
 		settings.add(new ModeSetting("Bypass Level", BypassLevel.getNames(),
 			bypassLevel.ordinal())
 		{
