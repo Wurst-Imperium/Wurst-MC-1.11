@@ -1,6 +1,6 @@
-From c880a1c7233e5ff822f0da13e0192d8fe053c69c Mon Sep 17 00:00:00 2001
+From b2038fa0bda026a7c9738df46b31c181fd618370 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 21 Apr 2017 23:00:47 +0200
+Date: Tue, 25 Apr 2017 07:00:50 +0200
 Subject: [PATCH] mod
 
 ---
@@ -39,7 +39,7 @@ Subject: [PATCH] mod
  .../client/renderer/BlockModelRenderer.java        |  14 +-
  net/minecraft/client/renderer/EntityRenderer.java  |  93 ++++++---
  net/minecraft/client/renderer/ItemRenderer.java    |  10 +
- net/minecraft/client/renderer/chunk/VisGraph.java  |   9 +-
+ net/minecraft/client/renderer/chunk/VisGraph.java  |  11 +-
  net/minecraft/client/renderer/entity/Render.java   |  24 +++
  .../client/renderer/entity/RenderLivingBase.java   |  16 +-
  .../client/renderer/entity/RenderManager.java      |   6 +-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  39 ++--
- 54 files changed, 1314 insertions(+), 630 deletions(-)
+ 54 files changed, 1316 insertions(+), 630 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -2917,7 +2917,7 @@ index 8f5a3ee..5158f74 100644
          VertexBuffer vertexbuffer = tessellator.getBuffer();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
 diff --git a/net/minecraft/client/renderer/chunk/VisGraph.java b/net/minecraft/client/renderer/chunk/VisGraph.java
-index 342c491..4e0c8fc 100644
+index 342c491..82819fc 100644
 --- a/net/minecraft/client/renderer/chunk/VisGraph.java
 +++ b/net/minecraft/client/renderer/chunk/VisGraph.java
 @@ -1,13 +1,16 @@
@@ -2938,12 +2938,14 @@ index 342c491..4e0c8fc 100644
  
  public class VisGraph
  {
-@@ -20,6 +23,10 @@ public class VisGraph
+@@ -20,6 +23,12 @@ public class VisGraph
  
      public void setOpaqueCube(BlockPos pos)
      {
 +		// TODO: Client
-+		if(WurstClient.INSTANCE.mods.xRayMod.isActive())
++		if(WurstClient.INSTANCE.mods.xRayMod.isActive()
++			|| WurstClient.INSTANCE.mods.freecamMod.isActive()
++			|| WurstClient.INSTANCE.mods.caveFinderMod.isActive())
 +			return;
 +    	
          this.bitSet.set(getIndex(pos), true);
