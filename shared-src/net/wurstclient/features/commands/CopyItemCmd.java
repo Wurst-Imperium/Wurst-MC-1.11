@@ -14,14 +14,17 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Cmd.Info(
-	description = "Allows you to copy items that other people are holding\n"
-		+ "or wearing. Requires creative mode.",
-	name = "copyitem",
-	syntax = {"<player> (hand|head|chest|legs|feet)"},
-	help = "Commands/copyitem")
+@Cmd.Info(help = "Commands/copyitem")
 public final class CopyItemCmd extends Cmd
 {
+	public CopyItemCmd()
+	{
+		super("copyitem",
+			"Allows you to copy items that other people are holding\n"
+				+ "or wearing. Requires creative mode.",
+			"<player> (hand|head|chest|legs|feet)");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

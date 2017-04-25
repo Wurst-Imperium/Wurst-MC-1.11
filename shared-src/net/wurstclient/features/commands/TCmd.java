@@ -10,12 +10,14 @@ package net.wurstclient.features.commands;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.Mod;
 
-@Cmd.Info(description = "Toggles a mod.",
-	name = "t",
-	syntax = {"<mod> [(on|off)]"},
-	help = "Commands/t")
+@Cmd.Info(help = "Commands/t")
 public final class TCmd extends Cmd
 {
+	public TCmd()
+	{
+		super("t", "Toggles a mod.", "<mod> [(on|off)]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

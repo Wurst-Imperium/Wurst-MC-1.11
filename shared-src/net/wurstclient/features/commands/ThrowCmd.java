@@ -12,12 +12,15 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Changes the amount of Throw or toggles it.",
-	name = "throw",
-	syntax = {"[amount <amount>]"},
-	help = "Commands/throw")
+@Cmd.Info(help = "Commands/throw")
 public final class ThrowCmd extends Cmd
 {
+	public ThrowCmd()
+	{
+		super("throw", "Changes the amount of Throw or toggles it.",
+			"[amount <amount>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

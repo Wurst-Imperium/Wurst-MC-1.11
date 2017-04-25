@@ -13,14 +13,17 @@ import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(description = "Annoys a player by repeating everything he says.",
-	name = "annoy",
-	syntax = {"[<player>]"},
-	help = "Commands/annoy")
+@Cmd.Info(help = "Commands/annoy")
 public final class AnnoyCmd extends Cmd implements ChatInputListener
 {
 	private boolean toggled;
 	private String name;
+	
+	public AnnoyCmd()
+	{
+		super("annoy", "Annoys a player by repeating everything he says.",
+			"[<player>]");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

@@ -12,10 +12,7 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(description = "Toggles Follow or makes it target a specific entity.",
-	name = "follow",
-	syntax = {"[<entity>]"},
-	help = "Commands/follow")
+@Cmd.Info(help = "Commands/follow")
 public final class FollowCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
@@ -30,8 +27,14 @@ public final class FollowCmd extends Cmd
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 	};
+	
+	public FollowCmd()
+	{
+		super("follow", "Toggles Follow or makes it target a specific entity.",
+			"[<entity>]");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

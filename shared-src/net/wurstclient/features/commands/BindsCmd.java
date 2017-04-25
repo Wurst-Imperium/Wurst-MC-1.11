@@ -15,12 +15,14 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Lists all keybinds.",
-	name = "binds",
-	syntax = {"[<page>]"},
-	help = "Commands/binds")
+@Cmd.Info(help = "Commands/binds")
 public final class BindsCmd extends Cmd
 {
+	public BindsCmd()
+	{
+		super("binds", "Lists all keybinds.", "[<page>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

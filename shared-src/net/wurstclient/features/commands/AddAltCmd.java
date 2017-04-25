@@ -16,13 +16,16 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Adds a player or all players on a server to your alt list.",
-	name = "addalt",
-	syntax = {"<player>", "all"},
-	help = "Commands/addalt")
+@Cmd.Info(help = "Commands/addalt")
 public final class AddAltCmd extends Cmd
 {
+	public AddAltCmd()
+	{
+		super("addalt",
+			"Adds a player or all players on a server to your alt list.",
+			"<player>", "all");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

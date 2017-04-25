@@ -19,12 +19,7 @@ import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(
-	description = "Spawns a dancing taco on your hotbar.\n"
-		+ "\"I love that little guy. So cute!\" -WiZARD",
-	name = "taco",
-	syntax = {},
-	help = "Commands/taco")
+@Cmd.Info(help = "Commands/taco")
 public final class TacoCmd extends Cmd
 	implements GUIRenderListener, UpdateListener
 {
@@ -40,6 +35,12 @@ public final class TacoCmd extends Cmd
 		{tacoTexture1, tacoTexture2, tacoTexture3, tacoTexture4};
 	private int ticks = 0;
 	private boolean toggled;
+	
+	public TacoCmd()
+	{
+		super("taco", "Spawns a dancing taco on your hotbar.\n"
+			+ "\"I love that little guy. So cute!\" -WiZARD");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

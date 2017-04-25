@@ -14,12 +14,15 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Manages your friends list.",
-	name = "friends",
-	syntax = {"(add | remove) <player>", "list [<page>]"},
-	help = "Commands/friends")
+@Cmd.Info(help = "Commands/friends")
 public final class FriendsCmd extends Cmd
 {
+	public FriendsCmd()
+	{
+		super("friends", "Manages your friends list.",
+			"(add | remove) <player>", "list [<page>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

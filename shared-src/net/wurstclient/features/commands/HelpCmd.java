@@ -13,12 +13,15 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Shows the command list or the help for a command.",
-	name = "help",
-	syntax = {"[<page>]", "[<command>]"},
-	help = "Commands/help")
+@Cmd.Info(help = "Commands/help")
 public final class HelpCmd extends Cmd
 {
+	public HelpCmd()
+	{
+		super("help", "Shows the command list or the help for a command.",
+			"[<page>]", "[<command>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

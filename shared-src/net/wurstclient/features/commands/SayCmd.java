@@ -11,14 +11,17 @@ import net.minecraft.network.play.client.CPacketChatMessage;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(
-	description = "Sends a chat message, even if the message starts with a dot.",
-	name = "say",
-	syntax = {"<message>"},
-	tags = ".legit, dots in chat, command bypass, prefix",
+@Cmd.Info(tags = ".legit, dots in chat, command bypass, prefix",
 	help = "Commands/say")
 public final class SayCmd extends Cmd
 {
+	public SayCmd()
+	{
+		super("say",
+			"Sends a chat message, even if the message starts with a dot.",
+			"<message>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

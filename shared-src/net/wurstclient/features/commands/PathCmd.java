@@ -22,11 +22,7 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(
-	description = "Shows the shortest path to a specific point. Useful for labyrinths and caves.",
-	name = "path",
-	syntax = {"<x> <y> <z>", "<entity>", "-debug", "-depth", "-refresh"},
-	help = "Commands/path")
+@Cmd.Info(help = "Commands/path")
 public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 {
 	private PathFinder pathFinder;
@@ -55,6 +51,9 @@ public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 	
 	public PathCmd()
 	{
+		super("path",
+			"Shows the shortest path to a specific point. Useful for labyrinths and caves.",
+			"<x> <y> <z>", "<entity>", "-debug", "-depth", "-refresh");
 		settings.add(debugMode);
 		settings.add(depthTest);
 	}

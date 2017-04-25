@@ -13,12 +13,15 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Changes the settings of GhostHand or toggles it.",
-	name = "ghosthand",
-	syntax = {"id <block_id>", "name <block_name>"},
-	help = "Commands/ghosthand")
+@Cmd.Info(help = "Commands/ghosthand")
 public final class GhostHandCmd extends Cmd
 {
+	public GhostHandCmd()
+	{
+		super("ghosthand", "Changes the settings of GhostHand or toggles it.",
+			"id <block_id>", "name <block_name>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

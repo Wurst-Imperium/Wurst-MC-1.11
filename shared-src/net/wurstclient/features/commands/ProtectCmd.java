@@ -12,11 +12,7 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(
-	description = "Toggles Protect or makes it protect a specific entity.",
-	name = "protect",
-	syntax = {"[<entity>]"},
-	help = "Commands/protect")
+@Cmd.Info(help = "Commands/protect")
 public final class ProtectCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
@@ -31,8 +27,15 @@ public final class ProtectCmd extends Cmd
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 	};
+	
+	public ProtectCmd()
+	{
+		super("protect",
+			"Toggles Protect or makes it protect a specific entity.",
+			"[<entity>]");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

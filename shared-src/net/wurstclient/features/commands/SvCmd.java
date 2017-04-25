@@ -12,13 +12,15 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.hooks.ServerHook;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Shows the version of the server you are currently playing on.",
-	name = "sv",
-	syntax = {},
-	help = "Commands/sv")
+@Cmd.Info(help = "Commands/sv")
 public final class SvCmd extends Cmd
 {
+	public SvCmd()
+	{
+		super("sv",
+			"Shows the version of the server you are currently playing on.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

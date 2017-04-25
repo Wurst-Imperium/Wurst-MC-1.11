@@ -15,12 +15,14 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Repairs the held item. Requires creative mode.",
-	name = "repair",
-	syntax = {},
-	help = "Commands/repair")
+@Cmd.Info(help = "Commands/repair")
 public final class RepairCmd extends Cmd
 {
+	public RepairCmd()
+	{
+		super("repair", "Repairs the held item. Requires creative mode.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

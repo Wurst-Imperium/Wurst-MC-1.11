@@ -18,15 +18,17 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 
-@Cmd.Info(description = "Drops all your items on the ground.",
-	name = "drop",
-	syntax = {"[infinite]"},
-	help = "Commands/drop")
+@Cmd.Info(help = "Commands/drop")
 public final class DropCmd extends Cmd implements UpdateListener
 {
 	private int timer;
 	private int counter;
 	private boolean infinite;
+	
+	public DropCmd()
+	{
+		super("drop", "Drops all your items on the ground.", "[infinite]");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

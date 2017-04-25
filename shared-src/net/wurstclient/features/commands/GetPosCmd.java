@@ -16,13 +16,16 @@ import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Shows your current position or copies it to the clipboard.",
-	name = "getpos",
-	syntax = {"[copy]"},
-	help = "Commands/getpos")
+@Cmd.Info(help = "Commands/getpos")
 public final class GetPosCmd extends Cmd
 {
+	public GetPosCmd()
+	{
+		super("getpos",
+			"Shows your current position or copies it to the clipboard.",
+			"[copy]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

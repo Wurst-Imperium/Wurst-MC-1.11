@@ -10,12 +10,15 @@ package net.wurstclient.features.commands;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(description = "Enables/disables Wurst messages or sends a message.",
-	name = "wms",
-	syntax = {"(on | off)", "echo <message>"},
-	help = "Commands/wms")
+@Cmd.Info(help = "Commands/wms")
 public final class WmsCmd extends Cmd
 {
+	public WmsCmd()
+	{
+		super("wms", "Enables/disables Wurst messages or sends a message.",
+			"(on | off)", "echo <message>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

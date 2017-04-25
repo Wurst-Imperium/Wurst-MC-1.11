@@ -19,13 +19,15 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Modifies items in creative mode.",
-	name = "modify",
-	syntax = {"add <nbt>", "remove <nbt_path>", "set <nbt>",
-		"metadata <value>"},
-	help = "Commands/modify")
+@Cmd.Info(help = "Commands/modify")
 public final class ModifyCmd extends Cmd
 {
+	public ModifyCmd()
+	{
+		super("modify", "Modifies items in creative mode.", "add <nbt>",
+			"remove <nbt_path>", "set <nbt>", "metadata <value>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

@@ -14,14 +14,17 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.Setting;
 
-@Cmd.Info(
-	description = "Changes a mode setting of a feature. Allows you to\n"
-		+ "switch modes through keybinds.",
-	name = "setmode",
-	syntax = {"<feature> <mode_setting> (<mode>|next|prev)"},
-	help = "Commands/setmode")
+@Cmd.Info(help = "Commands/setmode")
 public final class SetModeCmd extends Cmd
 {
+	public SetModeCmd()
+	{
+		super("setmode",
+			"Changes a mode setting of a feature. Allows you to\n"
+				+ "switch modes through keybinds.",
+			"<feature> <mode_setting> (<mode>|next|prev)");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

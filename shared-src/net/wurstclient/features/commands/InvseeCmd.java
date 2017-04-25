@@ -14,14 +14,17 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Allows you to see parts of another player's inventory.",
-	name = "invsee",
-	syntax = {"<player>"},
-	help = "Commands/invsee")
+@Cmd.Info(help = "Commands/invsee")
 public final class InvseeCmd extends Cmd implements RenderListener
 {
 	private String playerName;
+	
+	public InvseeCmd()
+	{
+		super("invsee",
+			"Allows you to see parts of another player's inventory.",
+			"<player>");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

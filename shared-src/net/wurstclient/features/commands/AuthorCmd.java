@@ -13,12 +13,14 @@ import net.minecraft.nbt.NBTTagString;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Changes the held book's author.",
-	name = "author",
-	syntax = {"<author>"},
-	help = "Commands/author")
+@Cmd.Info(help = "Commands/author")
 public final class AuthorCmd extends Cmd
 {
+	public AuthorCmd()
+	{
+		super("author", "Changes the held book's author.", "<author>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws Cmd.CmdError
 	{

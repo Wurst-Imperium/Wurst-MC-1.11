@@ -9,12 +9,15 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Enables, disables or cancels Blink.",
-	name = "blink",
-	syntax = {"[(on|off|cancel)]"},
-	help = "Commands/blink")
+@Cmd.Info(help = "Commands/blink")
 public final class BlinkCmd extends Cmd
 {
+	public BlinkCmd()
+	{
+		super("blink", "Enables, disables or cancels Blink.",
+			"[(on|off|cancel)]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

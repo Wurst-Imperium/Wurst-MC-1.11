@@ -12,13 +12,16 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Renames the item in your hand. Use $ for colors, use $$ for $.",
-	name = "rename",
-	syntax = {"<new_name>"},
-	help = "Commands/rename")
+@Cmd.Info(help = "Commands/rename")
 public final class RenameCmd extends Cmd
 {
+	public RenameCmd()
+	{
+		super("rename",
+			"Renames the item in your hand. Use $ for colors, use $$ for $.",
+			"<new_name>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

@@ -13,12 +13,15 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Changes the settings of Search or toggles it.",
-	name = "search",
-	syntax = {"id <block_id>", "name <block_name>"},
-	help = "Commands/search")
+@Cmd.Info(help = "Commands/search")
 public final class SearchCmd extends Cmd
 {
+	public SearchCmd()
+	{
+		super("search", "Changes the settings of Search or toggles it.",
+			"id <block_id>", "name <block_name>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

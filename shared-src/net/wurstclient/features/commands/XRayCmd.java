@@ -18,13 +18,16 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Manages or toggles X-Ray.",
-	name = "xray",
-	syntax = {"add (id <block_id>|name <block_name>)",
-		"remove (id <block_id>|name <block_name>)", "list [<page>]"},
-	help = "Commands/xray")
+@Cmd.Info(help = "Commands/xray")
 public final class XRayCmd extends Cmd
 {
+	public XRayCmd()
+	{
+		super("xray", "Manages or toggles X-Ray.",
+			"add (id <block_id>|name <block_name>)",
+			"remove (id <block_id>|name <block_name>)", "list [<page>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

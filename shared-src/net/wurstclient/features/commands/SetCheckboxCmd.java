@@ -14,14 +14,17 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.Setting;
 
-@Cmd.Info(
-	description = "Changes a checkbox setting of a feature. Allows you\n"
-		+ "to toggle checkboxes through keybinds.",
-	name = "setcheckbox",
-	syntax = {"<feature> <checkbox_setting> (on|off|toggle)"},
-	help = "Commands/setcheckbox")
+@Cmd.Info(help = "Commands/setcheckbox")
 public final class SetCheckboxCmd extends Cmd
 {
+	public SetCheckboxCmd()
+	{
+		super("setcheckbox",
+			"Changes a checkbox setting of a feature. Allows you\n"
+				+ "to toggle checkboxes through keybinds.",
+			"<feature> <checkbox_setting> (on|off|toggle)");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

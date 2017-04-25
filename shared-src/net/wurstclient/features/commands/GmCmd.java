@@ -10,13 +10,15 @@ package net.wurstclient.features.commands;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(
-	description = "Types \"/gamemode <args>\".\nUseful for servers that don't support /gm.",
-	name = "gm",
-	syntax = {"<gamemode>"},
-	help = "Commands/gm")
+@Cmd.Info(help = "Commands/gm")
 public final class GmCmd extends Cmd
 {
+	public GmCmd()
+	{
+		super("gm", "Types \"/gamemode <args>\".\n"
+			+ "Useful for servers that don't support /gm.", "<gamemode>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

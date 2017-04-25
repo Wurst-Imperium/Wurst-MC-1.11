@@ -11,12 +11,14 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Makes you jump once.",
-	name = "jump",
-	syntax = {},
-	help = "Commands/jump")
+@Cmd.Info(help = "Commands/jump")
 public final class JumpCmd extends Cmd
 {
+	public JumpCmd()
+	{
+		super("jump", "Makes you jump once.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

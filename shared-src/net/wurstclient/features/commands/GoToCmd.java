@@ -14,10 +14,7 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(description = "Walks or flies you to a specific location.",
-	name = "goto",
-	syntax = {"<x> <y> <z>", "<entity>", "-path"},
-	help = "Commands/goto")
+@Cmd.Info(help = "Commands/goto")
 public final class GoToCmd extends Cmd implements UpdateListener
 {
 	private GotoAI ai;
@@ -35,8 +32,14 @@ public final class GoToCmd extends Cmd implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 	};
+	
+	public GoToCmd()
+	{
+		super("goto", "Walks or flies you to a specific location.",
+			"<x> <y> <z>", "<entity>", "-path");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

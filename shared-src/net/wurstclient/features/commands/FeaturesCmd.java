@@ -13,12 +13,14 @@ import net.wurstclient.features.Mod;
 import net.wurstclient.features.Spf;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(description = "Shows the feature count and some over statistics.",
-	name = "features",
-	syntax = {},
-	help = "Commands/features")
+@Cmd.Info(help = "Commands/features")
 public final class FeaturesCmd extends Cmd
 {
+	public FeaturesCmd()
+	{
+		super("features", "Shows the feature count and some over statistics.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

@@ -9,13 +9,15 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(
-	description = "Toggles RemoteView or makes it target a specific entity.",
-	name = "rv",
-	syntax = {"[<player>]"},
-	help = "Commands/rv")
+@Cmd.Info(help = "Commands/rv")
 public final class RvCmd extends Cmd
 {
+	public RvCmd()
+	{
+		super("rv", "Toggles RemoteView or makes it target a specific entity.",
+			"[<player>]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

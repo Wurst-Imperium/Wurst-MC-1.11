@@ -15,13 +15,16 @@ import net.wurstclient.features.Cmd;
 import net.wurstclient.hooks.ServerHook;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(
-	description = "Shows the IP of the server you are currently playing on or copies it to the clipboard.",
-	name = "ip",
-	syntax = {"[copy]"},
-	help = "Commands/ip")
+@Cmd.Info(help = "Commands/ip")
 public final class IpCmd extends Cmd
 {
+	public IpCmd()
+	{
+		super("ip",
+			"Shows the IP of the server you are currently playing on or copies it to the clipboard.",
+			"[copy]");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

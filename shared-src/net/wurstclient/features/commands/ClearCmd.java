@@ -10,12 +10,14 @@ package net.wurstclient.features.commands;
 import net.wurstclient.compatibility.WChat;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Clears the chat completely.",
-	name = "clear",
-	syntax = {},
-	help = "Commands/clear")
+@Cmd.Info(help = "Commands/clear")
 public final class ClearCmd extends Cmd
 {
+	public ClearCmd()
+	{
+		super("clear", "Clears the chat completely.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

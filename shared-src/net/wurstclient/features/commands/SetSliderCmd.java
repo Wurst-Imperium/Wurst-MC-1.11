@@ -15,14 +15,17 @@ import net.wurstclient.settings.Setting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(
-	description = "Changes a slider setting of a feature. Allows you to\n"
-		+ "move sliders through keybinds.",
-	name = "setslider",
-	syntax = {"<feature> <slider_setting> (<value>|more|less)"},
-	help = "Commands/setslider")
+@Cmd.Info(help = "Commands/setslider")
 public final class SetSliderCmd extends Cmd
 {
+	public SetSliderCmd()
+	{
+		super("setslider",
+			"Changes a slider setting of a feature. Allows you to\n"
+				+ "move sliders through keybinds.",
+			"<feature> <slider_setting> (<value>|more|less)");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

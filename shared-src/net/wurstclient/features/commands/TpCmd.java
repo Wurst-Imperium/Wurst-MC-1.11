@@ -11,11 +11,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(
-	description = "Teleports you up to 100 blocks away.\nOnly works on vanilla servers!",
-	name = "tp",
-	syntax = {"<x> <y> <z>", "<entity>"},
-	help = "Commands/tp")
+@Cmd.Info(help = "Commands/tp")
 public final class TpCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()
@@ -30,8 +26,15 @@ public final class TpCmd extends Cmd
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 	};
+	
+	public TpCmd()
+	{
+		super("tp",
+			"Teleports you up to 100 blocks away.\nOnly works on vanilla servers!",
+			"<x> <y> <z>", "<entity>");
+	}
 	
 	@Override
 	public void execute(String[] args) throws CmdError

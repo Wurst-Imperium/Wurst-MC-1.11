@@ -17,13 +17,16 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 
-@Cmd.Info(
-	description = "Leaves the current server or changes the mode of AutoLeave.",
-	name = "leave",
-	syntax = {"[chars|tp|selfhurt|quit]", "mode chars|tp|selfhurt|quit"},
-	help = "Commands/leave")
+@Cmd.Info(help = "Commands/leave")
 public final class LeaveCmd extends Cmd
 {
+	public LeaveCmd()
+	{
+		super("leave",
+			"Leaves the current server or changes the mode of AutoLeave.",
+			"[chars|tp|selfhurt|quit]", "mode chars|tp|selfhurt|quit");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

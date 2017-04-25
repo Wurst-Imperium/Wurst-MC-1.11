@@ -10,12 +10,14 @@ package net.wurstclient.features.commands;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
 
-@Cmd.Info(description = "Does nothing. Useful for scripting.",
-	name = "nothing",
-	syntax = {},
-	help = "Commands/nothing")
+@Cmd.Info(help = "Commands/nothing")
 public final class NothingCmd extends Cmd
 {
+	public NothingCmd()
+	{
+		super("nothing", "Does nothing. Useful for scripting.");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

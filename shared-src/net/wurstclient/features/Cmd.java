@@ -23,24 +23,23 @@ import net.wurstclient.utils.MiscUtils;
 
 public abstract class Cmd extends Feature
 {
-	private final String name = getClass().getAnnotation(Info.class).name();
-	private final String description =
-		getClass().getAnnotation(Info.class).description();
-	private final String[] syntax =
-		getClass().getAnnotation(Info.class).syntax();
+	private final String name;
+	private final String description;
+	private final String[] syntax;
 	private final String tags = getClass().getAnnotation(Info.class).tags();
 	private final String help = getClass().getAnnotation(Info.class).help();
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
+	public Cmd(String name, String description, String... syntax)
+	{
+		this.name = name;
+		this.description = description;
+		this.syntax = syntax;
+	}
+	
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Info
 	{
-		String name();
-		
-		String description();
-		
-		String[] syntax();
-		
 		String tags() default "";
 		
 		String help() default "";

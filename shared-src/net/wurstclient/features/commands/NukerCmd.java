@@ -14,13 +14,16 @@ import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Changes the settings of Nuker.",
-	name = "nuker",
-	syntax = {"mode (normal|id|flat|smash)", "id <block_id>",
-		"name <block_name>"},
-	help = "Commands/nuker")
+@Cmd.Info(help = "Commands/nuker")
 public final class NukerCmd extends Cmd
 {
+	public NukerCmd()
+	{
+		super("nuker", "Changes the settings of Nuker.",
+			"mode (normal|id|flat|smash)", "id <block_id>",
+			"name <block_name>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{

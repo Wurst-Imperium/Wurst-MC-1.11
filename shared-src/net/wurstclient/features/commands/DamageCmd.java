@@ -13,12 +13,14 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(description = "Applies the given amount of damage.",
-	name = "damage",
-	syntax = {"<amount>"},
-	help = "Commands/damage")
+@Cmd.Info(help = "Commands/damage")
 public final class DamageCmd extends Cmd
 {
+	public DamageCmd()
+	{
+		super("damage", "Applies the given amount of damage.", "<amount>");
+	}
+	
 	@Override
 	public void execute(String[] args) throws CmdError
 	{
