@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.Spf;
 import net.wurstclient.utils.MiscUtils;
 
 @Spf.Info(description = "Opens the changelog in your browser.",

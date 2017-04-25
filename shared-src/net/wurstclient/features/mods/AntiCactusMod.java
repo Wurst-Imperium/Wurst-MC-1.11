@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "anti cactus", help = "Mods/AntiCactus")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class AntiCactusMod extends Mod

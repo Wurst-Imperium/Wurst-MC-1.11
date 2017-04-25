@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "true sight", help = "Mods/TrueSight")
 @Mod.Bypasses
 public final class TrueSightMod extends Mod

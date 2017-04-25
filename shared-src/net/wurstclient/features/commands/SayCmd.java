@@ -9,6 +9,7 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.wurstclient.compatibility.WConnection;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(
 	description = "Sends a chat message, even if the message starts with a dot.",

@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.Spf;
+
 @Spf.Info(
 	description = "ServerFinder is a tool for finding easy-to-grief Minecraft servers quickly and with little effort.\n"
 		+ "It usually finds around 75 - 200 servers.",

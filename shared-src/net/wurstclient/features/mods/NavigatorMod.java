@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
 import net.wurstclient.navigator.gui.NavigatorMainScreen;
 
 @Mod.Info(tags = "ClickGUI", help = "Mods/Navigator")

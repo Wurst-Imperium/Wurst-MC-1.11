@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "fancy chat", help = "Mods/FancyChat")
 @Mod.Bypasses(ghostMode = false, mineplex = false)

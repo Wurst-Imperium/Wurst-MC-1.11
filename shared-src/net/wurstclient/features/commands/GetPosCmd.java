@@ -13,6 +13,7 @@ import java.awt.datatransfer.StringSelection;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
 @Cmd.Info(

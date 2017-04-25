@@ -9,6 +9,7 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.DeathListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "auto respawn", help = "Mods/AutoRespawn")
 @Mod.Bypasses

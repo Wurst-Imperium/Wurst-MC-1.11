@@ -14,6 +14,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
 
 @Mod.Info(help = "Mods/Blink")

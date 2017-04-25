@@ -12,6 +12,7 @@ import java.util.Iterator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.features.mods.XRayMod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;

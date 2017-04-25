@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "AntiBlindness, anti blindness", help = "Mods/AntiBlind")
 @Mod.Bypasses
 public final class AntiBlindMod extends Mod

@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.wurstclient.WurstClient;
-import net.wurstclient.features.mods.Mod;
+import net.wurstclient.features.Mod;
 
 public final class ModsConfig extends Config
 {

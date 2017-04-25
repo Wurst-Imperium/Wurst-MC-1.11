@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 
 @Mod.Info(tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",

@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Mod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.files.WurstFolders;
 import net.wurstclient.hooks.FrameHook;

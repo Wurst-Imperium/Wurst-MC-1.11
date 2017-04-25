@@ -22,6 +22,7 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.RenderUtils;
 
 @Mod.Info(tags = "AimAssist, ArrowPrediction, aim assist, arrow prediction",

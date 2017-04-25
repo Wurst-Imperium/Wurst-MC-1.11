@@ -12,6 +12,7 @@ import net.minecraft.util.StringUtils;
 import net.wurstclient.altmanager.Alt;
 import net.wurstclient.altmanager.screens.GuiAltList;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 

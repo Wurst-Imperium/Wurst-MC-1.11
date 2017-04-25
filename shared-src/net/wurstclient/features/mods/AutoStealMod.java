@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "auto steal", help = "Mods/AutoSteal")
 @Mod.Bypasses
 public final class AutoStealMod extends Mod

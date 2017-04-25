@@ -8,6 +8,7 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.events.ChatOutputEvent;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(description = "Does nothing. Useful for scripting.",
 	name = "nothing",

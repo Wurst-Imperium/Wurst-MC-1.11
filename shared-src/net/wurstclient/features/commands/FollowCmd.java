@@ -8,6 +8,7 @@
 package net.wurstclient.features.commands;
 
 import net.minecraft.entity.Entity;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 

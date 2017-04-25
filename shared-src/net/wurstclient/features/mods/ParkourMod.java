@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info
 @Mod.Bypasses

@@ -13,6 +13,7 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(description = "Repairs the held item. Requires creative mode.",
 	name = "repair",

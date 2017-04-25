@@ -8,6 +8,7 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.compatibility.WChat;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(description = "Clears the chat completely.",
 	name = "clear",

@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.commands;
 
+import net.wurstclient.features.Cmd;
 import net.wurstclient.features.mods.SpammerMod;
 import net.wurstclient.spam.SpamProcessor;
 import net.wurstclient.utils.ChatUtils;

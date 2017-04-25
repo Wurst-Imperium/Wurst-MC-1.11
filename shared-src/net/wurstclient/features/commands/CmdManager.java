@@ -23,7 +23,8 @@ import net.minecraft.util.text.event.ClickEvent.Action;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
-import net.wurstclient.features.commands.Cmd.CmdSyntaxError;
+import net.wurstclient.features.Cmd;
+import net.wurstclient.features.Cmd.CmdSyntaxError;
 import net.wurstclient.utils.ChatUtils;
 
 public final class CmdManager implements ChatOutputListener

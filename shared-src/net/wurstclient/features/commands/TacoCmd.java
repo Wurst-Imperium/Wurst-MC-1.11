@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(
 	description = "Spawns a dancing taco on your hotbar.\n"

@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "health tags", help = "Mods/HealthTags")
 @Mod.Bypasses
 public final class HealthTagsMod extends Mod

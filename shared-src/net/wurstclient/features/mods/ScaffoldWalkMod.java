@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 

@@ -9,6 +9,7 @@ package net.wurstclient.features.commands;
 
 import java.util.Iterator;
 
+import net.wurstclient.features.Cmd;
 import net.wurstclient.features.Feature;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.Setting;

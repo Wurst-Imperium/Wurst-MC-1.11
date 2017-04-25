@@ -12,6 +12,7 @@ import java.util.Iterator;
 import net.minecraft.client.gui.ChatLine;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.MiscUtils;
 
 @Mod.Info(tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",

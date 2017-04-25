@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.InventoryUtils;
 
 @Mod.Info(tags = "RapidFire, BowSpam, fast bow, rapid fire, bow spam",

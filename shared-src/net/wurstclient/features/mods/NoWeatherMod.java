@@ -1,5 +1,6 @@
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;

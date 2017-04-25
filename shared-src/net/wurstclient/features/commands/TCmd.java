@@ -7,7 +7,8 @@
  */
 package net.wurstclient.features.commands;
 
-import net.wurstclient.features.mods.Mod;
+import net.wurstclient.features.Cmd;
+import net.wurstclient.features.Mod;
 
 @Cmd.Info(description = "Toggles a mod.",
 	name = "t",

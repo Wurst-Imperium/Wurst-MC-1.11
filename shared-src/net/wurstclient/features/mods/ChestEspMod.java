@@ -25,6 +25,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.RenderUtils;

@@ -14,6 +14,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(help = "Mods/LogSpammer")
 @Mod.Bypasses(ghostMode = false)

@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(description = "Changes the held book's author.",
 	name = "author",

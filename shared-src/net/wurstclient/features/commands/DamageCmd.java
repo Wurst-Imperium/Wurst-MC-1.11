@@ -10,6 +10,7 @@ package net.wurstclient.features.commands;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.MiscUtils;
 
 @Cmd.Info(description = "Applies the given amount of damage.",

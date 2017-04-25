@@ -11,6 +11,7 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "SpookySkin, skin blinker, spooky skin",
 	help = "Mods/SkinBlinker")

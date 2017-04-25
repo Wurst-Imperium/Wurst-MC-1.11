@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+import net.wurstclient.features.Spf;
+
 public final class SpfManager
 {
 	private final TreeMap<String, Spf> features =

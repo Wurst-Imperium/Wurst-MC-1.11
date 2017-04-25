@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.wurstclient.ai.GoRandomAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "AFKBot,anti afk,afk bot", help = "Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)

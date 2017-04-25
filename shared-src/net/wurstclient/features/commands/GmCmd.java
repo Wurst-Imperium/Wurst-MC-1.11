@@ -8,6 +8,7 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Cmd;
 
 @Cmd.Info(
 	description = "Types \"/gamemode <args>\".\nUseful for servers that don't support /gm.",

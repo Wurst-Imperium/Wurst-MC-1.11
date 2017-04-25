@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.minecraft.util.text.ITextComponent;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "auto sign", help = "Mods/AutoSign")
 @Mod.Bypasses(ghostMode = false,

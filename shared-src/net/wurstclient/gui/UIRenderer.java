@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.GUIRenderEvent;
-import net.wurstclient.features.mods.Mod;
+import net.wurstclient.features.Mod;
 import net.wurstclient.features.mods.NavigatorMod;
 import net.wurstclient.font.Fonts;
 import net.wurstclient.utils.RenderUtils;

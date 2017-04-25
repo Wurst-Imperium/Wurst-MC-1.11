@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Mod;
 import net.wurstclient.navigator.gui.NavigatorScreen;
 
 @Mod.Info(tags = "InventoryWalk, menu walk, inventory walk",

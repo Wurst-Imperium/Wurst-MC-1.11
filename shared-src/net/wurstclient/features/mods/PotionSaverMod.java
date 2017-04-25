@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "potion saver", help = "Mods/PotionSaver")
 @Mod.Bypasses
 public final class PotionSaverMod extends Mod

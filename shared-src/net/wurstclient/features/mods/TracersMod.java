@@ -14,6 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RotationUtils;
 

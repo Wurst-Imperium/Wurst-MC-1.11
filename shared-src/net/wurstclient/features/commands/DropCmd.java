@@ -15,6 +15,7 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 
 @Cmd.Info(description = "Drops all your items on the ground.",

@@ -10,6 +10,7 @@ package net.wurstclient.features.commands;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
 @Cmd.Info(description = "Annoys a player by repeating everything he says.",

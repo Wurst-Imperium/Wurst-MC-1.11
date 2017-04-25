@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.XRayUtils;
 
 @Mod.Info(tags = "xray, x ray", help = "Mods/X-Ray")

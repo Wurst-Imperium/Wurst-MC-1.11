@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "cave finder", help = "Mods/CaveFinder")
 @Mod.Bypasses
 public final class CaveFinderMod extends Mod

@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "AntiPumkin, no overlay")
 @Mod.Bypasses
 public final class NoOverlayMod extends Mod

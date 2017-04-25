@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "AutoBreak, auto mine, auto break", help = "Mods/AutoMine")
 @Mod.Bypasses

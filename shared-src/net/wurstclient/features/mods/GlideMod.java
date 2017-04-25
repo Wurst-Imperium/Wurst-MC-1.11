@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(help = "Mods/Glide")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)

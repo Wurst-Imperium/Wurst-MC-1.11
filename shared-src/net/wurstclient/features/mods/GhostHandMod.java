@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "ghost hand", help = "Mods/GhostHand")
 @Mod.Bypasses(ghostMode = false)
 public final class GhostHandMod extends Mod

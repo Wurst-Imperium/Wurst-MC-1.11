@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.EntityUtils;

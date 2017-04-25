@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(help = "Mods/Liquids")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class LiquidsMod extends Mod

@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
 import net.wurstclient.events.ChatOutputEvent;
+import net.wurstclient.features.Cmd;
 import net.wurstclient.hooks.ServerHook;
 import net.wurstclient.utils.ChatUtils;
 

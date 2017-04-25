@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import org.lwjgl.input.Keyboard;
 
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "auto walk", help = "Mods/AutoWalk")
 @Mod.Bypasses

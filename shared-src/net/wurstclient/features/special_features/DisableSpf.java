@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.Spf;
+
 @Spf.Info(
 	description = "To disable Wurst, go to the Statistics screen and press the \"Disable Wurst\" button. It will turn\n"
 		+ "into an \"Enable Wurst\" button once pressed.",

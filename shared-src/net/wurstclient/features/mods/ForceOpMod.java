@@ -32,6 +32,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.files.WurstFolders;
 import net.wurstclient.utils.ChatUtils;

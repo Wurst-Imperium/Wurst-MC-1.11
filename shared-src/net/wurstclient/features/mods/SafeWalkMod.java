@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.Mod;
+
 @Mod.Info(tags = "safe walk", help = "Mods/SafeWalk")
 @Mod.Bypasses
 public final class SafeWalkMod extends Mod

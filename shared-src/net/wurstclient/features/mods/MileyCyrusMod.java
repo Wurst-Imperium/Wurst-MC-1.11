@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Mod;
 
 @Mod.Info(tags = "miley cyrus, twerk", help = "Mods/MileyCyrus")
 @Mod.Bypasses

@@ -7,6 +7,8 @@
  */
 package net.wurstclient.features.commands;
 
+import net.wurstclient.features.Cmd;
+
 @Cmd.Info(description = "Enables, disables or cancels Blink.",
 	name = "blink",
 	syntax = {"[(on|off|cancel)]"},

@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.commands;
 
+import net.wurstclient.features.Cmd;
 import net.wurstclient.utils.ChatUtils;
 
 @Cmd.Info(description = "Enables/disables Wurst messages or sends a message.",

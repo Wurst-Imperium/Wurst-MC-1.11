@@ -15,6 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.Mod;
 import net.wurstclient.utils.RenderUtils;
 
 @Mod.Info(tags = "item esp", help = "Mods/ItemESP")
