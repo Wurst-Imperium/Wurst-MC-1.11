@@ -12,7 +12,6 @@ import net.wurstclient.features.Spf;
 import net.wurstclient.utils.MiscUtils;
 
 @SearchTags({"change log", "new features", "wurst update"})
-@Spf.Info
 public final class ChangelogSpf extends Spf
 {
 	public ChangelogSpf()

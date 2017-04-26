@@ -11,10 +11,11 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Cmd.Info(help = "Commands/copyitem")
+@HelpPage("Commands/copyitem")
 public final class CopyItemCmd extends Cmd
 {
 	public CopyItemCmd()

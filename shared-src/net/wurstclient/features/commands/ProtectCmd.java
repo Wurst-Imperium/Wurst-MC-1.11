@@ -9,10 +9,11 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(help = "Commands/protect")
+@HelpPage("Commands/protect")
 public final class ProtectCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()

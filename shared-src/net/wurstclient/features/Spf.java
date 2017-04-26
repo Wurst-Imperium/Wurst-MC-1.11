@@ -7,8 +7,6 @@
  */
 package net.wurstclient.features;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import net.wurstclient.keybinds.PossibleKeybind;
@@ -21,19 +19,15 @@ public abstract class Spf extends Feature
 	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
 		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
 		: "";
-	private final String help = getClass().getAnnotation(Info.class).help();
+	private final String helpPage =
+		getClass().isAnnotationPresent(HelpPage.class)
+			? getClass().getAnnotation(HelpPage.class).value() : "";
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Spf(String name, String description)
 	{
 		this.name = name;
 		this.description = description;
-	}
-	
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Info
-	{
-		String help() default "";
 	}
 	
 	@Override
@@ -105,7 +99,7 @@ public abstract class Spf extends Feature
 	@Override
 	public final String getHelpPage()
 	{
-		return help;
+		return helpPage;
 	}
 	
 	@Override

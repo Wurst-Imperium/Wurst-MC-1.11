@@ -12,8 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagString;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/author")
+@HelpPage("Commands/author")
 public final class AuthorCmd extends Cmd
 {
 	public AuthorCmd()

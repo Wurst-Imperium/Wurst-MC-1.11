@@ -8,11 +8,12 @@
 package net.wurstclient.features.special_features;
 
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Spf;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ColorsSetting;
 
-@Spf.Info(help = "Special_Features/Target")
+@HelpPage("Special_Features/Target")
 public final class TargetSpf extends Spf
 {
 	public final CheckboxSetting players = new CheckboxSetting("Players", true);

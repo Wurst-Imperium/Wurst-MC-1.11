@@ -18,8 +18,9 @@ import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/taco")
+@HelpPage("Commands/taco")
 public final class TacoCmd extends Cmd
 	implements GUIRenderListener, UpdateListener
 {

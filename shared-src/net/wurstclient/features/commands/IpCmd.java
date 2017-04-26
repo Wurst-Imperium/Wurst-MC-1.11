@@ -12,10 +12,11 @@ import java.awt.datatransfer.StringSelection;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.hooks.ServerHook;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/ip")
+@HelpPage("Commands/ip")
 public final class IpCmd extends Cmd
 {
 	public IpCmd()

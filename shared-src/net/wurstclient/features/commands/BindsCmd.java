@@ -12,10 +12,11 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/binds")
+@HelpPage("Commands/binds")
 public final class BindsCmd extends Cmd
 {
 	public BindsCmd()

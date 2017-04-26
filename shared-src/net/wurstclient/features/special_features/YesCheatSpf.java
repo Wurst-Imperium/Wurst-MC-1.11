@@ -9,6 +9,7 @@ package net.wurstclient.features.special_features;
 
 import java.util.HashSet;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.Mod.Bypasses;
 import net.wurstclient.features.SearchTags;
@@ -18,7 +19,7 @@ import net.wurstclient.settings.ModeSetting;
 
 @SearchTags({"YesCheatPlus", "NoCheat+", "NoCheatPlus", "AntiMAC",
 	"yes cheat plus", "no cheat plus", "anti mac", "ncp bypasses"})
-@Spf.Info(help = "Special_Features/YesCheat")
+@HelpPage("Special_Features/YesCheat")
 public final class YesCheatSpf extends Spf
 {
 	private final HashSet<Mod> blockedMods = new HashSet<>();

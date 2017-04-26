@@ -11,10 +11,11 @@ import java.util.Iterator;
 
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.Setting;
 
-@Cmd.Info(help = "Commands/setcheckbox")
+@HelpPage("Commands/setcheckbox")
 public final class SetCheckboxCmd extends Cmd
 {
 	public SetCheckboxCmd()

@@ -10,8 +10,9 @@ package net.wurstclient.features.commands;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/jump")
+@HelpPage("Commands/jump")
 public final class JumpCmd extends Cmd
 {
 	public JumpCmd()

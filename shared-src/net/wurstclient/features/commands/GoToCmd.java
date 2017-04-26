@@ -11,10 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.wurstclient.ai.GotoAI;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(help = "Commands/goto")
+@HelpPage("Commands/goto")
 public final class GoToCmd extends Cmd implements UpdateListener
 {
 	private GotoAI ai;

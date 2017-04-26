@@ -10,9 +10,10 @@ package net.wurstclient.features.commands;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/rename")
+@HelpPage("Commands/rename")
 public final class RenameCmd extends Cmd
 {
 	public RenameCmd()

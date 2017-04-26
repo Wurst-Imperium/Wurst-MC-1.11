@@ -18,11 +18,12 @@ import net.wurstclient.ai.PathPos;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(help = "Commands/path")
+@HelpPage("Commands/path")
 public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 {
 	private PathFinder pathFinder;

@@ -8,12 +8,13 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.mods.SpammerMod;
 import net.wurstclient.spam.SpamProcessor;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/spammer")
+@HelpPage("Commands/spammer")
 public final class SpammerCmd extends Cmd
 {
 	public SpammerCmd()

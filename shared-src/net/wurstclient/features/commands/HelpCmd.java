@@ -10,10 +10,11 @@ package net.wurstclient.features.commands;
 import java.util.Iterator;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/help")
+@HelpPage("Commands/help")
 public final class HelpCmd extends Cmd
 {
 	public HelpCmd()

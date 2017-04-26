@@ -9,10 +9,11 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.hooks.ServerHook;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/sv")
+@HelpPage("Commands/sv")
 public final class SvCmd extends Cmd
 {
 	public SvCmd()

@@ -7,8 +7,6 @@
  */
 package net.wurstclient.features;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import net.minecraft.entity.Entity;
@@ -29,7 +27,9 @@ public abstract class Cmd extends Feature
 	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
 		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
 		: "";
-	private final String help = getClass().getAnnotation(Info.class).help();
+	private final String helpPage =
+		getClass().isAnnotationPresent(HelpPage.class)
+			? getClass().getAnnotation(HelpPage.class).value() : "";
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Cmd(String name, String description, String... syntax)
@@ -37,12 +37,6 @@ public abstract class Cmd extends Feature
 		this.name = name;
 		this.description = description;
 		this.syntax = syntax;
-	}
-	
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Info
-	{
-		String help() default "";
 	}
 	
 	public final class CmdSyntaxError extends CmdError
@@ -149,7 +143,7 @@ public abstract class Cmd extends Feature
 	@Override
 	public final String getHelpPage()
 	{
-		return help;
+		return helpPage;
 	}
 	
 	@Override

@@ -8,8 +8,9 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/rv")
+@HelpPage("Commands/rv")
 public final class RvCmd extends Cmd
 {
 	public RvCmd()

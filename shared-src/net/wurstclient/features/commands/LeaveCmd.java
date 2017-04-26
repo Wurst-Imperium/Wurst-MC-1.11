@@ -13,11 +13,12 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 
-@Cmd.Info(help = "Commands/leave")
+@HelpPage("Commands/leave")
 public final class LeaveCmd extends Cmd
 {
 	public LeaveCmd()

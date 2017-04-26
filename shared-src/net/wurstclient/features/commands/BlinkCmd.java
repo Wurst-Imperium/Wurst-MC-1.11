@@ -8,8 +8,9 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/blink")
+@HelpPage("Commands/blink")
 public final class BlinkCmd extends Cmd
 {
 	public BlinkCmd()

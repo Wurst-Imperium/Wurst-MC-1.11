@@ -9,10 +9,11 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Cmd.Info(help = "Commands/follow")
+@HelpPage("Commands/follow")
 public final class FollowCmd extends Cmd
 {
 	private TargetSettings targetSettings = new TargetSettings()

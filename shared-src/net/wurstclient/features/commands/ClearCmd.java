@@ -9,8 +9,9 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.compatibility.WChat;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/clear")
+@HelpPage("Commands/clear")
 public final class ClearCmd extends Cmd
 {
 	public ClearCmd()

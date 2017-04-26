@@ -10,10 +10,11 @@ package net.wurstclient.features.commands;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({".legit", "dots in chat", "command bypass", "prefix"})
-@Cmd.Info(help = "Commands/say")
+@HelpPage("Commands/say")
 public final class SayCmd extends Cmd
 {
 	public SayCmd()

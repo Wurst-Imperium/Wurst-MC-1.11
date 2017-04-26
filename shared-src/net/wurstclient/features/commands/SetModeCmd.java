@@ -11,10 +11,11 @@ import java.util.Iterator;
 
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.Setting;
 
-@Cmd.Info(help = "Commands/setmode")
+@HelpPage("Commands/setmode")
 public final class SetModeCmd extends Cmd
 {
 	public SetModeCmd()

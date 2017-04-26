@@ -13,10 +13,11 @@ import net.wurstclient.altmanager.Alt;
 import net.wurstclient.altmanager.screens.GuiAltList;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/addalt")
+@HelpPage("Commands/addalt")
 public final class AddAltCmd extends Cmd
 {
 	public AddAltCmd()

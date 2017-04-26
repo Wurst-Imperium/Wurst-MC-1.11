@@ -8,9 +8,10 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@Cmd.Info(help = "Commands/t")
+@HelpPage("Commands/t")
 public final class TCmd extends Cmd
 {
 	public TCmd()

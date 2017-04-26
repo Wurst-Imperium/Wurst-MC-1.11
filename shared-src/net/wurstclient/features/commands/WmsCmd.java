@@ -8,9 +8,10 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/wms")
+@HelpPage("Commands/wms")
 public final class WmsCmd extends Cmd
 {
 	public WmsCmd()

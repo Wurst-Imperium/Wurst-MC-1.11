@@ -9,11 +9,12 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.block.Block;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/ghosthand")
+@HelpPage("Commands/ghosthand")
 public final class GhostHandCmd extends Cmd
 {
 	public GhostHandCmd()

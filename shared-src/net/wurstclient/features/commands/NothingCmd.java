@@ -9,8 +9,9 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/nothing")
+@HelpPage("Commands/nothing")
 public final class NothingCmd extends Cmd
 {
 	public NothingCmd()

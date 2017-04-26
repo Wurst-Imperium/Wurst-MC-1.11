@@ -9,8 +9,9 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 
-@Cmd.Info(help = "Commands/gm")
+@HelpPage("Commands/gm")
 public final class GmCmd extends Cmd
 {
 	public GmCmd()

@@ -9,11 +9,12 @@ package net.wurstclient.features.commands;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.Spf;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/features")
+@HelpPage("Commands/features")
 public final class FeaturesCmd extends Cmd
 {
 	public FeaturesCmd()

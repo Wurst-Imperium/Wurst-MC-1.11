@@ -9,12 +9,13 @@ package net.wurstclient.features.commands;
 
 import net.minecraft.block.Block;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.mods.NukerMod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/nuker")
+@HelpPage("Commands/nuker")
 public final class NukerCmd extends Cmd
 {
 	public NukerCmd()

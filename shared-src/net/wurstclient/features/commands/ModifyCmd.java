@@ -16,10 +16,11 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/modify")
+@HelpPage("Commands/modify")
 public final class ModifyCmd extends Cmd
 {
 	public ModifyCmd()

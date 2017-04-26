@@ -12,9 +12,10 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/invsee")
+@HelpPage("Commands/invsee")
 public final class InvseeCmd extends Cmd implements RenderListener
 {
 	private String playerName;

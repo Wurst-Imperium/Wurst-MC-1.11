@@ -12,7 +12,6 @@ import net.wurstclient.features.Spf;
 
 @SearchTags({"turn off", "hide wurst logo", "ghost mode", "stealth mode",
 	"vanilla Minecraft"})
-@Spf.Info
 public final class DisableSpf extends Spf
 {
 	public DisableSpf()

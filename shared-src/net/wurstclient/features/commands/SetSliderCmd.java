@@ -11,11 +11,12 @@ import java.util.Iterator;
 
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.settings.Setting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/setslider")
+@HelpPage("Commands/setslider")
 public final class SetSliderCmd extends Cmd
 {
 	public SetSliderCmd()

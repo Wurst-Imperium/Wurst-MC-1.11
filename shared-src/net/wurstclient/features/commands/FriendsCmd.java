@@ -10,11 +10,12 @@ package net.wurstclient.features.commands;
 import java.util.Iterator;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/friends")
+@HelpPage("Commands/friends")
 public final class FriendsCmd extends Cmd
 {
 	public FriendsCmd()

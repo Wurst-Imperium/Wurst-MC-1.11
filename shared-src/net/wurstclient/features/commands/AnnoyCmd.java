@@ -11,9 +11,10 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.ChatUtils;
 
-@Cmd.Info(help = "Commands/annoy")
+@HelpPage("Commands/annoy")
 public final class AnnoyCmd extends Cmd implements ChatInputListener
 {
 	private boolean toggled;

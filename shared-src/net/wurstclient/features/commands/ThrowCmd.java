@@ -8,11 +8,12 @@
 package net.wurstclient.features.commands;
 
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/throw")
+@HelpPage("Commands/throw")
 public final class ThrowCmd extends Cmd
 {
 	public ThrowCmd()

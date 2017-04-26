@@ -11,9 +11,10 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Cmd;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.utils.MiscUtils;
 
-@Cmd.Info(help = "Commands/damage")
+@HelpPage("Commands/damage")
 public final class DamageCmd extends Cmd
 {
 	public DamageCmd()
