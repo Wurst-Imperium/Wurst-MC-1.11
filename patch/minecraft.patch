@@ -1,6 +1,6 @@
-From 0e29bed6df58b2046892e26873e5b113929276a6 Mon Sep 17 00:00:00 2001
+From 5d1fdb1e2275e041589c58209c17363e404e0a2c Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 25 Apr 2017 07:10:11 +0200
+Date: Wed, 26 Apr 2017 14:49:52 +0200
 Subject: [PATCH] mod
 
 ---
@@ -3150,7 +3150,7 @@ index d935c1d..8c9f231 100644
  
      public static void onTick(int keyCode)
 diff --git a/net/minecraft/crash/CrashReport.java b/net/minecraft/crash/CrashReport.java
-index e403195..9b73665 100644
+index e403195..ad82a56 100644
 --- a/net/minecraft/crash/CrashReport.java
 +++ b/net/minecraft/crash/CrashReport.java
 @@ -1,6 +1,5 @@
@@ -3176,7 +3176,7 @@ index e403195..9b73665 100644
 +
 +import net.minecraft.util.ReportedException;
 +import net.minecraft.world.gen.layer.IntCache;
-+import net.wurstclient.crash.CrashSectionWurstVersion;
++import net.wurstclient.WurstClient;
 +
  public class CrashReport
  {
@@ -3188,7 +3188,7 @@ index e403195..9b73665 100644
 +        
 +		// TODO: Client
 +		this.theReportCategory.setDetail("Wurst Client Version",
-+			new CrashSectionWurstVersion());
++			() -> WurstClient.VERSION);
 +		
          this.theReportCategory.setDetail("Operating System", new ICrashReportDetail<String>()
          {
