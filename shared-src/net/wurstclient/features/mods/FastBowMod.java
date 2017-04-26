@@ -16,10 +16,11 @@ import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "RapidFire, BowSpam, fast bow, rapid fire, bow spam",
-	help = "Mods/FastBow")
+@SearchTags({"RapidFire", "BowSpam", "fast bow", "rapid fire", "bow spam"})
+@Mod.Info(help = "Mods/FastBow")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class FastBowMod extends Mod implements UpdateListener
 {

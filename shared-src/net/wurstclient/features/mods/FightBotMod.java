@@ -17,6 +17,7 @@ import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -25,7 +26,8 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(tags = "fight bot", help = "Mods/FightBot")
+@SearchTags({"fight bot"})
+@Mod.Info(help = "Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FightBotMod extends Mod implements UpdateListener

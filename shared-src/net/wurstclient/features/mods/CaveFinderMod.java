@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "cave finder", help = "Mods/CaveFinder")
+@SearchTags({"cave finder"})
+@Mod.Info(help = "Mods/CaveFinder")
 @Mod.Bypasses
 public final class CaveFinderMod extends Mod
 {

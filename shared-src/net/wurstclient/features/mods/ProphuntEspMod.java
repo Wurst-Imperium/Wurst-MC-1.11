@@ -17,9 +17,11 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(tags = "prophunt esp", help = "Mods/ProphuntESP")
+@SearchTags({"prophunt esp"})
+@Mod.Info(help = "Mods/ProphuntESP")
 @Mod.Bypasses
 public final class ProphuntEspMod extends Mod implements RenderListener
 {

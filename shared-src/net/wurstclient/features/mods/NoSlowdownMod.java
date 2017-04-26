@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "no slowdown, no slow down", help = "Mods/NoSlowdown")
+@SearchTags({"no slowdown", "no slow down"})
+@Mod.Info(help = "Mods/NoSlowdown")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,

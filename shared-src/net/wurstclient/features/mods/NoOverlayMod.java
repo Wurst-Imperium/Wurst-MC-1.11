@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AntiPumkin, no overlay")
+@SearchTags({"AntiPumkin", "no overlay"})
+@Mod.Info
 @Mod.Bypasses
 public final class NoOverlayMod extends Mod
 {

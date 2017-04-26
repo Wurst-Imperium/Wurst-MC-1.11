@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AntiBlindness, anti blindness", help = "Mods/AntiBlind")
+@SearchTags({"AntiBlindness", "anti blindness"})
+@Mod.Info(help = "Mods/AntiBlind")
 @Mod.Bypasses
 public final class AntiBlindMod extends Mod
 {

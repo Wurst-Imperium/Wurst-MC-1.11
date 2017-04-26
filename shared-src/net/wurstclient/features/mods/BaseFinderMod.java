@@ -22,9 +22,11 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(tags = "base finder, factions", help = "Mods/BaseFinder")
+@SearchTags({"base finder", "factions"})
+@Mod.Info(help = "Mods/BaseFinder")
 @Mod.Bypasses
 public final class BaseFinderMod extends Mod
 	implements UpdateListener, RenderListener

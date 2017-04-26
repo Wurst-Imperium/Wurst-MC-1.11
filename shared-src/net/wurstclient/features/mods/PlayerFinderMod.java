@@ -22,10 +22,12 @@ import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(tags = "player finder", help = "Mods/PlayerFinder")
+@SearchTags({"player finder"})
+@Mod.Info(help = "Mods/PlayerFinder")
 @Mod.Bypasses
 public final class PlayerFinderMod extends Mod
 	implements PacketInputListener, RenderListener

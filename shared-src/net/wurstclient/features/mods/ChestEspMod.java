@@ -26,11 +26,13 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(tags = "ChestFinder, chest esp, chest finder", help = "Mods/ChestESP")
+@SearchTags({"ChestFinder", "chest esp", "chest finder"})
+@Mod.Info(help = "Mods/ChestESP")
 @Mod.Bypasses
 public final class ChestEspMod extends Mod
 	implements UpdateListener, RenderListener

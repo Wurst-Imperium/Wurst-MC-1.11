@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "name tags", help = "Mods/NameTags")
+@SearchTags({"name tags"})
+@Mod.Info(help = "Mods/NameTags")
 @Mod.Bypasses
 public final class NameTagsMod extends Mod
 {

@@ -19,6 +19,7 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -27,8 +28,8 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(tags = "LegitNuker, nuker legit, legit nuker",
-	help = "Mods/NukerLegit")
+@SearchTags({"LegitNuker", "nuker legit", "legit nuker"})
+@Mod.Info(help = "Mods/NukerLegit")
 @Mod.Bypasses
 public final class NukerLegitMod extends Mod
 	implements LeftClickListener, RenderListener, UpdateListener

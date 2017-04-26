@@ -11,8 +11,10 @@ import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AutoBreak, auto mine, auto break", help = "Mods/AutoMine")
+@SearchTags({"AutoBreak", "auto mine", "auto break"})
+@Mod.Info(help = "Mods/AutoMine")
 @Mod.Bypasses
 public final class AutoMineMod extends Mod implements UpdateListener
 {

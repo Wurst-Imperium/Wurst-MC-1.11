@@ -11,8 +11,10 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AutoJump, BHop, bunny hop, auto jump", help = "Mods/BunnyHop")
+@SearchTags({"AutoJump", "BHop", "bunny hop", "auto jump"})
+@Mod.Info(help = "Mods/BunnyHop")
 @Mod.Bypasses
 public final class BunnyHopMod extends Mod implements UpdateListener
 {

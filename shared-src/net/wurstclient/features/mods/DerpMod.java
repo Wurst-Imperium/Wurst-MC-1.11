@@ -12,8 +12,10 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "Retarded", help = "Mods/Derp")
+@SearchTags({"Retarded"})
+@Mod.Info(help = "Mods/Derp")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class DerpMod extends Mod implements UpdateListener
 {

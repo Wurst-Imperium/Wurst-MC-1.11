@@ -17,10 +17,12 @@ import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.utils.BlockUtils;
 
-@Mod.Info(tags = "build random", help = "Mods/BuildRandom")
+@SearchTags({"build random"})
+@Mod.Info(help = "Mods/BuildRandom")
 @Mod.Bypasses
 public final class BuildRandomMod extends Mod implements UpdateListener
 {

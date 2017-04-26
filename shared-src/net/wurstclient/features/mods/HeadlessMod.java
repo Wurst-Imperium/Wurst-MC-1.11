@@ -13,7 +13,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
 
-@Mod.Info(tags = "head less", help = "Mods/Headless")
+@Mod.Info(help = "Mods/Headless")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class HeadlessMod extends Mod implements UpdateListener
 {

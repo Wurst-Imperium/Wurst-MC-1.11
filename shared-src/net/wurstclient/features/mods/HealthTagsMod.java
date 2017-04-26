@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "health tags", help = "Mods/HealthTags")
+@SearchTags({"health tags"})
+@Mod.Info(help = "Mods/HealthTags")
 @Mod.Bypasses
 public final class HealthTagsMod extends Mod
 {

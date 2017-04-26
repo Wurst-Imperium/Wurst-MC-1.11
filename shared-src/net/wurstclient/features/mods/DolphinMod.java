@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AutoSwim, auto swim", help = "Mods/Dolphin")
+@SearchTags({"AutoSwim", "auto swim"})
+@Mod.Info(help = "Mods/Dolphin")
 @Mod.Bypasses
 public final class DolphinMod extends Mod implements UpdateListener
 {

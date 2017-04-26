@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "ghost hand", help = "Mods/GhostHand")
+@SearchTags({"ghost hand"})
+@Mod.Info(help = "Mods/GhostHand")
 @Mod.Bypasses(ghostMode = false)
 public final class GhostHandMod extends Mod
 {

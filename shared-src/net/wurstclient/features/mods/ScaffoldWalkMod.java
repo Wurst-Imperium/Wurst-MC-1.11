@@ -16,10 +16,12 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "scaffold walk, tower")
+@SearchTags({"scaffold walk", "tower"})
+@Mod.Info
 @Mod.Bypasses(ghostMode = false)
 public final class ScaffoldWalkMod extends Mod implements UpdateListener
 {

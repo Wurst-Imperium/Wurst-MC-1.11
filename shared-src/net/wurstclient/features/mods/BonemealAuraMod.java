@@ -22,6 +22,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -29,8 +30,8 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "bonemeal aura, bone meal aura, AutoBone, auto bone",
-	help = "Mods/BonemealAura")
+@SearchTags({"bonemeal aura", "bone meal aura", "AutoBone", "auto bone"})
+@Mod.Info(help = "Mods/BonemealAura")
 @Mod.Bypasses
 public final class BonemealAuraMod extends Mod implements UpdateListener
 {

@@ -9,8 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "miley cyrus, twerk", help = "Mods/MileyCyrus")
+@SearchTags({"miley cyrus", "twerk"})
+@Mod.Info(help = "Mods/MileyCyrus")
 @Mod.Bypasses
 public final class MileyCyrusMod extends Mod implements UpdateListener
 {

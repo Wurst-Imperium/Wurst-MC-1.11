@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "true sight", help = "Mods/TrueSight")
+@SearchTags({"true sight"})
+@Mod.Info(help = "Mods/TrueSight")
 @Mod.Bypasses
 public final class TrueSightMod extends Mod
 {

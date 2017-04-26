@@ -8,12 +8,13 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(
-	tags = "AntiVelocity, NoKnockback, AntiKB, anti knockback, anti velocity, no knockback, anti kb",
-	help = "Mods/AntiKnockback")
+@SearchTags({"AntiVelocity", "NoKnockback", "AntiKB", "anti knockback",
+	"anti velocity", "no knockback", "anti kb"})
+@Mod.Info(help = "Mods/AntiKnockback")
 @Mod.Bypasses(ghostMode = false)
 public final class AntiKnockbackMod extends Mod
 {

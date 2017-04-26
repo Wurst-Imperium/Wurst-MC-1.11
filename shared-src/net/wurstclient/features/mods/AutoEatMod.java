@@ -19,10 +19,12 @@ import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
 
-@Mod.Info(tags = "AutoSoup,auto eat,auto soup", help = "Mods/AutoEat")
+@SearchTags({"AutoSoup", "auto eat", "auto soup"})
+@Mod.Info(help = "Mods/AutoEat")
 @Mod.Bypasses
 public final class AutoEatMod extends Mod implements UpdateListener
 {

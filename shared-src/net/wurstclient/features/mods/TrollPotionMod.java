@@ -12,10 +12,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "troll potion", help = "Mods/TrollPotion")
+@SearchTags({"troll potion"})
+@Mod.Info(help = "Mods/TrollPotion")
 @Mod.Bypasses
 public final class TrollPotionMod extends Mod
 {

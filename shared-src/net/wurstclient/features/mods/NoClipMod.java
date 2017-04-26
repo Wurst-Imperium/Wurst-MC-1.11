@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "no clip", help = "Mods/NoClip")
+@SearchTags({"no clip"})
+@Mod.Info(help = "Mods/NoClip")
 @Mod.Bypasses
 public final class NoClipMod extends Mod implements UpdateListener
 {

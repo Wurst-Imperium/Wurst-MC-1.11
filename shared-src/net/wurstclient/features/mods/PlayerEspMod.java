@@ -15,10 +15,12 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(tags = "player esp", help = "Mods/PlayerESP")
+@SearchTags({"player esp"})
+@Mod.Info(help = "Mods/PlayerESP")
 @Mod.Bypasses
 public final class PlayerEspMod extends Mod implements RenderListener
 {

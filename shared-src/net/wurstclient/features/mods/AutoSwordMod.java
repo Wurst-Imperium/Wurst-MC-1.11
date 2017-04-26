@@ -16,9 +16,11 @@ import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "auto sword", help = "Mods/AutoSword")
+@SearchTags({"auto sword"})
+@Mod.Info(help = "Mods/AutoSword")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,

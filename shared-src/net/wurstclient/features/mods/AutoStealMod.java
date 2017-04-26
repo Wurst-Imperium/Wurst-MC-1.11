@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "auto steal", help = "Mods/AutoSteal")
+@SearchTags({"auto steal"})
+@Mod.Info(help = "Mods/AutoSteal")
 @Mod.Bypasses
 public final class AutoStealMod extends Mod
 {

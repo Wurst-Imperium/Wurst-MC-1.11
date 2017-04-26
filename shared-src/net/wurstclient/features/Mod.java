@@ -26,7 +26,9 @@ public abstract class Mod extends Feature
 {
 	private final String name;
 	private final String description;
-	private final String tags = getClass().getAnnotation(Info.class).tags();
+	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
+		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
+		: "";
 	private final String help = getClass().getAnnotation(Info.class).help();
 	
 	private final Bypasses bypasses = getClass().getAnnotation(Bypasses.class);
@@ -282,8 +284,6 @@ public abstract class Mod extends Feature
 	@Target(ElementType.TYPE)
 	public static @interface Info
 	{
-		String tags() default "";
-		
 		String help() default "";
 	}
 	

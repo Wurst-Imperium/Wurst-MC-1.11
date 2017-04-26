@@ -13,9 +13,11 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "FastNom, fast eat, fast nom", help = "Mods/FastEat")
+@SearchTags({"FastNom", "fast eat", "fast nom"})
+@Mod.Info(help = "Mods/FastEat")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class FastEatMod extends Mod implements UpdateListener
 {

@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "FastClimb, fast ladder, fast climb", help = "Mods/FastLadder")
+@SearchTags({"FastClimb", "fast ladder", "fast climb"})
+@Mod.Info(help = "Mods/FastLadder")
 @Mod.Bypasses(ghostMode = false)
 public final class FastLadderMod extends Mod implements UpdateListener
 {

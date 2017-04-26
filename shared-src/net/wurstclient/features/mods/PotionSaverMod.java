@@ -8,8 +8,10 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "potion saver", help = "Mods/PotionSaver")
+@SearchTags({"potion saver"})
+@Mod.Info(help = "Mods/PotionSaver")
 @Mod.Bypasses
 public final class PotionSaverMod extends Mod
 {

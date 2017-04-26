@@ -12,10 +12,12 @@ import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(tags = "CrashNametag, CrashTag, crash item, crash nametag, crash tag",
-	help = "Mods/CrashItem")
+@SearchTags({"CrashNametag", "CrashTag", "crash item", "crash nametag",
+	"crash tag"})
+@Mod.Info(help = "Mods/CrashItem")
 @Mod.Bypasses
 public final class CrashTagMod extends Mod
 {

@@ -17,12 +17,13 @@ import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "FishBot, auto fish, fish bot, fishing",
-	help = "Mods/AutoFish")
+@SearchTags({"FishBot", "auto fish", "fish bot", "fishing"})
+@Mod.Info(help = "Mods/AutoFish")
 @Mod.Bypasses
 public final class AutoFishMod extends Mod
 	implements UpdateListener, PacketInputListener

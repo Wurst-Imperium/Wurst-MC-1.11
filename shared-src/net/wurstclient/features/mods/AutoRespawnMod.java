@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.DeathListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "auto respawn", help = "Mods/AutoRespawn")
+@SearchTags({"auto respawn"})
+@Mod.Info(help = "Mods/AutoRespawn")
 @Mod.Bypasses
 public final class AutoRespawnMod extends Mod implements DeathListener
 {

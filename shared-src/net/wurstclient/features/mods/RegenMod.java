@@ -12,8 +12,10 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "GodMode, god mode", help = "Mods/Regen")
+@SearchTags({"GodMode", "god mode"})
+@Mod.Info(help = "Mods/Regen")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class RegenMod extends Mod implements UpdateListener
 {

@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -22,8 +23,8 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(tags = "TpAura, EnderAura, Ender-Aura, tp aura, ender aura",
-	help = "Mods/TP-Aura")
+@SearchTags({"TpAura", "EnderAura", "Ender-Aura", "tp aura", "ender aura"})
+@Mod.Info(help = "Mods/TP-Aura")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,

@@ -14,8 +14,10 @@ import net.wurstclient.ai.GoRandomAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "AFKBot,anti afk,afk bot", help = "Mods/AntiAFK")
+@SearchTags({"AFKBot", "anti afk", "afk bot"})
+@Mod.Info(help = "Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class AntiAfkMod extends Mod implements UpdateListener

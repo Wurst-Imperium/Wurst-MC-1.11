@@ -13,6 +13,7 @@ import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.TargetSpf;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
@@ -23,7 +24,8 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(tags = "kill aura", help = "Mods/Killaura")
+@SearchTags({"kill aura"})
+@Mod.Info(help = "Mods/Killaura")
 @Mod.Bypasses
 public final class KillauraMod extends Mod implements UpdateListener
 {

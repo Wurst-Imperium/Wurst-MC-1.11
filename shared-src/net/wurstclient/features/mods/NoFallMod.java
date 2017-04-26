@@ -12,8 +12,10 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "no fall", help = "Mods/NoFall")
+@SearchTags({"no fall"})
+@Mod.Info(help = "Mods/NoFall")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class NoFallMod extends Mod implements UpdateListener
 {

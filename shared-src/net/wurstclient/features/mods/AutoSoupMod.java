@@ -20,13 +20,15 @@ import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.InventoryUtils;
 
-@Mod.Info(tags = "AutoStew, auto soup, auto stew", help = "Mods/AutoSoup")
+@SearchTags({"AutoStew", "auto soup", "auto stew"})
+@Mod.Info(help = "Mods/AutoSoup")
 @Mod.Bypasses
 public final class AutoSoupMod extends Mod implements UpdateListener
 {

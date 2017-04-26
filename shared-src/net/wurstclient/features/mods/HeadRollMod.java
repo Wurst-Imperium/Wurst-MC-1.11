@@ -12,8 +12,10 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "head roll", help = "Mods/HeadRoll")
+@SearchTags({"head roll"})
+@Mod.Info(help = "Mods/HeadRoll")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class HeadRollMod extends Mod implements UpdateListener
 {

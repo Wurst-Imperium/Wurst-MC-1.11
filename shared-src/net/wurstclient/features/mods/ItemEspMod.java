@@ -16,9 +16,11 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(tags = "item esp", help = "Mods/ItemESP")
+@SearchTags({"item esp"})
+@Mod.Info(help = "Mods/ItemESP")
 @Mod.Bypasses
 public final class ItemEspMod extends Mod implements RenderListener
 {

@@ -9,8 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "legit, disable", help = "Mods/Panic")
+@SearchTags({"legit", "disable"})
+@Mod.Info(help = "Mods/Panic")
 @Mod.Bypasses
 public final class PanicMod extends Mod implements UpdateListener
 {

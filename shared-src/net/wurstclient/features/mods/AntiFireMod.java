@@ -12,9 +12,10 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "anti fire, AntiBurn, anti burn, NoFire, no fire",
-	help = "Mods/AntiFire")
+@SearchTags({"anti fire", "AntiBurn", "anti burn", "NoFire", "no fire"})
+@Mod.Info(help = "Mods/AntiFire")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class AntiFireMod extends Mod implements UpdateListener
 {

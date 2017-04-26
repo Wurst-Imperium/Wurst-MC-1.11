@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "auto sprint", help = "Mods/AutoSprint")
+@SearchTags({"auto sprint"})
+@Mod.Info(help = "Mods/AutoSprint")
 @Mod.Bypasses
 public final class AutoSprintMod extends Mod implements UpdateListener
 {

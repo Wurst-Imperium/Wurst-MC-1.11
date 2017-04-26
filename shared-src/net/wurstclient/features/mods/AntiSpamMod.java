@@ -13,10 +13,11 @@ import net.minecraft.client.gui.ChatLine;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.MiscUtils;
 
-@Mod.Info(tags = "NoSpam, ChatFilter, anti spam, no spam, chat filter",
-	help = "Mods/AntiSpam")
+@SearchTags({"NoSpam", "ChatFilter", "anti spam", "no spam", "chat filter"})
+@Mod.Info(help = "Mods/AntiSpam")
 @Mod.Bypasses
 public final class AntiSpamMod extends Mod implements ChatInputListener
 {

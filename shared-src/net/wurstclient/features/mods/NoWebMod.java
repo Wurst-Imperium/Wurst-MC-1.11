@@ -10,8 +10,10 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "no web", help = "Mods/NoWeb")
+@SearchTags({"no web"})
+@Mod.Info(help = "Mods/NoWeb")
 @Mod.Bypasses(ghostMode = false)
 public final class NoWebMod extends Mod implements UpdateListener
 {

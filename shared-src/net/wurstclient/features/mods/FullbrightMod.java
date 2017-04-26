@@ -9,9 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "NightVision, full bright, brightness, night vision",
-	help = "Mods/Fullbright")
+@SearchTags({"NightVision", "full bright", "brightness", "night vision"})
+@Mod.Info(help = "Mods/Fullbright")
 @Mod.Bypasses
 public final class FullbrightMod extends Mod implements UpdateListener
 {

@@ -9,8 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.util.text.ITextComponent;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@Mod.Info(tags = "auto sign", help = "Mods/AutoSign")
+@SearchTags({"auto sign"})
+@Mod.Info(help = "Mods/AutoSign")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
