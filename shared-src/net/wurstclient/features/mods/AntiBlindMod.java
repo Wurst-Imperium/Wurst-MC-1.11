@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AntiBlindness", "anti blindness"})
-@Mod.Info(help = "Mods/AntiBlind")
+@HelpPage("Mods/AntiBlind")
 @Mod.Bypasses
 public final class AntiBlindMod extends Mod
 {

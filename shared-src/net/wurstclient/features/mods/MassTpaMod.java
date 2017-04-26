@@ -18,12 +18,13 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 
 @SearchTags({"mass tpa"})
-@Mod.Info(help = "Mods/MassTPA")
+@HelpPage("Mods/MassTPA")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class MassTpaMod extends Mod

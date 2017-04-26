@@ -11,9 +11,10 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@Mod.Info(help = "Mods/Tired")
+@HelpPage("Mods/Tired")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class TiredMod extends Mod implements UpdateListener
 {

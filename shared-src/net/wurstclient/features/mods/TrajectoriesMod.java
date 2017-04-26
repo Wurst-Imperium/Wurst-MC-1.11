@@ -22,12 +22,13 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"AimAssist", "ArrowPrediction", "aim assist", "arrow prediction"})
-@Mod.Info(help = "Mods/Trajectories")
+@HelpPage("Mods/Trajectories")
 @Mod.Bypasses
 public final class TrajectoriesMod extends Mod implements RenderListener
 {

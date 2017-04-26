@@ -14,13 +14,14 @@ import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"auto tool"})
-@Mod.Info(help = "Mods/AutoTool")
+@HelpPage("Mods/AutoTool")
 @Mod.Bypasses
 public final class AutoToolMod extends Mod implements UpdateListener
 {

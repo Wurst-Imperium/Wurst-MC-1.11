@@ -5,7 +5,6 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info
 @Mod.Bypasses
 public final class NoWeatherMod extends Mod
 {

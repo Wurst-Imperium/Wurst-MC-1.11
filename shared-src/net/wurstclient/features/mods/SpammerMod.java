@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.files.WurstFolders;
@@ -38,7 +39,7 @@ import net.wurstclient.spam.exceptions.UnreadableTagException;
 import net.wurstclient.spam.tag.Tag;
 import net.wurstclient.utils.MiscUtils;
 
-@Mod.Info(help = "Mods/Spammer")
+@HelpPage("Mods/Spammer")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class SpammerMod extends Mod

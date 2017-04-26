@@ -19,6 +19,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -26,7 +27,7 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"instant bunker"})
-@Mod.Info(help = "Mods/InstantBunker")
+@HelpPage("Mods/InstantBunker")
 @Mod.Bypasses
 public final class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener

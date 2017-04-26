@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -18,7 +19,7 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @SearchTags({"remote view"})
-@Mod.Info(help = "Mods/RemoteView")
+@HelpPage("Mods/RemoteView")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class RemoteViewMod extends Mod implements UpdateListener

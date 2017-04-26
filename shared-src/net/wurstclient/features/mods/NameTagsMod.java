@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"name tags"})
-@Mod.Info(help = "Mods/NameTags")
+@HelpPage("Mods/NameTags")
 @Mod.Bypasses
 public final class NameTagsMod extends Mod
 {

@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.ModeSetting;
@@ -16,7 +17,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"SpeedMine", "SpeedyGonzales", "fast break", "speed mine",
 	"speedy gonzales"})
-@Mod.Info(help = "Mods/FastBreak")
+@HelpPage("Mods/FastBreak")
 @Mod.Bypasses
 public final class FastBreakMod extends Mod
 {

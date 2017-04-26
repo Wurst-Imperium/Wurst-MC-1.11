@@ -21,7 +21,6 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"scaffold walk", "tower"})
-@Mod.Info
 @Mod.Bypasses(ghostMode = false)
 public final class ScaffoldWalkMod extends Mod implements UpdateListener
 {

@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"name protect"})
-@Mod.Info(help = "Mods/NameProtect")
+@HelpPage("Mods/NameProtect")
 @Mod.Bypasses
 public final class NameProtectMod extends Mod
 {

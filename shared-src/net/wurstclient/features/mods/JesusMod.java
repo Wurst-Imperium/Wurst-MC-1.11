@@ -19,9 +19,10 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@Mod.Info(help = "Mods/Jesus")
+@HelpPage("Mods/Jesus")
 @Mod.Bypasses(ghostMode = false)
 public final class JesusMod extends Mod
 	implements UpdateListener, PacketOutputListener

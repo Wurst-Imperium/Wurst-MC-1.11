@@ -11,13 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"KillerPotion", "kill potion", "killer potion"})
-@Mod.Info(help = "Mods/KillerPotion")
+@HelpPage("Mods/KillerPotion")
 @Mod.Bypasses
 public final class KillPotionMod extends Mod
 {

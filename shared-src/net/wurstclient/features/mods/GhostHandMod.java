@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"ghost hand"})
-@Mod.Info(help = "Mods/GhostHand")
+@HelpPage("Mods/GhostHand")
 @Mod.Bypasses(ghostMode = false)
 public final class GhostHandMod extends Mod
 {

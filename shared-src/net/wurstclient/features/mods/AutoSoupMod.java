@@ -19,6 +19,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -28,7 +29,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"AutoStew", "auto soup", "auto stew"})
-@Mod.Info(help = "Mods/AutoSoup")
+@HelpPage("Mods/AutoSoup")
 @Mod.Bypasses
 public final class AutoSoupMod extends Mod implements UpdateListener
 {

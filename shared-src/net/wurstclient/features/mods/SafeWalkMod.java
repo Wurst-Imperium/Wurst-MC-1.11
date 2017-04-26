@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"safe walk"})
-@Mod.Info(help = "Mods/SafeWalk")
+@HelpPage("Mods/SafeWalk")
 @Mod.Bypasses
 public final class SafeWalkMod extends Mod
 {

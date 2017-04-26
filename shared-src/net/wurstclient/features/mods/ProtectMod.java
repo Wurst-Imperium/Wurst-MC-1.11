@@ -11,12 +11,13 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(help = "Mods/Protect")
+@HelpPage("Mods/Protect")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class ProtectMod extends Mod implements UpdateListener

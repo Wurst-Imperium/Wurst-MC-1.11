@@ -12,7 +12,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
 
-@Mod.Info
 @Mod.Bypasses
 public final class ParkourMod extends Mod implements UpdateListener
 {

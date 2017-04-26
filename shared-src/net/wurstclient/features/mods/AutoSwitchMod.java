@@ -10,11 +10,12 @@ package net.wurstclient.features.mods;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"auto switch"})
-@Mod.Info(help = "Mods/AutoSwitch")
+@HelpPage("Mods/AutoSwitch")
 @Mod.Bypasses
 public final class AutoSwitchMod extends Mod implements UpdateListener
 {

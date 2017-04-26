@@ -13,11 +13,12 @@ import net.minecraft.util.math.BlockPos;
 import net.wurstclient.ai.GoRandomAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AFKBot", "anti afk", "afk bot"})
-@Mod.Info(help = "Mods/AntiAFK")
+@HelpPage("Mods/AntiAFK")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class AntiAfkMod extends Mod implements UpdateListener

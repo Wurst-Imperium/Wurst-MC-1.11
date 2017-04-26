@@ -45,7 +45,6 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.JsonUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info
 @Mod.Bypasses
 public final class TemplateToolMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener

@@ -14,11 +14,12 @@ import net.minecraft.util.math.Vec3d;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(help = "Mods/Tracers")
+@HelpPage("Mods/Tracers")
 @Mod.Bypasses
 public final class TracersMod extends Mod implements RenderListener
 {

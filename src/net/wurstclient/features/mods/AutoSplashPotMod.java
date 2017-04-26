@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -24,7 +25,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"AutoPotion", "auto potion", "auto splash potion"})
-@Mod.Info(help = "Mods/AutoSplashPot")
+@HelpPage("Mods/AutoSplashPot")
 @Mod.Bypasses
 public final class AutoSplashPotMod extends Mod implements UpdateListener
 {

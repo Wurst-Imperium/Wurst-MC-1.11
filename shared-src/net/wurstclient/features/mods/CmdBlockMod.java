@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.gui.mods.GuiCmdBlock;
@@ -19,7 +20,7 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"CmdBlock", "CommandBlock", "cmd block", "command block"})
-@Mod.Info(help = "Mods/CMD-Block")
+@HelpPage("Mods/CMD-Block")
 @Mod.Bypasses
 public final class CmdBlockMod extends Mod
 {

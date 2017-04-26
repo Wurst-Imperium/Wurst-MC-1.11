@@ -9,11 +9,12 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"speed hack"})
-@Mod.Info(help = "Mods/SpeedHack")
+@HelpPage("Mods/SpeedHack")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class SpeedHackMod extends Mod implements UpdateListener
 {

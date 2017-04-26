@@ -11,7 +11,6 @@ import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AntiPumkin", "no overlay"})
-@Mod.Info
 @Mod.Bypasses
 public final class NoOverlayMod extends Mod
 {

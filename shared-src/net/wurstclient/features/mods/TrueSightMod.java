@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"true sight"})
-@Mod.Info(help = "Mods/TrueSight")
+@HelpPage("Mods/TrueSight")
 @Mod.Bypasses
 public final class TrueSightMod extends Mod
 {

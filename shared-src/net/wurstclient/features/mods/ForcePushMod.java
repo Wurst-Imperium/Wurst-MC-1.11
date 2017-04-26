@@ -11,13 +11,14 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @SearchTags({"force push"})
-@Mod.Info(help = "Mods/ForcePush")
+@HelpPage("Mods/ForcePush")
 @Mod.Bypasses
 public final class ForcePushMod extends Mod implements UpdateListener
 {

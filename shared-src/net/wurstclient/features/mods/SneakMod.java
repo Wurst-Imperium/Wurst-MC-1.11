@@ -13,12 +13,13 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 
 @SearchTags({"AutoSneaking"})
-@Mod.Info(help = "Mods/Sneak")
+@HelpPage("Mods/Sneak")
 @Mod.Bypasses(ghostMode = false)
 public final class SneakMod extends Mod
 	implements UpdateListener, PostUpdateListener

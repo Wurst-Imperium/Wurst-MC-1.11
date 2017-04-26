@@ -32,6 +32,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.files.ConfigFiles;
@@ -40,7 +41,7 @@ import net.wurstclient.utils.ChatUtils;
 
 @SearchTags({"Force OP", "AuthMe Cracker", "AuthMeCracker", "auth me cracker",
 	"admin hack", "AuthMe password cracker"})
-@Mod.Info(help = "Mods/Force_OP_(AuthMeCracker)")
+@HelpPage("Mods/Force_OP_(AuthMeCracker)")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class ForceOpMod extends Mod implements ChatInputListener

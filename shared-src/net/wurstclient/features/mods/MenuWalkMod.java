@@ -13,12 +13,13 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.navigator.gui.NavigatorScreen;
 
 @SearchTags({"InventoryWalk", "menu walk", "inventory walk"})
-@Mod.Info(help = "Mods/MenuWalk")
+@HelpPage("Mods/MenuWalk")
 @Mod.Bypasses
 public final class MenuWalkMod extends Mod
 {

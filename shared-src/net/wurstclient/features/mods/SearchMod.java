@@ -17,11 +17,12 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@Mod.Info(help = "Mods/Search")
+@HelpPage("Mods/Search")
 @Mod.Bypasses
 public final class SearchMod extends Mod
 	implements UpdateListener, RenderListener

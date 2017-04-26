@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"auto steal"})
-@Mod.Info(help = "Mods/AutoSteal")
+@HelpPage("Mods/AutoSteal")
 @Mod.Bypasses
 public final class AutoStealMod extends Mod
 {

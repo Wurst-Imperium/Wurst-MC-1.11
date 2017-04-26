@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.ai.FollowAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -18,7 +19,7 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@Mod.Info(help = "Mods/Follow")
+@HelpPage("Mods/Follow")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FollowMod extends Mod implements UpdateListener

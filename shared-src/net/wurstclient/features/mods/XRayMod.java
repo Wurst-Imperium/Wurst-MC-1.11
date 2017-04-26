@@ -10,12 +10,13 @@ package net.wurstclient.features.mods;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.XRayUtils;
 
 @SearchTags({"xray, x ray"})
-@Mod.Info(help = "Mods/X-Ray")
+@HelpPage("Mods/X-Ray")
 @Mod.Bypasses
 public final class XRayMod extends Mod
 {

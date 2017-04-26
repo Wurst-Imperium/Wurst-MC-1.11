@@ -9,9 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@Mod.Info(help = "Mods/Throw")
+@HelpPage("Mods/Throw")
 @Mod.Bypasses(ghostMode = false)
 public final class ThrowMod extends Mod implements UpdateListener
 {

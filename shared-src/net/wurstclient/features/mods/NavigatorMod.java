@@ -7,12 +7,13 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.navigator.gui.NavigatorMainScreen;
 
 @SearchTags({"ClickGUI"})
-@Mod.Info(help = "Mods/Navigator")
+@HelpPage("Mods/Navigator")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class NavigatorMod extends Mod

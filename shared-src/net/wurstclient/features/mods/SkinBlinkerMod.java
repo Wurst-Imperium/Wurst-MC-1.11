@@ -11,11 +11,12 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"SpookySkin", "skin blinker", "spooky skin"})
-@Mod.Info(help = "Mods/SkinBlinker")
+@HelpPage("Mods/SkinBlinker")
 @Mod.Bypasses(ghostMode = false)
 public final class SkinBlinkerMod extends Mod implements UpdateListener
 {

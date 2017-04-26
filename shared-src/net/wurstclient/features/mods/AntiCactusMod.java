@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"anti cactus"})
-@Mod.Info(help = "Mods/AntiCactus")
+@HelpPage("Mods/AntiCactus")
 @Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class AntiCactusMod extends Mod
 {

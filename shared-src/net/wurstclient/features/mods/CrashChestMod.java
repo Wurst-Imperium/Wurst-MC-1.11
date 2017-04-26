@@ -12,13 +12,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"crash chest"})
-@Mod.Info(help = "Mods/CrashChest")
+@HelpPage("Mods/CrashChest")
 @Mod.Bypasses
 public final class CrashChestMod extends Mod
 {

@@ -13,6 +13,7 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.ModeSetting;
@@ -21,7 +22,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
 
 @SearchTags({"AutoDisconnect", "auto leave", "auto disconnect"})
-@Mod.Info(help = "Mods/AutoLeave")
+@HelpPage("Mods/AutoLeave")
 @Mod.Bypasses
 public final class AutoLeaveMod extends Mod implements UpdateListener
 {

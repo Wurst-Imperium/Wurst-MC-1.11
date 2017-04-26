@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"no hurtcam", "no hurt cam"})
-@Mod.Info(help = "Mods/NoHurtcam")
+@HelpPage("Mods/NoHurtcam")
 @Mod.Bypasses
 public final class NoHurtcamMod extends Mod
 {

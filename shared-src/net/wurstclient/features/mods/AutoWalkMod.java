@@ -10,11 +10,12 @@ package net.wurstclient.features.mods;
 import org.lwjgl.input.Keyboard;
 
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"auto walk"})
-@Mod.Info(help = "Mods/AutoWalk")
+@HelpPage("Mods/AutoWalk")
 @Mod.Bypasses
 public final class AutoWalkMod extends Mod implements UpdateListener
 {

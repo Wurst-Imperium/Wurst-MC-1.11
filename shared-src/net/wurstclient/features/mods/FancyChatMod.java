@@ -9,11 +9,12 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"fancy chat"})
-@Mod.Info(help = "Mods/FancyChat")
+@HelpPage("Mods/FancyChat")
 @Mod.Bypasses(ghostMode = false, mineplex = false)
 public final class FancyChatMod extends Mod implements ChatOutputListener
 {

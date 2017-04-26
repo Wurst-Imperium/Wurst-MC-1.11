@@ -17,13 +17,14 @@ import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
-@Mod.Info(help = "Mods/Tunneller")
+@HelpPage("Mods/Tunneller")
 @Mod.Bypasses
 public final class TunnellerMod extends Mod
 	implements UpdateListener, PostUpdateListener, RenderListener

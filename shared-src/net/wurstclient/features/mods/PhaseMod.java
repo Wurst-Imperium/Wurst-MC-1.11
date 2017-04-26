@@ -9,11 +9,12 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"Phaze"})
-@Mod.Info(help = "Mods/Phase")
+@HelpPage("Mods/Phase")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	antiCheat = false,

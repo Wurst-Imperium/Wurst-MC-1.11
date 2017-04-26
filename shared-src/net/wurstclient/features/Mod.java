@@ -29,7 +29,9 @@ public abstract class Mod extends Feature
 	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
 		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
 		: "";
-	private final String help = getClass().getAnnotation(Info.class).help();
+	private final String helpPage =
+		getClass().isAnnotationPresent(HelpPage.class)
+			? getClass().getAnnotation(HelpPage.class).value() : "";
 	
 	private final Bypasses bypasses = getClass().getAnnotation(Bypasses.class);
 	private final boolean stateSaved =
@@ -272,19 +274,12 @@ public abstract class Mod extends Feature
 	@Override
 	public final String getHelpPage()
 	{
-		return help;
+		return helpPage;
 	}
 	
 	public final Bypasses getBypasses()
 	{
 		return bypasses;
-	}
-	
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target(ElementType.TYPE)
-	public static @interface Info
-	{
-		String help() default "";
 	}
 	
 	@Retention(RetentionPolicy.RUNTIME)

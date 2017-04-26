@@ -7,11 +7,12 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@Mod.Info(help = "Mods/Timer")
+@HelpPage("Mods/Timer")
 @Mod.Bypasses(ghostMode = false)
 public final class TimerMod extends Mod
 {

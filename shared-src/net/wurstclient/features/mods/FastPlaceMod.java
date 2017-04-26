@@ -9,11 +9,12 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"fast place"})
-@Mod.Info(help = "Mods/FastPlace")
+@HelpPage("Mods/FastPlace")
 @Mod.Bypasses
 public final class FastPlaceMod extends Mod implements UpdateListener
 {

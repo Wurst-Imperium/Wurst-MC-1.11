@@ -11,10 +11,11 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 
-@Mod.Info(help = "Mods/home")
+@HelpPage("Mods/home")
 @Mod.Bypasses
 public final class HomeMod extends Mod
 	implements UpdateListener, ChatInputListener

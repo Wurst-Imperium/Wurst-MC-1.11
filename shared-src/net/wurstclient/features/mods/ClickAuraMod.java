@@ -12,6 +12,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -23,7 +24,7 @@ import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"Click Aura", "ClickAimbot", "Click Aimbot"})
-@Mod.Info(help = "Mods/ClickAura")
+@HelpPage("Mods/ClickAura")
 @Mod.Bypasses(ghostMode = false)
 public final class ClickAuraMod extends Mod implements UpdateListener
 {

@@ -14,13 +14,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityFakePlayer;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"player esp"})
-@Mod.Info(help = "Mods/PlayerESP")
+@HelpPage("Mods/PlayerESP")
 @Mod.Bypasses
 public final class PlayerEspMod extends Mod implements RenderListener
 {

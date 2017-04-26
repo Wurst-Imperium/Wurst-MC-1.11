@@ -25,6 +25,7 @@ import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.RightClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
+import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
@@ -36,7 +37,7 @@ import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"AutoBridge", "AutoFloor", "AutoNazi", "AutoPenis", "AutoPillar",
 	"AutoWall", "AutoWurst", "auto build"})
-@Mod.Info(help = "Mods/AutoBuild")
+@HelpPage("Mods/AutoBuild")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class AutoBuildMod extends Mod
