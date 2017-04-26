@@ -7,9 +7,11 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.Spf;
 
-@Spf.Info(tags = "Server Finder", help = "Special_Features/Server_Finder")
+@SearchTags({"Server Finder"})
+@Spf.Info(help = "Special_Features/Server_Finder")
 public final class ServerFinderSpf extends Spf
 {
 	public ServerFinderSpf()
