@@ -35,6 +35,7 @@ import net.wurstclient.altmanager.screens.AltManagerScreen;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
+import net.wurstclient.update.Version;
 import net.wurstclient.utils.JsonUtils;
 import net.wurstclient.utils.MiscUtils;
 
@@ -109,8 +110,8 @@ public class GuiWurstMainMenu extends GuiMainMenu
 					"go play");
 			else
 			{
-				MiscUtils.openLink("https://www.wurstclient.net/updates/wurst-"
-					+ WurstClient.VERSION.replace(".", "-"));
+				MiscUtils.openLink(
+					new Version(WurstClient.VERSION).getChangelogLink());
 				WurstClient.INSTANCE.analytics.trackEvent("changelog",
 					"view changelog");
 			}

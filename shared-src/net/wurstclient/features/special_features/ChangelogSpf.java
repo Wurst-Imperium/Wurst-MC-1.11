@@ -10,6 +10,7 @@ package net.wurstclient.features.special_features;
 import net.wurstclient.WurstClient;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.Spf;
+import net.wurstclient.update.Version;
 import net.wurstclient.utils.MiscUtils;
 
 @SearchTags({"change log", "new features", "wurst update"})
@@ -29,7 +30,6 @@ public final class ChangelogSpf extends Spf
 	@Override
 	public void doPrimaryAction()
 	{
-		MiscUtils.openLink("https://www.wurstclient.net/updates/wurst-"
-			+ WurstClient.VERSION.replace(".", "-") + "/");
+		MiscUtils.openLink(new Version(WurstClient.VERSION).getChangelogLink());
 	}
 }

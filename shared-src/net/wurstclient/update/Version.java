@@ -116,4 +116,14 @@ public final class Version implements Comparable<Version>
 	{
 		return preRelease != Integer.MAX_VALUE;
 	}
+	
+	public String getChangelogLink()
+	{
+		String version = major + "-" + minor;
+		
+		if(isPreRelease())
+			version += "pre" + preRelease;
+		
+		return "https://www.wurstclient.net/updates/wurst-" + version + "/";
+	}
 }
