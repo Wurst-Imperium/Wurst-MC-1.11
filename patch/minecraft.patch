@@ -1,6 +1,6 @@
-From 5d1fdb1e2275e041589c58209c17363e404e0a2c Mon Sep 17 00:00:00 2001
+From f612a8f69d1c7c1f80f2881e3693699b40e57f69 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Wed, 26 Apr 2017 14:49:52 +0200
+Date: Sun, 30 Apr 2017 09:27:01 +0200
 Subject: [PATCH] mod
 
 ---
@@ -10,11 +10,11 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockLiquid.java               |  15 +-
  net/minecraft/block/BlockSlab.java                 |   6 +-
  net/minecraft/block/BlockSoulSand.java             |   6 +
- net/minecraft/client/Minecraft.java                | 219 ++++++++++----------
+ net/minecraft/client/Minecraft.java                | 219 +++++++++----------
  net/minecraft/client/entity/EntityPlayerSP.java    | 106 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
- net/minecraft/client/gui/GuiDisconnected.java      |  81 ++++++++
+ net/minecraft/client/gui/GuiDisconnected.java      |  81 +++++++
  net/minecraft/client/gui/GuiGameOver.java          |  14 +-
  net/minecraft/client/gui/GuiIngame.java            |  21 +-
  net/minecraft/client/gui/GuiIngameMenu.java        |  49 ++++-
@@ -37,7 +37,7 @@ Subject: [PATCH] mod
  .../client/network/NetworkPlayerInfo.java          |   8 +
  .../client/renderer/BlockFluidRenderer.java        |   8 +
  .../client/renderer/BlockModelRenderer.java        |  14 +-
- net/minecraft/client/renderer/EntityRenderer.java  |  93 ++++++---
+ net/minecraft/client/renderer/EntityRenderer.java  |  93 +++++---
  net/minecraft/client/renderer/ItemRenderer.java    |  10 +
  net/minecraft/client/renderer/chunk/VisGraph.java  |  11 +-
  net/minecraft/client/renderer/entity/Render.java   |  24 +++
@@ -47,7 +47,7 @@ Subject: [PATCH] mod
  net/minecraft/client/resources/SkinManager.java    |  25 ++-
  net/minecraft/client/settings/KeyBinding.java      |   2 +-
  net/minecraft/crash/CrashReport.java               |  25 ++-
- net/minecraft/entity/Entity.java                   | 229 +++++++++++----------
+ net/minecraft/entity/Entity.java                   | 235 +++++++++++----------
  net/minecraft/entity/EntityLivingBase.java         |  40 ++--
  net/minecraft/entity/player/EntityPlayer.java      |  40 ++--
  net/minecraft/item/ItemSword.java                  |   2 +-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  39 ++--
- 54 files changed, 1317 insertions(+), 630 deletions(-)
+ 54 files changed, 1323 insertions(+), 630 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -3218,7 +3218,7 @@ index e403195..ad82a56 100644
      }
  
 diff --git a/net/minecraft/entity/Entity.java b/net/minecraft/entity/Entity.java
-index 6fabb5c..4ad54c1 100644
+index 6fabb5c..1a0a40c 100644
 --- a/net/minecraft/entity/Entity.java
 +++ b/net/minecraft/entity/Entity.java
 @@ -1,8 +1,5 @@
@@ -3393,7 +3393,7 @@ index 6fabb5c..4ad54c1 100644
                      {
                          return;
                      }
-@@ -780,143 +788,143 @@ public abstract class Entity implements ICommandSender
+@@ -780,143 +788,149 @@ public abstract class Entity implements ICommandSender
              if (this.isInWeb)
              {
                  this.isInWeb = false;
@@ -3416,9 +3416,15 @@ index 6fabb5c..4ad54c1 100644
 +            double d4 = z;
  
 -            if ((x == MoverType.SELF || x == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer)
-+            if ((moverType == MoverType.SELF || moverType == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer)
-             {
++			// TODO: Client
++			if((moverType == MoverType.SELF || moverType == MoverType.PLAYER)
++				&& this.onGround
++				&& (this.isSneaking()
++					|| WurstClient.INSTANCE.mods.safeWalkMod.isActive())
++				&& this instanceof EntityPlayer)
+ 			{
 -                for (double d5 = 0.05D; p_70091_2_ != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(p_70091_2_, (double)(-this.stepHeight), 0.0D)).isEmpty(); d2 = p_70091_2_)
++				
 +                for (double d5 = 0.05D; x != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(x, (double)(-this.stepHeight), 0.0D)).isEmpty(); d2 = x)
                  {
 -                    if (p_70091_2_ < 0.05D && p_70091_2_ >= -0.05D)
@@ -3588,7 +3594,7 @@ index 6fabb5c..4ad54c1 100644
                  int j1 = 0;
  
                  for (int k1 = list.size(); j1 < k1; ++j1)
-@@ -944,7 +952,7 @@ public abstract class Entity implements ICommandSender
+@@ -944,7 +958,7 @@ public abstract class Entity implements ICommandSender
  
                  axisalignedbb2 = axisalignedbb2.offset(0.0D, 0.0D, d19);
                  AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
@@ -3597,7 +3603,7 @@ index 6fabb5c..4ad54c1 100644
                  int l2 = 0;
  
                  for (int i3 = list.size(); l2 < i3; ++l2)
-@@ -976,16 +984,16 @@ public abstract class Entity implements ICommandSender
+@@ -976,16 +990,16 @@ public abstract class Entity implements ICommandSender
  
                  if (d23 > d9)
                  {
@@ -3620,7 +3626,7 @@ index 6fabb5c..4ad54c1 100644
                      this.setEntityBoundingBox(axisalignedbb4);
                  }
  
-@@ -993,16 +1001,16 @@ public abstract class Entity implements ICommandSender
+@@ -993,16 +1007,16 @@ public abstract class Entity implements ICommandSender
  
                  for (int k4 = list.size(); j4 < k4; ++j4)
                  {
@@ -3643,7 +3649,7 @@ index 6fabb5c..4ad54c1 100644
                      this.setEntityBoundingBox(axisalignedbb1);
                  }
              }
-@@ -1010,8 +1018,8 @@ public abstract class Entity implements ICommandSender
+@@ -1010,8 +1024,8 @@ public abstract class Entity implements ICommandSender
              this.world.theProfiler.endSection();
              this.world.theProfiler.startSection("rest");
              this.resetPositionToBB();
@@ -3654,7 +3660,7 @@ index 6fabb5c..4ad54c1 100644
              this.onGround = this.isCollidedVertically && d3 < 0.0D;
              this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
              int j6 = MathHelper.floor(this.posX);
-@@ -1033,21 +1041,21 @@ public abstract class Entity implements ICommandSender
+@@ -1033,21 +1047,21 @@ public abstract class Entity implements ICommandSender
                  }
              }
  
@@ -3680,7 +3686,7 @@ index 6fabb5c..4ad54c1 100644
              {
                  block.onLanded(this.world, this);
              }
-@@ -2460,9 +2468,14 @@ public abstract class Entity implements ICommandSender
+@@ -2460,9 +2474,14 @@ public abstract class Entity implements ICommandSender
       */
      public void setVelocity(double x, double y, double z)
      {

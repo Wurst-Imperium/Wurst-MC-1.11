@@ -18,7 +18,6 @@ public final class SafeWalkMod extends Mod
 {
 	public SafeWalkMod()
 	{
-		super("SafeWalk",
-			"Protects you from falling down as if you were sneaking.");
+		super("SafeWalk", "Prevents you from falling off edges.");
 	}
 }
