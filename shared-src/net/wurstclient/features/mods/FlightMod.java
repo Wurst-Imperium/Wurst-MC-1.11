@@ -51,7 +51,7 @@ public final class FlightMod extends Mod implements UpdateListener
 	private final CheckboxSetting flightKickBypass = WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Flight-Kick-Bypass", false);
 	
-	public double flyHeight;
+	private double flyHeight;
 	private double startY;
 	
 	public FlightMod()
@@ -202,7 +202,7 @@ public final class FlightMod extends Mod implements UpdateListener
 		}
 	}
 	
-	public void updateFlyHeight()
+	private void updateFlyHeight()
 	{
 		double h = 1;
 		AxisAlignedBB box = WMinecraft.getPlayer().getEntityBoundingBox()
@@ -223,7 +223,7 @@ public final class FlightMod extends Mod implements UpdateListener
 		}
 	}
 	
-	public void goToGround()
+	private void goToGround()
 	{
 		if(flyHeight > 300)
 			return;
