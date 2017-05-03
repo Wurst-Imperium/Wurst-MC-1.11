@@ -9,10 +9,10 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
+import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;

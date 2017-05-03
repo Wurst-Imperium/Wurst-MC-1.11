@@ -12,5 +12,5 @@ import net.minecraft.init.Enchantments;
 
 public final class WEnchantments
 {
-    public static final Enchantment SILK_TOUCH = Enchantments.SILK_TOUCH;
+	public static final Enchantment SILK_TOUCH = Enchantments.SILK_TOUCH;
 }

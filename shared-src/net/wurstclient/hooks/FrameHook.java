@@ -119,7 +119,8 @@ public class FrameHook
 				autoMaximizeFile.getParentFile().mkdirs();
 			PrintWriter save =
 				new PrintWriter(new FileWriter(autoMaximizeFile));
-			save.println(Boolean.toString(!WMinecraft.isRunningOnMac() && !WMinecraft.OPTIFINE));
+			save.println(Boolean.toString(
+				!WMinecraft.isRunningOnMac() && !WMinecraft.OPTIFINE));
 			save.close();
 		}catch(IOException e)
 		{

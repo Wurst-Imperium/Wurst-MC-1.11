@@ -9,9 +9,9 @@ package net.wurstclient.features.mods;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.potion.Potion;
-import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
@@ -24,8 +24,9 @@ public final class AntiPotionMod extends Mod implements UpdateListener
 {
 	private final Potion[] blockedEffects = new Potion[]{WPotionEffects.HUNGER,
 		WPotionEffects.SLOWNESS, WPotionEffects.MINING_FATIGUE,
-		WPotionEffects.INSTANT_DAMAGE, WPotionEffects.NAUSEA, WPotionEffects.BLINDNESS,
-		WPotionEffects.WEAKNESS, WPotionEffects.WITHER, WPotionEffects.POISON};
+		WPotionEffects.INSTANT_DAMAGE, WPotionEffects.NAUSEA,
+		WPotionEffects.BLINDNESS, WPotionEffects.WEAKNESS,
+		WPotionEffects.WITHER, WPotionEffects.POISON};
 	
 	public AntiPotionMod()
 	{
