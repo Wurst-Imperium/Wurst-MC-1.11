@@ -43,7 +43,7 @@ public class FileManager
 			BufferedReader load =
 				new BufferedReader(new FileReader(autoMaximize));
 			autoMaximizeEnabled = JsonUtils.gson.fromJson(load, Boolean.class)
-				&& !WMinecraft.isRunningOnMac();
+				&& !WMinecraft.isRunningOnMac() && !WMinecraft.OPTIFINE;
 			load.close();
 		}catch(Exception e)
 		{

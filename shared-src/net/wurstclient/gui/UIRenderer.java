@@ -92,8 +92,11 @@ public class UIRenderer
 		RenderUtils.setColor(new Color(255, 255, 255, 128));
 		
 		// get version string
-		String version = "v" + WurstClient.VERSION + " MC" + WMinecraft.VERSION
-			+ (WurstClient.INSTANCE.updater.isOutdated() ? " (outdated)" : "");
+		String version = "v" + WurstClient.VERSION + " MC" + WMinecraft.VERSION;
+		if(WMinecraft.OPTIFINE)
+			version += " OF";
+		if(WurstClient.INSTANCE.updater.isOutdated())
+			version += " (outdated)";
 		
 		// draw version background
 		glBegin(GL_QUADS);
