@@ -62,30 +62,36 @@ public final class KeybindManagerScreen extends GuiScreen
 		switch(button.id)
 		{
 			case 0:
-			mc.displayGuiScreen(new KeybindEditorScreen(this, null));
+			// Add
+			mc.displayGuiScreen(new KeybindEditorScreen(this));
 			break;
 			
 			case 1:
-			Entry<String, TreeSet<String>> entry = WurstClient.INSTANCE.keybinds
-				.entrySet().toArray(new Entry[WurstClient.INSTANCE.keybinds
+			// Edit
+			String key = WurstClient.INSTANCE.keybinds.keySet()
+				.toArray(new String[WurstClient.INSTANCE.keybinds
 					.size()])[listGui.selectedSlot];
-			mc.displayGuiScreen(new KeybindEditorScreen(this, entry));
+			TreeSet<String> commands = WurstClient.INSTANCE.keybinds.get(key);
+			mc.displayGuiScreen(new KeybindEditorScreen(this, key, commands));
 			break;
 			
 			case 2:
-			Entry<String, String> entry1 = WurstClient.INSTANCE.keybinds
-				.entrySet().toArray(new Entry[WurstClient.INSTANCE.keybinds
+			// Remove
+			String key1 = WurstClient.INSTANCE.keybinds.keySet()
+				.toArray(new String[WurstClient.INSTANCE.keybinds
 					.size()])[listGui.selectedSlot];
-			WurstClient.INSTANCE.keybinds.remove(entry1.getKey());
+			WurstClient.INSTANCE.keybinds.remove(key1);
 			ConfigFiles.KEYBINDS.save();
 			break;
 			
 			case 3:
+			// Back
 			WurstClient.INSTANCE.keybinds.forceAddGuiKeybind();
 			mc.displayGuiScreen(prevScreen);
 			break;
 			
 			case 4:
+			// Reset Keybinds
 			mc.displayGuiScreen(new GuiYesNo(this,
 				"Are you sure you want to reset your keybinds?",
 				"This cannot be undone!", 0));

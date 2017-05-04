@@ -9,7 +9,6 @@ package net.wurstclient.keybinds;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import net.minecraft.client.gui.GuiButton;
@@ -24,18 +23,30 @@ public final class KeybindEditorScreen extends GuiScreen
 	implements GuiPressAKeyCallback
 {
 	private final GuiScreen prevScreen;
-	private final Entry<String, TreeSet<String>> entry;
-	private String key = "NONE";
+	
+	private String key;
+	private final String oldKey;
+	private final String oldCommands;
 	
 	private GuiTextField commandField;
 	
-	public KeybindEditorScreen(GuiScreen prevScreen,
-		Entry<String, TreeSet<String>> entry)
+	public KeybindEditorScreen(GuiScreen prevScreen)
 	{
 		this.prevScreen = prevScreen;
-		this.entry = entry;
-		if(entry != null)
-			key = entry.getKey();
+		
+		key = "NONE";
+		oldKey = null;
+		oldCommands = null;
+	}
+	
+	public KeybindEditorScreen(GuiScreen prevScreen, String key,
+		Iterable<String> commands)
+	{
+		this.prevScreen = prevScreen;
+		
+		this.key = key;
+		oldKey = key;
+		oldCommands = String.join(";", commands);
 	}
 	
 	@Override
@@ -52,17 +63,8 @@ public final class KeybindEditorScreen extends GuiScreen
 		commandField.setMaxStringLength(65536);
 		commandField.setFocused(true);
 		
-		if(entry != null)
-		{
-			String cmds = "";
-			for(String cmd : entry.getValue())
-			{
-				if(!cmds.isEmpty())
-					cmds += ";";
-				cmds += cmd;
-			}
-			commandField.setText(cmds);
-		}
+		if(oldCommands != null)
+			commandField.setText(oldCommands);
 	}
 	
 	@Override
@@ -78,8 +80,8 @@ public final class KeybindEditorScreen extends GuiScreen
 			break;
 			
 			case 1:
-			if(entry != null)
-				WurstClient.INSTANCE.keybinds.remove(entry.getKey());
+			if(oldKey != null)
+				WurstClient.INSTANCE.keybinds.remove(oldKey);
 			
 			WurstClient.INSTANCE.keybinds.put(key, new TreeSet<>(
 				Arrays.asList(commandField.getText().split(";"))));
@@ -119,7 +121,7 @@ public final class KeybindEditorScreen extends GuiScreen
 		drawBackground(0);
 		
 		drawCenteredString(fontRendererObj,
-			(entry != null ? "Edit" : "Add") + " Keybind", width / 2, 20,
+			(oldKey != null ? "Edit" : "Add") + " Keybind", width / 2, 20,
 			0xffffff);
 		
 		drawString(fontRendererObj, "Key: " + key, width / 2 - 100, 47,

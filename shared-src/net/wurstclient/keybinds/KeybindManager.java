@@ -103,4 +103,9 @@ public class KeybindManager
 	{
 		return map.entrySet();
 	}
+	
+	public Set<String> keySet()
+	{
+		return map.keySet();
+	}
 }
