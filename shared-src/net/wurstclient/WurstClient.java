@@ -66,8 +66,11 @@ public enum WurstClient
 		updater.checkForUpdate();
 		analytics =
 			new AnalyticsManager("UA-52838431-5", "client.wurstclient.net");
-		analytics.trackPageView("/mc" + WMinecraft.VERSION + "/v" + VERSION,
-			"Wurst " + VERSION + " MC" + WMinecraft.VERSION);
+		analytics.trackPageView(
+			"/mc" + WMinecraft.VERSION + (WMinecraft.OPTIFINE ? "-of" : "")
+				+ "/v" + VERSION,
+			"Wurst " + VERSION + " MC" + WMinecraft.VERSION
+				+ (WMinecraft.OPTIFINE ? " OF" : ""));
 		ConfigFiles.OPTIONS.save();
 		
 		FrameHook.maximize();
