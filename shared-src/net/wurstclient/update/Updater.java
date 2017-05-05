@@ -79,7 +79,8 @@ public class Updater
 		for(JsonElement asset : assets)
 		{
 			if(!asset.getAsJsonObject().get("name").getAsString()
-				.endsWith("MC" + WMinecraft.VERSION + ".zip"))
+				.endsWith("MC" + WMinecraft.VERSION
+					+ (WMinecraft.OPTIFINE ? "-OF" : "") + ".zip"))
 				continue;
 			
 			return true;
