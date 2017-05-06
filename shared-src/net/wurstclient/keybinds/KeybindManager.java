@@ -21,6 +21,7 @@ public class KeybindManager
 	
 	public void loadDefaults()
 	{
+		map.clear();
 		put("B", ".t fastbreak", ".t fastplace");
 		put("C", ".t fullbright");
 		put("G", ".t flight");
