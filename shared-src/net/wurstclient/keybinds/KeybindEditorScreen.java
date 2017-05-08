@@ -8,8 +8,6 @@
 package net.wurstclient.keybinds;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.TreeSet;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -81,10 +79,10 @@ public final class KeybindEditorScreen extends GuiScreen
 			
 			case 1:
 			if(oldKey != null)
-				WurstClient.INSTANCE.keybinds.removeBinds(oldKey);
+				WurstClient.INSTANCE.keybinds.unbind(oldKey);
 			
-			WurstClient.INSTANCE.keybinds.put(key, new TreeSet<>(
-				Arrays.asList(commandField.getText().split(";"))));
+			WurstClient.INSTANCE.keybinds.bind(key,
+				commandField.getText().split(";"));
 			ConfigFiles.KEYBINDS.save();
 			
 			mc.displayGuiScreen(prevScreen);

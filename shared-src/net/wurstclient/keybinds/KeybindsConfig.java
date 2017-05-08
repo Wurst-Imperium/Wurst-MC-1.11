@@ -7,6 +7,7 @@
  */
 package net.wurstclient.keybinds;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -35,12 +36,12 @@ public final class KeybindsConfig extends Config
 		for(Entry<String, JsonElement> entry : json.getAsJsonObject()
 			.entrySet())
 		{
-			TreeSet<String> commmands = new TreeSet<>();
+			ArrayList<String> commmands = new ArrayList<>();
 			
 			entry.getValue().getAsJsonArray()
 				.forEach((c) -> commmands.add(c.getAsString()));
 			
-			WurstClient.INSTANCE.keybinds.put(entry.getKey(), commmands);
+			WurstClient.INSTANCE.keybinds.bind(entry.getKey(), commmands);
 		}
 		
 		// force-add GUI keybind if missing

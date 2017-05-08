@@ -8,6 +8,7 @@
 package net.wurstclient.keybinds;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
@@ -22,38 +23,44 @@ public class KeybindManager
 	public void loadDefaults()
 	{
 		map.clear();
-		put("B", ".t fastbreak", ".t fastplace");
-		put("C", ".t fullbright");
-		put("G", ".t flight");
-		put("GRAVE", ".t speednuker");
-		put("H", ".t /home");
-		put("J", ".t jesus");
-		put("K", ".t multiaura");
-		put("L", ".t nuker");
-		put("LCONTROL", ".t navigator");
-		put("R", ".t killaura");
-		put("RSHIFT", ".t navigator");
-		put("U", ".t freecam");
-		put("X", ".t x-ray");
-		put("Z", ".t sneak");
+		bind("B", ".t fastbreak", ".t fastplace");
+		bind("C", ".t fullbright");
+		bind("G", ".t flight");
+		bind("GRAVE", ".t speednuker");
+		bind("H", ".t /home");
+		bind("J", ".t jesus");
+		bind("K", ".t multiaura");
+		bind("L", ".t nuker");
+		bind("LCONTROL", ".t navigator");
+		bind("R", ".t killaura");
+		bind("RSHIFT", ".t navigator");
+		bind("U", ".t freecam");
+		bind("X", ".t x-ray");
+		bind("Z", ".t sneak");
 	}
 	
-	public void forceAddGuiKeybind()
+	public void bind(String key, String... commands)
 	{
-		for(TreeSet<String> value : map.values())
-			if(value.contains(".t navigator"))
-				return;
-			
-		put("LCONTROL", ".t navigator");
-		ConfigFiles.KEYBINDS.save();
+		bind(key, Arrays.asList(commands));
+	}
+	
+	public void bind(String key, Collection<String> commands)
+	{
+		map.put(key, new TreeSet<>(commands));
+	}
+	
+	public void unbind(String key)
+	{
+		map.remove(key);
 	}
 	
 	public void addBind(String key, String command)
 	{
-		if(map.get(key) == null)
-			put(key, command);
+		TreeSet<String> commands = map.get(key);
+		if(commands != null)
+			commands.add(command);
 		else
-			map.get(key).add(command);
+			bind(key, command);
 		ConfigFiles.KEYBINDS.save();
 	}
 	
@@ -70,14 +77,13 @@ public class KeybindManager
 		ConfigFiles.KEYBINDS.save();
 	}
 	
-	public void removeBinds(String key)
+	public void forceAddGuiKeybind()
 	{
-		map.remove(key);
-	}
-	
-	private void put(String key, String... commands)
-	{
-		map.put(key, new TreeSet<>(Arrays.asList(commands)));
+		for(TreeSet<String> value : map.values())
+			if(value.contains(".t navigator"))
+				return;
+			
+		addBind("LCONTROL", ".t navigator");
 	}
 	
 	public int size()
@@ -88,11 +94,6 @@ public class KeybindManager
 	public TreeSet<String> get(Object key)
 	{
 		return map.get(key);
-	}
-	
-	public TreeSet<String> put(String key, TreeSet<String> value)
-	{
-		return map.put(key, value);
 	}
 	
 	public void clear()
