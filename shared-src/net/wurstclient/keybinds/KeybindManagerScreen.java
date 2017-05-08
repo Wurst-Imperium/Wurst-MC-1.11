@@ -8,9 +8,9 @@
 package net.wurstclient.keybinds;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import org.lwjgl.input.Keyboard;
 
@@ -71,7 +71,7 @@ public final class KeybindManagerScreen extends GuiScreen
 			String key = WurstClient.INSTANCE.keybinds.keySet()
 				.toArray(new String[WurstClient.INSTANCE.keybinds
 					.size()])[listGui.selectedSlot];
-			TreeSet<String> commands = WurstClient.INSTANCE.keybinds.get(key);
+			ArrayList<String> commands = WurstClient.INSTANCE.keybinds.get(key);
 			mc.displayGuiScreen(new KeybindEditorScreen(this, key, commands));
 			break;
 			

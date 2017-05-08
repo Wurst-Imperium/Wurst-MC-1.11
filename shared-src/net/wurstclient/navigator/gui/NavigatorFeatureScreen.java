@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import net.minecraft.client.gui.GuiButton;
 import net.wurstclient.WurstClient;
@@ -152,7 +151,7 @@ public class NavigatorFeatureScreen extends NavigatorScreen
 					possibleKeybind.getDescription());
 			TreeMap<String, PossibleKeybind> existingKeybinds = new TreeMap<>();
 			boolean noKeybindsSet = true;
-			for(Entry<String, TreeSet<String>> entry : WurstClient.INSTANCE.keybinds
+			for(Entry<String, ArrayList<String>> entry : WurstClient.INSTANCE.keybinds
 				.entrySet())
 				for(String command : entry.getValue())
 				{

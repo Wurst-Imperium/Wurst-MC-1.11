@@ -9,7 +9,6 @@ package net.wurstclient.keybinds;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -37,10 +36,8 @@ public final class KeybindsConfig extends Config
 			.entrySet())
 		{
 			ArrayList<String> commmands = new ArrayList<>();
-			
 			entry.getValue().getAsJsonArray()
 				.forEach((c) -> commmands.add(c.getAsString()));
-			
 			WurstClient.INSTANCE.keybinds.bind(entry.getKey(), commmands);
 		}
 		
@@ -53,13 +50,11 @@ public final class KeybindsConfig extends Config
 	{
 		JsonObject json = new JsonObject();
 		
-		for(Entry<String, TreeSet<String>> entry : WurstClient.INSTANCE.keybinds
+		for(Entry<String, ArrayList<String>> entry : WurstClient.INSTANCE.keybinds
 			.entrySet())
 		{
 			JsonArray commands = new JsonArray();
-			
 			entry.getValue().forEach((c) -> commands.add(new JsonPrimitive(c)));
-			
 			json.add(entry.getKey(), commands);
 		}
 		

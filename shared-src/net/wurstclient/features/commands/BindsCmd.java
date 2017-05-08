@@ -7,9 +7,9 @@
  */
 package net.wurstclient.features.commands;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.HelpPage;
@@ -45,11 +45,11 @@ public final class BindsCmd extends Cmd
 				"Current keybinds: " + Integer.toString(wurst.keybinds.size()));
 			ChatUtils
 				.message("Keybind list (page " + page + "/" + pages + "):");
-			Iterator<Entry<String, TreeSet<String>>> itr =
+			Iterator<Entry<String, ArrayList<String>>> itr =
 				wurst.keybinds.entrySet().iterator();
 			for(int i = 0; itr.hasNext(); i++)
 			{
-				Entry<String, TreeSet<String>> entry = itr.next();
+				Entry<String, ArrayList<String>> entry = itr.next();
 				
 				if(i >= (page - 1) * 8 && i < (page - 1) * 8 + 8)
 					entry.getValue().forEach((cmd) -> ChatUtils

@@ -7,12 +7,12 @@
  */
 package net.wurstclient.keybinds;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.lwjgl.input.Keyboard;
 
@@ -22,12 +22,12 @@ import net.wurstclient.files.ConfigFiles;
 
 public class KeybindManager
 {
-	private final TreeMap<String, TreeSet<String>> map = new TreeMap<>();
+	private final TreeMap<String, ArrayList<String>> map = new TreeMap<>();
 	
 	public void loadDefaults()
 	{
 		map.clear();
-		bind("B", ".t fastbreak", ".t fastplace");
+		bind("B", ".t fastplace", ".t fastbreak");
 		bind("C", ".t fullbright");
 		bind("G", ".t flight");
 		bind("GRAVE", ".t speednuker");
@@ -50,7 +50,7 @@ public class KeybindManager
 	
 	public void bind(String key, Collection<String> commands)
 	{
-		map.put(key, new TreeSet<>(commands));
+		map.put(key, new ArrayList<>(commands));
 	}
 	
 	public void unbind(String key)
@@ -60,27 +60,28 @@ public class KeybindManager
 	
 	public void addBind(String key, String command)
 	{
-		TreeSet<String> commands = map.get(key);
-		if(commands != null)
-			commands.add(command);
-		else
+		ArrayList<String> commands = map.get(key);
+		if(commands == null)
 			bind(key, command);
+		else if(!commands.contains(command))
+			commands.add(command);
 	}
 	
 	public void removeBind(String key, String command)
 	{
-		TreeSet<String> commands = map.get(key);
+		ArrayList<String> commands = map.get(key);
 		if(commands == null)
 			return;
 		
-		commands.remove(command);
+		while(commands.contains(command))
+			commands.remove(command);
 		if(commands.isEmpty())
 			map.remove(key);
 	}
 	
 	public void forceAddGuiKeybind()
 	{
-		for(TreeSet<String> value : map.values())
+		for(ArrayList<String> value : map.values())
 			if(value.contains(".t navigator"))
 				return;
 			
@@ -93,7 +94,7 @@ public class KeybindManager
 		return map.size();
 	}
 	
-	public TreeSet<String> get(Object key)
+	public ArrayList<String> get(Object key)
 	{
 		return map.get(key);
 	}
@@ -103,7 +104,7 @@ public class KeybindManager
 		map.clear();
 	}
 	
-	public Set<Entry<String, TreeSet<String>>> entrySet()
+	public Set<Entry<String, ArrayList<String>>> entrySet()
 	{
 		return map.entrySet();
 	}
@@ -122,7 +123,7 @@ public class KeybindManager
 		if(key == 0)
 			return;
 		
-		TreeSet<String> commands = map.get(Keyboard.getKeyName(key));
+		ArrayList<String> commands = map.get(Keyboard.getKeyName(key));
 		if(commands == null)
 			return;
 		
