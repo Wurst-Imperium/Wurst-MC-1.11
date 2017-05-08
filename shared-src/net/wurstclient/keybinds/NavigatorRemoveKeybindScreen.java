@@ -53,6 +53,7 @@ public class NavigatorRemoveKeybindScreen extends NavigatorScreen
 			case 0:
 			WurstClient.INSTANCE.keybinds.removeBind(selectedKey,
 				existingKeybinds.get(selectedKey).getCommand());
+			ConfigFiles.KEYBINDS.save();
 			mc.displayGuiScreen(parent);
 			WurstClient.INSTANCE.navigator
 				.addPreference(parent.getFeature().getName());

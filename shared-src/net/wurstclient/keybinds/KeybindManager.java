@@ -65,7 +65,6 @@ public class KeybindManager
 			commands.add(command);
 		else
 			bind(key, command);
-		ConfigFiles.KEYBINDS.save();
 	}
 	
 	public void removeBind(String key, String command)
@@ -77,8 +76,6 @@ public class KeybindManager
 		commands.remove(command);
 		if(commands.isEmpty())
 			map.remove(key);
-		
-		ConfigFiles.KEYBINDS.save();
 	}
 	
 	public void forceAddGuiKeybind()
@@ -88,6 +85,7 @@ public class KeybindManager
 				return;
 			
 		addBind("LCONTROL", ".t navigator");
+		ConfigFiles.KEYBINDS.save();
 	}
 	
 	public int size()

@@ -58,6 +58,7 @@ public class NavigatorNewKeybindScreen extends NavigatorScreen
 			{
 				WurstClient.INSTANCE.keybinds.addBind(selectedKey,
 					possibleKeybinds.get(selectedCommand).getCommand());
+				ConfigFiles.KEYBINDS.save();
 				WurstClient.INSTANCE.navigator
 					.addPreference(parent.getFeature().getName());
 				ConfigFiles.NAVIGATOR.save();
