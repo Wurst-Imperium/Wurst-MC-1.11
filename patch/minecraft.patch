@@ -1,6 +1,6 @@
-From f612a8f69d1c7c1f80f2881e3693699b40e57f69 Mon Sep 17 00:00:00 2001
+From 3c418ac0edb34818b4f66cd4afc5a18f7c6d30c3 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Sun, 30 Apr 2017 09:27:01 +0200
+Date: Mon, 8 May 2017 15:07:26 +0200
 Subject: [PATCH] mod
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockLiquid.java               |  15 +-
  net/minecraft/block/BlockSlab.java                 |   6 +-
  net/minecraft/block/BlockSoulSand.java             |   6 +
- net/minecraft/client/Minecraft.java                | 219 +++++++++----------
+ net/minecraft/client/Minecraft.java                | 202 +++++++++---------
  net/minecraft/client/entity/EntityPlayerSP.java    | 106 +++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
@@ -58,7 +58,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   6 +
  net/minecraft/world/World.java                     |  39 ++--
- 54 files changed, 1323 insertions(+), 630 deletions(-)
+ 54 files changed, 1313 insertions(+), 623 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -318,7 +318,7 @@ index b48d9bd..190c90e 100644
          entityIn.motionZ *= 0.4D;
      }
 diff --git a/net/minecraft/client/Minecraft.java b/net/minecraft/client/Minecraft.java
-index 20bd020..08a9fb9 100644
+index 20bd020..2ea601c 100644
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
 @@ -1,18 +1,5 @@
@@ -340,19 +340,7 @@ index 20bd020..08a9fb9 100644
  import java.awt.image.BufferedImage;
  import java.io.File;
  import java.io.IOException;
-@@ -24,39 +11,53 @@ import java.nio.ByteOrder;
- import java.nio.IntBuffer;
- import java.text.DecimalFormat;
- import java.text.SimpleDateFormat;
--import java.util.Collections;
--import java.util.Date;
--import java.util.Iterator;
--import java.util.List;
-+import java.util.*;
- import java.util.Locale;
--import java.util.Queue;
--import java.util.Set;
--import java.util.UUID;
+@@ -35,28 +22,48 @@ import java.util.UUID;
  import java.util.concurrent.Callable;
  import java.util.concurrent.Executors;
  import java.util.concurrent.FutureTask;
@@ -415,7 +403,7 @@ index 20bd020..08a9fb9 100644
  import net.minecraft.client.gui.achievement.GuiAchievement;
  import net.minecraft.client.gui.inventory.GuiInventory;
  import net.minecraft.client.main.GameConfiguration;
-@@ -67,15 +68,7 @@ import net.minecraft.client.multiplayer.WorldClient;
+@@ -67,15 +74,7 @@ import net.minecraft.client.multiplayer.WorldClient;
  import net.minecraft.client.network.NetHandlerLoginClient;
  import net.minecraft.client.network.NetHandlerPlayClient;
  import net.minecraft.client.particle.ParticleManager;
@@ -432,7 +420,7 @@ index 20bd020..08a9fb9 100644
  import net.minecraft.client.renderer.block.model.ModelManager;
  import net.minecraft.client.renderer.chunk.RenderChunk;
  import net.minecraft.client.renderer.color.BlockColors;
-@@ -87,28 +80,8 @@ import net.minecraft.client.renderer.texture.TextureManager;
+@@ -87,28 +86,8 @@ import net.minecraft.client.renderer.texture.TextureManager;
  import net.minecraft.client.renderer.texture.TextureMap;
  import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -463,7 +451,7 @@ index 20bd020..08a9fb9 100644
  import net.minecraft.client.settings.GameSettings;
  import net.minecraft.client.settings.KeyBinding;
  import net.minecraft.client.shader.Framebuffer;
-@@ -151,20 +124,8 @@ import net.minecraft.stats.IStatStringFormat;
+@@ -151,20 +130,8 @@ import net.minecraft.stats.IStatStringFormat;
  import net.minecraft.stats.StatisticsManager;
  import net.minecraft.tileentity.TileEntity;
  import net.minecraft.tileentity.TileEntitySkull;
@@ -485,7 +473,7 @@ index 20bd020..08a9fb9 100644
  import net.minecraft.util.datafix.DataFixer;
  import net.minecraft.util.datafix.DataFixesManager;
  import net.minecraft.util.math.BlockPos;
-@@ -183,27 +144,22 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
+@@ -183,27 +150,22 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
  import net.minecraft.world.storage.ISaveFormat;
  import net.minecraft.world.storage.ISaveHandler;
  import net.minecraft.world.storage.WorldInfo;
@@ -525,7 +513,7 @@ index 20bd020..08a9fb9 100644
      public static final boolean IS_RUNNING_ON_MAC = Util.getOSType() == Util.EnumOS.OSX;
  
      /** A 10MiB preallocation to ensure the heap is reasonably sized. */
-@@ -236,7 +192,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -236,7 +198,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
      /** True if the player is connected to a realms server */
      private boolean connectedToRealms;
@@ -534,7 +522,7 @@ index 20bd020..08a9fb9 100644
  
      /** Instance of PlayerUsageSnooper. */
      private final Snooper usageSnooper = new Snooper("client", this, MinecraftServer.getCurrentTimeMillis());
-@@ -250,7 +206,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -250,7 +212,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      private Entity renderViewEntity;
      public Entity pointedEntity;
      public ParticleManager effectRenderer;
@@ -543,7 +531,7 @@ index 20bd020..08a9fb9 100644
      private boolean isGamePaused;
  
      /** The font renderer used for displaying and measuring text */
-@@ -308,7 +264,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -308,7 +270,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      /**
       * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
       */
@@ -552,7 +540,7 @@ index 20bd020..08a9fb9 100644
      private String serverName;
      private int serverPort;
  
-@@ -592,13 +548,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -592,13 +554,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          this.checkGLError("Post startup");
          this.ingameGUI = new GuiIngame(this);
  
@@ -571,7 +559,7 @@ index 20bd020..08a9fb9 100644
          }
  
          this.renderEngine.deleteTexture(this.mojangLogo);
-@@ -622,6 +581,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -622,6 +587,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          }
  
          this.renderGlobal.makeEntityOutlineShader();
@@ -582,7 +570,7 @@ index 20bd020..08a9fb9 100644
      }
  
      private void registerMetadataSerializers()
-@@ -676,6 +639,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -676,6 +645,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          else
          {
              Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
@@ -592,7 +580,7 @@ index 20bd020..08a9fb9 100644
          }
      }
  
-@@ -1003,14 +969,14 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1003,14 +975,14 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
          if (guiScreenIn == null && this.world == null)
          {
@@ -609,7 +597,7 @@ index 20bd020..08a9fb9 100644
          {
              this.gameSettings.showDebugInfo = false;
              this.ingameGUI.getChatGUI().clearChatMessages(true);
-@@ -1536,6 +1502,12 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1536,6 +1508,12 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      {
          if (this.leftClickCounter <= 0)
          {
@@ -622,7 +610,7 @@ index 20bd020..08a9fb9 100644
              if (this.objectMouseOver == null)
              {
                  LOGGER.error("Null returned as \'hitResult\', this shouldn\'t happen!");
-@@ -1581,10 +1553,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1581,10 +1559,16 @@ public class Minecraft implements IThreadListener, ISnooperInfo
      /**
       * Called when user clicked he's mouse right button (place)
       */
@@ -640,7 +628,7 @@ index 20bd020..08a9fb9 100644
              this.rightClickDelayTimer = 4;
  
              if (!this.player.isRowingBoat())
-@@ -1800,8 +1778,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1800,8 +1784,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              this.leftClickCounter = 10000;
          }
  
@@ -653,7 +641,7 @@ index 20bd020..08a9fb9 100644
              try
              {
                  this.currentScreen.handleInput();
-@@ -1842,8 +1823,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1842,8 +1829,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
          }
  
@@ -666,7 +654,7 @@ index 20bd020..08a9fb9 100644
              this.mcProfiler.endStartSection("mouse");
              this.runTickMouse();
  
-@@ -1936,8 +1920,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1936,8 +1926,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
              this.mcProfiler.endStartSection("animateTick");
  
@@ -679,26 +667,17 @@ index 20bd020..08a9fb9 100644
                  this.world.doVoidFogParticles(MathHelper.floor(this.player.posX), MathHelper.floor(this.player.posY), MathHelper.floor(this.player.posZ));
              }
  
-@@ -2002,6 +1989,18 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2002,6 +1995,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
                  if (this.currentScreen == null)
                  {
 +					// TODO: Client
-+					if(Keyboard.getEventKey() != 0
-+						&& WurstClient.INSTANCE.isEnabled())
-+					{
-+						TreeSet<String> eventCommands =
-+							WurstClient.INSTANCE.keybinds.get(
-+								Keyboard.getKeyName(Keyboard.getEventKey()));
-+						if(eventCommands != null)
-+							eventCommands.forEach(
-+								(cmd) -> player.sendAutomaticChatMessage(cmd));
-+					}
++					WurstClient.INSTANCE.keybinds.onKeyPress();
 +					
                      if (i == 1)
                      {
                          this.displayInGameMenu();
-@@ -2444,6 +2443,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2444,6 +2440,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          networkmanager.sendPacket(new C00Handshake(316, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
          networkmanager.sendPacket(new CPacketLoginStart(this.getSession().getProfile()));
          this.myNetworkManager = networkmanager;
@@ -709,7 +688,7 @@ index 20bd020..08a9fb9 100644
      }
  
      /**
-@@ -2649,6 +2652,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2649,6 +2649,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
              else
              {

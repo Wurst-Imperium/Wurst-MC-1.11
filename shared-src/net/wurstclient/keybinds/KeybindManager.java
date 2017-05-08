@@ -14,6 +14,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.lwjgl.input.Keyboard;
+
+import net.wurstclient.WurstClient;
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.files.ConfigFiles;
 
 public class KeybindManager
@@ -109,5 +113,22 @@ public class KeybindManager
 	public Set<String> keySet()
 	{
 		return map.keySet();
+	}
+	
+	public void onKeyPress()
+	{
+		if(!WurstClient.INSTANCE.isEnabled())
+			return;
+		
+		int key = Keyboard.getEventKey();
+		if(key == 0)
+			return;
+		
+		TreeSet<String> commands = map.get(Keyboard.getKeyName(key));
+		if(commands == null)
+			return;
+		
+		commands.forEach(
+			cmd -> WMinecraft.getPlayer().sendAutomaticChatMessage(cmd));
 	}
 }
