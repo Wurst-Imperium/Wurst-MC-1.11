@@ -80,7 +80,7 @@ public final class KeybindManagerScreen extends GuiScreen
 			String key1 = WurstClient.INSTANCE.keybinds.keySet()
 				.toArray(new String[WurstClient.INSTANCE.keybinds
 					.size()])[listGui.selectedSlot];
-			WurstClient.INSTANCE.keybinds.remove(key1);
+			WurstClient.INSTANCE.keybinds.removeBinds(key1);
 			ConfigFiles.KEYBINDS.save();
 			break;
 			

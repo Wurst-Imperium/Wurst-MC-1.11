@@ -70,6 +70,11 @@ public class KeybindManager
 		ConfigFiles.KEYBINDS.save();
 	}
 	
+	public void removeBinds(String key)
+	{
+		map.remove(key);
+	}
+	
 	private void put(String key, String... commands)
 	{
 		map.put(key, new TreeSet<>(Arrays.asList(commands)));
@@ -88,11 +93,6 @@ public class KeybindManager
 	public TreeSet<String> put(String key, TreeSet<String> value)
 	{
 		return map.put(key, value);
-	}
-	
-	public TreeSet<String> remove(Object key)
-	{
-		return map.remove(key);
 	}
 	
 	public void clear()

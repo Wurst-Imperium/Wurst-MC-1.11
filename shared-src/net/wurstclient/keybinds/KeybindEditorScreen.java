@@ -81,7 +81,7 @@ public final class KeybindEditorScreen extends GuiScreen
 			
 			case 1:
 			if(oldKey != null)
-				WurstClient.INSTANCE.keybinds.remove(oldKey);
+				WurstClient.INSTANCE.keybinds.removeBinds(oldKey);
 			
 			WurstClient.INSTANCE.keybinds.put(key, new TreeSet<>(
 				Arrays.asList(commandField.getText().split(";"))));
