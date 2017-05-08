@@ -67,6 +67,15 @@ public class KeybindManager
 			commands.add(command);
 	}
 	
+	public void addBindAllowMultiple(String key, String command)
+	{
+		ArrayList<String> commands = map.get(key);
+		if(commands == null)
+			bind(key, command);
+		else
+			commands.add(command);
+	}
+	
 	public void removeBind(String key, String command)
 	{
 		ArrayList<String> commands = map.get(key);
@@ -127,7 +136,7 @@ public class KeybindManager
 		if(commands == null)
 			return;
 		
-		commands.forEach(
+		new ArrayList<>(commands).forEach(
 			cmd -> WMinecraft.getPlayer().sendAutomaticChatMessage(cmd));
 	}
 }
