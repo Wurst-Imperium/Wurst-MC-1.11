@@ -12,20 +12,34 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"no slowdown", "no slow down"})
 @HelpPage("Mods/NoSlowdown")
-@Mod.Bypasses(ghostMode = false,
-	latestNCP = false,
-	olderNCP = false,
-	antiCheat = false)
+@Mod.Bypasses(ghostMode = false)
 public final class NoSlowdownMod extends Mod implements UpdateListener
 {
+	private final CheckboxSetting water =
+		new CheckboxSetting("Block water slowness", false);
+	private final CheckboxSetting soulSand =
+		new CheckboxSetting("Block soul sand slowness", true);
+	private final CheckboxSetting items =
+		new CheckboxSetting("Block item slowness", true);
+	
 	public NoSlowdownMod()
 	{
 		super("NoSlowdown",
 			"Cancels slowness effects caused by water, soul sand and\n"
 				+ "using items.");
+	}
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(water);
+		settings.add(soulSand);
+		settings.add(items);
 	}
 	
 	@Override
@@ -43,8 +57,43 @@ public final class NoSlowdownMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
+		if(!water.isChecked())
+			return;
+		
 		if(WMinecraft.getPlayer().onGround && WMinecraft.getPlayer().isInWater()
 			&& mc.gameSettings.keyBindJump.pressed)
 			WMinecraft.getPlayer().jump();
+	}
+	
+	@Override
+	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	{
+		switch(bypassLevel)
+		{
+			case LATEST_NCP:
+			case OLDER_NCP:
+			case ANTICHEAT:
+			water.lock(() -> false);
+			break;
+			
+			default:
+			water.unlock();
+			break;
+		}
+	}
+	
+	public boolean blockWaterSlowness()
+	{
+		return isActive() && water.isChecked();
+	}
+	
+	public boolean blockSoulSandSlowness()
+	{
+		return isActive() && soulSand.isChecked();
+	}
+	
+	public boolean blockItemSlowness()
+	{
+		return isActive() && items.isChecked();
 	}
 }

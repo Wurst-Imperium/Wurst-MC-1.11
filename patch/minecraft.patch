@@ -1,6 +1,6 @@
-From 3c418ac0edb34818b4f66cd4afc5a18f7c6d30c3 Mon Sep 17 00:00:00 2001
+From eb73f287910484129f9463906b1ba067b44d1cd4 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 8 May 2017 15:07:26 +0200
+Date: Tue, 9 May 2017 17:15:16 +0200
 Subject: [PATCH] mod
 
 ---
@@ -287,7 +287,7 @@ index 2e96195..8af9b3c 100644
  
      public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
 diff --git a/net/minecraft/block/BlockSoulSand.java b/net/minecraft/block/BlockSoulSand.java
-index b48d9bd..190c90e 100644
+index b48d9bd..88f7932 100644
 --- a/net/minecraft/block/BlockSoulSand.java
 +++ b/net/minecraft/block/BlockSoulSand.java
 @@ -1,6 +1,7 @@
@@ -311,7 +311,7 @@ index b48d9bd..190c90e 100644
      public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
      {
 +		// TODO: Client
-+		if(WurstClient.INSTANCE.mods.noSlowdownMod.isActive())
++		if(WurstClient.INSTANCE.mods.noSlowdownMod.blockSoulSandSlowness())
 +			return;
 +		
          entityIn.motionX *= 0.4D;
@@ -700,7 +700,7 @@ index 20bd020..2ea601c 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..f763d3a 100644
+index 0728387..57b9874 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -883,7 +883,7 @@ index 0728387..f763d3a 100644
 -        if (this.isHandActive() && !this.isRiding())
 +		// TODO: Client
 +		if(this.isHandActive() && !this.isRiding()
-+			&& !WurstClient.INSTANCE.mods.noSlowdownMod.isActive())
++			&& !WurstClient.INSTANCE.mods.noSlowdownMod.blockItemSlowness())
  		{
 +        	
              this.movementInput.moveStrafe *= 0.2F;
@@ -3684,7 +3684,7 @@ index 6fabb5c..1a0a40c 100644
  
      public void handleStatusUpdate(byte id)
 diff --git a/net/minecraft/entity/EntityLivingBase.java b/net/minecraft/entity/EntityLivingBase.java
-index f5f6c95..139c18d 100644
+index f5f6c95..c94891a 100644
 --- a/net/minecraft/entity/EntityLivingBase.java
 +++ b/net/minecraft/entity/EntityLivingBase.java
 @@ -1,7 +1,5 @@
@@ -3761,7 +3761,7 @@ index f5f6c95..139c18d 100644
 +			if(!this.isInWater()
 +				|| WurstClient.INSTANCE.mods.flightMod.isActive()
 +				|| WurstClient.INSTANCE.mods.freecamMod.isActive()
-+				|| WurstClient.INSTANCE.mods.noSlowdownMod.isActive()
++				|| WurstClient.INSTANCE.mods.noSlowdownMod.blockWaterSlowness()
 +				|| this instanceof EntityPlayer
 +					&& ((EntityPlayer)this).capabilities.isFlying)
  			{
