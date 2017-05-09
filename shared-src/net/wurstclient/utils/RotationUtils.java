@@ -66,6 +66,26 @@ public class RotationUtils
 		return new float[]{WMath.wrapDegrees(yaw), WMath.wrapDegrees(pitch)};
 	}
 	
+	private static float[] getNeededRotations2(Vec3d vec)
+	{
+		Vec3d eyesPos = getEyesPos();
+		
+		double diffX = vec.xCoord - eyesPos.xCoord;
+		double diffY = vec.yCoord - eyesPos.yCoord;
+		double diffZ = vec.zCoord - eyesPos.zCoord;
+		
+		double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+		
+		float yaw = (float)Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+		float pitch = (float)-Math.toDegrees(Math.atan2(diffY, diffXZ));
+		
+		return new float[]{
+			WMinecraft.getPlayer().rotationYaw
+				+ WMath.wrapDegrees(yaw - WMinecraft.getPlayer().rotationYaw),
+			WMinecraft.getPlayer().rotationPitch + WMath
+				.wrapDegrees(pitch - WMinecraft.getPlayer().rotationPitch)};
+	}
+	
 	public static float limitAngleChange(float current, float intended,
 		float maxChange)
 	{
@@ -91,7 +111,7 @@ public class RotationUtils
 	
 	public static void faceVectorPacketInstant(Vec3d vec)
 	{
-		float[] rotations = getNeededRotations(vec);
+		float[] rotations = getNeededRotations2(vec);
 		
 		WConnection.sendPacket(new CPacketPlayer.Rotation(rotations[0],
 			rotations[1], WMinecraft.getPlayer().onGround));

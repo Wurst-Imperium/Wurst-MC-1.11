@@ -76,6 +76,47 @@ public final class BlockUtils
 		return false;
 	}
 	
+	public static boolean placeBlockScaffold(BlockPos pos)
+	{
+		Vec3d eyesPos = new Vec3d(WMinecraft.getPlayer().posX,
+			WMinecraft.getPlayer().posY + WMinecraft.getPlayer().getEyeHeight(),
+			WMinecraft.getPlayer().posZ);
+		
+		for(EnumFacing side : EnumFacing.values())
+		{
+			BlockPos neighbor = pos.offset(side);
+			EnumFacing side2 = side.getOpposite();
+			
+			// check if side is visible (facing away from player)
+			if(eyesPos.squareDistanceTo(
+				new Vec3d(pos).addVector(0.5, 0.5, 0.5)) >= eyesPos
+					.squareDistanceTo(
+						new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)))
+				continue;
+			
+			// check if neighbor can be right clicked
+			if(!WBlock.canBeClicked(neighbor))
+				continue;
+			
+			Vec3d hitVec = new Vec3d(neighbor).addVector(0.5, 0.5, 0.5)
+				.add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+			
+			// check if hitVec is within range (4.25 blocks)
+			if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
+				continue;
+			
+			// place block
+			RotationUtils.faceVectorPacketInstant(hitVec);
+			WPlayerController.processRightClickBlock(neighbor, side2, hitVec);
+			WPlayer.swingArmClient();
+			mc.rightClickDelayTimer = 4;
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean placeBlockSimple(BlockPos pos)
 	{
 		Vec3d eyesPos = RotationUtils.getEyesPos();

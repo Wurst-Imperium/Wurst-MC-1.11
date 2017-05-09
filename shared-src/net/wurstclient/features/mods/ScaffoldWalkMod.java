@@ -85,7 +85,7 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 		WMinecraft.getPlayer().inventory.currentItem = newSlot;
 		
 		// place block
-		BlockUtils.placeBlockLegit(belowPlayer);
+		BlockUtils.placeBlockScaffold(belowPlayer);
 		
 		// reset slot
 		WMinecraft.getPlayer().inventory.currentItem = oldSlot;
