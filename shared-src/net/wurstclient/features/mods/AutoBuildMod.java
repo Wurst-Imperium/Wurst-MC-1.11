@@ -28,7 +28,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.utils.BlockUtils;
@@ -324,9 +324,9 @@ public final class AutoBuildMod extends Mod
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		if(bypassLevel.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
+		if(profile.ordinal() >= Profile.ANTICHEAT.ordinal())
 			mode.lock(1);
 		else
 			mode.unlock();

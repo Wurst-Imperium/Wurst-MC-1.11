@@ -22,7 +22,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 
@@ -68,8 +68,8 @@ public final class InstantBunkerMod extends Mod
 			positions.add(startPos.up(pos[1]).offset(facing, pos[2])
 				.offset(facing2, pos[0]));
 		
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
+		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.ANTICHEAT
+			.ordinal())
 		{
 			// initialize building process
 			blockIndex = 0;

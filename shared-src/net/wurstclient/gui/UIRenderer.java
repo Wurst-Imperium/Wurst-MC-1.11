@@ -42,7 +42,7 @@ public class UIRenderer
 		{
 			String name =
 				"YesCheat+: " + WurstClient.INSTANCE.special.yesCheatSpf
-					.getBypassLevel().getName();
+					.getProfile().getName();
 			Fonts.segoe18.drawString(name, 3, yCount + 1, 0xFF000000);
 			Fonts.segoe18.drawString(name, 2, yCount, 0xFFFFFFFF);
 			yCount += 9;

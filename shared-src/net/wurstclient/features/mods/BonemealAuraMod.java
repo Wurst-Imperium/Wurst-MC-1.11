@@ -24,7 +24,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -95,8 +95,8 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 			.getValidBlocks(range.getValue(), (p) -> isCorrectBlock(p));
 		
 		// check bypass level
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal())
+		if(wurst.special.yesCheatSpf.getProfile().ordinal() > Profile.MINEPLEX
+			.ordinal())
 		{
 			// use bone meal on next valid block
 			for(BlockPos pos : validBlocks)
@@ -119,9 +119,9 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		switch(bypassLevel)
+		switch(profile)
 		{
 			default:
 			case OFF:

@@ -17,7 +17,7 @@ import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.HelpPage;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 
 @HelpPage("Commands/drop")
 public final class DropCmd extends Cmd implements UpdateListener
@@ -60,8 +60,8 @@ public final class DropCmd extends Cmd implements UpdateListener
 				new ItemStack(item, 64)));
 			return;
 		}
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
+		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.OLDER_NCP
+			.ordinal())
 		{
 			timer++;
 			if(timer >= 5)

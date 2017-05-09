@@ -18,7 +18,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
@@ -56,8 +56,8 @@ public final class StepMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.ANTICHEAT.ordinal())
+		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.ANTICHEAT
+			.ordinal())
 		{
 			WMinecraft.getPlayer().stepHeight = 0.5F;
 			if(WMinecraft.getPlayer().onGround
@@ -86,9 +86,9 @@ public final class StepMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		switch(bypassLevel)
+		switch(profile)
 		{
 			default:
 			case OFF:

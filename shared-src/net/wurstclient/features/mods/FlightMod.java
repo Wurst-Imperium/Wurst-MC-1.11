@@ -16,7 +16,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -182,9 +182,9 @@ public final class FlightMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		switch(bypassLevel)
+		switch(profile)
 		{
 			case OFF:
 			default:

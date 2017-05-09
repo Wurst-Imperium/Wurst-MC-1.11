@@ -19,7 +19,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
@@ -75,8 +75,8 @@ public final class TunnellerMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		boolean legit = wurst.special.yesCheatSpf.getProfile()
+			.ordinal() > Profile.MINEPLEX.ordinal();
 		
 		currentBlock = null;
 		
@@ -138,8 +138,8 @@ public final class TunnellerMod extends Mod
 	@Override
 	public void afterUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		boolean legit = wurst.special.yesCheatSpf.getProfile()
+			.ordinal() > Profile.MINEPLEX.ordinal();
 		
 		// break block
 		if(currentBlock != null && legit)

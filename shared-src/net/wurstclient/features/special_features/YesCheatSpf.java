@@ -23,7 +23,7 @@ import net.wurstclient.settings.ModeSetting;
 public final class YesCheatSpf extends Spf
 {
 	private final HashSet<Mod> blockedMods = new HashSet<>();
-	private BypassLevel bypassLevel = BypassLevel.OFF;
+	private Profile profile = Profile.OFF;
 	
 	public CheckboxSetting modeIndicator =
 		new CheckboxSetting("Mode Indicator", true);
@@ -33,34 +33,34 @@ public final class YesCheatSpf extends Spf
 		super("YesCheat+",
 			"Makes other features bypass AntiCheat plugins or blocks them if they can't.");
 		
-		settings.add(new ModeSetting("Bypass Level", BypassLevel.getNames(),
-			bypassLevel.ordinal())
-		{
-			@Override
-			public void update()
+		settings.add(
+			new ModeSetting("Profile", Profile.getNames(), profile.ordinal())
 			{
-				bypassLevel = BypassLevel.values()[getSelected()];
-				
-				blockedMods.forEach((mod) -> mod.setBlocked(false));
-				
-				blockedMods.clear();
-				wurst.mods.getAllMods().forEach((mod) -> {
-					if(!bypassLevel.doesBypass(mod.getBypasses()))
-						blockedMods.add(mod);
-				});
-				
-				blockedMods.forEach((mod) -> mod.setBlocked(true));
-				
-				wurst.mods.getAllMods()
-					.forEach((mod) -> mod.onYesCheatUpdate(bypassLevel));
-			}
-		});
+				@Override
+				public void update()
+				{
+					profile = Profile.values()[getSelected()];
+					
+					blockedMods.forEach((mod) -> mod.setBlocked(false));
+					
+					blockedMods.clear();
+					wurst.mods.getAllMods().forEach((mod) -> {
+						if(!profile.doesBypass(mod.getBypasses()))
+							blockedMods.add(mod);
+					});
+					
+					blockedMods.forEach((mod) -> mod.setBlocked(true));
+					
+					wurst.mods.getAllMods()
+						.forEach((mod) -> mod.onYesCheatUpdate(profile));
+				}
+			});
 		settings.add(modeIndicator);
 	}
 	
-	public BypassLevel getBypassLevel()
+	public Profile getProfile()
 	{
-		return bypassLevel;
+		return profile;
 	}
 	
 	private interface BypassTest
@@ -68,7 +68,7 @@ public final class YesCheatSpf extends Spf
 		public boolean doesBypass(Bypasses b);
 	}
 	
-	public static enum BypassLevel
+	public static enum Profile
 	{
 		OFF("Off", (b) -> true),
 		MINEPLEX("Mineplex", (b) -> b.mineplex()),
@@ -80,7 +80,7 @@ public final class YesCheatSpf extends Spf
 		private final String name;
 		private final BypassTest test;
 		
-		private BypassLevel(String name, BypassTest test)
+		private Profile(String name, BypassTest test)
 		{
 			this.name = name;
 			this.test = test;

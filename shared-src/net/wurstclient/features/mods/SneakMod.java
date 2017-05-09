@@ -16,7 +16,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 
 @SearchTags({"AutoSneaking"})
 @HelpPage("Mods/Sneak")
@@ -50,8 +50,8 @@ public final class SneakMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		if(wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() >= BypassLevel.OLDER_NCP.ordinal())
+		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.OLDER_NCP
+			.ordinal())
 		{
 			WConnection.sendPacket(new CPacketEntityAction(
 				WMinecraft.getPlayer(), Action.START_SNEAKING));

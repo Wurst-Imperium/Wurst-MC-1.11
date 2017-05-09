@@ -19,7 +19,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.utils.BlockUtils;
 
 @SearchTags({"build random"})
@@ -67,8 +67,8 @@ public final class BuildRandomMod extends Mod implements UpdateListener
 			return;
 		
 		// set mode & range
-		boolean legitMode = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.ANTICHEAT.ordinal();
+		boolean legitMode = wurst.special.yesCheatSpf.getProfile()
+			.ordinal() > Profile.ANTICHEAT.ordinal();
 		int range = legitMode ? 5 : 6;
 		int bound = range * 2 + 1;
 		

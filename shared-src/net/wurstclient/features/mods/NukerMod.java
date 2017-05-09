@@ -21,7 +21,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -165,8 +165,8 @@ public final class NukerMod extends Mod implements LeftClickListener,
 		if(mode.getSelected() == 1 && id == 0)
 			return;
 		
-		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		boolean legit = wurst.special.yesCheatSpf.getProfile()
+			.ordinal() > Profile.MINEPLEX.ordinal();
 		
 		currentBlock = null;
 		
@@ -219,8 +219,8 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	@Override
 	public void afterUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getBypassLevel()
-			.ordinal() > BypassLevel.MINEPLEX.ordinal();
+		boolean legit = wurst.special.yesCheatSpf.getProfile()
+			.ordinal() > Profile.MINEPLEX.ordinal();
 		
 		// break block
 		if(currentBlock != null && legit)
@@ -286,9 +286,9 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		switch(bypassLevel)
+		switch(profile)
 		{
 			default:
 			case OFF:

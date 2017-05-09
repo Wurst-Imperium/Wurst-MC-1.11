@@ -21,7 +21,7 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.YesCheatSpf.BypassLevel;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"AutoSoup", "auto eat", "auto soup"})
@@ -114,9 +114,9 @@ public final class AutoEatMod extends Mod implements UpdateListener
 	}
 	
 	@Override
-	public void onYesCheatUpdate(BypassLevel bypassLevel)
+	public void onYesCheatUpdate(Profile profile)
 	{
-		switch(bypassLevel)
+		switch(profile)
 		{
 			case GHOST_MODE:
 			ignoreScreen.lock(() -> false);
