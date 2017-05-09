@@ -5,22 +5,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.retro;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@SearchTags({"force push"})
-@HelpPage("Mods/ForcePush")
+@SearchTags({"force push", "paralyze"})
 @Mod.Bypasses
-public final class ForcePushMod extends Mod implements UpdateListener
+public final class ForcePushMod extends RetroMod implements UpdateListener
 {
 	private TargetSettings targetSettings = new TargetSettings()
 	{
@@ -39,8 +37,7 @@ public final class ForcePushMod extends Mod implements UpdateListener
 	
 	public ForcePushMod()
 	{
-		super("ForcePush", "Pushes mobs like crazy.\n"
-			+ "They'll literally fly away!\n"
+		super("ForcePush", "Pushes nearby mobs away from you.\n"
 			+ "Can sometimes get you kicked for \"Flying is not enabled\".");
 	}
 	
