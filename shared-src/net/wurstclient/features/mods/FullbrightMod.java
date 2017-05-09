@@ -7,16 +7,29 @@
  */
 package net.wurstclient.features.mods;
 
+import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"NightVision", "full bright", "brightness", "night vision"})
 @HelpPage("Mods/Fullbright")
 @Mod.Bypasses
 public final class FullbrightMod extends Mod implements UpdateListener
 {
+	private final CheckboxSetting shaderMode = WMinecraft.OPTIFINE
+		? new CheckboxSetting("Shader compatibility mode", false)
+		{
+			@Override
+			public void update()
+			{
+				if(isActive())
+					mc.renderGlobal.loadRenderers();
+			}
+		} : null;
+	
 	public FullbrightMod()
 	{
 		super("Fullbright", "Allows you to see in the dark.");
@@ -24,8 +37,25 @@ public final class FullbrightMod extends Mod implements UpdateListener
 	}
 	
 	@Override
+	public void initSettings()
+	{
+		if(shaderMode != null)
+			settings.add(shaderMode);
+	}
+	
+	@Override
+	public void onEnable()
+	{
+		if(shaderMode != null && shaderMode.isChecked())
+			mc.renderGlobal.loadRenderers();
+	}
+	
+	@Override
 	public void onDisable()
 	{
+		if(shaderMode != null && shaderMode.isChecked())
+			mc.renderGlobal.loadRenderers();
+		
 		if(wurst.mods.panicMod.isActive())
 			mc.gameSettings.gammaSetting = 0.5F;
 	}
@@ -42,5 +72,10 @@ public final class FullbrightMod extends Mod implements UpdateListener
 				mc.gameSettings.gammaSetting = 0.5F;
 			else
 				mc.gameSettings.gammaSetting -= 0.5F;
+	}
+	
+	public boolean useShaderMode()
+	{
+		return isActive() && shaderMode != null && shaderMode.isChecked();
 	}
 }
