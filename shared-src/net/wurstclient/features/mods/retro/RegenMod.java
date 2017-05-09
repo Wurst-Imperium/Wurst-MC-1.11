@@ -20,7 +20,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 public final class RegenMod extends RetroMod implements UpdateListener
 {
 	private final SliderSetting speed =
-		new SliderSetting("Speed", 1000, 50, 1000, 50, ValueDisplay.INTEGER);
+		new SliderSetting("Speed", 1000, 10, 1000, 10, ValueDisplay.INTEGER);
 	private final CheckboxSetting pauseInMidAir =
 		new CheckboxSetting("Pause in mid-air", true);
 	
