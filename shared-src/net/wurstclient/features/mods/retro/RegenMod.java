@@ -11,19 +11,30 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.SearchTags;
+import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@SearchTags({"GodMode", "god mode"})
-@HelpPage("Mods/Regen")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class RegenMod extends RetroMod implements UpdateListener
 {
+	private final SliderSetting speed =
+		new SliderSetting("Speed", 1000, 50, 1000, 50, ValueDisplay.INTEGER);
+	private final CheckboxSetting pauseInMidAir =
+		new CheckboxSetting("Pause in mid-air", true);
+	
 	public RegenMod()
 	{
-		super("Regen", "Regenerates your health 1000 times faster.\n"
-			+ "Can cause unwanted \"Flying is not enabled!\" kicks.");
+		super("Regen", "Regenerates your health much faster.\n"
+			+ "Can sometimes get you kicked for \"Flying is not enabled\".");
+	}
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(speed);
+		settings.add(pauseInMidAir);
 	}
 	
 	@Override
@@ -41,12 +52,21 @@ public final class RegenMod extends RetroMod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(!WMinecraft.getPlayer().capabilities.isCreativeMode
-			&& WMinecraft.getPlayer().getFoodStats().getFoodLevel() > 17
-			&& WMinecraft.getPlayer().getHealth() < 20
-			&& WMinecraft.getPlayer().getHealth() != 0
-			&& WMinecraft.getPlayer().onGround)
-			for(int i = 0; i < 1000; i++)
-				WConnection.sendPacket(new CPacketPlayer());
+		if(WMinecraft.getPlayer().capabilities.isCreativeMode
+			|| WMinecraft.getPlayer().getHealth() == 0)
+			return;
+		
+		if(pauseInMidAir.isChecked() && !WMinecraft.getPlayer().onGround)
+			return;
+		
+		if(WMinecraft.getPlayer().getFoodStats().getFoodLevel() < 18)
+			return;
+		
+		if(WMinecraft.getPlayer().getHealth() >= WMinecraft.getPlayer()
+			.getMaxHealth())
+			return;
+		
+		for(int i = 0; i < speed.getValueI(); i++)
+			WConnection.sendPacket(new CPacketPlayer());
 	}
 }
