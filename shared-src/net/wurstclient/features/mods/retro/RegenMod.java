@@ -5,9 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.retro;
 
-import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
@@ -15,17 +14,16 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.utils.InventoryUtils;
 
-@SearchTags({"FastNom", "fast eat", "fast nom"})
-@HelpPage("Mods/FastEat")
+@SearchTags({"GodMode", "god mode"})
+@HelpPage("Mods/Regen")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class FastEatMod extends Mod implements UpdateListener
+public final class RegenMod extends Mod implements UpdateListener
 {
-	public FastEatMod()
+	public RegenMod()
 	{
-		super("FastEat",
-			"Allows you to eat food much faster.\n" + "OM! NOM! NOM!");
+		super("Regen", "Regenerates your health 1000 times faster.\n"
+			+ "Can cause unwanted \"Flying is not enabled!\" kicks.");
 	}
 	
 	@Override
@@ -43,28 +41,12 @@ public final class FastEatMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		// check if alive
-		if(WMinecraft.getPlayer().getHealth() <= 0)
-			return;
-		
-		// check onGround
-		if(!WMinecraft.getPlayer().onGround)
-			return;
-		
-		// check if eating
-		if(!mc.gameSettings.keyBindUseItem.pressed)
-			return;
-		
-		// check hunger level
-		if(!WMinecraft.getPlayer().getFoodStats().needFood())
-			return;
-		
-		// check held item
-		if(!InventoryUtils.checkHeldItem((item) -> item instanceof ItemFood))
-			return;
-		
-		// send packets
-		for(int i = 0; i < 100; i++)
-			WConnection.sendPacket(new CPacketPlayer(false));
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode
+			&& WMinecraft.getPlayer().getFoodStats().getFoodLevel() > 17
+			&& WMinecraft.getPlayer().getHealth() < 20
+			&& WMinecraft.getPlayer().getHealth() != 0
+			&& WMinecraft.getPlayer().onGround)
+			for(int i = 0; i < 1000; i++)
+				WConnection.sendPacket(new CPacketPlayer());
 	}
 }
