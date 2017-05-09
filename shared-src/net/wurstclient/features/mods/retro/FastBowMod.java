@@ -15,13 +15,11 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"RapidFire", "BowSpam", "fast bow", "rapid fire", "bow spam"})
-@HelpPage("Mods/FastBow")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class FastBowMod extends RetroMod implements UpdateListener
 {
