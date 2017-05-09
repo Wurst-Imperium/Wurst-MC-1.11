@@ -20,7 +20,7 @@ import net.wurstclient.utils.InventoryUtils;
 @SearchTags({"FastNom", "fast eat", "fast nom"})
 @HelpPage("Mods/FastEat")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class FastEatMod extends Mod implements UpdateListener
+public final class FastEatMod extends RetroMod implements UpdateListener
 {
 	public FastEatMod()
 	{

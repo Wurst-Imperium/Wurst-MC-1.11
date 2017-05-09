@@ -18,7 +18,7 @@ import net.wurstclient.features.SearchTags;
 @SearchTags({"GodMode", "god mode"})
 @HelpPage("Mods/Regen")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class RegenMod extends Mod implements UpdateListener
+public final class RegenMod extends RetroMod implements UpdateListener
 {
 	public RegenMod()
 	{

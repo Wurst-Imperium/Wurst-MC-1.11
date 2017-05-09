@@ -23,7 +23,7 @@ import net.wurstclient.utils.InventoryUtils;
 @SearchTags({"RapidFire", "BowSpam", "fast bow", "rapid fire", "bow spam"})
 @HelpPage("Mods/FastBow")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class FastBowMod extends Mod implements UpdateListener
+public final class FastBowMod extends RetroMod implements UpdateListener
 {
 	public FastBowMod()
 	{
