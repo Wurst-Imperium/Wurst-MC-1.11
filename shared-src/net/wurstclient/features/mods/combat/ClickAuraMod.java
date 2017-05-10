@@ -69,9 +69,9 @@ public final class ClickAuraMod extends Mod
 			}
 		};
 	private final SliderSetting speed =
-		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
+		new SliderSetting("Speed", 12, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
 	private final SliderSetting range =
-		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
+		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	private final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
 	private final CheckboxSetting hitThroughWalls =
