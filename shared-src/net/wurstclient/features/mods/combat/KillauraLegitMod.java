@@ -12,7 +12,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -23,7 +22,6 @@ import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"LegitAura", "killaura legit", "kill aura legit", "legit aura"})
-@HelpPage("Mods/KillauraLegit")
 @Mod.Bypasses
 public final class KillauraLegitMod extends Mod implements UpdateListener
 {
@@ -87,9 +85,8 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 	
 	public KillauraLegitMod()
 	{
-		super("KillauraLegit",
-			"Slower Killaura that bypasses any AntiCheat plugins.\n"
-				+ "Not required on normal NoCheat+ servers!");
+		super("KillauraLegit", "Slower Killaura that is harder to detect.\n"
+			+ "Not required on normal NoCheat+ servers!");
 	}
 	
 	@Override
@@ -108,9 +105,7 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
-			wurst.mods.multiAuraMod, wurst.mods.clickAuraMod,
-			wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.mods.killauraMod, wurst.special.targetSpf};
 	}
 	
 	@Override
