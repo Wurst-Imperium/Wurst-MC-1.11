@@ -7,8 +7,6 @@
  */
 package net.wurstclient.features.mods.combat;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -16,7 +14,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -28,7 +25,6 @@ import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"fight bot"})
-@HelpPage("Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FightBotMod extends Mod implements UpdateListener
@@ -86,8 +82,9 @@ public final class FightBotMod extends Mod implements UpdateListener
 	
 	public FightBotMod()
 	{
-		super("FightBot", "A bot that automatically fights for you.\n"
-			+ "It walks around and kills everything.\n" + "Good for MobArena.");
+		super("FightBot",
+			"A bot that automatically walks around and kills everything.\n"
+				+ "Good for MobArena.");
 	}
 	
 	@Override
@@ -106,8 +103,8 @@ public final class FightBotMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.killauraMod, wurst.special.targetSpf,
-			wurst.special.yesCheatSpf};
+		return new Feature[]{wurst.mods.followMod, wurst.mods.protectMod,
+			wurst.special.targetSpf, wurst.special.yesCheatSpf};
 	}
 	
 	@Override
@@ -214,12 +211,11 @@ public final class FightBotMod extends Mod implements UpdateListener
 	private void resetKeys()
 	{
 		// get keys
-		GameSettings gs = mc.gameSettings;
-		KeyBinding[] keys = new KeyBinding[]{gs.keyBindForward, gs.keyBindJump,
-			gs.keyBindSneak};
+		KeyBinding[] keys = new KeyBinding[]{mc.gameSettings.keyBindForward,
+			mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSneak};
 		
 		// reset keys
 		for(KeyBinding key : keys)
-			key.pressed = Keyboard.isKeyDown(key.getKeyCode());
+			key.pressed = GameSettings.isKeyDown(key);
 	}
 }
