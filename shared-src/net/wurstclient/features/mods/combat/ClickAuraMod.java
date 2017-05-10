@@ -7,12 +7,14 @@
  */
 package net.wurstclient.features.mods.combat;
 
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
+import net.wurstclient.events.LeftClickEvent;
+import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -23,12 +25,12 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@SearchTags({"Click Aura", "ClickAimbot", "Click Aimbot"})
-@HelpPage("Mods/ClickAura")
+@SearchTags({"ClickAimbot", "click aura", "click aimbot"})
 @Mod.Bypasses(ghostMode = false)
-public final class ClickAuraMod extends Mod implements UpdateListener
+public final class ClickAuraMod extends Mod
+	implements UpdateListener, LeftClickListener
 {
-	public final CheckboxSetting useKillaura =
+	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -57,7 +59,7 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	private final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -66,25 +68,24 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public final SliderSetting speed =
+	private final SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public final SliderSetting range =
+	private final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	public final SliderSetting fov =
+	private final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
-	public final CheckboxSetting hitThroughWalls =
+	private final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
 	
 	public ClickAuraMod()
 	{
 		super("ClickAura",
-			"Automatically attacks the closest valid entity whenever you click.\n"
-				+ "§lWarning:§r ClickAuras generally look more suspicious than Killauras\n"
-				+ "and are easier to detect. It is recommended to use Killaura or\n"
-				+ "TriggerBot instead.");
+			"Automatically attacks the closest valid entity whenever you click.\n\n"
+				+ "§c§lWARNING:§r ClickAuras generally look more suspicious than Killauras and are easier to\n"
+				+ "detect. It is recommended to use Killaura or TriggerBot instead.");
 	}
 	
-	private TargetSettings targetSettings = new TargetSettings()
+	private final TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public boolean targetBehindWalls()
@@ -122,9 +123,8 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
-			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
-			wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.mods.killauraMod, wurst.mods.triggerBotMod,
+			wurst.special.targetSpf};
 	}
 	
 	@Override
@@ -136,15 +136,15 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 		wurst.mods.multiAuraMod.setEnabled(false);
 		wurst.mods.triggerBotMod.setEnabled(false);
 		
-		// add listener
 		wurst.events.add(UpdateListener.class, this);
+		wurst.events.add(LeftClickListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		// remove listener
 		wurst.events.remove(UpdateListener.class, this);
+		wurst.events.remove(LeftClickListener.class, this);
 	}
 	
 	@Override
@@ -154,7 +154,7 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 		updateMS();
 		
 		// check if clicking
-		if(!mc.gameSettings.keyBindAttack.pressed)
+		if(!GameSettings.isKeyDown(mc.gameSettings.keyBindAttack))
 			return;
 		
 		// check timer / cooldown
@@ -162,19 +162,25 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			? WPlayer.getCooldown() < 1 : !hasTimePassedS(speed.getValueF()))
 			return;
 		
+		attack();
+	}
+	
+	@Override
+	public void onLeftClick(LeftClickEvent event)
+	{
+		attack();
+	}
+	
+	private void attack()
+	{
 		// set entity
 		Entity entity = EntityUtils.getBestEntityToAttack(targetSettings);
 		if(entity == null)
 			return;
 		
-		// prepare attack
-		EntityUtils.prepareAttack();
-		
-		// face entity
-		if(!RotationUtils.faceEntityPacket(entity))
-			return;
-		
 		// attack entity
+		EntityUtils.prepareAttack();
+		RotationUtils.faceVectorPacketInstant(entity.boundingBox.getCenter());
 		EntityUtils.attackEntity(entity);
 		
 		// reset timer
@@ -191,7 +197,6 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			case MINEPLEX:
 			speed.resetUsableMax();
 			range.resetUsableMax();
-			hitThroughWalls.unlock();
 			break;
 			
 			case ANTICHEAT:
@@ -199,13 +204,11 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			case LATEST_NCP:
 			speed.setUsableMax(12);
 			range.setUsableMax(4.25);
-			hitThroughWalls.unlock();
 			break;
 			
 			case GHOST_MODE:
 			speed.setUsableMax(12);
 			range.setUsableMax(4.25);
-			hitThroughWalls.lock(() -> false);
 			break;
 		}
 	}
