@@ -174,10 +174,8 @@ public final class FightBotMod extends Mod implements UpdateListener
 		if(!EntityUtils.isCorrectEntity(entity, attackSettings))
 			return;
 		
-		// prepare attack
-		EntityUtils.prepareAttack();
-		
 		// attack entity
+		EntityUtils.prepareAttack();
 		EntityUtils.attackEntity(entity);
 		
 		// reset timer
