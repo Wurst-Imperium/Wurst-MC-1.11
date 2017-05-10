@@ -25,7 +25,7 @@ import net.wurstclient.utils.RotationUtils;
 @Mod.Bypasses
 public final class KillauraLegitMod extends Mod implements UpdateListener
 {
-	public CheckboxSetting useKillaura =
+	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -52,7 +52,7 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	private final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -61,14 +61,14 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public SliderSetting speed =
+	private final SliderSetting speed =
 		new SliderSetting("Speed", 12, 0.1, 12, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
+	private final SliderSetting range =
 		new SliderSetting("Range", 4.25, 1, 4.25, 0.05, ValueDisplay.DECIMAL);
-	public SliderSetting fov =
+	private final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
 	
-	private TargetSettings targetSettings = new TargetSettings()
+	private final TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public float getRange()
