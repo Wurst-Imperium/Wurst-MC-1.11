@@ -7,23 +7,23 @@
  */
 package net.wurstclient.features.mods.fun;
 
+import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
-@SearchTags({"SpookySkin", "skin blinker", "spooky skin"})
-@HelpPage("Mods/SkinBlinker")
+@SearchTags({"SkinBlinker", "SpookySkin", "skin blinker", "spooky skin"})
 @Mod.Bypasses(ghostMode = false)
-public final class SkinBlinkerMod extends Mod implements UpdateListener
+public final class SkinDerpMod extends Mod implements UpdateListener
 {
-	public SkinBlinkerMod()
+	private final Random random = new Random();
+	
+	public SkinDerpMod()
 	{
-		super("SkinBlinker", "Makes your skin blink.\n"
-			+ "Requires a skin with a jacket, a hat or something similar.");
+		super("SkinDerp", "Randomly toggles parts of your skin.");
 	}
 	
 	@Override
@@ -36,6 +36,7 @@ public final class SkinBlinkerMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
+		
 		for(EnumPlayerModelParts part : EnumPlayerModelParts.values())
 			mc.gameSettings.setModelPartEnabled(part, true);
 	}
@@ -43,14 +44,12 @@ public final class SkinBlinkerMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		updateMS();
-		if(hasTimePassedS(5f))
-		{
-			updateLastMS();
-			Set activeParts = mc.gameSettings.getModelParts();
-			for(EnumPlayerModelParts part : EnumPlayerModelParts.values())
-				mc.gameSettings.setModelPartEnabled(part,
-					!activeParts.contains(part));
-		}
+		if(random.nextInt(4) != 0)
+			return;
+		
+		Set activeParts = mc.gameSettings.getModelParts();
+		for(EnumPlayerModelParts part : EnumPlayerModelParts.values())
+			mc.gameSettings.setModelPartEnabled(part,
+				!activeParts.contains(part));
 	}
 }

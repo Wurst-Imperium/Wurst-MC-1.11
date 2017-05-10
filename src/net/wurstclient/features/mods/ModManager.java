@@ -18,7 +18,7 @@ import net.wurstclient.features.mods.fun.HeadRollMod;
 import net.wurstclient.features.mods.fun.HeadlessMod;
 import net.wurstclient.features.mods.fun.LsdMod;
 import net.wurstclient.features.mods.fun.MileyCyrusMod;
-import net.wurstclient.features.mods.fun.SkinBlinkerMod;
+import net.wurstclient.features.mods.fun.SkinDerpMod;
 import net.wurstclient.features.mods.fun.TiredMod;
 import net.wurstclient.features.mods.items.CmdBlockMod;
 import net.wurstclient.features.mods.items.CrashChestMod;
@@ -145,7 +145,7 @@ public final class ModManager
 	public final SafeWalkMod safeWalkMod = new SafeWalkMod();
 	public final ScaffoldWalkMod scaffoldWalkMod = new ScaffoldWalkMod();
 	public final SearchMod searchMod = new SearchMod();
-	public final SkinBlinkerMod skinBlinkerMod = new SkinBlinkerMod();
+	public final SkinDerpMod skinDerpMod = new SkinDerpMod();
 	public final SneakMod sneakMod = new SneakMod();
 	public final SpammerMod spammerMod = new SpammerMod();
 	public final SpeedHackMod speedHackMod = new SpeedHackMod();
