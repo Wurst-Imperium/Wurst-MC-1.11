@@ -11,7 +11,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -22,7 +21,6 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @SearchTags({"trigger bot"})
-@HelpPage("Mods/TriggerBot")
 @Mod.Bypasses
 public final class TriggerBotMod extends Mod implements UpdateListener
 {
@@ -32,7 +30,7 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 			"Automatically attacks the entity you're looking at.");
 	}
 	
-	public CheckboxSetting useKillaura =
+	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -57,7 +55,7 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	private final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -66,12 +64,12 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public SliderSetting speed =
-		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
-		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	private final SliderSetting speed =
+		new SliderSetting("Speed", 12, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
+	private final SliderSetting range =
+		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	
-	private TargetSettings targetSettings = new TargetSettings()
+	private final TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public float getRange()
@@ -95,19 +93,20 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
-			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
-			wurst.mods.clickAuraMod, wurst.mods.criticalsMod};
+		return new Feature[]{wurst.mods.killauraLegitMod,
+			wurst.special.targetSpf};
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		// disable other killauras
-		wurst.mods.killauraMod.setEnabled(false);
-		wurst.mods.killauraLegitMod.setEnabled(false);
-		wurst.mods.multiAuraMod.setEnabled(false);
 		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.fightBotMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.protectMod.setEnabled(false);
 		wurst.mods.tpAuraMod.setEnabled(false);
 		
 		wurst.events.add(UpdateListener.class, this);
@@ -135,10 +134,8 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 			.isCorrectEntity(mc.objectMouseOver.entityHit, targetSettings))
 			return;
 		
-		// prepare attack
-		EntityUtils.prepareAttack();
-		
 		// attack entity
+		EntityUtils.prepareAttack();
 		EntityUtils.attackEntity(mc.objectMouseOver.entityHit);
 		
 		// reset timer
