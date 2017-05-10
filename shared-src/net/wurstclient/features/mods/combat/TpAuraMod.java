@@ -14,7 +14,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -25,7 +24,6 @@ import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"TpAura", "EnderAura", "Ender-Aura", "tp aura", "ender aura"})
-@HelpPage("Mods/TP-Aura")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -40,7 +38,7 @@ public final class TpAuraMod extends Mod implements UpdateListener
 	
 	private Random random = new Random();
 	
-	public CheckboxSetting useKillaura =
+	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -55,7 +53,6 @@ public final class TpAuraMod extends Mod implements UpdateListener
 					
 					speed.lock(killaura.speed);
 					range.lock(killaura.range);
-					fov.lock(killaura.fov);
 					hitThroughWalls.lock(killaura.hitThroughWalls);
 				}else
 				{
@@ -64,12 +61,11 @@ public final class TpAuraMod extends Mod implements UpdateListener
 					
 					speed.unlock();
 					range.unlock();
-					fov.unlock();
 					hitThroughWalls.unlock();
 				}
 			}
 		};
-	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	private final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -78,17 +74,14 @@ public final class TpAuraMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public SliderSetting speed =
-		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
-		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	// TODO: Does it even make sense to have an FOV setting for this?
-	public SliderSetting fov =
-		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
-	public CheckboxSetting hitThroughWalls =
+	private final SliderSetting speed =
+		new SliderSetting("Speed", 12, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
+	private final SliderSetting range =
+		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	private final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
 	
-	private TargetSettings targetSettings = new TargetSettings()
+	private final TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public boolean targetBehindWalls()
@@ -100,12 +93,6 @@ public final class TpAuraMod extends Mod implements UpdateListener
 		public float getRange()
 		{
 			return range.getValueF();
-		}
-		
-		@Override
-		public float getFOV()
-		{
-			return fov.getValueF();
 		}
 	};
 	
@@ -119,26 +106,25 @@ public final class TpAuraMod extends Mod implements UpdateListener
 		
 		settings.add(speed);
 		settings.add(range);
-		settings.add(fov);
 		settings.add(hitThroughWalls);
 	}
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
-			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
-			wurst.mods.clickAuraMod, wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.special.targetSpf};
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		// disable other killauras
-		wurst.mods.killauraMod.setEnabled(false);
-		wurst.mods.killauraLegitMod.setEnabled(false);
-		wurst.mods.multiAuraMod.setEnabled(false);
 		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.fightBotMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.protectMod.setEnabled(false);
 		wurst.mods.triggerBotMod.setEnabled(false);
 		
 		wurst.events.add(UpdateListener.class, this);
@@ -171,13 +157,9 @@ public final class TpAuraMod extends Mod implements UpdateListener
 			? WPlayer.getCooldown() < 1 : !hasTimePassedS(speed.getValueF()))
 			return;
 		
-		// prepare attack
-		EntityUtils.prepareAttack();
-		
-		// face entity
-		RotationUtils.faceEntityPacket(entity);
-		
 		// attack entity
+		EntityUtils.prepareAttack();
+		RotationUtils.faceVectorPacketInstant(entity.boundingBox.getCenter());
 		EntityUtils.attackEntity(entity);
 		
 		// reset timer
