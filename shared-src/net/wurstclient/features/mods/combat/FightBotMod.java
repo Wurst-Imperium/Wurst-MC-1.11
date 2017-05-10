@@ -110,6 +110,15 @@ public final class FightBotMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
+		// disable other killauras
+		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.protectMod.setEnabled(false);
+		wurst.mods.tpAuraMod.setEnabled(false);
+		wurst.mods.triggerBotMod.setEnabled(false);
+		
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
