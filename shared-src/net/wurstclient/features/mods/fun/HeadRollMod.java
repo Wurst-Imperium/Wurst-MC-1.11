@@ -9,22 +9,19 @@ package net.wurstclient.features.mods.fun;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
+import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"head roll"})
-@HelpPage("Mods/HeadRoll")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class HeadRollMod extends Mod implements UpdateListener
 {
 	public HeadRollMod()
 	{
-		super("HeadRoll",
-			"While this is active, other people will think you are\n"
-				+ "rolling your head around!\n" + "Looks a bit like nodding.");
+		super("HeadRoll", "Makes you nod all the time.");
 	}
 	
 	@Override
@@ -42,11 +39,11 @@ public final class HeadRollMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
+		float timer = WMinecraft.getPlayer().ticksExisted % 20 / 10F;
+		float pitch = WMath.sin(timer * (float)Math.PI) * 90F;
+		
 		WConnection.sendPacket(
 			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
-				(float)Math.sin(
-					WMinecraft.getPlayer().ticksExisted % 20 / 10d * Math.PI)
-					* 90,
-				WMinecraft.getPlayer().onGround));
+				pitch, WMinecraft.getPlayer().onGround));
 	}
 }
