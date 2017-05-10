@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.fun;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
@@ -13,15 +13,18 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@HelpPage("Mods/Tired")
+@SearchTags({"head roll"})
+@HelpPage("Mods/HeadRoll")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class TiredMod extends Mod implements UpdateListener
+public final class HeadRollMod extends Mod implements UpdateListener
 {
-	public TiredMod()
+	public HeadRollMod()
 	{
-		super("Tired", "While this is active, other people will think you are\n"
-			+ "extremely tired and about to fall asleep!");
+		super("HeadRoll",
+			"While this is active, other people will think you are\n"
+				+ "rolling your head around!\n" + "Looks a bit like nodding.");
 	}
 	
 	@Override
@@ -41,7 +44,9 @@ public final class TiredMod extends Mod implements UpdateListener
 	{
 		WConnection.sendPacket(
 			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
-				WMinecraft.getPlayer().ticksExisted % 100,
+				(float)Math.sin(
+					WMinecraft.getPlayer().ticksExisted % 20 / 10d * Math.PI)
+					* 90,
 				WMinecraft.getPlayer().onGround));
 	}
 }

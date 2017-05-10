@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.fun;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
@@ -14,15 +14,14 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@HelpPage("Mods/Headless")
+@HelpPage("Mods/Tired")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class HeadlessMod extends Mod implements UpdateListener
+public final class TiredMod extends Mod implements UpdateListener
 {
-	public HeadlessMod()
+	public TiredMod()
 	{
-		super("Headless",
-			"While this is active, other people will think you are\n"
-				+ "headless. Looks hilarious!");
+		super("Tired", "While this is active, other people will think you are\n"
+			+ "extremely tired and about to fall asleep!");
 	}
 	
 	@Override
@@ -41,7 +40,8 @@ public final class HeadlessMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		WConnection.sendPacket(
-			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw, 180F,
+			new CPacketPlayer.Rotation(WMinecraft.getPlayer().rotationYaw,
+				WMinecraft.getPlayer().ticksExisted % 100,
 				WMinecraft.getPlayer().onGround));
 	}
 }
