@@ -5,8 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.combat;
 
+import org.lwjgl.input.Keyboard;
+
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
@@ -23,12 +27,13 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@SearchTags({"Click Aura", "ClickAimbot", "Click Aimbot"})
-@HelpPage("Mods/ClickAura")
+@SearchTags({"fight bot"})
+@HelpPage("Mods/FightBot")
 @Mod.Bypasses(ghostMode = false)
-public final class ClickAuraMod extends Mod implements UpdateListener
+@Mod.DontSaveState
+public final class FightBotMod extends Mod implements UpdateListener
 {
-	public final CheckboxSetting useKillaura =
+	public CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -43,8 +48,6 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 					
 					speed.lock(killaura.speed);
 					range.lock(killaura.range);
-					fov.lock(killaura.fov);
-					hitThroughWalls.lock(killaura.hitThroughWalls);
 				}else
 				{
 					if(useCooldown != null)
@@ -52,12 +55,10 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 					
 					speed.unlock();
 					range.unlock();
-					fov.unlock();
-					hitThroughWalls.unlock();
 				}
 			}
 		};
-	public final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -66,44 +67,28 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public final SliderSetting speed =
+	public SliderSetting speed =
 		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public final SliderSetting range =
+	public SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	public final SliderSetting fov =
-		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
-	public final CheckboxSetting hitThroughWalls =
-		new CheckboxSetting("Hit through walls", false);
+	public SliderSetting distance =
+		new SliderSetting("Distance", 3, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	
-	public ClickAuraMod()
+	private TargetSettings followSettings = new TargetSettings();
+	private TargetSettings attackSettings = new TargetSettings()
 	{
-		super("ClickAura",
-			"Automatically attacks the closest valid entity whenever you click.\n"
-				+ "§lWarning:§r ClickAuras generally look more suspicious than Killauras\n"
-				+ "and are easier to detect. It is recommended to use Killaura or\n"
-				+ "TriggerBot instead.");
-	}
-	
-	private TargetSettings targetSettings = new TargetSettings()
-	{
-		@Override
-		public boolean targetBehindWalls()
-		{
-			return hitThroughWalls.isChecked();
-		}
-		
 		@Override
 		public float getRange()
 		{
 			return range.getValueF();
 		}
-		
-		@Override
-		public float getFOV()
-		{
-			return fov.getValueF();
-		}
 	};
+	
+	public FightBotMod()
+	{
+		super("FightBot", "A bot that automatically fights for you.\n"
+			+ "It walks around and kills everything.\n" + "Good for MobArena.");
+	}
 	
 	@Override
 	public void initSettings()
@@ -115,28 +100,19 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 		
 		settings.add(speed);
 		settings.add(range);
-		settings.add(fov);
-		settings.add(hitThroughWalls);
+		settings.add(distance);
 	}
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
-			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
-			wurst.mods.triggerBotMod};
+		return new Feature[]{wurst.mods.killauraMod, wurst.special.targetSpf,
+			wurst.special.yesCheatSpf};
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		// disable other killauras
-		wurst.mods.killauraMod.setEnabled(false);
-		wurst.mods.killauraLegitMod.setEnabled(false);
-		wurst.mods.multiAuraMod.setEnabled(false);
-		wurst.mods.triggerBotMod.setEnabled(false);
-		
-		// add listener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
@@ -145,6 +121,9 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 	{
 		// remove listener
 		wurst.events.remove(UpdateListener.class, this);
+		
+		// reset keys
+		resetKeys();
 	}
 	
 	@Override
@@ -153,8 +132,40 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 		// update timer
 		updateMS();
 		
-		// check if clicking
-		if(!mc.gameSettings.keyBindAttack.pressed)
+		// reset keys
+		resetKeys();
+		
+		// set entity
+		Entity entity = EntityUtils.getClosestEntity(followSettings);
+		if(entity == null)
+			return;
+		
+		// jump if necessary
+		if(WMinecraft.getPlayer().isCollidedHorizontally)
+			mc.gameSettings.keyBindJump.pressed = true;
+		
+		// swim up if necessary
+		if(WMinecraft.getPlayer().isInWater()
+			&& WMinecraft.getPlayer().posY < entity.posY)
+			mc.gameSettings.keyBindJump.pressed = true;
+		
+		// control height if flying
+		if(!WMinecraft.getPlayer().onGround
+			&& (WMinecraft.getPlayer().capabilities.isFlying
+				|| wurst.mods.flightMod.isActive())
+			&& Math.sqrt(
+				Math.pow(WMinecraft.getPlayer().posX - entity.posX, 2) + Math
+					.pow(WMinecraft.getPlayer().posZ - entity.posZ, 2)) <= range
+						.getValue())
+			if(WMinecraft.getPlayer().posY > entity.posY + 1D)
+				mc.gameSettings.keyBindSneak.pressed = true;
+			else if(WMinecraft.getPlayer().posY < entity.posY - 1D)
+				mc.gameSettings.keyBindJump.pressed = true;
+			
+		// follow entity
+		mc.gameSettings.keyBindForward.pressed = WMinecraft.getPlayer()
+			.getDistanceToEntity(entity) > distance.getValueF();
+		if(!RotationUtils.faceEntityClient(entity))
 			return;
 		
 		// check timer / cooldown
@@ -162,17 +173,12 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			? WPlayer.getCooldown() < 1 : !hasTimePassedS(speed.getValueF()))
 			return;
 		
-		// set entity
-		Entity entity = EntityUtils.getBestEntityToAttack(targetSettings);
-		if(entity == null)
+		// check range
+		if(!EntityUtils.isCorrectEntity(entity, attackSettings))
 			return;
 		
 		// prepare attack
 		EntityUtils.prepareAttack();
-		
-		// face entity
-		if(!RotationUtils.faceEntityPacket(entity))
-			return;
 		
 		// attack entity
 		EntityUtils.attackEntity(entity);
@@ -191,22 +197,29 @@ public final class ClickAuraMod extends Mod implements UpdateListener
 			case MINEPLEX:
 			speed.resetUsableMax();
 			range.resetUsableMax();
-			hitThroughWalls.unlock();
+			distance.resetUsableMax();
 			break;
 			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-			speed.setUsableMax(12);
-			range.setUsableMax(4.25);
-			hitThroughWalls.unlock();
-			break;
-			
 			case GHOST_MODE:
 			speed.setUsableMax(12);
 			range.setUsableMax(4.25);
-			hitThroughWalls.lock(() -> false);
+			distance.setUsableMax(4.25);
 			break;
 		}
+	}
+	
+	private void resetKeys()
+	{
+		// get keys
+		GameSettings gs = mc.gameSettings;
+		KeyBinding[] keys = new KeyBinding[]{gs.keyBindForward, gs.keyBindJump,
+			gs.keyBindSneak};
+		
+		// reset keys
+		for(KeyBinding key : keys)
+			key.pressed = Keyboard.isKeyDown(key.getKeyCode());
 	}
 }

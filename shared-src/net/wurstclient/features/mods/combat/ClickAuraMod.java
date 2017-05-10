@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.combat;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
@@ -15,21 +15,48 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.features.special_features.TargetSpf;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
-import net.wurstclient.settings.ColorsSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 import net.wurstclient.utils.RotationUtils;
 
-@SearchTags({"kill aura"})
-@HelpPage("Mods/Killaura")
-@Mod.Bypasses
-public final class KillauraMod extends Mod implements UpdateListener
+@SearchTags({"Click Aura", "ClickAimbot", "Click Aimbot"})
+@HelpPage("Mods/ClickAura")
+@Mod.Bypasses(ghostMode = false)
+public final class ClickAuraMod extends Mod implements UpdateListener
 {
+	public final CheckboxSetting useKillaura =
+		new CheckboxSetting("Use Killaura settings", true)
+		{
+			@Override
+			public void update()
+			{
+				if(isChecked())
+				{
+					KillauraMod killaura = wurst.mods.killauraMod;
+					
+					if(useCooldown != null)
+						useCooldown.lock(killaura.useCooldown);
+					
+					speed.lock(killaura.speed);
+					range.lock(killaura.range);
+					fov.lock(killaura.fov);
+					hitThroughWalls.lock(killaura.hitThroughWalls);
+				}else
+				{
+					if(useCooldown != null)
+						useCooldown.unlock();
+					
+					speed.unlock();
+					range.unlock();
+					fov.unlock();
+					hitThroughWalls.unlock();
+				}
+			}
+		};
 	public final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
@@ -48,60 +75,16 @@ public final class KillauraMod extends Mod implements UpdateListener
 	public final CheckboxSetting hitThroughWalls =
 		new CheckboxSetting("Hit through walls", false);
 	
-	public final CheckboxSetting useTarget =
-		new CheckboxSetting("Use Target settings", true)
-		{
-			@Override
-			public void update()
-			{
-				if(isChecked())
-				{
-					TargetSpf target = wurst.special.targetSpf;
-					players.lock(target.players);
-					animals.lock(target.animals);
-					monsters.lock(target.monsters);
-					golems.lock(target.golems);
-					sleepingPlayers.lock(target.sleepingPlayers);
-					invisiblePlayers.lock(target.invisiblePlayers);
-					invisibleMobs.lock(target.invisibleMobs);
-					teams.lock(target.teams);
-					teamColors.lock(target.teamColors);
-				}else
-				{
-					players.unlock();
-					animals.unlock();
-					monsters.unlock();
-					golems.unlock();
-					sleepingPlayers.unlock();
-					invisiblePlayers.unlock();
-					invisibleMobs.unlock();
-					teams.unlock();
-					teamColors.unlock();
-				}
-			}
-		};
-	public final CheckboxSetting players =
-		new CheckboxSetting("Attack players", true);
-	public final CheckboxSetting animals =
-		new CheckboxSetting("Attack animals", true);
-	public final CheckboxSetting monsters =
-		new CheckboxSetting("Attack monsters", true);
-	public final CheckboxSetting golems =
-		new CheckboxSetting("Attack golems", true);
+	public ClickAuraMod()
+	{
+		super("ClickAura",
+			"Automatically attacks the closest valid entity whenever you click.\n"
+				+ "§lWarning:§r ClickAuras generally look more suspicious than Killauras\n"
+				+ "and are easier to detect. It is recommended to use Killaura or\n"
+				+ "TriggerBot instead.");
+	}
 	
-	public final CheckboxSetting sleepingPlayers =
-		new CheckboxSetting("Attack sleeping players", false);
-	public final CheckboxSetting invisiblePlayers =
-		new CheckboxSetting("Attack invisible players", false);
-	public final CheckboxSetting invisibleMobs =
-		new CheckboxSetting("Attack invisible mobs", false);
-	
-	public final CheckboxSetting teams = new CheckboxSetting("Teams", false);
-	public final ColorsSetting teamColors = new ColorsSetting("Team Colors",
-		new boolean[]{true, true, true, true, true, true, true, true, true,
-			true, true, true, true, true, true, true});
-	
-	private final TargetSettings targetSettings = new TargetSettings()
+	private TargetSettings targetSettings = new TargetSettings()
 	{
 		@Override
 		public boolean targetBehindWalls()
@@ -120,71 +103,13 @@ public final class KillauraMod extends Mod implements UpdateListener
 		{
 			return fov.getValueF();
 		}
-		
-		@Override
-		public boolean targetPlayers()
-		{
-			return players.isChecked();
-		}
-		
-		@Override
-		public boolean targetAnimals()
-		{
-			return animals.isChecked();
-		}
-		
-		@Override
-		public boolean targetMonsters()
-		{
-			return monsters.isChecked();
-		}
-		
-		@Override
-		public boolean targetGolems()
-		{
-			return golems.isChecked();
-		}
-		
-		@Override
-		public boolean targetSleepingPlayers()
-		{
-			return sleepingPlayers.isChecked();
-		}
-		
-		@Override
-		public boolean targetInvisiblePlayers()
-		{
-			return invisiblePlayers.isChecked();
-		}
-		
-		@Override
-		public boolean targetInvisibleMobs()
-		{
-			return invisibleMobs.isChecked();
-		}
-		
-		@Override
-		public boolean targetTeams()
-		{
-			return teams.isChecked();
-		}
-		
-		@Override
-		public boolean[] getTeamColors()
-		{
-			return teamColors.getSelected();
-		}
 	};
-	
-	public KillauraMod()
-	{
-		super("Killaura", "Automatically attacks entities around you.\n"
-			+ "Can be configured in various ways to attack only some entities and ignore others.");
-	}
 	
 	@Override
 	public void initSettings()
 	{
+		settings.add(useKillaura);
+		
 		if(useCooldown != null)
 			settings.add(useCooldown);
 		
@@ -192,44 +117,33 @@ public final class KillauraMod extends Mod implements UpdateListener
 		settings.add(range);
 		settings.add(fov);
 		settings.add(hitThroughWalls);
-		
-		settings.add(useTarget);
-		settings.add(players);
-		settings.add(animals);
-		settings.add(monsters);
-		settings.add(golems);
-		settings.add(sleepingPlayers);
-		settings.add(invisiblePlayers);
-		settings.add(invisibleMobs);
-		settings.add(teams);
-		settings.add(teamColors);
 	}
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.targetSpf,
+		return new Feature[]{wurst.special.targetSpf, wurst.mods.killauraMod,
 			wurst.mods.killauraLegitMod, wurst.mods.multiAuraMod,
-			wurst.mods.clickAuraMod, wurst.mods.tpAuraMod,
-			wurst.mods.triggerBotMod, wurst.mods.criticalsMod};
+			wurst.mods.triggerBotMod};
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		// disable other killauras
+		wurst.mods.killauraMod.setEnabled(false);
 		wurst.mods.killauraLegitMod.setEnabled(false);
 		wurst.mods.multiAuraMod.setEnabled(false);
-		wurst.mods.clickAuraMod.setEnabled(false);
-		wurst.mods.tpAuraMod.setEnabled(false);
 		wurst.mods.triggerBotMod.setEnabled(false);
 		
+		// add listener
 		wurst.events.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	public void onDisable()
 	{
+		// remove listener
 		wurst.events.remove(UpdateListener.class, this);
 	}
 	
@@ -238,6 +152,10 @@ public final class KillauraMod extends Mod implements UpdateListener
 	{
 		// update timer
 		updateMS();
+		
+		// check if clicking
+		if(!mc.gameSettings.keyBindAttack.pressed)
+			return;
 		
 		// check timer / cooldown
 		if(useCooldown != null && useCooldown.isChecked()
