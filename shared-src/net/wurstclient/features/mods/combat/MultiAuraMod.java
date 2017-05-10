@@ -75,7 +75,7 @@ public final class MultiAuraMod extends Mod implements UpdateListener
 	private final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
 	private final CheckboxSetting hitThroughWalls =
-		new CheckboxSetting("Hit through walls", true);
+		new CheckboxSetting("Hit through walls", false);
 	
 	private final TargetSettings targetSettings = new TargetSettings()
 	{
@@ -162,10 +162,8 @@ public final class MultiAuraMod extends Mod implements UpdateListener
 		if(entities.isEmpty())
 			return;
 		
-		// prepare attack
-		EntityUtils.prepareAttack();
-		
 		// attack entities
+		EntityUtils.prepareAttack();
 		for(Entity entity : entities)
 		{
 			RotationUtils.faceEntityPacket(entity);
