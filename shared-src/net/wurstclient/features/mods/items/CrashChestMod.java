@@ -12,52 +12,49 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"crash chest"})
-@HelpPage("Mods/CrashChest")
 @Mod.Bypasses
 public final class CrashChestMod extends Mod
 {
 	public CrashChestMod()
 	{
 		super("CrashChest",
-			"Generates a CrashChest. Give a lot of these to another\n"
-				+ "player to make them crash. They will not be able to join the server\n"
-				+ "ever again!");
+			"Generates a chest that can kick people from the server if they have too many copies of it.");
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		if(!InventoryUtils.isSlotEmpty(36))
-		{
-			if(WMinecraft.getPlayer().inventory.getStackInSlot(36)
-				.getDisplayName().equals("§6§lCOPY ME"))
-				ChatUtils.error("You already have a CrashChest.");
-			else
-				ChatUtils.error("Please take off your shoes.");
-			setEnabled(false);
-			return;
-		}else if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
+		if(!WMinecraft.getPlayer().capabilities.isCreativeMode)
 		{
 			ChatUtils.error("Creative mode only.");
 			setEnabled(false);
 			return;
 		}
+		
+		if(!InventoryUtils.isSlotEmpty(36))
+		{
+			ChatUtils.error("Your shoes slot must be empty.");
+			setEnabled(false);
+			return;
+		}
+		
+		// generate item
 		ItemStack stack = new ItemStack(Blocks.CHEST);
-		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		NBTTagCompound nbtCompound = new NBTTagCompound();
 		NBTTagList nbtList = new NBTTagList();
 		for(int i = 0; i < 40000; i++)
 			nbtList.appendTag(new NBTTagList());
-		nbtTagCompound.setTag("www.wurstclient.net", nbtList);
-		stack.setTagInfo("www.wurstclient.net", nbtTagCompound);
+		nbtCompound.setTag("www.wurstclient.net", nbtList);
+		stack.setTagInfo("www.wurstclient.net", nbtCompound);
+		
+		// give item
 		InventoryUtils.placeStackInArmor(0, stack);
-		stack.setStackDisplayName("§6§lCOPY ME");
 		ChatUtils.message("A CrashChest was placed in your shoes slot.");
 		setEnabled(false);
 	}
