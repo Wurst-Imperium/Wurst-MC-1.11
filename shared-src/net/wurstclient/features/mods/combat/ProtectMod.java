@@ -132,6 +132,15 @@ public final class ProtectMod extends Mod implements UpdateListener
 	@Override
 	public void onEnable()
 	{
+		// disable other killauras
+		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.fightBotMod.setEnabled(false);
+		wurst.mods.killauraLegitMod.setEnabled(false);
+		wurst.mods.killauraMod.setEnabled(false);
+		wurst.mods.multiAuraMod.setEnabled(false);
+		wurst.mods.tpAuraMod.setEnabled(false);
+		wurst.mods.triggerBotMod.setEnabled(false);
+		
 		// set friend
 		friend = EntityUtils.getClosestEntity(friendSettingsFind);
 		
