@@ -7,23 +7,24 @@
  */
 package net.wurstclient.features.mods.fun;
 
+import java.util.Random;
+
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"Retarded"})
-@HelpPage("Mods/Derp")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class DerpMod extends Mod implements UpdateListener
 {
+	private final Random random = new Random();
+	
 	public DerpMod()
 	{
-		super("Derp", "While this is active, other people will think you are\n"
-			+ "derping around.");
+		super("Derp", "Randomly moves your head around.");
 	}
 	
 	@Override
@@ -42,8 +43,9 @@ public final class DerpMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		float yaw = WMinecraft.getPlayer().rotationYaw
-			+ (float)(Math.random() * 360 - 180);
-		float pitch = (float)(Math.random() * 180 - 90);
+			+ random.nextFloat() * 360F - 180F;
+		float pitch = random.nextFloat() * 180F - 90F;
+		
 		WConnection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch,
 			WMinecraft.getPlayer().onGround));
 	}
