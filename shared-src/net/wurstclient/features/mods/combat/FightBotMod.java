@@ -29,7 +29,7 @@ import net.wurstclient.utils.RotationUtils;
 @Mod.DontSaveState
 public final class FightBotMod extends Mod implements UpdateListener
 {
-	public CheckboxSetting useKillaura =
+	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
 			@Override
@@ -54,7 +54,7 @@ public final class FightBotMod extends Mod implements UpdateListener
 				}
 			}
 		};
-	public CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
+	private final CheckboxSetting useCooldown = !WMinecraft.COOLDOWN ? null
 		: new CheckboxSetting("Use Attack Cooldown as Speed", true)
 		{
 			@Override
@@ -63,15 +63,15 @@ public final class FightBotMod extends Mod implements UpdateListener
 				speed.setDisabled(isChecked());
 			}
 		};
-	public SliderSetting speed =
-		new SliderSetting("Speed", 20, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
-	public SliderSetting range =
-		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	public SliderSetting distance =
+	private final SliderSetting speed =
+		new SliderSetting("Speed", 12, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
+	private final SliderSetting range =
+		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	private final SliderSetting distance =
 		new SliderSetting("Distance", 3, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	
-	private TargetSettings followSettings = new TargetSettings();
-	private TargetSettings attackSettings = new TargetSettings()
+	private final TargetSettings followSettings = new TargetSettings();
+	private final TargetSettings attackSettings = new TargetSettings()
 	{
 		@Override
 		public float getRange()
