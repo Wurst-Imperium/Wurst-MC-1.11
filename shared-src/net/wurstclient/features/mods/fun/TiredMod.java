@@ -11,17 +11,14 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@HelpPage("Mods/Tired")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class TiredMod extends Mod implements UpdateListener
 {
 	public TiredMod()
 	{
-		super("Tired", "While this is active, other people will think you are\n"
-			+ "extremely tired and about to fall asleep!");
+		super("Tired", "Makes it look like you're about to fall asleep.");
 	}
 	
 	@Override
