@@ -11,21 +11,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"troll potion"})
-@HelpPage("Mods/TrollPotion")
 @Mod.Bypasses
 public final class TrollPotionMod extends Mod
 {
 	public TrollPotionMod()
 	{
-		super("TrollPotion", "Generates an incredibly annoying potion.\n"
-			+ "Tip: AntiBlind makes you partially immune to it.");
+		super("TrollPotion",
+			"Generates a potion with many annoying effects on it.");
 	}
 	
 	@Override
