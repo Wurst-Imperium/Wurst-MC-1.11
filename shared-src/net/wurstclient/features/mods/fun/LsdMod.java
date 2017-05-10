@@ -13,60 +13,53 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@HelpPage("Mods/LSD")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class LsdMod extends Mod implements UpdateListener
 {
 	public LsdMod()
 	{
-		super("LSD", "Thousands of colors!");
-	}
-	
-	@Override
-	public void onToggle()
-	{
-		if(!OpenGlHelper.shadersSupported)
-			mc.renderGlobal.loadRenderers();
+		super("LSD", "Causes hallucinations.");
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		if(OpenGlHelper.shadersSupported)
-			if(mc.getRenderViewEntity() instanceof EntityPlayer)
-			{
-				if(mc.entityRenderer.theShaderGroup != null)
-					mc.entityRenderer.theShaderGroup.deleteShaderGroup();
-				
-				mc.entityRenderer.shaderIndex = 19;
-				
-				if(mc.entityRenderer.shaderIndex != EntityRenderer.SHADER_COUNT)
-					mc.entityRenderer
-						.loadShader(EntityRenderer.SHADERS_TEXTURES[19]);
-				else
-					mc.entityRenderer.theShaderGroup = null;
-			}
-		wurst.events.add(UpdateListener.class, this);
+		if(!OpenGlHelper.shadersSupported)
+		{
+			wurst.events.add(UpdateListener.class, this);
+			return;
+		}
+		
+		if(!(mc.getRenderViewEntity() instanceof EntityPlayer))
+		{
+			setEnabled(false);
+			return;
+		}
+		
+		if(mc.entityRenderer.theShaderGroup != null)
+			mc.entityRenderer.theShaderGroup.deleteShaderGroup();
+		mc.entityRenderer.shaderIndex = 19;
+		mc.entityRenderer.loadShader(EntityRenderer.SHADERS_TEXTURES[19]);
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		wurst.events.remove(UpdateListener.class, this);
-		
-		WPlayer.removePotionEffect(WPotionEffects.NAUSEA);
+		if(!OpenGlHelper.shadersSupported)
+		{
+			wurst.events.remove(UpdateListener.class, this);
+			WPlayer.removePotionEffect(WPotionEffects.NAUSEA);
+			return;
+		}
 		
 		if(mc.entityRenderer.theShaderGroup != null)
 		{
 			mc.entityRenderer.theShaderGroup.deleteShaderGroup();
 			mc.entityRenderer.theShaderGroup = null;
 		}
-		
-		mc.gameSettings.smoothCamera = false;
 	}
 	
 	@Override
@@ -74,7 +67,5 @@ public final class LsdMod extends Mod implements UpdateListener
 	{
 		if(!OpenGlHelper.shadersSupported)
 			WPlayer.addPotionEffect(WPotionEffects.NAUSEA);
-		
-		mc.gameSettings.smoothCamera = isEnabled();
 	}
 }
