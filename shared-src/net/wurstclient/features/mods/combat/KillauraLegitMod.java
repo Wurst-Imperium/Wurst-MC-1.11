@@ -112,9 +112,11 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 	public void onEnable()
 	{
 		// disable other killauras
+		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.fightBotMod.setEnabled(false);
 		wurst.mods.killauraMod.setEnabled(false);
 		wurst.mods.multiAuraMod.setEnabled(false);
-		wurst.mods.clickAuraMod.setEnabled(false);
+		wurst.mods.protectMod.setEnabled(false);
 		wurst.mods.tpAuraMod.setEnabled(false);
 		wurst.mods.triggerBotMod.setEnabled(false);
 		
