@@ -116,10 +116,10 @@ public class Updater
 					Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
 				}
 				
-				ProcessBuilder pb =
-					new ProcessBuilder("cmd.exe", "/c", "java", "-jar",
-						path.toString(), "update", path.getParent().toString(),
-						latestVersionString, WMinecraft.VERSION);
+				ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "java",
+					"-jar", path.toString(), "update",
+					path.getParent().toString(), latestVersionString,
+					WMinecraft.VERSION + (WMinecraft.OPTIFINE ? "-OF" : ""));
 				pb.redirectErrorStream(true);
 				Process p = pb.start();
 				
