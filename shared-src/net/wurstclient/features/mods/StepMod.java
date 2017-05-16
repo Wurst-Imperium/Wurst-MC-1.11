@@ -135,4 +135,9 @@ public final class StepMod extends Mod implements UpdateListener
 			break;
 		}
 	}
+	
+	public boolean isAutoJumpAllowed()
+	{
+		return !isActive() && !wurst.commands.goToCmd.isActive();
+	}
 }
