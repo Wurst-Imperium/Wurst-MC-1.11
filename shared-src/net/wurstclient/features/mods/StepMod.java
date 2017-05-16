@@ -7,36 +7,45 @@
  */
 package net.wurstclient.features.mods;
 
-import java.util.ArrayList;
-
-import net.minecraft.block.BlockFenceGate;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
+import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@HelpPage("Mods/Step")
-@Mod.Bypasses
+@Mod.Bypasses(ghostMode = false)
 public final class StepMod extends Mod implements UpdateListener
 {
-	public SliderSetting height =
+	private final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Simple", "Legit"}, 1)
+		{
+			@Override
+			public void update()
+			{
+				height.setDisabled(getSelected() == 1);
+			}
+		};
+	private final SliderSetting height =
 		new SliderSetting("Height", 1, 1, 100, 1, ValueDisplay.INTEGER);
 	
 	public StepMod()
 	{
-		super("Step", "Allows you to step up full blocks.");
+		super("Step",
+			"Allows you to step up full blocks.\n"
+				+ "§lSimple§r mode can step up multiple blocks (enables Height slider).\n"
+				+ "§lLegit§r mode can bypass NoCheat+.");
 	}
 	
 	@Override
 	public void initSettings()
 	{
+		settings.add(mode);
 		settings.add(height);
 	}
 	
@@ -56,33 +65,56 @@ public final class StepMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.ANTICHEAT
-			.ordinal())
+		if(mode.getSelected() == 0)
 		{
-			WMinecraft.getPlayer().stepHeight = 0.5F;
-			if(WMinecraft.getPlayer().onGround
-				&& !WMinecraft.getPlayer().isOnLadder()
-				&& (WMinecraft.getPlayer().movementInput.moveForward != 0.0F
-					|| WMinecraft.getPlayer().movementInput.moveStrafe != 0.0F)
-				&& canStep() && !WMinecraft.getPlayer().movementInput.jump
-				&& WMinecraft.getPlayer().isCollidedHorizontally)
-			{
-				WConnection.sendPacket(
-					new CPacketPlayer.Position(WMinecraft.getPlayer().posX,
-						WMinecraft.getPlayer().posY + 0.42D,
-						WMinecraft.getPlayer().posZ,
-						WMinecraft.getPlayer().onGround));
-				WConnection.sendPacket(
-					new CPacketPlayer.Position(WMinecraft.getPlayer().posX,
-						WMinecraft.getPlayer().posY + 0.753D,
-						WMinecraft.getPlayer().posZ,
-						WMinecraft.getPlayer().onGround));
-				WMinecraft.getPlayer().setPosition(WMinecraft.getPlayer().posX,
-					WMinecraft.getPlayer().posY + 1D,
-					WMinecraft.getPlayer().posZ);
-			}
-		}else
+			// simple mode
 			WMinecraft.getPlayer().stepHeight = height.getValueF();
+			return;
+		}
+		
+		// legit mode
+		EntityPlayerSP player = WMinecraft.getPlayer();
+		player.stepHeight = 0.5F;
+		
+		if(!player.isCollidedHorizontally)
+			return;
+		
+		if(!player.onGround || player.isOnLadder() || player.isInWater()
+			|| player.isInLava())
+			return;
+		
+		if(player.movementInput.moveForward == 0
+			&& player.movementInput.moveStrafe == 0)
+			return;
+		
+		if(player.movementInput.jump)
+			return;
+		
+		AxisAlignedBB box =
+			player.getEntityBoundingBox().offset(0, 0.05, 0).expandXyz(0.05);
+		
+		if(!WMinecraft.getWorld().getCollisionBoxes(player, box.offset(0, 1, 0))
+			.isEmpty())
+			return;
+		
+		double stepHeight = -1;
+		for(AxisAlignedBB bb : WMinecraft.getWorld().getCollisionBoxes(player,
+			box))
+		{
+			if(bb.maxY > stepHeight)
+				stepHeight = bb.maxY;
+		}
+		stepHeight = stepHeight - player.posY;
+		
+		if(stepHeight < 0 || stepHeight > 1)
+			return;
+		
+		WConnection.sendPacket(new CPacketPlayer.Position(player.posX,
+			player.posY + 0.42 * stepHeight, player.posZ, player.onGround));
+		WConnection.sendPacket(new CPacketPlayer.Position(player.posX,
+			player.posY + 0.753 * stepHeight, player.posZ, player.onGround));
+		player.setPosition(player.posX, player.posY + 1 * stepHeight,
+			player.posZ);
 	}
 	
 	@Override
@@ -93,49 +125,14 @@ public final class StepMod extends Mod implements UpdateListener
 			default:
 			case OFF:
 			case MINEPLEX:
-			height.unlock();
+			mode.unlock();
 			break;
+			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
-			case GHOST_MODE:
-			height.lock(() -> 1);
+			mode.lock(1);
 			break;
 		}
-	}
-	
-	private boolean canStep()
-	{
-		ArrayList<BlockPos> collisionBlocks = new ArrayList<>();
-		
-		EntityPlayerSP player = WMinecraft.getPlayer();
-		BlockPos pos1 =
-			new BlockPos(player.getEntityBoundingBox().minX - 0.001D,
-				player.getEntityBoundingBox().minY - 0.001D,
-				player.getEntityBoundingBox().minZ - 0.001D);
-		BlockPos pos2 =
-			new BlockPos(player.getEntityBoundingBox().maxX + 0.001D,
-				player.getEntityBoundingBox().maxY + 0.001D,
-				player.getEntityBoundingBox().maxZ + 0.001D);
-		
-		if(WMinecraft.getWorld().isAreaLoaded(pos1, pos2))
-			for(int x = pos1.getX(); x <= pos2.getX(); x++)
-				for(int y = pos1.getY(); y <= pos2.getY(); y++)
-					for(int z = pos1.getZ(); z <= pos2.getZ(); z++)
-						if(y > player.posY - 1.0D && y <= player.posY)
-							collisionBlocks.add(new BlockPos(x, y, z));
-						
-		BlockPos belowPlayerPos =
-			new BlockPos(player.posX, player.posY - 1.0D, player.posZ);
-		for(BlockPos collisionBlock : collisionBlocks)
-			if(!(WMinecraft.getWorld()
-				.getBlockState(collisionBlock.add(0, 1, 0))
-				.getBlock() instanceof BlockFenceGate))
-				if(WMinecraft.getWorld()
-					.getBlockState(collisionBlock.add(0, 1, 0)).getBoundingBox(
-						WMinecraft.getWorld(), belowPlayerPos) != null)
-					return false;
-				
-		return true;
 	}
 }
