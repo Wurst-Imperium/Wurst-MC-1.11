@@ -5,16 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AutoSwim", "auto swim"})
-@HelpPage("Mods/Dolphin")
 @Mod.Bypasses
 public final class DolphinMod extends Mod implements UpdateListener
 {
@@ -39,7 +37,7 @@ public final class DolphinMod extends Mod implements UpdateListener
 	public void onUpdate()
 	{
 		if(WMinecraft.getPlayer().isInWater()
-			&& !mc.gameSettings.keyBindSneak.pressed)
+			&& !WMinecraft.getPlayer().isSneaking())
 			WMinecraft.getPlayer().motionY += 0.04;
 	}
 }
