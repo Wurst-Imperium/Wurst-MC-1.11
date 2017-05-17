@@ -5,31 +5,27 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AutoJump", "BHop", "bunny hop", "auto jump"})
-@HelpPage("Mods/BunnyHop")
 @Mod.Bypasses
 public final class BunnyHopMod extends Mod implements UpdateListener
 {
 	public BunnyHopMod()
 	{
-		super("BunnyHop", "Automatically jumps whenever you walk.\n"
-			+ "Tip: Jumping while sprinting is a faster way to move.");
+		super("BunnyHop", "Automatically jumps whenever you walk.");
 	}
 	
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.autoSprintMod, wurst.mods.highJumpMod,
-			wurst.commands.jumpCmd};
+		return new Feature[]{wurst.mods.autoSprintMod};
 	}
 	
 	@Override
