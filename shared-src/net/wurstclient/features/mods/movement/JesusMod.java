@@ -19,10 +19,10 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.SearchTags;
 
-@HelpPage("Mods/Jesus")
+@SearchTags({"WaterWalking", "water walking"})
 @Mod.Bypasses(ghostMode = false)
 public final class JesusMod extends Mod
 	implements UpdateListener, PacketOutputListener
@@ -32,10 +32,8 @@ public final class JesusMod extends Mod
 	
 	public JesusMod()
 	{
-		super("Jesus",
-			"Allows you to walk on water.\n"
-				+ "The real Jesus used this hack ~2000 years ago.\n"
-				+ "Bypasses NoCheat+ if YesCheat+ is enabled.");
+		super("Jesus", "Allows you to walk on water.\n"
+			+ "The real Jesus used this hack ~2000 years ago.");
 	}
 	
 	@Override
