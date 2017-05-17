@@ -9,10 +9,8 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@HelpPage("Mods/Spider")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
