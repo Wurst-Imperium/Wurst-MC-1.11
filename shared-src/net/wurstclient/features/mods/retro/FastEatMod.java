@@ -13,6 +13,7 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.InventoryUtils;
 
