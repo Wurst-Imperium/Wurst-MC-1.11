@@ -9,18 +9,16 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"FastClimb", "fast ladder", "fast climb"})
-@HelpPage("Mods/FastLadder")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false)
 public final class FastLadderMod extends Mod implements UpdateListener
 {
 	public FastLadderMod()
 	{
-		super("FastLadder", "Allows you to climb up ladders twice as fast.");
+		super("FastLadder", "Allows you to climb up ladders faster.");
 	}
 	
 	@Override
@@ -38,8 +36,14 @@ public final class FastLadderMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(WMinecraft.getPlayer().isOnLadder()
-			&& WMinecraft.getPlayer().isCollidedHorizontally)
-			WMinecraft.getPlayer().motionY = 0.2872;
+		if(!WMinecraft.getPlayer().isOnLadder()
+			|| !WMinecraft.getPlayer().isCollidedHorizontally)
+			return;
+		
+		if(WMinecraft.getPlayer().movementInput.moveForward == 0
+			&& WMinecraft.getPlayer().movementInput.moveStrafe == 0)
+			return;
+		
+		WMinecraft.getPlayer().motionY = 0.2872;
 	}
 }
