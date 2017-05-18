@@ -33,31 +33,31 @@ public final class ModList
 				.getProfile().getName());
 		
 		// get render names of active mods
-		ArrayList<String> activeModNames = new ArrayList<>();
+		ArrayList<Mod> activeMods = new ArrayList<>();
 		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
 		{
 			if(mod instanceof NavigatorMod)
 				continue;
 			
 			if(mod.isActive())
-				activeModNames.add(mod.getRenderName());
+				activeMods.add(mod);
 		}
 		
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		int modListHeight = posY + activeModNames.size() * 9;
+		int modListHeight = posY + activeMods.size() * 9;
 		
 		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 0
 			&& modListHeight <= sr.getScaledHeight())
 			
 			// draw mod list
-			for(String name : activeModNames)
-				drawString(name);
+			for(Mod mod : activeMods)
+				drawString(mod.getRenderName());
 			
 		// draw counter
-		else if(activeModNames.size() == 1)
+		else if(activeMods.size() == 1)
 			drawString("1 mod active");
 		else
-			drawString(activeModNames.size() + " mods active");
+			drawString(activeMods.size() + " mods active");
 	}
 	
 	private void drawString(String string)
