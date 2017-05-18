@@ -22,7 +22,7 @@ public final class ModList
 	
 	public void render()
 	{
-		if(WurstClient.INSTANCE.options.modListMode == 2)
+		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 2)
 			return;
 		
 		posY = 19;
@@ -46,7 +46,7 @@ public final class ModList
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int modListHeight = posY + activeModNames.size() * 9;
 		
-		if(WurstClient.INSTANCE.options.modListMode == 0
+		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 0
 			&& modListHeight <= sr.getScaledHeight())
 			
 			// draw mod list
