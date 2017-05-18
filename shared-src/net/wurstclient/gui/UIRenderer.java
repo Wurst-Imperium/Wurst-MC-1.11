@@ -7,21 +7,15 @@
  */
 package net.wurstclient.gui;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import java.awt.Color;
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.GUIRenderEvent;
 import net.wurstclient.font.Fonts;
-import net.wurstclient.utils.RenderUtils;
 
 public class UIRenderer
 {
@@ -35,11 +29,11 @@ public class UIRenderer
 			return;
 		
 		// GL settings
-		glEnable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		RenderUtils.setColor(new Color(255, 255, 255, 128));
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1, 1, 1, 0.5F);
 		
 		// get version string
 		String version = "v" + WurstClient.VERSION + " MC" + WMinecraft.VERSION;
@@ -49,38 +43,29 @@ public class UIRenderer
 			version += " (outdated)";
 		
 		// draw version background
-		glBegin(GL_QUADS);
+		GL11.glBegin(GL11.GL_QUADS);
 		{
-			glVertex2d(0, 6);
-			glVertex2d(Fonts.segoe22.getStringWidth(version) + 78, 6);
-			glVertex2d(Fonts.segoe22.getStringWidth(version) + 78, 18);
-			glVertex2d(0, 18);
+			GL11.glVertex2d(0, 6);
+			GL11.glVertex2d(Fonts.segoe22.getStringWidth(version) + 76, 6);
+			GL11.glVertex2d(Fonts.segoe22.getStringWidth(version) + 76, 18);
+			GL11.glVertex2d(0, 18);
 		}
-		glEnd();
+		GL11.glEnd();
 		
 		// draw version string
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		Fonts.segoe22.drawString(version, 74, 4, 0xFF000000);
 		
+		// Wurst logo
+		GL11.glColor4f(1, 1, 1, 1);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(wurstLogo);
+		Gui.drawModalRectWithCustomSizedTexture(0, 3, 0, 0, 72, 18, 72, 18);
+		
 		// mod list
 		modList.render();
-		
-		// Wurst logo
-		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(wurstLogo);
-		int x = 0;
-		int y = 3;
-		int w = 72;
-		int h = 18;
-		float fw = 72;
-		float fh = 18;
-		float u = 0;
-		float v = 0;
-		Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, w, h, fw, fh);
 		
 		// GUI render event
 		WurstClient.INSTANCE.events.fire(GUIRenderEvent.INSTANCE);
@@ -89,6 +74,6 @@ public class UIRenderer
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glColor4f(1, 1, 1, 1);
 	}
 }
