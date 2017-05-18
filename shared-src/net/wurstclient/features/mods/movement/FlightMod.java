@@ -54,7 +54,8 @@ public final class FlightMod extends Mod implements UpdateListener
 	
 	public FlightMod()
 	{
-		super("Flight", "Allows you to you fly.");
+		super("Flight", "Allows you to you fly.\n\n"
+			+ "§c§lWARNING:§r You will take fall damage if you don't use NoFall.");
 	}
 	
 	@Override
@@ -80,8 +81,8 @@ public final class FlightMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.jetpackMod, wurst.mods.glideMod,
-			wurst.mods.noFallMod, wurst.special.yesCheatSpf};
+		return new Feature[]{wurst.mods.noFallMod, wurst.mods.jetpackMod,
+			wurst.mods.glideMod, wurst.special.yesCheatSpf};
 	}
 	
 	@Override

@@ -31,7 +31,8 @@ public final class JetpackMod extends Mod implements UpdateListener
 	
 	public JetpackMod()
 	{
-		super("Jetpack", "Allows you to fly as if you had a jetpack.");
+		super("Jetpack", "Allows you to fly as if you had a jetpack.\n\n"
+			+ "§c§lWARNING:§r You will take fall damage if you don't use NoFall.");
 	}
 	
 	@Override
