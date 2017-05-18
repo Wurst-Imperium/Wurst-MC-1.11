@@ -12,7 +12,8 @@ import net.wurstclient.features.Spf;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 
-@SearchTags({"HackList", "CheatList", "mod list", "hack list", "cheat list"})
+@SearchTags({"ArrayList", "HackList", "CheatList", "mod list", "array list",
+	"hack list", "cheat list"})
 public final class ModListSpf extends Spf
 {
 	private final ModeSetting mode =
