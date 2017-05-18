@@ -10,20 +10,16 @@ package net.wurstclient.gui;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Color;
-import java.util.LinkedList;
 
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.GUIRenderEvent;
-import net.wurstclient.features.Mod;
-import net.wurstclient.features.mods.NavigatorMod;
 import net.wurstclient.font.Fonts;
 import net.wurstclient.utils.RenderUtils;
 
@@ -31,53 +27,7 @@ public class UIRenderer
 {
 	private static final ResourceLocation wurstLogo =
 		new ResourceLocation("wurst/wurst_128.png");
-	
-	private static void renderModList()
-	{
-		if(WurstClient.INSTANCE.options.modListMode == 2)
-			return;
-		
-		int yCount = 19;
-		if(WurstClient.INSTANCE.special.yesCheatSpf.modeIndicator.isChecked())
-		{
-			String name =
-				"YesCheat+: " + WurstClient.INSTANCE.special.yesCheatSpf
-					.getProfile().getName();
-			Fonts.segoe18.drawString(name, 3, yCount + 1, 0xFF000000);
-			Fonts.segoe18.drawString(name, 2, yCount, 0xFFFFFFFF);
-			yCount += 9;
-		}
-		
-		LinkedList<String> modList = new LinkedList<>();
-		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
-		{
-			if(mod instanceof NavigatorMod)
-				continue;
-			if(mod.isActive())
-				modList.add(mod.getRenderName());
-		}
-		
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		if(yCount + modList.size() * 9 > sr.getScaledHeight()
-			|| WurstClient.INSTANCE.options.modListMode == 1)
-		{
-			String tooManyMods = "";
-			if(modList.isEmpty())
-				return;
-			else if(modList.size() > 1)
-				tooManyMods = modList.size() + " mods active";
-			else
-				tooManyMods = "1 mod active";
-			Fonts.segoe18.drawString(tooManyMods, 3, yCount + 1, 0xFF000000);
-			Fonts.segoe18.drawString(tooManyMods, 2, yCount, 0xFFFFFFFF);
-		}else
-			for(String name; (name = modList.poll()) != null;)
-			{
-				Fonts.segoe18.drawString(name, 3, yCount + 1, 0xFF000000);
-				Fonts.segoe18.drawString(name, 2, yCount, 0xFFFFFFFF);
-				yCount += 9;
-			}
-	}
+	private static final ModList modList = new ModList();
 	
 	public static void renderUI(float zLevel)
 	{
@@ -116,7 +66,7 @@ public class UIRenderer
 		Fonts.segoe22.drawString(version, 74, 4, 0xFF000000);
 		
 		// mod list
-		renderModList();
+		modList.render();
 		
 		// Wurst logo
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -140,9 +90,5 @@ public class UIRenderer
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
-		// is this needed?
-		GL11.glPushMatrix();
-		GL11.glPopMatrix();
 	}
 }
