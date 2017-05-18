@@ -17,7 +17,7 @@ public final class UIRenderer
 	private static final WurstLogo wurstLogo = new WurstLogo();
 	public static final ModList modList = new ModList();
 	
-	public static void renderUI()
+	public static void renderUI(float partialTicks)
 	{
 		if(!WurstClient.INSTANCE.isEnabled())
 			return;
@@ -27,7 +27,7 @@ public final class UIRenderer
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		wurstLogo.render();
-		modList.render();
+		modList.render(partialTicks);
 		
 		WurstClient.INSTANCE.events.fire(GUIRenderEvent.INSTANCE);
 		

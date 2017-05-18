@@ -38,7 +38,7 @@ public final class ModList implements UpdateListener
 		WurstClient.INSTANCE.events.add(UpdateListener.class, this);
 	}
 	
-	public void render()
+	public void render(float partialTicks)
 	{
 		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 2)
 			return;
@@ -59,7 +59,7 @@ public final class ModList implements UpdateListener
 			// draw mod list
 			if(WurstClient.INSTANCE.special.modListSpf.isAnimations())
 				for(Entry e : activeMods)
-					drawWithOffset(e);
+					drawWithOffset(e, partialTicks);
 			else
 				for(Entry e : activeMods)
 					drawString(e.mod.getRenderName());
@@ -74,11 +74,15 @@ public final class ModList implements UpdateListener
 	public void updateState(Mod mod)
 	{
 		if(mod.isActive())
+		{
+			for(Entry e : activeMods)
+				if(e.mod == mod)
+					return;
 			activeMods.add(new Entry(mod, 4));
-		else if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
+			activeMods.sort(Comparator.comparing(e -> e.mod.getName()));
+			
+		}else if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
 			activeMods.removeIf(e -> e.mod == mod);
-		
-		activeMods.sort(Comparator.comparing(e -> e.mod.getName()));
 	}
 	
 	@Override
@@ -91,11 +95,16 @@ public final class ModList implements UpdateListener
 		{
 			Entry e = itr.next();
 			
-			if(e.mod.isActive() && e.offset > 0)
-				e.offset--;
-			else if(!e.mod.isActive() && e.offset < 4)
+			if(e.mod.isActive())
+			{
+				e.prevOffset = e.offset;
+				if(e.offset > 0)
+					e.offset--;
+			}else if(!e.mod.isActive() && e.offset < 4)
+			{
+				e.prevOffset = e.offset;
 				e.offset++;
-			else if(!e.mod.isActive() && e.offset == 4)
+			}else if(!e.mod.isActive() && e.offset == 4)
 				itr.remove();
 		}
 	}
@@ -107,13 +116,16 @@ public final class ModList implements UpdateListener
 		posY += 9;
 	}
 	
-	private void drawWithOffset(Entry e)
+	private void drawWithOffset(Entry e, float partialTicks)
 	{
 		String s = e.mod.getRenderName();
-		int posX = 2 - e.offset * 5;
+		float offset =
+			e.offset * partialTicks + e.prevOffset * (1 - partialTicks);
+		float posX = 2 - 5 * offset;
+		int alpha = (int)(255 * (1 - offset / 4)) << 24;
 		
-		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0xff000000);
-		Fonts.segoe18.drawString(s, posX, posY, 0xffffffff);
+		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0x04000000 | alpha);
+		Fonts.segoe18.drawString(s, posX, posY, 0x04ffffff | alpha);
 		posY += 9;
 	}
 	
@@ -121,11 +133,13 @@ public final class ModList implements UpdateListener
 	{
 		private final Mod mod;
 		private int offset;
+		private int prevOffset;
 		
 		public Entry(Mod mod, int offset)
 		{
 			this.mod = mod;
 			this.offset = offset;
+			prevOffset = offset;
 		}
 	}
 }
