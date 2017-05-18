@@ -5,20 +5,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"jet pack"})
-@HelpPage("Mods/Jetpack")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -33,6 +32,12 @@ public final class JetpackMod extends Mod implements UpdateListener
 	public JetpackMod()
 	{
 		super("Jetpack", "Allows you to fly as if you had a jetpack.");
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.noFallMod};
 	}
 	
 	@Override
