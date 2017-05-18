@@ -17,8 +17,10 @@ import java.util.Arrays;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
+import net.wurstclient.features.mods.NavigatorMod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.files.ConfigFiles;
+import net.wurstclient.gui.UIRenderer;
 import net.wurstclient.keybinds.PossibleKeybind;
 import net.wurstclient.settings.Setting;
 
@@ -94,6 +96,9 @@ public abstract class Mod extends Feature
 		this.enabled = enabled;
 		
 		active = enabled && !blocked;
+		
+		if(!(this instanceof NavigatorMod))
+			UIRenderer.modList.updateState(this);
 		
 		if(blocked && enabled)
 			return;

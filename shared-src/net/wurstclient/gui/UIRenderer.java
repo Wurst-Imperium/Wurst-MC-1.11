@@ -15,7 +15,7 @@ import net.wurstclient.events.GUIRenderEvent;
 public final class UIRenderer
 {
 	private static final WurstLogo wurstLogo = new WurstLogo();
-	private static final ModList modList = new ModList();
+	public static final ModList modList = new ModList();
 	
 	public static void renderUI()
 	{

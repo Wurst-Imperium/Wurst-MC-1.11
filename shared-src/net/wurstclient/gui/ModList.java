@@ -8,17 +8,35 @@
 package net.wurstclient.gui;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
+import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.mods.NavigatorMod;
 import net.wurstclient.font.Fonts;
 
-public final class ModList
+public final class ModList implements UpdateListener
 {
+	private final ArrayList<Entry> activeMods = new ArrayList<>();
 	private int posY;
+	
+	public ModList()
+	{
+		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
+		{
+			if(mod instanceof NavigatorMod)
+				continue;
+			
+			if(mod.isActive())
+				activeMods.add(new Entry(mod, 0));
+		}
+		
+		WurstClient.INSTANCE.events.add(UpdateListener.class, this);
+	}
 	
 	public void render()
 	{
@@ -32,17 +50,6 @@ public final class ModList
 			drawString("YesCheat+: " + WurstClient.INSTANCE.special.yesCheatSpf
 				.getProfile().getName());
 		
-		// get render names of active mods
-		ArrayList<Mod> activeMods = new ArrayList<>();
-		for(Mod mod : WurstClient.INSTANCE.mods.getAllMods())
-		{
-			if(mod instanceof NavigatorMod)
-				continue;
-			
-			if(mod.isActive())
-				activeMods.add(mod);
-		}
-		
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int modListHeight = posY + activeMods.size() * 9;
 		
@@ -50,9 +57,13 @@ public final class ModList
 			&& modListHeight <= sr.getScaledHeight())
 			
 			// draw mod list
-			for(Mod mod : activeMods)
-				drawString(mod.getRenderName());
-			
+			if(WurstClient.INSTANCE.special.modListSpf.isAnimations())
+				for(Entry e : activeMods)
+					drawWithOffset(e);
+			else
+				for(Entry e : activeMods)
+					drawString(e.mod.getRenderName());
+				
 		// draw counter
 		else if(activeMods.size() == 1)
 			drawString("1 mod active");
@@ -60,10 +71,61 @@ public final class ModList
 			drawString(activeMods.size() + " mods active");
 	}
 	
-	private void drawString(String string)
+	public void updateState(Mod mod)
 	{
-		Fonts.segoe18.drawString(string, 3, posY + 1, 0xff000000);
-		Fonts.segoe18.drawString(string, 2, posY, 0xffffffff);
+		if(mod.isActive())
+			activeMods.add(new Entry(mod, 4));
+		else if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
+			activeMods.removeIf(e -> e.mod == mod);
+		
+		activeMods.sort(Comparator.comparing(e -> e.mod.getName()));
+	}
+	
+	@Override
+	public void onUpdate()
+	{
+		if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
+			return;
+		
+		for(Iterator<Entry> itr = activeMods.iterator(); itr.hasNext();)
+		{
+			Entry e = itr.next();
+			
+			if(e.mod.isActive() && e.offset > 0)
+				e.offset--;
+			else if(!e.mod.isActive() && e.offset < 4)
+				e.offset++;
+			else if(!e.mod.isActive() && e.offset == 4)
+				itr.remove();
+		}
+	}
+	
+	private void drawString(String s)
+	{
+		Fonts.segoe18.drawString(s, 3, posY + 1, 0xff000000);
+		Fonts.segoe18.drawString(s, 2, posY, 0xffffffff);
 		posY += 9;
+	}
+	
+	private void drawWithOffset(Entry e)
+	{
+		String s = e.mod.getRenderName();
+		int posX = 2 - e.offset * 5;
+		
+		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0xff000000);
+		Fonts.segoe18.drawString(s, posX, posY, 0xffffffff);
+		posY += 9;
+	}
+	
+	private static final class Entry
+	{
+		private final Mod mod;
+		private int offset;
+		
+		public Entry(Mod mod, int offset)
+		{
+			this.mod = mod;
+			this.offset = offset;
+		}
 	}
 }
