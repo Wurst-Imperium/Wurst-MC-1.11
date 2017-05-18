@@ -52,42 +52,24 @@ public final class Navigator
 				|| mod.getDescription().toLowerCase().contains(query))
 				list.add(mod);
 			
-		// sort search results
-		list.sort(new Comparator<Feature>()
-		{
-			@Override
-			public int compare(Feature o1, Feature o2)
-			{
-				// compare names
-				int result = compareNext(o1.getName(), o2.getName());
-				if(result != 0)
-					return result;
-				
-				// compare tags
-				result = compareNext(o1.getTags(), o2.getTags());
-				if(result != 0)
-					return result;
-				
-				// compare descriptions
-				result = compareNext(o1.getDescription(), o2.getDescription());
-				return result;
-			}
+		Comparator<String> c = (o1, o2) -> {
+			int index1 = o1.toLowerCase().indexOf(query);
+			int index2 = o2.toLowerCase().indexOf(query);
 			
-			private int compareNext(String o1, String o2)
-			{
-				int index1 = o1.toLowerCase().indexOf(query);
-				int index2 = o2.toLowerCase().indexOf(query);
-				
-				if(index1 == index2)
-					return 0;
-				else if(index1 == -1)
-					return 1;
-				else if(index2 == -1)
-					return -1;
-				else
-					return index1 - index2;
-			}
-		});
+			if(index1 == index2)
+				return 0;
+			else if(index1 == -1)
+				return 1;
+			else if(index2 == -1)
+				return -1;
+			else
+				return index1 - index2;
+		};
+		
+		// sort search results
+		list.sort(Comparator.comparing(Feature::getName, c)
+			.thenComparing(Feature::getTags, c)
+			.thenComparing(Feature::getDescription, c));
 	}
 	
 	public long getPreference(String feature)
@@ -124,17 +106,9 @@ public final class Navigator
 	
 	public void sortFeatures()
 	{
-		navigatorList.sort((o1, o2) -> {
-			long preference1 = getPreference(o1.getName());
-			long preference2 = getPreference(o2.getName());
-			
-			if(preference1 < preference2)
-				return 1;
-			else if(preference1 > preference2)
-				return -1;
-			else
-				return 0;
-		});
+		navigatorList.sort(
+			Comparator.comparingLong((Feature f) -> getPreference(f.getName()))
+				.reversed());
 	}
 	
 	public int countAllFeatures()
