@@ -17,7 +17,7 @@ public final class UIRenderer
 	private static final WurstLogo wurstLogo = new WurstLogo();
 	private static final ModList modList = new ModList();
 	
-	public static void renderUI(float zLevel)
+	public static void renderUI()
 	{
 		if(!WurstClient.INSTANCE.isEnabled())
 			return;
