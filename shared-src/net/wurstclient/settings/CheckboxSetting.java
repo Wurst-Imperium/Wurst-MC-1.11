@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.keybinds.PossibleKeybind;
-import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
+import net.wurstclient.navigator.NavigatorFeatureScreen;
 
 public class CheckboxSetting implements Setting, CheckboxLock
 {

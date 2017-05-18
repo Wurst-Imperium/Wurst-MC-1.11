@@ -16,7 +16,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.navigator.gui.NavigatorScreen;
+import net.wurstclient.navigator.NavigatorScreen;
 
 @SearchTags({"InventoryWalk", "menu walk", "inventory walk"})
 @HelpPage("Mods/MenuWalk")

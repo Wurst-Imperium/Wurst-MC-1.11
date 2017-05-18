@@ -14,7 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.wurstclient.keybinds.PossibleKeybind;
-import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
+import net.wurstclient.navigator.NavigatorFeatureScreen;
 import net.wurstclient.utils.JsonUtils;
 
 public class ColorsSetting implements Setting, ColorsLock

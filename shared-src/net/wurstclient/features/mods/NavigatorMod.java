@@ -10,7 +10,7 @@ package net.wurstclient.features.mods;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.navigator.gui.NavigatorMainScreen;
+import net.wurstclient.navigator.NavigatorMainScreen;
 
 @SearchTags({"ClickGUI"})
 @HelpPage("Mods/Navigator")

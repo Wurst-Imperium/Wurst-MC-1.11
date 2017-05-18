@@ -21,8 +21,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.wurstclient.WurstClient;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.font.Fonts;
-import net.wurstclient.navigator.gui.NavigatorFeatureScreen;
-import net.wurstclient.navigator.gui.NavigatorScreen;
+import net.wurstclient.navigator.NavigatorFeatureScreen;
+import net.wurstclient.navigator.NavigatorScreen;
 import net.wurstclient.utils.RenderUtils;
 
 public class NavigatorRemoveKeybindScreen extends NavigatorScreen

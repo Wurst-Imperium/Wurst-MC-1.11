@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.navigator.gui;
+package net.wurstclient.navigator;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -20,7 +20,6 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.features.Feature;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.font.Fonts;
-import net.wurstclient.navigator.Navigator;
 import net.wurstclient.utils.MiscUtils;
 import net.wurstclient.utils.RenderUtils;
 
