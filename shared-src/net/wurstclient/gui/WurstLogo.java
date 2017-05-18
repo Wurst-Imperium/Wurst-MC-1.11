@@ -26,6 +26,9 @@ public final class WurstLogo
 		String version = getVersionString();
 		
 		// draw version background
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1, 1, 1, 0.5F);
 		drawQuads(0, 6, Fonts.segoe22.getStringWidth(version) + 76, 18);
 		
 		// draw version string
