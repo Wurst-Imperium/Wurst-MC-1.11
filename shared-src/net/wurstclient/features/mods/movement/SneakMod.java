@@ -5,28 +5,45 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketEntityAction.Action;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
+import net.wurstclient.settings.ModeSetting;
 
 @SearchTags({"AutoSneaking"})
-@HelpPage("Mods/Sneak")
-@Mod.Bypasses(ghostMode = false)
 public final class SneakMod extends Mod
 	implements UpdateListener, PostUpdateListener
 {
+	private final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Packet", "Legit"}, 0);
+	
 	public SneakMod()
 	{
-		super("Sneak", "Automatically sneaks all the time.");
+		super("Sneak",
+			"Makes you sneak automatically.\n"
+				+ "§lPacket§r mode makes it look like you're sneaking without slowing you down.\n"
+				+ "§lLegit§r mode actually makes you sneak.");
+	}
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(mode);
+	}
+	
+	@Override
+	public String getRenderName()
+	{
+		return getName() + " [" + mode.getSelectedMode() + "]";
 	}
 	
 	@Override
@@ -42,32 +59,62 @@ public final class SneakMod extends Mod
 		wurst.events.remove(UpdateListener.class, this);
 		wurst.events.remove(PostUpdateListener.class, this);
 		
-		mc.gameSettings.keyBindSneak.pressed = false;
-		WConnection.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
-			Action.STOP_SNEAKING));
+		switch(mode.getSelected())
+		{
+			case 0:
+			WConnection.sendPacket(new CPacketEntityAction(
+				WMinecraft.getPlayer(), Action.STOP_SNEAKING));
+			break;
+			
+			case 1:
+			mc.gameSettings.keyBindSneak.pressed =
+				GameSettings.isKeyDown(mc.gameSettings.keyBindSneak);
+			break;
+		}
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.OLDER_NCP
-			.ordinal())
+		switch(mode.getSelected())
 		{
+			case 0:
 			WConnection.sendPacket(new CPacketEntityAction(
 				WMinecraft.getPlayer(), Action.START_SNEAKING));
 			WConnection.sendPacket(new CPacketEntityAction(
 				WMinecraft.getPlayer(), Action.STOP_SNEAKING));
-		}else
-			WConnection.sendPacket(new CPacketEntityAction(
-				WMinecraft.getPlayer(), Action.START_SNEAKING));
+			break;
+			
+			case 1:
+			mc.gameSettings.keyBindSneak.pressed = true;
+			break;
+		}
 	}
 	
 	@Override
 	public void afterUpdate()
 	{
+		if(mode.getSelected() == 1)
+			return;
+		
 		WConnection.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
 			Action.STOP_SNEAKING));
 		WConnection.sendPacket(new CPacketEntityAction(WMinecraft.getPlayer(),
 			Action.START_SNEAKING));
+	}
+	
+	@Override
+	public void onYesCheatUpdate(Profile profile)
+	{
+		switch(profile)
+		{
+			case GHOST_MODE:
+			mode.lock(1);
+			break;
+			
+			default:
+			mode.unlock();
+			break;
+		}
 	}
 }
