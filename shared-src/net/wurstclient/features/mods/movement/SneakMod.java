@@ -20,6 +20,7 @@ import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.ModeSetting;
 
 @SearchTags({"AutoSneaking"})
+@Mod.Bypasses
 public final class SneakMod extends Mod
 	implements UpdateListener, PostUpdateListener
 {
