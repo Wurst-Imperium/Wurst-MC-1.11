@@ -9,12 +9,17 @@ package net.wurstclient.features.mods;
 
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"ChestStealer", "auto steal", "chest stealer"})
 @Mod.Bypasses
 public final class AutoStealMod extends Mod
 {
+	private final SliderSetting delay =
+		new SliderSetting("Delay", 100, 0, 500, 10, ValueDisplay.INTEGER);
 	private final CheckboxSetting buttons =
 		new CheckboxSetting("Steal/Store buttons", true);
 	
@@ -28,10 +33,38 @@ public final class AutoStealMod extends Mod
 	public void initSettings()
 	{
 		settings.add(buttons);
+		settings.add(delay);
 	}
 	
 	public boolean areButtonsVisible()
 	{
 		return buttons.isChecked();
+	}
+	
+	public long getDelay()
+	{
+		return delay.getValueI();
+	}
+	
+	@Override
+	public void onYesCheatUpdate(Profile profile)
+	{
+		switch(profile)
+		{
+			case OFF:
+			case MINEPLEX:
+			delay.resetUsableMin();
+			break;
+			
+			case ANTICHEAT:
+			case OLDER_NCP:
+			case LATEST_NCP:
+			delay.setUsableMin(70);
+			break;
+			
+			case GHOST_MODE:
+			delay.setUsableMin(200);
+			break;
+		}
 	}
 }
