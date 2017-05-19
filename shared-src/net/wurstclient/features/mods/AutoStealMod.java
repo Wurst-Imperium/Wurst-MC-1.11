@@ -7,18 +7,31 @@
  */
 package net.wurstclient.features.mods;
 
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.settings.CheckboxSetting;
 
-@SearchTags({"auto steal"})
-@HelpPage("Mods/AutoSteal")
+@SearchTags({"ChestStealer", "auto steal", "chest stealer"})
 @Mod.Bypasses
 public final class AutoStealMod extends Mod
 {
+	private final CheckboxSetting buttons =
+		new CheckboxSetting("Steal/Store buttons", true);
+	
 	public AutoStealMod()
 	{
 		super("AutoSteal",
 			"Automatically steals everything from all chests you open.");
+	}
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(buttons);
+	}
+	
+	public boolean areButtonsVisible()
+	{
+		return buttons.isChecked();
 	}
 }
