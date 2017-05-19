@@ -166,6 +166,10 @@ public abstract class Mod extends Feature
 	{
 		this.blocked = blocked;
 		active = enabled && !blocked;
+		
+		if(!(this instanceof NavigatorMod))
+			UIRenderer.modList.updateState(this);
+		
 		if(enabled)
 			try
 			{
