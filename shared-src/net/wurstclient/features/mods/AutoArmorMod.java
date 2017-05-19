@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -108,7 +109,7 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 			// needs 1 free slot where it can put the old armor
 			ItemStack oldArmor =
 				WMinecraft.getPlayer().inventory.armorItemInSlot(armorType);
-			if(oldArmor == null || !InventoryUtils.isEmptySlot(oldArmor)
+			if(oldArmor == null || !WItem.isNull(oldArmor)
 				|| WMinecraft.getPlayer().inventory.getFirstEmptyStack() != -1)
 			{
 				// hotbar fix

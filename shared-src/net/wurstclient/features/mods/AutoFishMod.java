@@ -10,6 +10,7 @@ package net.wurstclient.features.mods;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.compatibility.WSoundEvents;
@@ -84,7 +85,7 @@ public final class AutoFishMod extends Mod
 			// skip non-rod items
 			ItemStack stack =
 				WMinecraft.getPlayer().inventory.getStackInSlot(i);
-			if(InventoryUtils.isEmptySlot(stack)
+			if(WItem.isNull(stack)
 				|| !(stack.getItem() instanceof ItemFishingRod))
 				continue;
 			
@@ -125,7 +126,7 @@ public final class AutoFishMod extends Mod
 			// skip non-rod items
 			ItemStack stack =
 				WMinecraft.getPlayer().inventory.getStackInSlot(i);
-			if(InventoryUtils.isEmptySlot(stack)
+			if(WItem.isNull(stack)
 				|| !(stack.getItem() instanceof ItemFishingRod))
 				continue;
 			
@@ -189,8 +190,7 @@ public final class AutoFishMod extends Mod
 	{
 		// check held item
 		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
-		if(InventoryUtils.isEmptySlot(stack)
-			|| !(stack.getItem() instanceof ItemFishingRod))
+		if(WItem.isNull(stack) || !(stack.getItem() instanceof ItemFishingRod))
 			return;
 		
 		// right click

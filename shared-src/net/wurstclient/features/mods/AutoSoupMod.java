@@ -15,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -26,7 +27,6 @@ import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
-import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"AutoStew", "auto soup", "auto stew"})
 @HelpPage("Mods/AutoSoup")
@@ -91,7 +91,7 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 			// check if empty bowl slot contains a non-bowl item
 			ItemStack emptyBowlStack =
 				WMinecraft.getPlayer().inventory.getStackInSlot(9);
-			boolean swap = !InventoryUtils.isEmptySlot(emptyBowlStack)
+			boolean swap = !WItem.isNull(emptyBowlStack)
 				&& emptyBowlStack.getItem() != Items.BOWL;
 			
 			// place bowl in empty bowl slot

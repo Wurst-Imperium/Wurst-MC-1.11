@@ -100,10 +100,8 @@ public final class StepMod extends Mod implements UpdateListener
 		double stepHeight = -1;
 		for(AxisAlignedBB bb : WMinecraft.getWorld().getCollisionBoxes(player,
 			box))
-		{
 			if(bb.maxY > stepHeight)
 				stepHeight = bb.maxY;
-		}
 		stepHeight = stepHeight - player.posY;
 		
 		if(stepHeight < 0 || stepHeight > 1)

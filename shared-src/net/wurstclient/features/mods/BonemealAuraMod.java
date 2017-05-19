@@ -18,6 +18,7 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -29,7 +30,6 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
-import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"bonemeal aura", "bone meal aura", "AutoBone", "auto bone"})
 @HelpPage("Mods/BonemealAura")
@@ -85,8 +85,7 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 		
 		// check held item
 		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
-		if(InventoryUtils.isEmptySlot(stack)
-			|| !(stack.getItem() instanceof ItemDye)
+		if(WItem.isNull(stack) || !(stack.getItem() instanceof ItemDye)
 			|| stack.getMetadata() != 15)
 			return;
 		

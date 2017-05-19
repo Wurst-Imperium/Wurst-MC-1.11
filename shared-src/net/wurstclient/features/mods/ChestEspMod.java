@@ -21,6 +21,7 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -29,7 +30,6 @@ import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityUtils;
-import net.wurstclient.utils.InventoryUtils;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"ChestFinder", "chest esp", "chest finder"})
@@ -254,8 +254,7 @@ public final class ChestEspMod extends Mod
 		
 		boolean empty = true;
 		for(int i = 0; i < chest.inventorySlots.size() - 36; i++)
-			if(!InventoryUtils
-				.isEmptySlot(chest.inventorySlots.get(i).getStack()))
+			if(!WItem.isNull(chest.inventorySlots.get(i).getStack()))
 			{
 				empty = false;
 				break;

@@ -12,6 +12,16 @@ import net.minecraft.util.ResourceLocation;
 
 public final class WItem
 {
+	public static boolean isNull(Item item)
+	{
+		return item == null || item instanceof ItemAir;
+	}
+	
+	public static boolean isNull(ItemStack stack)
+	{
+		return stack == null || stack.getItem() instanceof ItemAir;
+	}
+	
 	public static boolean isThrowable(ItemStack stack)
 	{
 		Item item = stack.getItem();

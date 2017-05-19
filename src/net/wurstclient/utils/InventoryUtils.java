@@ -7,7 +7,6 @@
  */
 package net.wurstclient.utils;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -19,12 +18,11 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WConnection;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 
 public class InventoryUtils
 {
-	private static final Item NULL_ITEM = Item.getItemFromBlock(Blocks.AIR);
-	
 	public static boolean placeStackInHotbar(ItemStack stack)
 	{
 		for(int i = 0; i < 9; i++)
@@ -45,13 +43,8 @@ public class InventoryUtils
 	
 	public static boolean isSlotEmpty(int slot)
 	{
-		return WMinecraft.getPlayer().inventory.getStackInSlot(slot)
-			.getItem() == NULL_ITEM;
-	}
-	
-	public static boolean isEmptySlot(ItemStack slot)
-	{
-		return slot.getItem() == NULL_ITEM;
+		return WItem
+			.isNull(WMinecraft.getPlayer().inventory.getStackInSlot(slot));
 	}
 	
 	public static boolean isSplashPotion(ItemStack stack)
@@ -87,7 +80,7 @@ public class InventoryUtils
 	{
 		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
 		
-		if(isEmptySlot(stack))
+		if(WItem.isNull(stack))
 			return false;
 		
 		return validator.isValid(stack.getItem());

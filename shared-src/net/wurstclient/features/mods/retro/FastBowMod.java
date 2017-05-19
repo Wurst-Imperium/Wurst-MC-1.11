@@ -11,6 +11,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
@@ -18,7 +19,6 @@ import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"RapidFire", "BowSpam", "fast bow", "rapid fire", "bow spam"})
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
@@ -60,8 +60,7 @@ public final class FastBowMod extends RetroMod implements UpdateListener
 		
 		// check held item
 		ItemStack stack = WMinecraft.getPlayer().inventory.getCurrentItem();
-		if(InventoryUtils.isEmptySlot(stack)
-			|| !(stack.getItem() instanceof ItemBow))
+		if(WItem.isNull(stack) || !(stack.getItem() instanceof ItemBow))
 			return;
 		
 		WPlayerController.processRightClick();

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WBlock;
+import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
@@ -126,7 +127,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 			// skip empty slots
 			ItemStack stack =
 				WMinecraft.getPlayer().inventory.getStackInSlot(i);
-			if(InventoryUtils.isEmptySlot(stack))
+			if(WItem.isNull(stack))
 				continue;
 			
 			// skip swords
