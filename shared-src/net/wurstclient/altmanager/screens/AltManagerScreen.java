@@ -72,8 +72,6 @@ public final class AltManagerScreen extends GuiScreen
 		buttonList.add(
 			new GuiButton(6, width / 2 + 80, height - 28, 75, 20, "Cancel"));
 		buttonList.add(new GuiButton(7, 8, 8, 100, 20, "Import Alts"));
-		buttonList
-			.add(new GuiButton(8, width - 108, 8, 100, 20, "Session Stealer"));
 	}
 	
 	@Override
@@ -197,9 +195,6 @@ public final class AltManagerScreen extends GuiScreen
 						MiscUtils.simpleError(e, fileChooser);
 					}
 			}).start();
-		else if(button.id == 8)
-			// "Session Stealer" button
-			mc.displayGuiScreen(new SessionStealerScreen(this));
 	}
 	
 	@Override
