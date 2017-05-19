@@ -1,6 +1,6 @@
-From 1311eaece9c11219a086c264c2ad561337dffef3 Mon Sep 17 00:00:00 2001
+From cc5fd816587b33638009da678a8b1b31c0a5fc8d Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 19 May 2017 15:23:56 +0200
+Date: Fri, 19 May 2017 15:30:13 +0200
 Subject: [PATCH] mod
 
 ---
@@ -700,7 +700,7 @@ index 20bd020..2ea601c 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..f2a6cf3 100644
+index 0728387..c46d344 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -896,7 +896,7 @@ index 0728387..f2a6cf3 100644
 -        return this.autoJumpEnabled;
 +		// TODO: Client
 +		return this.autoJumpEnabled
-+			&& !WurstClient.INSTANCE.mods.stepMod.isAutoJumpAllowed();
++			&& WurstClient.INSTANCE.mods.stepMod.isAutoJumpAllowed();
      }
  
      protected void updateAutoJump(float p_189810_1_, float p_189810_2_)
