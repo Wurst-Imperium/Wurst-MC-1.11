@@ -5,29 +5,25 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.chat;
 
 import java.util.Iterator;
 
 import net.minecraft.client.gui.ChatLine;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.MiscUtils;
 
 @SearchTags({"NoSpam", "ChatFilter", "anti spam", "no spam", "chat filter"})
-@HelpPage("Mods/AntiSpam")
 @Mod.Bypasses
 public final class AntiSpamMod extends Mod implements ChatInputListener
 {
 	public AntiSpamMod()
 	{
 		super("AntiSpam",
-			"Blocks chat spam by adding a counter to repeated messages.\n"
-				+ "Example:\n" + "Spam!\n" + "Spam!\n" + "Spam!\n"
-				+ "Will be replaced with:\n" + "Spam! [x3]");
+			"Blocks chat spam by adding a counter to repeated messages.");
 	}
 	
 	@Override
