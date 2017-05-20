@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,6 @@ import net.wurstclient.compatibility.WSoundEvents;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -25,7 +24,6 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"FishBot", "auto fish", "fish bot", "fishing"})
-@HelpPage("Mods/AutoFish")
 @Mod.Bypasses
 public final class AutoFishMod extends Mod
 	implements UpdateListener, PacketInputListener
@@ -38,9 +36,11 @@ public final class AutoFishMod extends Mod
 	public AutoFishMod()
 	{
 		super("AutoFish",
-			"Automatically catches fish until either all of your fishing rods are completely used up or your\n"
-				+ "inventory is completely full. If fishing rods are placed outside of the hotbar, they will\n"
-				+ "automatically be moved into the hotbar once needed.");
+			"Automatically catches fish until all of your fishing rods are used up or your inventory is full.\n"
+				+ "If fishing rods are placed outside of the hotbar, they will automatically be moved into the\n"
+				+ "hotbar once needed.\n"
+				+ "§lOverfill inventory§r keeps fishing when your inventory is full. Useful if you have a hopper\n"
+				+ "collecting the items.");
 	}
 	
 	@Override
