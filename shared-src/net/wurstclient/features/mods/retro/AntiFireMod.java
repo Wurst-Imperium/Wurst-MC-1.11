@@ -5,20 +5,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.retro;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
 
-@SearchTags({"anti fire", "AntiBurn", "anti burn", "NoFire", "no fire"})
-@HelpPage("Mods/AntiFire")
+@SearchTags({"AntiBurn", "NoFire", "FireExtungiusher", "anti fire", "anti burn",
+	"no fire", "fire extinguisher"})
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class AntiFireMod extends Mod implements UpdateListener
+public final class AntiFireMod extends RetroMod implements UpdateListener
 {
 	public AntiFireMod()
 	{
