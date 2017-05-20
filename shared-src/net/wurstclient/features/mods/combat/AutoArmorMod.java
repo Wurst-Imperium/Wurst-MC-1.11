@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.combat;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
@@ -15,13 +15,10 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
-import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"auto armor"})
-@HelpPage("Mods/AutoArmor")
 @Mod.Bypasses
 public final class AutoArmorMod extends Mod implements UpdateListener
 {
@@ -87,7 +84,7 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 				continue;
 			
 			ItemArmor armor = (ItemArmor)stack.getItem();
-			int armorType = InventoryUtils.getArmorType(armor);
+			int armorType = WItem.getArmorType(armor);
 			int armorValue = armor.damageReduceAmount;
 			
 			if(armorValue > bestArmorValues[armorType])
