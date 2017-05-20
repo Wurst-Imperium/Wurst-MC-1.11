@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.Entity;
@@ -18,37 +18,36 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"AutoSoup", "auto eat", "auto soup"})
-@HelpPage("Mods/AutoEat")
 @Mod.Bypasses
 public final class AutoEatMod extends Mod implements UpdateListener
 {
-	public CheckboxSetting ignoreScreen =
+	private final CheckboxSetting ignoreScreen =
 		new CheckboxSetting("Ignore screen", true);
 	
 	private int oldSlot = -1;
 	
 	public AutoEatMod()
 	{
-		super("AutoEat", "Automatically eats food when necessary.");
-	}
-	
-	@Override
-	public Feature[] getSeeAlso()
-	{
-		return new Feature[]{wurst.mods.autoSoupMod};
+		super("AutoEat", "Automatically eats food when necessary.\n"
+			+ "§lIgnore screen§r keeps eating while the inventory is open.");
 	}
 	
 	@Override
 	public void initSettings()
 	{
 		settings.add(ignoreScreen);
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.autoSoupMod};
 	}
 	
 	@Override
