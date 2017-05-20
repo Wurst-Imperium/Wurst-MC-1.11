@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.retro;
 
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.potion.Potion;
@@ -13,14 +13,13 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
+import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"NoPotion", "Zoot", "anti potions", "no potions"})
-@HelpPage("Mods/AntiPotion")
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
-public final class AntiPotionMod extends Mod implements UpdateListener
+public final class AntiPotionMod extends RetroMod implements UpdateListener
 {
 	private final Potion[] blockedEffects = new Potion[]{WPotionEffects.HUNGER,
 		WPotionEffects.SLOWNESS, WPotionEffects.MINING_FATIGUE,
