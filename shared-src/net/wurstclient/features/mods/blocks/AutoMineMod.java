@@ -5,24 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"AutoBreak", "auto mine", "auto break"})
-@HelpPage("Mods/AutoMine")
 @Mod.Bypasses
 public final class AutoMineMod extends Mod implements UpdateListener
 {
 	public AutoMineMod()
 	{
-		super("AutoMine",
-			"Automatically mines a block as soon as you look at it.");
+		super("AutoMine", "Automatically mines whatever you look at.");
 	}
 	
 	@Override
