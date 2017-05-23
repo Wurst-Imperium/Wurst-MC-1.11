@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.combat;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +19,6 @@ import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.font.Fonts;
@@ -29,7 +28,6 @@ import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
 @SearchTags({"bow aimbot"})
-@HelpPage("Mods/BowAimbot")
 @Mod.Bypasses
 public final class BowAimbotMod extends Mod
 	implements UpdateListener, RenderListener, GUIRenderListener
@@ -40,7 +38,7 @@ public final class BowAimbotMod extends Mod
 	private Entity target;
 	private float velocity;
 	
-	private TargetSettings targetSettings = new TargetSettings();
+	private final TargetSettings targetSettings = new TargetSettings();
 	
 	public BowAimbotMod()
 	{
@@ -74,23 +72,30 @@ public final class BowAimbotMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		// reset target
-		target = null;
-		
 		// check if using item
 		if(!mc.gameSettings.keyBindUseItem.pressed)
+		{
+			target = null;
 			return;
+		}
 		if(!WMinecraft.getPlayer().isHandActive()
 			&& !wurst.mods.fastBowMod.isActive())
+		{
+			target = null;
 			return;
+		}
 		
 		// check if item is bow
 		ItemStack item = WMinecraft.getPlayer().inventory.getCurrentItem();
 		if(item == null || !(item.getItem() instanceof ItemBow))
+		{
+			target = null;
 			return;
+		}
 		
 		// set target
-		target = EntityUtils.getBestEntityToAttack(targetSettings);
+		if(!EntityUtils.isCorrectEntity(target, targetSettings))
+			target = EntityUtils.getBestEntityToAttack(targetSettings);
 		if(target == null)
 			return;
 		
