@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import java.util.ArrayList;
 
@@ -14,11 +14,10 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
-import net.wurstclient.features.HelpPage;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
 
-@HelpPage("Mods/Blink")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class BlinkMod extends Mod implements PacketOutputListener
@@ -37,6 +36,12 @@ public final class BlinkMod extends Mod implements PacketOutputListener
 	public String getRenderName()
 	{
 		return "Blink [" + blinkTime + "ms]";
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.commands.blinkCmd};
 	}
 	
 	@Override
