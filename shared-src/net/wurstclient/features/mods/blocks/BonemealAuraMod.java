@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
@@ -22,22 +22,23 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 
 @SearchTags({"bonemeal aura", "bone meal aura", "AutoBone", "auto bone"})
-@HelpPage("Mods/BonemealAura")
 @Mod.Bypasses
 public final class BonemealAuraMod extends Mod implements UpdateListener
 {
-	public final SliderSetting range =
+	private final SliderSetting range =
 		new SliderSetting("Range", 4.25, 1, 6, 0.05, ValueDisplay.DECIMAL);
+	private final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Fast", "Legit"}, 1);
 	
 	private final CheckboxSetting saplings =
 		new CheckboxSetting("Saplings", true);
@@ -50,6 +51,8 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	{
 		super("BonemealAura",
 			"Automatically uses bone meal on specific types of plants.\n"
+				+ "§lFast§r mode can use bone meal on multiple blocks at once.\n"
+				+ "§lLegit§r mode can bypass NoCheat+.\n"
 				+ "Use the checkboxes to specify the types of plants.");
 	}
 	
@@ -57,6 +60,8 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		settings.add(range);
+		settings.add(mode);
+		
 		settings.add(saplings);
 		settings.add(crops);
 		settings.add(stems);
@@ -93,10 +98,10 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 		Iterable<BlockPos> validBlocks = BlockUtils
 			.getValidBlocks(range.getValue(), (p) -> isCorrectBlock(p));
 		
-		// check bypass level
-		if(wurst.special.yesCheatSpf.getProfile().ordinal() > Profile.MINEPLEX
-			.ordinal())
+		if(mode.getSelected() == 1)
 		{
+			// legit mode
+			
 			// use bone meal on next valid block
 			for(BlockPos pos : validBlocks)
 				if(BlockUtils.rightClickBlockLegit(pos))
@@ -104,6 +109,8 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 				
 		}else
 		{
+			// fast mode
+			
 			boolean shouldSwing = false;
 			
 			// use bone meal on all valid blocks
@@ -126,12 +133,15 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 			case OFF:
 			case MINEPLEX:
 			range.resetUsableMax();
+			mode.unlock();
 			break;
+			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
 			range.setUsableMax(4.25);
+			mode.lock(1);
 			break;
 		}
 	}
