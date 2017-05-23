@@ -5,17 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"auto switch"})
-@HelpPage("Mods/AutoSwitch")
 @Mod.Bypasses
 public final class AutoSwitchMod extends Mod implements UpdateListener
 {
@@ -23,9 +21,8 @@ public final class AutoSwitchMod extends Mod implements UpdateListener
 	{
 		super("AutoSwitch",
 			"Switches the item in your hand all the time.\n"
-				+ "Tip: Use this in combination with BuildRandom while\n"
-				+ "having a lot of different colored wool blocks in your\n"
-				+ "hotbar.");
+				+ "Tip: Use this in combination with BuildRandom while having a lot of different colored wool\n"
+				+ "blocks in your hotbar.");
 	}
 	
 	@Override
