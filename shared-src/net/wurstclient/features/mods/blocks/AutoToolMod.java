@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -15,23 +15,21 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.utils.InventoryUtils;
 
 @SearchTags({"auto tool"})
-@HelpPage("Mods/AutoTool")
 @Mod.Bypasses
 public final class AutoToolMod extends Mod implements UpdateListener
 {
+	private final CheckboxSetting useSwords =
+		new CheckboxSetting("Use swords as tools", false);
+	
 	private int oldSlot = -1;
 	private BlockPos pos;
 	private int timer;
-	
-	public CheckboxSetting useSwords =
-		new CheckboxSetting("Use swords as tools", false);
 	
 	public AutoToolMod()
 	{
