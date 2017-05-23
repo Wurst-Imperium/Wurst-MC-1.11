@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.util.text.ITextComponent;
 import net.wurstclient.features.HelpPage;
@@ -21,19 +21,29 @@ import net.wurstclient.features.SearchTags;
 @Mod.DontSaveState
 public final class AutoSignMod extends Mod
 {
-	public ITextComponent[] signText;
+	private ITextComponent[] signText;
 	
 	public AutoSignMod()
 	{
 		super("AutoSign",
-			"Instantly writes whatever text you want on every sign\n"
-				+ "you place. Once activated, you can write normally on\n"
-				+ "one sign to specify the text for all other signs.");
+			"Instantly writes whatever text you want on every sign you place. Once activated, you can\n"
+				+ "write normally on one sign to specify the text for all other signs.");
 	}
 	
 	@Override
-	public void onEnable()
+	public void onDisable()
 	{
 		signText = null;
+	}
+	
+	public ITextComponent[] getSignText()
+	{
+		return signText;
+	}
+	
+	public void setSignText(ITextComponent[] signText)
+	{
+		if(isActive() && this.signText == null)
+			this.signText = signText;
 	}
 }

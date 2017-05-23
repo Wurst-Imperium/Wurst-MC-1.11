@@ -1,6 +1,6 @@
-From a832e539a82f15b14b83cceed4462daab61e5003 Mon Sep 17 00:00:00 2001
+From 8a2ba9a80c6a986f56ac3308c276b3187102484c Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Mon, 22 May 2017 20:33:46 +0200
+Date: Tue, 23 May 2017 08:45:58 +0200
 Subject: [PATCH] mod
 
 ---
@@ -2073,7 +2073,7 @@ index 722cc99..2e28aa8 100644
          {
              this.inventorySlots.onContainerClosed(this.mc.player);
 diff --git a/net/minecraft/client/gui/inventory/GuiEditSign.java b/net/minecraft/client/gui/inventory/GuiEditSign.java
-index 45afaf7..a813f6c 100644
+index 45afaf7..83aa1ee 100644
 --- a/net/minecraft/client/gui/inventory/GuiEditSign.java
 +++ b/net/minecraft/client/gui/inventory/GuiEditSign.java
 @@ -1,6 +1,9 @@
@@ -2086,39 +2086,40 @@ index 45afaf7..a813f6c 100644
  import net.minecraft.block.Block;
  import net.minecraft.client.gui.GuiButton;
  import net.minecraft.client.gui.GuiScreen;
-@@ -13,7 +16,8 @@ import net.minecraft.network.play.client.CPacketUpdateSign;
+@@ -12,8 +15,9 @@ import net.minecraft.init.Blocks;
+ import net.minecraft.network.play.client.CPacketUpdateSign;
  import net.minecraft.tileentity.TileEntitySign;
  import net.minecraft.util.ChatAllowedCharacters;
++import net.minecraft.util.text.ITextComponent;
  import net.minecraft.util.text.TextComponentString;
 -import org.lwjgl.input.Keyboard;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.features.mods.AutoSignMod;
  
  public class GuiEditSign extends GuiScreen
  {
-@@ -40,6 +44,14 @@ public class GuiEditSign extends GuiScreen
+@@ -40,6 +44,15 @@ public class GuiEditSign extends GuiScreen
       */
      public void initGui()
      {
 +		// TODO: Client
-+		AutoSignMod autoSign = WurstClient.INSTANCE.mods.autoSignMod;
-+		if(autoSign.isActive() && autoSign.signText != null)
++		ITextComponent[] autoSignText =
++			WurstClient.INSTANCE.mods.autoSignMod.getSignText();
++		if(autoSignText != null)
 +		{
-+			tileSign.signText = autoSign.signText;
++			tileSign.signText = autoSignText;
 +			mc.displayGuiScreen(null);
 +		}
 +		
          this.buttonList.clear();
          Keyboard.enableRepeatEvents(true);
          this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
-@@ -79,6 +91,11 @@ public class GuiEditSign extends GuiScreen
+@@ -79,6 +92,10 @@ public class GuiEditSign extends GuiScreen
          {
              if (button.id == 0)
              {
 +				// TODO: Client
-+				AutoSignMod autoSign = WurstClient.INSTANCE.mods.autoSignMod;
-+				if(autoSign.isActive() && autoSign.signText == null)
-+					autoSign.signText = tileSign.signText;
++				WurstClient.INSTANCE.mods.autoSignMod
++					.setSignText(tileSign.signText);
 +				
                  this.tileSign.markDirty();
                  this.mc.displayGuiScreen((GuiScreen)null);
