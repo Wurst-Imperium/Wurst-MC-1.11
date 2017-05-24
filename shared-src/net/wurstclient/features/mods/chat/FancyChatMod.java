@@ -5,16 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.chat;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"fancy chat"})
-@HelpPage("Mods/FancyChat")
 @Mod.Bypasses(ghostMode = false, mineplex = false)
 public final class FancyChatMod extends Mod implements ChatOutputListener
 {
@@ -49,12 +47,12 @@ public final class FancyChatMod extends Mod implements ChatOutputListener
 		
 		String out = "";
 		
-		for(char chr : event.getMessage().toCharArray())
-			if(chr >= 0x21 && chr <= 0x80
-				&& !blacklist.contains(Character.toString(chr)))
-				out += new String(Character.toChars(chr + 0xFEE0));
+		for(char c : event.getMessage().toCharArray())
+			if(c >= 0x21 && c <= 0x80
+				&& !blacklist.contains(Character.toString(c)))
+				out += new String(Character.toChars(c + 0xfee0));
 			else
-				out += chr;
+				out += c;
 			
 		event.setMessage(out);
 	}
