@@ -5,19 +5,24 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
-import net.wurstclient.features.HelpPage;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"health tags"})
-@HelpPage("Mods/HealthTags")
 @Mod.Bypasses
 public final class HealthTagsMod extends Mod
 {
 	public HealthTagsMod()
 	{
-		super("HealthTags", "Adds the health of players to their nametags.");
+		super("HealthTags", "Shows the health of players in their nametags.");
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.nameTagsMod};
 	}
 }
