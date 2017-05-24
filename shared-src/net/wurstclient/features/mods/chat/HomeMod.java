@@ -5,17 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.chat;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 
-@HelpPage("Mods/home")
 @Mod.Bypasses
 public final class HomeMod extends Mod
 	implements UpdateListener, ChatInputListener
@@ -24,7 +22,7 @@ public final class HomeMod extends Mod
 	
 	public HomeMod()
 	{
-		super("/home", "Types \"/home\" instantly.");
+		super("/home", "Types §l/home§r instantly.");
 	}
 	
 	@Override
@@ -45,7 +43,7 @@ public final class HomeMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		if(disableTimer == 4)
+		if(disableTimer >= 4)
 			setEnabled(false);
 		else if(disableTimer == 0)
 			WMinecraft.getPlayer().sendChatMessage("/home");
