@@ -5,23 +5,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
-@SearchTags({"SpeedMine", "SpeedyGonzales", "fast break", "speed mine",
-	"speedy gonzales"})
-@HelpPage("Mods/FastBreak")
+@SearchTags({"FastMine", "SpeedMine", "SpeedyGonzales", "fast break",
+	"fast mine", "speed mine", "speedy gonzales"})
 @Mod.Bypasses
 public final class FastBreakMod extends Mod
 {
-	public final ModeSetting mode =
+	private final ModeSetting mode =
 		new ModeSetting("Mode", new String[]{"Normal", "Instant"}, 1)
 		{
 			@Override
