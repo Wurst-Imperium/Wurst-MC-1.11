@@ -5,17 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityFakePlayer;
 
 @SearchTags({"free camera", "spectator"})
-@HelpPage("Mods/Freecam")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class FreecamMod extends Mod implements UpdateListener
@@ -24,8 +23,13 @@ public final class FreecamMod extends Mod implements UpdateListener
 	
 	public FreecamMod()
 	{
-		super("Freecam", "Allows you to fly out of your body.\n"
-			+ "Looks similar to spectator mode.");
+		super("Freecam", "Allows you to fly out of your body.");
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.mods.remoteViewMod, wurst.mods.flightMod};
 	}
 	
 	@Override
