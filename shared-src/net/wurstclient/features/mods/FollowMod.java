@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.ai.FollowAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -19,17 +18,16 @@ import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
-@HelpPage("Mods/Follow")
 @Mod.Bypasses(ghostMode = false)
 @Mod.DontSaveState
 public final class FollowMod extends Mod implements UpdateListener
 {
+	private final float range = 12F;
+	
 	private Entity entity;
 	private FollowAI ai;
 	
-	private float range = 12F;
-	
-	public SliderSetting distance =
+	private final SliderSetting distance =
 		new SliderSetting("Distance", 1F, 1F, 12F, 0.5F, ValueDisplay.DECIMAL)
 		{
 			@Override
@@ -51,7 +49,7 @@ public final class FollowMod extends Mod implements UpdateListener
 		settings.add(distance);
 	}
 	
-	private TargetSettings targetSettingsFind = new TargetSettings()
+	private final TargetSettings targetSettingsFind = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -66,7 +64,7 @@ public final class FollowMod extends Mod implements UpdateListener
 		}
 	};
 	
-	private TargetSettings targetSettingsKeep = new TargetSettings()
+	private final TargetSettings targetSettingsKeep = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -78,7 +76,7 @@ public final class FollowMod extends Mod implements UpdateListener
 		public boolean targetBehindWalls()
 		{
 			return true;
-		};
+		}
 		
 		@Override
 		public boolean targetPlayers()
