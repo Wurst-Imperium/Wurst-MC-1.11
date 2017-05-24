@@ -5,17 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"NightVision", "full bright", "brightness", "night vision"})
-@HelpPage("Mods/Fullbright")
 @Mod.Bypasses
 public final class FullbrightMod extends Mod implements UpdateListener
 {
@@ -63,7 +61,7 @@ public final class FullbrightMod extends Mod implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(isEnabled() || wurst.mods.xRayMod.isActive())
+		if(isActive() || wurst.mods.xRayMod.isActive())
 		{
 			if(mc.gameSettings.gammaSetting < 16F)
 				mc.gameSettings.gammaSetting += 0.5F;
