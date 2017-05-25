@@ -5,19 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.utils.BlockUtils;
 
-@HelpPage("Mods/Kaboom")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -25,7 +23,7 @@ import net.wurstclient.utils.BlockUtils;
 	mineplex = false)
 public final class KaboomMod extends Mod implements UpdateListener
 {
-	public final SliderSetting power =
+	private final SliderSetting power =
 		new SliderSetting("Power", 128, 32, 512, 32, ValueDisplay.INTEGER);
 	
 	public KaboomMod()
