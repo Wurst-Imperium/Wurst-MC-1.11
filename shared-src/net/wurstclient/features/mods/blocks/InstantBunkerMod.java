@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import java.util.ArrayList;
 
@@ -19,44 +19,53 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
+import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"instant bunker"})
-@HelpPage("Mods/InstantBunker")
 @Mod.Bypasses
 public final class InstantBunkerMod extends Mod
 	implements UpdateListener, RenderListener
 {
-	private int[][] template = {{2, 0, 2}, {2, 0, 1}, {2, 0, 0}, {2, 0, -1},
-		{2, 0, -2}, {1, 0, 2}, {1, 0, -2}, {0, 0, 2}, {0, 0, -2}, {-1, 0, 2},
-		{-1, 0, -2}, {-2, 0, 2}, {-2, 0, 1}, {-2, 0, 0}, {-2, 0, -1},
-		{-2, 0, -2}, {2, 1, 2}, {2, 1, 1}, {2, 1, 0}, {2, 1, -1}, {2, 1, -2},
-		{1, 1, 2}, {1, 1, -2}, {0, 1, 2}, {0, 1, -2}, {-1, 1, 2}, {-1, 1, -2},
-		{-2, 1, 2}, {-2, 1, 1}, {-2, 1, 0}, {-2, 1, -1}, {-2, 1, -2}, {2, 2, 2},
-		{2, 2, 1}, {2, 2, 0}, {2, 2, -1}, {2, 2, -2}, {1, 2, 2}, {1, 2, 1},
-		{1, 2, 0}, {1, 2, -1}, {1, 2, -2}, {0, 2, 2}, {0, 2, 1}, {0, 2, 0},
-		{0, 2, -1}, {0, 2, -2}, {-1, 2, 2}, {-1, 2, 1}, {-1, 2, 0}, {-1, 2, -1},
-		{-1, 2, -2}, {-2, 2, 2}, {-2, 2, 1}, {-2, 2, 0}, {-2, 2, -1},
-		{-2, 2, -2}};
+	private final int[][] template = {{2, 0, 2}, {-2, 0, 2}, {2, 0, -2},
+		{-2, 0, -2}, {2, 1, 2}, {-2, 1, 2}, {2, 1, -2}, {-2, 1, -2}, {2, 2, 2},
+		{-2, 2, 2}, {2, 2, -2}, {-2, 2, -2}, {1, 2, 2}, {0, 2, 2}, {-1, 2, 2},
+		{2, 2, 1}, {2, 2, 0}, {2, 2, -1}, {-2, 2, 1}, {-2, 2, 0}, {-2, 2, -1},
+		{1, 2, -2}, {0, 2, -2}, {-1, 2, -2}, {1, 0, 2}, {0, 0, 2}, {-1, 0, 2},
+		{2, 0, 1}, {2, 0, 0}, {2, 0, -1}, {-2, 0, 1}, {-2, 0, 0}, {-2, 0, -1},
+		{1, 0, -2}, {0, 0, -2}, {-1, 0, -2}, {1, 1, 2}, {0, 1, 2}, {-1, 1, 2},
+		{2, 1, 1}, {2, 1, 0}, {2, 1, -1}, {-2, 1, 1}, {-2, 1, 0}, {-2, 1, -1},
+		{1, 1, -2}, {0, 1, -2}, {-1, 1, -2}, {1, 2, 1}, {-1, 2, 1}, {1, 2, -1},
+		{-1, 2, -1}, {0, 2, 1}, {1, 2, 0}, {-1, 2, 0}, {0, 2, -1}, {0, 2, 0}};
+	private final ArrayList<BlockPos> positions = new ArrayList<>();
+	
+	private final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Instant", "Legit"}, 0);
 	
 	private int blockIndex;
 	private boolean building;
-	private final ArrayList<BlockPos> positions = new ArrayList<>();
 	
 	public InstantBunkerMod()
 	{
-		super("InstantBunker", "Instantly builds a small bunker around you.");
+		super("InstantBunker",
+			"Builds a small bunker around you. Needs 57 blocks.\n"
+				+ "§lInstant§r mode places all 57 blocks at once.\n"
+				+ "§lLegit§r mode builds the bunker like a normal player would (bypasses NoCheat+).");
+	}
+	
+	@Override
+	public void initSettings()
+	{
+		settings.add(mode);
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		// initialize
 		// get start pos and facings
 		BlockPos startPos = new BlockPos(WMinecraft.getPlayer());
 		EnumFacing facing = WMinecraft.getPlayer().getHorizontalFacing();
@@ -68,8 +77,7 @@ public final class InstantBunkerMod extends Mod
 			positions.add(startPos.up(pos[1]).offset(facing, pos[2])
 				.offset(facing2, pos[0]));
 		
-		if(wurst.special.yesCheatSpf.getProfile().ordinal() >= Profile.ANTICHEAT
-			.ordinal())
+		if(mode.getSelected() == 1)
 		{
 			// initialize building process
 			blockIndex = 0;
@@ -110,8 +118,17 @@ public final class InstantBunkerMod extends Mod
 			BlockPos pos = positions.get(blockIndex);
 			
 			if(WBlock.getMaterial(pos) == Material.AIR)
-				BlockUtils.placeBlockLegit(pos);
-			else
+			{
+				if(!BlockUtils.placeBlockLegit(pos))
+				{
+					BlockPos playerPos = new BlockPos(WMinecraft.getPlayer());
+					if(WMinecraft.getPlayer().onGround
+						&& Math.abs(pos.getX() - playerPos.getX()) == 2
+						&& pos.getY() - playerPos.getY() == 2
+						&& Math.abs(pos.getZ() - playerPos.getZ()) == 2)
+						WMinecraft.getPlayer().jump();
+				}
+			}else
 			{
 				blockIndex++;
 				if(blockIndex == positions.size())
@@ -185,5 +202,21 @@ public final class InstantBunkerMod extends Mod
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+	}
+	
+	@Override
+	public void onYesCheatUpdate(Profile profile)
+	{
+		switch(profile)
+		{
+			case OFF:
+			case MINEPLEX:
+			mode.unlock();
+			break;
+			
+			default:
+			mode.lock(1);
+			break;
+		}
 	}
 }
