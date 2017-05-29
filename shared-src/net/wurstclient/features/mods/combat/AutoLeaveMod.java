@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.combat;
 
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -26,9 +26,9 @@ import net.wurstclient.utils.EntityUtils;
 @Mod.Bypasses
 public final class AutoLeaveMod extends Mod implements UpdateListener
 {
-	public SliderSetting health =
+	private final SliderSetting health =
 		new SliderSetting("Health", 4, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
-	public ModeSetting mode = new ModeSetting("Mode",
+	public final ModeSetting mode = new ModeSetting("Mode",
 		new String[]{"Quit", "Chars", "TP", "SelfHurt"}, 0);
 	
 	public AutoLeaveMod()
