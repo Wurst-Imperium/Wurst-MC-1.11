@@ -5,19 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"no hurtcam", "no hurt cam"})
-@HelpPage("Mods/NoHurtcam")
 @Mod.Bypasses
 public final class NoHurtcamMod extends Mod
 {
 	public NoHurtcamMod()
 	{
-		super("NoHurtcam", "Disables the annoying effect when you get hurt.");
+		super("NoHurtcam", "Disables the shaking effect when you get hurt.");
 	}
 }
