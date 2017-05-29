@@ -1,6 +1,6 @@
-From 8a2ba9a80c6a986f56ac3308c276b3187102484c Mon Sep 17 00:00:00 2001
+From 35d0ed5e74f1c74902a631925d2ff36f0d7671e8 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 23 May 2017 08:45:58 +0200
+Date: Mon, 29 May 2017 12:56:42 +0200
 Subject: [PATCH] mod
 
 ---
@@ -56,9 +56,9 @@ Subject: [PATCH] mod
  net/minecraft/realms/Realms.java                   |  12 +-
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
- net/minecraft/util/Timer.java                      |   6 +
+ net/minecraft/util/Timer.java                      |   4 +
  net/minecraft/world/World.java                     |  39 ++--
- 54 files changed, 1305 insertions(+), 623 deletions(-)
+ 54 files changed, 1303 insertions(+), 623 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -4067,25 +4067,23 @@ index 1d00975..fded78b 100644
              itextcomponent.getStyle().setUnderlined(Boolean.valueOf(true));
              return new TextComponentTranslation("screenshot.success", new Object[] {itextcomponent});
 diff --git a/net/minecraft/util/Timer.java b/net/minecraft/util/Timer.java
-index f224815..03c38d3 100644
+index f224815..3f36d2d 100644
 --- a/net/minecraft/util/Timer.java
 +++ b/net/minecraft/util/Timer.java
-@@ -2,6 +2,8 @@ package net.minecraft.util;
+@@ -2,6 +2,7 @@ package net.minecraft.util;
  
  import net.minecraft.client.Minecraft;
  import net.minecraft.util.math.MathHelper;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.features.mods.TimerMod;
  
  public class Timer
  {
-@@ -65,6 +67,10 @@ public class Timer
+@@ -65,6 +66,9 @@ public class Timer
       */
      public void updateTimer()
      {
 +		// TODO: Client
-+		TimerMod timerMod = WurstClient.INSTANCE.mods.timerMod;
-+		timerSpeed = timerMod.isActive() ? timerMod.speed.getValueF() : 1F;
++		timerSpeed = WurstClient.INSTANCE.mods.timerMod.getTimerSpeed();
 +		
          long i = Minecraft.getSystemTime();
          long j = i - this.lastSyncSysClock;
