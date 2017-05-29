@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -43,9 +43,9 @@ import net.wurstclient.utils.RotationUtils;
 public final class AutoBuildMod extends Mod
 	implements RightClickListener, UpdateListener, RenderListener
 {
-	public ModeSetting mode =
+	private final ModeSetting mode =
 		new ModeSetting("Mode", new String[]{"Fast", "Legit"}, 0);
-	public CheckboxSetting useAi =
+	private final CheckboxSetting useAi =
 		new CheckboxSetting("Use AI (experimental)", false)
 		{
 			@Override
@@ -58,7 +58,7 @@ public final class AutoBuildMod extends Mod
 				}
 			}
 		};
-	public ModeSetting template;
+	private ModeSetting template;
 	
 	private int[][][] templates;
 	private int blockIndex;
@@ -70,8 +70,9 @@ public final class AutoBuildMod extends Mod
 	{
 		super("AutoBuild",
 			"Automatically builds the selected template whenever you place a block.\n"
-				+ "Can fully bypass NoCheat+ while YesCheat+ is enabled.\n"
-				+ "Templates can be customized. Press the \"Help\" button for details.");
+				+ "§lFast§r mode can place multiple blocks at once.\n"
+				+ "§lLegit§r mode can bypass NoCheat+.\n"
+				+ "Templates can be customized using the TemplateTool.");
 	}
 	
 	@Override
@@ -111,8 +112,8 @@ public final class AutoBuildMod extends Mod
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.buildRandomMod,
-			wurst.mods.fastPlaceMod};
+		return new Feature[]{wurst.mods.templateToolMod,
+			wurst.mods.buildRandomMod, wurst.mods.fastPlaceMod};
 	}
 	
 	@Override
