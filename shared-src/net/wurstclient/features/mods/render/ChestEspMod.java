@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -26,14 +26,13 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@SearchTags({"ChestFinder", "chest esp", "chest finder"})
-@HelpPage("Mods/ChestESP")
+@SearchTags({"ChestFinder", "StorageESP", "chest esp", "chest finder",
+	"storage esp"})
 @Mod.Bypasses
 public final class ChestEspMod extends Mod
 	implements UpdateListener, RenderListener
@@ -67,8 +66,7 @@ public final class ChestEspMod extends Mod
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.autoStealMod, wurst.mods.itemEspMod,
-			wurst.mods.searchMod, wurst.mods.xRayMod};
+		return new Feature[]{wurst.mods.autoStealMod, wurst.mods.itemEspMod};
 	}
 	
 	@Override
