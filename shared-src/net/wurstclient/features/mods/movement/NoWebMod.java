@@ -5,23 +5,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"no web"})
-@HelpPage("Mods/NoWeb")
 @Mod.Bypasses(ghostMode = false)
 public final class NoWebMod extends Mod implements UpdateListener
 {
 	public NoWebMod()
 	{
-		super("NoWeb", "Prevents you from getting slowed down in webs.\n"
-			+ "Note: This has nothing to do with websites.");
+		super("NoWeb", "Prevents you from getting slowed down in webs.");
 	}
 	
 	@Override
