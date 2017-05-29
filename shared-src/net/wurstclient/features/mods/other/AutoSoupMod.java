@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.entity.Entity;
@@ -20,7 +20,6 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -29,13 +28,12 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"AutoStew", "auto soup", "auto stew"})
-@HelpPage("Mods/AutoSoup")
 @Mod.Bypasses
 public final class AutoSoupMod extends Mod implements UpdateListener
 {
-	public final SliderSetting health =
+	private final SliderSetting health =
 		new SliderSetting("Health", 6.5, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL);
-	public CheckboxSetting ignoreScreen =
+	private final CheckboxSetting ignoreScreen =
 		new CheckboxSetting("Ignore screen", true);
 	
 	private int oldSlot = -1;
@@ -43,8 +41,8 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 	public AutoSoupMod()
 	{
 		super("AutoSoup",
-			"Automatically eats soup if your health is lower than or equal to the set value.\n"
-				+ "Note: This mod ignores hunger and assumes that eating soup directly refills your health.\n"
+			"Automatically eats soup if your health is lower than or equal to the set value.\n\n"
+				+ "§lNote:§r This mod ignores hunger and assumes that eating soup directly refills your health.\n"
 				+ "If the server you are playing on is not configured to do that, use AutoEat instead.");
 	}
 	
@@ -72,7 +70,6 @@ public final class AutoSoupMod extends Mod implements UpdateListener
 	public void onDisable()
 	{
 		wurst.events.remove(UpdateListener.class, this);
-		
 		stopIfEating();
 	}
 	
