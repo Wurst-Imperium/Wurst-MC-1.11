@@ -5,15 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"legit", "disable"})
-@HelpPage("Mods/Panic")
 @Mod.Bypasses
 public final class PanicMod extends Mod implements UpdateListener
 {
