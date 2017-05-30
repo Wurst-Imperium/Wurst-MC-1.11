@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.other;
 
 import java.util.Random;
 
@@ -14,11 +14,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 
-@HelpPage("Mods/LogSpammer")
-@Mod.Bypasses(ghostMode = false)
+@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class LogSpammerMod extends Mod implements UpdateListener
 {
 	private PacketBuffer payload;
@@ -30,7 +28,7 @@ public final class LogSpammerMod extends Mod implements UpdateListener
 	{
 		super("LogSpammer",
 			"Fills the server console with errors so that admins can't see what you are doing.\n"
-				+ "Patched on Spigot.");
+				+ "Patched on Bukkit and Spigot servers. They will kick you if you use it.");
 	}
 	
 	@Override
