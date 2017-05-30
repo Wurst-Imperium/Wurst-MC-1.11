@@ -93,8 +93,7 @@ public final class ForceOpMod extends Mod implements ChatInputListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.special.bookHackSpf,
-			wurst.special.sessionStealerSpf};
+		return new Feature[]{wurst.special.bookHackSpf};
 	}
 	
 	@Override

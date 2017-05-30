@@ -31,7 +31,6 @@ public final class SpfManager
 	public final DisableSpf disableSpf = new DisableSpf();
 	public final ModListSpf modListSpf = new ModListSpf();
 	public final ServerFinderSpf serverFinderSpf = new ServerFinderSpf();
-	public final SessionStealerSpf sessionStealerSpf = new SessionStealerSpf();
 	public final TargetSpf targetSpf = new TargetSpf();
 	public final YesCheatSpf yesCheatSpf = new YesCheatSpf();
 	
