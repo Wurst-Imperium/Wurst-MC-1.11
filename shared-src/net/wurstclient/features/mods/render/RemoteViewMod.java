@@ -5,12 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -19,7 +19,6 @@ import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
 
 @SearchTags({"remote view"})
-@HelpPage("Mods/RemoteView")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class RemoteViewMod extends Mod implements UpdateListener
@@ -29,7 +28,7 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 	
 	private EntityFakePlayer fakePlayer;
 	
-	private TargetSettings targetSettingsFind = new TargetSettings()
+	private final TargetSettings targetSettingsFind = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -44,7 +43,7 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 		}
 	};
 	
-	private TargetSettings targetSettingsKeep = new TargetSettings()
+	private final TargetSettings targetSettingsKeep = new TargetSettings()
 	{
 		@Override
 		public boolean targetFriends()
@@ -75,6 +74,12 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 	{
 		super("RemoteView", "Allows you to see the world as someone else.\n"
 			+ "Use the .rv command to make it target a specific entity.");
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.commands.rvCmd};
 	}
 	
 	@Override
