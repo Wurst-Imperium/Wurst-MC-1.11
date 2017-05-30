@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods.retro;
+package net.wurstclient.features.mods.combat;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -15,13 +15,12 @@ import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.ModeSetting;
 
 @SearchTags({"Crits"})
 @Mod.Bypasses(ghostMode = false)
-public final class CriticalsMod extends RetroMod implements LeftClickListener
+public final class CriticalsMod extends Mod implements LeftClickListener
 {
 	private final ModeSetting mode =
 		new ModeSetting("Mode", new String[]{"Jump", "Packet"}, 1);
