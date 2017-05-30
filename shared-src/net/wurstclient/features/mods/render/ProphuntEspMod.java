@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import org.lwjgl.opengl.GL11;
 
@@ -16,13 +16,11 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"prophunt esp"})
-@HelpPage("Mods/ProphuntESP")
 @Mod.Bypasses
 public final class ProphuntEspMod extends Mod implements RenderListener
 {
