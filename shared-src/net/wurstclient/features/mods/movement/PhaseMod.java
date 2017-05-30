@@ -5,16 +5,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"Phaze"})
-@HelpPage("Mods/Phase")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	antiCheat = false,
@@ -23,8 +21,8 @@ public final class PhaseMod extends Mod implements UpdateListener
 {
 	public PhaseMod()
 	{
-		super("Phase", "Exploits a bug in NoCheat+ that allows you to glitch\n"
-			+ "through blocks.");
+		super("Phase",
+			"Exploits a bug in older versions of NoCheat+ that allows you to glitch through blocks.");
 	}
 	
 	@Override
