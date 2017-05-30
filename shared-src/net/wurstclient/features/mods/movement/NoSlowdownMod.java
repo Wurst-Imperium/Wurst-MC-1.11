@@ -5,18 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.CheckboxSetting;
 
 @SearchTags({"no slowdown", "no slow down"})
-@HelpPage("Mods/NoSlowdown")
 @Mod.Bypasses(ghostMode = false)
 public final class NoSlowdownMod extends Mod implements UpdateListener
 {
@@ -30,8 +28,7 @@ public final class NoSlowdownMod extends Mod implements UpdateListener
 	public NoSlowdownMod()
 	{
 		super("NoSlowdown",
-			"Cancels slowness effects caused by water, soul sand and\n"
-				+ "using items.");
+			"Cancels slowness effects caused by water, soul sand and using items.");
 	}
 	
 	@Override
