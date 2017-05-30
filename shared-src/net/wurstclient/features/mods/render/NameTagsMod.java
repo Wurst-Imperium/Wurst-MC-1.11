@@ -5,14 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"name tags"})
-@HelpPage("Mods/NameTags")
 @Mod.Bypasses
 public final class NameTagsMod extends Mod
 {
