@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -32,7 +32,7 @@ public final class ScaffoldWalkMod extends Mod implements UpdateListener
 	@Override
 	public Feature[] getSeeAlso()
 	{
-		return new Feature[]{wurst.mods.safeWalkMod, wurst.mods.buildRandomMod};
+		return new Feature[]{wurst.mods.safeWalkMod};
 	}
 	
 	@Override
