@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,10 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.RenderUtils;
 
-@HelpPage("Mods/Search")
 @Mod.Bypasses
 public final class SearchMod extends Mod
 	implements UpdateListener, RenderListener
@@ -36,8 +34,8 @@ public final class SearchMod extends Mod
 	{
 		super("Search",
 			"Helps you to find specific blocks.\n"
-				+ "Use .search id <block id> or .search name <block name>\n"
-				+ "to specify it.");
+				+ "Use §l.search id <block_id>§r or §l.search name <block_name>§r to specify the block to search\n"
+				+ "for.");
 	}
 	
 	@Override
