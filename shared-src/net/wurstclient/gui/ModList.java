@@ -16,7 +16,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
-import net.wurstclient.features.mods.NavigatorMod;
+import net.wurstclient.features.mods.other.NavigatorMod;
 import net.wurstclient.font.Fonts;
 
 public final class ModList implements UpdateListener
