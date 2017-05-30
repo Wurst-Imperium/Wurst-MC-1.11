@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.chat;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -46,9 +46,7 @@ import net.wurstclient.utils.ChatUtils;
 @Mod.DontSaveState
 public final class ForceOpMod extends Mod implements ChatInputListener
 {
-	// TODO: Clean up
-	
-	private String[] defaultList = {"password", "passwort", "password1",
+	private final String[] defaultList = {"password", "passwort", "password1",
 		"passwort1", "password123", "passwort123", "pass", "pw", "pw1", "pw123",
 		"hallo", "Wurst", "wurst", "1234", "12345", "123456", "1234567",
 		"12345678", "123456789", "login", "register", "test", "sicher", "me",
@@ -82,12 +80,7 @@ public final class ForceOpMod extends Mod implements ChatInputListener
 	
 	public ForceOpMod()
 	{
-		super("ForceOP",
-			"Cracks AuthMe passwords. Can be used to get OP.\n"
-				+ "If you want to know how to use this, press the\n"
-				+ "\"How to use\" button. That will open an online\n"
-				+ "tutorial explaining exactly how to use it.\n"
-				+ "Don't message me on this!");
+		super("ForceOP", "Cracks AuthMe passwords. Can be used to get OP.");
 	}
 	
 	@Override
