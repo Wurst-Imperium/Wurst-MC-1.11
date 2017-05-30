@@ -1,4 +1,4 @@
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.CheckboxSetting;
@@ -8,10 +8,10 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 @Mod.Bypasses
 public final class NoWeatherMod extends Mod
 {
-	public CheckboxSetting disableRain =
+	private final CheckboxSetting disableRain =
 		new CheckboxSetting("Disable Rain", true);
 	
-	public CheckboxSetting changeTime =
+	private final CheckboxSetting changeTime =
 		new CheckboxSetting("Change World Time", false)
 		{
 			@Override
@@ -20,10 +20,10 @@ public final class NoWeatherMod extends Mod
 				time.setDisabled(!isChecked());
 			}
 		};
-	public SliderSetting time =
+	private final SliderSetting time =
 		new SliderSetting("Time", 6000, 0, 23900, 100, ValueDisplay.INTEGER);
 	
-	public CheckboxSetting changeMoonPhase =
+	private final CheckboxSetting changeMoonPhase =
 		new CheckboxSetting("Change Moon Phase", false)
 		{
 			@Override
@@ -32,7 +32,7 @@ public final class NoWeatherMod extends Mod
 				moonPhase.setDisabled(!isChecked());
 			}
 		};
-	public SliderSetting moonPhase =
+	private final SliderSetting moonPhase =
 		new SliderSetting("Moon Phase", 0, 0, 7, 1, ValueDisplay.INTEGER);
 	
 	public NoWeatherMod()
@@ -49,5 +49,30 @@ public final class NoWeatherMod extends Mod
 		settings.add(time);
 		settings.add(changeMoonPhase);
 		settings.add(moonPhase);
+	}
+	
+	public boolean isRainDisabled()
+	{
+		return isActive() && disableRain.isChecked();
+	}
+	
+	public boolean isTimeChanged()
+	{
+		return isActive() && changeTime.isChecked();
+	}
+	
+	public long getChangedTime()
+	{
+		return time.getValueI();
+	}
+	
+	public boolean isMoonPhaseChanged()
+	{
+		return isActive() && changeMoonPhase.isChecked();
+	}
+	
+	public int getChangedMoonPhase()
+	{
+		return moonPhase.getValueI();
 	}
 }
