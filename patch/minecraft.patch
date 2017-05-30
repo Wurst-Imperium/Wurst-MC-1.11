@@ -1,6 +1,6 @@
-From 738c47edb18e4187c5a0904430a8151c5c372258 Mon Sep 17 00:00:00 2001
+From 7736d9e0c55be07b5e04a27ef1aeb9fb03c1bf74 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 30 May 2017 15:09:28 +0200
+Date: Tue, 30 May 2017 15:43:25 +0200
 Subject: [PATCH] mod
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockLiquid.java               |  15 +-
  net/minecraft/block/BlockSlab.java                 |   6 +-
  net/minecraft/block/BlockSoulSand.java             |   6 +
- net/minecraft/client/Minecraft.java                | 202 +++++++++---------
+ net/minecraft/client/Minecraft.java                | 196 +++++++++--------
  net/minecraft/client/entity/EntityPlayerSP.java    | 103 ++++++---
  net/minecraft/client/gui/FontRenderer.java         |  17 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
@@ -38,6 +38,7 @@ Subject: [PATCH] mod
  .../client/renderer/BlockFluidRenderer.java        |   8 +
  .../client/renderer/BlockModelRenderer.java        |  14 +-
  net/minecraft/client/renderer/EntityRenderer.java  | 106 ++++++---
+ .../client/renderer/InventoryEffectRenderer.java   |  22 +-
  net/minecraft/client/renderer/ItemRenderer.java    |  10 +
  net/minecraft/client/renderer/chunk/VisGraph.java  |  11 +-
  net/minecraft/client/renderer/entity/Render.java   |  24 +++
@@ -59,7 +60,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   4 +
  net/minecraft/world/World.java                     |  35 +--
- 55 files changed, 1328 insertions(+), 631 deletions(-)
+ 56 files changed, 1343 insertions(+), 632 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -319,7 +320,7 @@ index b48d9bd..88f7932 100644
          entityIn.motionZ *= 0.4D;
      }
 diff --git a/net/minecraft/client/Minecraft.java b/net/minecraft/client/Minecraft.java
-index 20bd020..2ea601c 100644
+index 20bd020..d317882 100644
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
 @@ -1,18 +1,5 @@
@@ -629,33 +630,25 @@ index 20bd020..2ea601c 100644
              this.rightClickDelayTimer = 4;
  
              if (!this.player.isRowingBoat())
-@@ -1800,8 +1784,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1800,7 +1784,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              this.leftClickCounter = 10000;
          }
  
 -        if (this.currentScreen != null)
-+		// TODO: Client
-+		if(this.currentScreen != null
-+			&& !WurstClient.INSTANCE.mods.menuWalkMod.shouldAllowWalking())
++		if(this.currentScreen != null)
          {
-+			
              try
              {
-                 this.currentScreen.handleInput();
-@@ -1842,8 +1829,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1842,7 +1826,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
          }
  
 -        if (this.currentScreen == null || this.currentScreen.allowUserInput)
-+		// TODO: Client
-+		if(this.currentScreen == null || this.currentScreen.allowUserInput
-+			|| WurstClient.INSTANCE.mods.menuWalkMod.shouldAllowWalking())
++		if(this.currentScreen == null || this.currentScreen.allowUserInput)
  		{
-+			
              this.mcProfiler.endStartSection("mouse");
              this.runTickMouse();
- 
-@@ -1936,8 +1926,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -1936,8 +1920,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
              this.mcProfiler.endStartSection("animateTick");
  
@@ -668,7 +661,7 @@ index 20bd020..2ea601c 100644
                  this.world.doVoidFogParticles(MathHelper.floor(this.player.posX), MathHelper.floor(this.player.posY), MathHelper.floor(this.player.posZ));
              }
  
-@@ -2002,6 +1995,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2002,6 +1989,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
  
                  if (this.currentScreen == null)
                  {
@@ -678,7 +671,7 @@ index 20bd020..2ea601c 100644
                      if (i == 1)
                      {
                          this.displayInGameMenu();
-@@ -2444,6 +2440,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2444,6 +2434,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
          networkmanager.sendPacket(new C00Handshake(316, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
          networkmanager.sendPacket(new CPacketLoginStart(this.getSession().getProfile()));
          this.myNetworkManager = networkmanager;
@@ -689,7 +682,7 @@ index 20bd020..2ea601c 100644
      }
  
      /**
-@@ -2649,6 +2649,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -2649,6 +2643,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
              }
              else
              {
@@ -2907,6 +2900,51 @@ index c3f154a..7ec8c7f 100644
          GlStateManager.disableLighting();
          GlStateManager.depthMask(false);
  
+diff --git a/net/minecraft/client/renderer/InventoryEffectRenderer.java b/net/minecraft/client/renderer/InventoryEffectRenderer.java
+index 1b60b1c..e2b8028 100644
+--- a/net/minecraft/client/renderer/InventoryEffectRenderer.java
++++ b/net/minecraft/client/renderer/InventoryEffectRenderer.java
+@@ -1,12 +1,19 @@
+ package net.minecraft.client.renderer;
+ 
+-import com.google.common.collect.Ordering;
++import java.io.IOException;
+ import java.util.Collection;
++
++import org.lwjgl.input.Keyboard;
++import org.lwjgl.input.Mouse;
++
++import com.google.common.collect.Ordering;
++
+ import net.minecraft.client.gui.inventory.GuiContainer;
+ import net.minecraft.client.resources.I18n;
+ import net.minecraft.inventory.Container;
+ import net.minecraft.potion.Potion;
+ import net.minecraft.potion.PotionEffect;
++import net.wurstclient.WurstClient;
+ 
+ public abstract class InventoryEffectRenderer extends GuiContainer
+ {
+@@ -18,6 +25,19 @@ public abstract class InventoryEffectRenderer extends GuiContainer
+         super(inventorySlotsIn);
+     }
+ 	
++	// TODO: Client
++	@Override
++	public void handleInput() throws IOException
++	{
++		if(Mouse.isCreated())
++			while(Mouse.next())
++				handleMouseInput();
++		if(!WurstClient.INSTANCE.mods.invWalkMod.isActive())
++			if(Keyboard.isCreated())
++				while(Keyboard.next())
++					handleKeyboardInput();
++	}
++
+     /**
+      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+      * window resizes, the buttonList is cleared beforehand.
 diff --git a/net/minecraft/client/renderer/ItemRenderer.java b/net/minecraft/client/renderer/ItemRenderer.java
 index 8f5a3ee..5158f74 100644
 --- a/net/minecraft/client/renderer/ItemRenderer.java
