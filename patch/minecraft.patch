@@ -1,6 +1,6 @@
-From d6d88cff70701e553b0024e32143298bcf814a6d Mon Sep 17 00:00:00 2001
+From 98ebfbdd81ff682bdced79db76ffd041ddf01c94 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 30 May 2017 11:50:34 +0200
+Date: Tue, 30 May 2017 13:08:14 +0200
 Subject: [PATCH] mod
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   6 +-
  net/minecraft/block/BlockSoulSand.java             |   6 +
  net/minecraft/client/Minecraft.java                | 202 +++++++++---------
- net/minecraft/client/entity/EntityPlayerSP.java    | 105 ++++++---
+ net/minecraft/client/entity/EntityPlayerSP.java    | 103 ++++++---
  net/minecraft/client/gui/FontRenderer.java         |   2 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  net/minecraft/client/gui/GuiDisconnected.java      |  81 +++++++
@@ -53,12 +53,13 @@ Subject: [PATCH] mod
  net/minecraft/item/ItemSword.java                  |   2 +-
  net/minecraft/item/ItemTool.java                   |   2 +-
  net/minecraft/network/NetworkManager.java          |  57 +++--
+ net/minecraft/potion/PotionEffect.java             |  11 +-
  net/minecraft/realms/Realms.java                   |  12 +-
  net/minecraft/tileentity/TileEntitySign.java       |   2 +-
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   4 +
  net/minecraft/world/World.java                     |  35 +--
- 54 files changed, 1299 insertions(+), 623 deletions(-)
+ 55 files changed, 1305 insertions(+), 626 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -700,7 +701,7 @@ index 20bd020..2ea601c 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..c46d344 100644
+index 0728387..447a7e7 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -782,7 +783,7 @@ index 0728387..c46d344 100644
          }
      }
  
-@@ -285,24 +279,48 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -285,24 +279,46 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
          if (this.isCurrentViewEntity())
          {
@@ -811,9 +812,7 @@ index 0728387..c46d344 100644
 +			// Stops motion updates
 +			if(WurstClient.INSTANCE.mods.remoteViewMod.isActive()
 +				|| WurstClient.INSTANCE.mods.freecamMod.isActive()
-+				|| (WurstClient.INSTANCE.mods.potionSaverMod.isActive()
-+					&& !getActivePotionEffects().isEmpty() && motionX == 0
-+					&& motionZ == 0))
++				|| WurstClient.INSTANCE.mods.potionSaverMod.isFrozen())
  			{
 -                this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
 +				
@@ -836,7 +835,7 @@ index 0728387..c46d344 100644
              }
              else if (flag2)
              {
-@@ -310,7 +328,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -310,7 +326,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
              }
              else if (flag3)
              {
@@ -847,7 +846,7 @@ index 0728387..c46d344 100644
              }
              else if (this.prevOnGround != this.onGround)
              {
-@@ -359,7 +379,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -359,7 +377,27 @@ public class EntityPlayerSP extends AbstractClientPlayer
       */
      public void sendChatMessage(String message)
      {
@@ -876,7 +875,7 @@ index 0728387..c46d344 100644
  	}
  
      public void swingArm(EnumHand hand)
-@@ -945,8 +985,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -945,8 +983,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
          boolean flag2 = this.movementInput.moveForward >= 0.8F;
          this.movementInput.updatePlayerMoveState();
  
@@ -889,7 +888,7 @@ index 0728387..c46d344 100644
              this.movementInput.moveStrafe *= 0.2F;
              this.movementInput.moveForward *= 0.2F;
              this.sprintToggleTimer = 0;
-@@ -1146,7 +1189,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -1146,7 +1187,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
  
      public boolean isAutoJumpEnabled()
      {
@@ -3973,6 +3972,37 @@ index 20fd7bb..185a55e 100644
              try
              {
                  ((Packet<INetHandler>)p_channelRead0_2_).processPacket(this.packetListener);
+diff --git a/net/minecraft/potion/PotionEffect.java b/net/minecraft/potion/PotionEffect.java
+index 6118ac7..1b703a6 100644
+--- a/net/minecraft/potion/PotionEffect.java
++++ b/net/minecraft/potion/PotionEffect.java
+@@ -1,10 +1,13 @@
+ package net.minecraft.potion;
+ 
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++
+ import com.google.common.collect.ComparisonChain;
++
+ import net.minecraft.entity.EntityLivingBase;
+ import net.minecraft.nbt.NBTTagCompound;
+-import org.apache.logging.log4j.LogManager;
+-import org.apache.logging.log4j.Logger;
++import net.wurstclient.WurstClient;
+ 
+ public class PotionEffect implements Comparable<PotionEffect>
+ {
+@@ -136,7 +139,9 @@ public class PotionEffect implements Comparable<PotionEffect>
+ 
+     private int deincrementDuration()
+     {
+-        return --this.duration;
++		// TODO: Client
++		return WurstClient.INSTANCE.mods.potionSaverMod.isFrozen() ? duration
++			: --duration;
+     }
+ 
+     public void performEffect(EntityLivingBase entityIn)
 diff --git a/net/minecraft/realms/Realms.java b/net/minecraft/realms/Realms.java
 index fb12035..43791cd 100644
 --- a/net/minecraft/realms/Realms.java
