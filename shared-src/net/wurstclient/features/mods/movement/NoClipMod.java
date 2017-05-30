@@ -5,25 +5,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
 @SearchTags({"no clip"})
-@HelpPage("Mods/NoClip")
-@Mod.Bypasses
+@Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
 public final class NoClipMod extends Mod implements UpdateListener
 {
 	public NoClipMod()
 	{
-		super("NoClip",
-			"Allows you to freely move through blocks.\n"
-				+ "A block (e.g. sand) must fall on your head to activate it.\n"
-				+ "Warning: You will take damage while moving through blocks!");
+		super("NoClip", "Allows you to freely move through blocks.\n"
+			+ "A block (e.g. sand) must fall on your head to activate it.\n\n"
+			+ "§c§lWARNING:§r You will take damage while moving through blocks!");
 	}
 	
 	@Override
