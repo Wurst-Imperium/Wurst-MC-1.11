@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,18 +17,19 @@ import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
+import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.RenderUtils;
 import net.wurstclient.utils.RotationUtils;
 
-@HelpPage("Mods/Tunneller")
 @Mod.Bypasses
 public final class TunnellerMod extends Mod
 	implements UpdateListener, PostUpdateListener, RenderListener
 {
+	private final ModeSetting mode =
+		new ModeSetting("Mode", new String[]{"Fast", "Legit"}, 1);
 	private BlockPos currentBlock;
 	
 	public TunnellerMod()
@@ -37,12 +38,16 @@ public final class TunnellerMod extends Mod
 	}
 	
 	@Override
+	public void initSettings()
+	{
+		settings.add(mode);
+	}
+	
+	@Override
 	public Feature[] getSeeAlso()
 	{
 		return new Feature[]{wurst.mods.nukerMod, wurst.mods.nukerLegitMod,
-			wurst.mods.speedNukerMod, wurst.mods.fastBreakMod,
-			wurst.mods.autoMineMod, wurst.mods.autoToolMod,
-			wurst.special.yesCheatSpf};
+			wurst.mods.speedNukerMod};
 	}
 	
 	@Override
@@ -75,8 +80,7 @@ public final class TunnellerMod extends Mod
 	@Override
 	public void onUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getProfile()
-			.ordinal() > Profile.MINEPLEX.ordinal();
+		boolean legit = mode.getSelected() == 1;
 		
 		currentBlock = null;
 		
@@ -138,8 +142,7 @@ public final class TunnellerMod extends Mod
 	@Override
 	public void afterUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getProfile()
-			.ordinal() > Profile.MINEPLEX.ordinal();
+		boolean legit = mode.getSelected() == 1;
 		
 		// break block
 		if(currentBlock != null && legit)
@@ -202,5 +205,21 @@ public final class TunnellerMod extends Mod
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+	}
+	
+	@Override
+	public void onYesCheatUpdate(Profile profile)
+	{
+		switch(profile)
+		{
+			case OFF:
+			case MINEPLEX:
+			mode.unlock();
+			break;
+			
+			default:
+			mode.lock(1);
+			break;
+		}
 	}
 }
