@@ -55,11 +55,11 @@ public final class TabGui implements UpdateListener
 		
 		GL11.glPushMatrix();
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		GL11.glTranslatef(2, 22, 0);
+		GL11.glTranslatef(2, 23, 0);
 		
 		drawBox(0, 0, 92, 160);
 		int factor = sr.getScaleFactor();
-		GL11.glScissor(2 * factor, (sr.getScaledHeight() - 182) * factor,
+		GL11.glScissor(2 * factor, (sr.getScaledHeight() - 183) * factor,
 			92 * factor, 160 * factor);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
