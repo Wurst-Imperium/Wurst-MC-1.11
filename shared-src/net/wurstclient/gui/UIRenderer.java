@@ -11,11 +11,13 @@ import org.lwjgl.opengl.GL11;
 
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.GUIRenderEvent;
+import net.wurstclient.tabgui.TabGui;
 
 public final class UIRenderer
 {
 	private static final WurstLogo wurstLogo = new WurstLogo();
 	public static final ModList modList = new ModList();
+	private static final TabGui tabGui = new TabGui();
 	
 	public static void renderUI(float partialTicks)
 	{
@@ -28,6 +30,7 @@ public final class UIRenderer
 		
 		wurstLogo.render();
 		modList.render(partialTicks);
+		tabGui.render(partialTicks);
 		
 		WurstClient.INSTANCE.events.fire(GUIRenderEvent.INSTANCE);
 		
