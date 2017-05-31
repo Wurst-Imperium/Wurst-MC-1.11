@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
@@ -15,9 +15,9 @@ import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.features.mods.NukerMod;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -26,7 +26,6 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 
 @SearchTags({"FastNuker", "speed nuker", "fast nuker"})
-@HelpPage("Mods/SpeedNuker")
 @Mod.Bypasses(ghostMode = false,
 	latestNCP = false,
 	olderNCP = false,
@@ -92,7 +91,8 @@ public final class SpeedNukerMod extends Mod
 	
 	public SpeedNukerMod()
 	{
-		super("SpeedNuker", "Faster Nuker that cannot bypass NoCheat+.");
+		super("SpeedNuker",
+			"Faster version of Nuker that cannot bypass NoCheat+.");
 	}
 	
 	@Override
@@ -110,8 +110,10 @@ public final class SpeedNukerMod extends Mod
 		{
 			case 0:
 			return "SpeedNuker";
+			
 			case 1:
 			return "IDSpeedNuker [" + wurst.mods.nukerMod.id + "]";
+			
 			default:
 			return mode.getSelectedMode() + "SpeedNuker";
 		}
@@ -121,20 +123,16 @@ public final class SpeedNukerMod extends Mod
 	public Feature[] getSeeAlso()
 	{
 		return new Feature[]{wurst.mods.nukerMod, wurst.mods.nukerLegitMod,
-			wurst.mods.tunnellerMod, wurst.mods.kaboomMod,
-			wurst.mods.fastBreakMod, wurst.mods.autoMineMod};
+			wurst.mods.kaboomMod, wurst.mods.tunnellerMod};
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		// disable other nukers
-		if(wurst.mods.nukerMod.isEnabled())
-			wurst.mods.nukerMod.setEnabled(false);
-		if(wurst.mods.nukerLegitMod.isEnabled())
-			wurst.mods.nukerLegitMod.setEnabled(false);
-		if(wurst.mods.tunnellerMod.isEnabled())
-			wurst.mods.tunnellerMod.setEnabled(false);
+		wurst.mods.nukerMod.setEnabled(false);
+		wurst.mods.nukerLegitMod.setEnabled(false);
+		wurst.mods.tunnellerMod.setEnabled(false);
 		
 		// add listeners
 		wurst.events.add(LeftClickListener.class, this);
@@ -150,26 +148,6 @@ public final class SpeedNukerMod extends Mod
 		
 		// resets
 		wurst.mods.nukerMod.id = 0;
-	}
-	
-	@Override
-	public void onLeftClick(LeftClickEvent event)
-	{
-		// check hitResult
-		if(mc.objectMouseOver == null
-			|| mc.objectMouseOver.getBlockPos() == null)
-			return;
-		
-		// check mode
-		if(mode.getSelected() != 1)
-			return;
-		
-		// check material
-		if(WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
-			return;
-		
-		// set id
-		wurst.mods.nukerMod.id = WBlock.getId(mc.objectMouseOver.getBlockPos());
 	}
 	
 	@Override
@@ -193,5 +171,25 @@ public final class SpeedNukerMod extends Mod
 		
 		// break all blocks
 		validBlocks.forEach((pos) -> BlockUtils.breakBlockPacketSpam(pos));
+	}
+	
+	@Override
+	public void onLeftClick(LeftClickEvent event)
+	{
+		// check hitResult
+		if(mc.objectMouseOver == null
+			|| mc.objectMouseOver.getBlockPos() == null)
+			return;
+		
+		// check mode
+		if(mode.getSelected() != 1)
+			return;
+		
+		// check material
+		if(WBlock.getMaterial(mc.objectMouseOver.getBlockPos()) == Material.AIR)
+			return;
+		
+		// set id
+		wurst.mods.nukerMod.id = WBlock.getId(mc.objectMouseOver.getBlockPos());
 	}
 }
