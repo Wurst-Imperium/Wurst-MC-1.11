@@ -13,7 +13,7 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.block.Block;
 import net.wurstclient.compatibility.WBlock;
-import net.wurstclient.features.mods.XRayMod;
+import net.wurstclient.features.mods.render.XRayMod;
 import net.wurstclient.utils.XRayUtils;
 
 public class XRayConfig extends Config

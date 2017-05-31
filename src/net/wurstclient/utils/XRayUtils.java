@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.wurstclient.features.mods.XRayMod;
+import net.wurstclient.features.mods.render.XRayMod;
 
 public class XRayUtils
 {

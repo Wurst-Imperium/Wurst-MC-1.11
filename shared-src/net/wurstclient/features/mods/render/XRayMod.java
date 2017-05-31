@@ -5,18 +5,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.render;
 
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.XRayUtils;
 
 @SearchTags({"xray, x ray"})
-@HelpPage("Mods/X-Ray")
 @Mod.Bypasses
 public final class XRayMod extends Mod
 {

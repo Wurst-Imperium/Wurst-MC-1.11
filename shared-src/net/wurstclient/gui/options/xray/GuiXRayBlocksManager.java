@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.wurstclient.features.mods.XRayMod;
+import net.wurstclient.features.mods.render.XRayMod;
 import net.wurstclient.files.ConfigFiles;
 
 public class GuiXRayBlocksManager extends GuiScreen

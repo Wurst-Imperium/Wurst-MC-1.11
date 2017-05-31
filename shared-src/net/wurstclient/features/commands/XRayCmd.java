@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.HelpPage;
-import net.wurstclient.features.mods.XRayMod;
+import net.wurstclient.features.mods.render.XRayMod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;
