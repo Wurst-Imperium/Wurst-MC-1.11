@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.chat;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -29,7 +29,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.files.WurstFolders;
@@ -39,7 +38,6 @@ import net.wurstclient.spam.exceptions.UnreadableTagException;
 import net.wurstclient.spam.tag.Tag;
 import net.wurstclient.utils.MiscUtils;
 
-@HelpPage("Mods/Spammer")
 @Mod.Bypasses
 @Mod.DontSaveState
 public final class SpammerMod extends Mod
@@ -52,10 +50,7 @@ public final class SpammerMod extends Mod
 	public SpammerMod()
 	{
 		super("Spammer",
-			"It's called Spammer, but it's a lot more.\n"
-				+ "Special features:\n" + ">ASCII art\n"
-				+ ">Run any Wurst command\n" + ">Variables\n"
-				+ ">HTML-like tags & comments\n" + ">Integrated help system");
+			"Automatically spams messages in the chat. It can also run Wurst commands automatically.");
 	}
 	
 	@Override

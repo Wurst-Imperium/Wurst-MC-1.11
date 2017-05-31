@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
-import net.wurstclient.features.mods.SpammerMod;
+import net.wurstclient.features.mods.chat.SpammerMod;
 import net.wurstclient.files.WurstFolders;
 import net.wurstclient.hooks.FrameHook;
 import net.wurstclient.spam.exceptions.InvalidVariableException;
