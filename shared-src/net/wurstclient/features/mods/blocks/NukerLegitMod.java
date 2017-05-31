@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,9 +18,9 @@ import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
+import net.wurstclient.features.mods.NukerMod;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -30,15 +30,11 @@ import net.wurstclient.utils.BlockUtils.BlockValidator;
 import net.wurstclient.utils.RenderUtils;
 
 @SearchTags({"LegitNuker", "nuker legit", "legit nuker"})
-@HelpPage("Mods/NukerLegit")
 @Mod.Bypasses
 public final class NukerLegitMod extends Mod
 	implements LeftClickListener, RenderListener, UpdateListener
 {
-	private BlockPos currentBlock;
-	private BlockValidator validator;
-	
-	public CheckboxSetting useNuker =
+	private final CheckboxSetting useNuker =
 		new CheckboxSetting("Use Nuker settings", true)
 		{
 			@Override
@@ -56,9 +52,9 @@ public final class NukerLegitMod extends Mod
 				}
 			}
 		};
-	public final SliderSetting range =
+	private final SliderSetting range =
 		new SliderSetting("Range", 4.25, 1, 4.25, 0.05, ValueDisplay.DECIMAL);
-	public final ModeSetting mode = new ModeSetting("Mode",
+	private final ModeSetting mode = new ModeSetting("Mode",
 		new String[]{"Normal", "ID", "Flat", "Smash"}, 0)
 	{
 		@Override
@@ -91,6 +87,9 @@ public final class NukerLegitMod extends Mod
 		}
 	};
 	
+	private BlockPos currentBlock;
+	private BlockValidator validator;
+	
 	public NukerLegitMod()
 	{
 		super("NukerLegit",
@@ -113,8 +112,10 @@ public final class NukerLegitMod extends Mod
 		{
 			case 0:
 			return "NukerLegit";
+			
 			case 1:
 			return "IDNukerLegit [" + wurst.mods.nukerMod.id + "]";
+			
 			default:
 			return mode.getSelectedMode() + "NukerLegit";
 		}
@@ -124,20 +125,16 @@ public final class NukerLegitMod extends Mod
 	public Feature[] getSeeAlso()
 	{
 		return new Feature[]{wurst.mods.nukerMod, wurst.mods.speedNukerMod,
-			wurst.mods.tunnellerMod, wurst.mods.fastBreakMod,
-			wurst.mods.autoMineMod};
+			wurst.mods.tunnellerMod};
 	}
 	
 	@Override
 	public void onEnable()
 	{
 		// disable other nukers
-		if(wurst.mods.nukerMod.isEnabled())
-			wurst.mods.nukerMod.setEnabled(false);
-		if(wurst.mods.speedNukerMod.isEnabled())
-			wurst.mods.speedNukerMod.setEnabled(false);
-		if(wurst.mods.tunnellerMod.isEnabled())
-			wurst.mods.tunnellerMod.setEnabled(false);
+		wurst.mods.nukerMod.setEnabled(false);
+		wurst.mods.speedNukerMod.setEnabled(false);
+		wurst.mods.tunnellerMod.setEnabled(false);
 		
 		// add listeners
 		wurst.events.add(LeftClickListener.class, this);
