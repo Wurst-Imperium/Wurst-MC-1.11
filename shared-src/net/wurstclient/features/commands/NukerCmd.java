@@ -10,7 +10,7 @@ package net.wurstclient.features.commands;
 import net.minecraft.block.Block;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.HelpPage;
-import net.wurstclient.features.mods.NukerMod;
+import net.wurstclient.features.mods.blocks.NukerMod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.MiscUtils;

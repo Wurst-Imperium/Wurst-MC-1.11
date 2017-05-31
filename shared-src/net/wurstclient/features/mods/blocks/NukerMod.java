@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.features.mods;
+package net.wurstclient.features.mods.blocks;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +19,6 @@ import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Feature;
-import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.ModeSetting;
@@ -29,15 +28,10 @@ import net.wurstclient.utils.BlockUtils;
 import net.wurstclient.utils.BlockUtils.BlockValidator;
 import net.wurstclient.utils.RenderUtils;
 
-@HelpPage("Mods/Nuker")
 @Mod.Bypasses
 public final class NukerMod extends Mod implements LeftClickListener,
 	UpdateListener, PostUpdateListener, RenderListener
 {
-	public int id = 0;
-	private BlockPos currentBlock;
-	private BlockValidator validator;
-	
 	public final SliderSetting range =
 		new SliderSetting("Range", 6, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	public final ModeSetting mode = new ModeSetting("Mode",
@@ -71,11 +65,16 @@ public final class NukerMod extends Mod implements LeftClickListener,
 			}
 		}
 	};
+	private final ModeSetting mode2 =
+		new ModeSetting("Mode 2", new String[]{"Fast", "Legit"}, 0);
+	
+	public int id = 0;
+	private BlockPos currentBlock;
+	private BlockValidator validator;
 	
 	public NukerMod()
 	{
-		super("Nuker", "Destroys blocks around you.\n"
-			+ "Use .nuker mode <mode> to change the mode.");
+		super("Nuker", "Destroys blocks around you.");
 	}
 	
 	@Override
@@ -83,6 +82,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	{
 		settings.add(range);
 		settings.add(mode);
+		settings.add(mode2);
 	}
 	
 	@Override
@@ -92,8 +92,10 @@ public final class NukerMod extends Mod implements LeftClickListener,
 		{
 			case 0:
 			return "Nuker";
+			
 			case 1:
 			return "IDNuker [" + id + "]";
+			
 			default:
 			return mode.getSelectedMode() + "Nuker";
 		}
@@ -103,9 +105,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	public Feature[] getSeeAlso()
 	{
 		return new Feature[]{wurst.mods.nukerLegitMod, wurst.mods.speedNukerMod,
-			wurst.mods.tunnellerMod, wurst.mods.fastBreakMod,
-			wurst.mods.autoMineMod, wurst.mods.overlayMod,
-			wurst.special.yesCheatSpf};
+			wurst.mods.tunnellerMod};
 	}
 	
 	@Override
@@ -165,8 +165,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 		if(mode.getSelected() == 1 && id == 0)
 			return;
 		
-		boolean legit = wurst.special.yesCheatSpf.getProfile()
-			.ordinal() > Profile.MINEPLEX.ordinal();
+		boolean legit = mode2.getSelected() == 1;
 		
 		currentBlock = null;
 		
@@ -219,8 +218,7 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	@Override
 	public void afterUpdate()
 	{
-		boolean legit = wurst.special.yesCheatSpf.getProfile()
-			.ordinal() > Profile.MINEPLEX.ordinal();
+		boolean legit = mode2.getSelected() == 1;
 		
 		// break block
 		if(currentBlock != null && legit)
@@ -294,12 +292,15 @@ public final class NukerMod extends Mod implements LeftClickListener,
 			case OFF:
 			case MINEPLEX:
 			range.resetUsableMax();
+			mode2.unlock();
 			break;
+			
 			case ANTICHEAT:
 			case OLDER_NCP:
 			case LATEST_NCP:
 			case GHOST_MODE:
 			range.setUsableMax(4.25);
+			mode2.lock(1);
 			break;
 		}
 	}
