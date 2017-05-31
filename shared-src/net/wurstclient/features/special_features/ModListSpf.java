@@ -9,6 +9,8 @@ package net.wurstclient.features.special_features;
 
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.Spf;
+import net.wurstclient.gui.UIPosition;
+import net.wurstclient.gui.UIRenderer;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.ModeSetting;
 
@@ -28,6 +30,16 @@ public final class ModListSpf extends Spf
 					animations.lock(() -> false);
 			}
 		};
+	private final ModeSetting position =
+		new ModeSetting("Position", new String[]{"Left", "Right"}, 1)
+		{
+			@Override
+			public void update()
+			{
+				UIRenderer.modList
+					.setPosition(UIPosition.values()[getSelected()]);
+			}
+		};
 	private final CheckboxSetting animations =
 		new CheckboxSetting("Animations", true);
 	
@@ -40,6 +52,7 @@ public final class ModListSpf extends Spf
 				+ "§lHidden§r mode renders nothing.");
 		
 		settings.add(mode);
+		settings.add(position);
 		settings.add(animations);
 	}
 	

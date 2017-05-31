@@ -21,8 +21,10 @@ import net.wurstclient.font.Fonts;
 
 public final class ModList implements UpdateListener
 {
+	private UIPosition position;
 	private final ArrayList<Entry> activeMods = new ArrayList<>();
 	private int posY;
+	private ScaledResolution sr;
 	
 	public ModList()
 	{
@@ -43,14 +45,17 @@ public final class ModList implements UpdateListener
 		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 2)
 			return;
 		
-		posY = 19;
+		if(position == UIPosition.RIGHT)
+			posY = 0;
+		else
+			posY = 19;
+		sr = new ScaledResolution(Minecraft.getMinecraft());
 		
 		// YesCheat+ mode indicator
 		if(WurstClient.INSTANCE.special.yesCheatSpf.modeIndicator.isChecked())
 			drawString("YesCheat+: " + WurstClient.INSTANCE.special.yesCheatSpf
 				.getProfile().getName());
 		
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int modListHeight = posY + activeMods.size() * 9;
 		
 		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 0
@@ -111,8 +116,14 @@ public final class ModList implements UpdateListener
 	
 	private void drawString(String s)
 	{
-		Fonts.segoe18.drawString(s, 3, posY + 1, 0xff000000);
-		Fonts.segoe18.drawString(s, 2, posY, 0xffffffff);
+		int posX;
+		if(position == UIPosition.RIGHT)
+			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2;
+		else
+			posX = 2;
+		
+		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0xff000000);
+		Fonts.segoe18.drawString(s, posX, posY, 0xffffffff);
 		posY += 9;
 	}
 	
@@ -121,7 +132,14 @@ public final class ModList implements UpdateListener
 		String s = e.mod.getRenderName();
 		float offset =
 			e.offset * partialTicks + e.prevOffset * (1 - partialTicks);
-		float posX = 2 - 5 * offset;
+		
+		float posX;
+		if(position == UIPosition.RIGHT)
+			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2
+				+ 5 * offset;
+		else
+			posX = 2 - 5 * offset;
+		
 		int alpha = (int)(255 * (1 - offset / 4)) << 24;
 		
 		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0x04000000 | alpha);
@@ -141,5 +159,10 @@ public final class ModList implements UpdateListener
 			this.offset = offset;
 			prevOffset = offset;
 		}
+	}
+	
+	public void setPosition(UIPosition position)
+	{
+		this.position = position;
 	}
 }
