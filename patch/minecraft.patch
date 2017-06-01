@@ -1,6 +1,6 @@
-From 7736d9e0c55be07b5e04a27ef1aeb9fb03c1bf74 Mon Sep 17 00:00:00 2001
+From 3b08070926d168d9aa75f320f18fcf2e1d09aa12 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 30 May 2017 15:43:25 +0200
+Date: Thu, 1 Jun 2017 11:05:25 +0200
 Subject: [PATCH] mod
 
 ---
@@ -978,7 +978,7 @@ index 93eccc5..d8a0216 100644
              int j = 14737632;
  
 diff --git a/net/minecraft/client/gui/GuiDisconnected.java b/net/minecraft/client/gui/GuiDisconnected.java
-index 69151c7..85aed1e 100644
+index 69151c7..dd7cfe7 100644
 --- a/net/minecraft/client/gui/GuiDisconnected.java
 +++ b/net/minecraft/client/gui/GuiDisconnected.java
 @@ -2,8 +2,12 @@ package net.minecraft.client.gui;
@@ -997,7 +997,7 @@ index 69151c7..85aed1e 100644
 @@ -13,11 +17,19 @@ public class GuiDisconnected extends GuiScreen
      private final GuiScreen parentScreen;
      private int textHeight;
- 
+     
 +	// TODO: Client
 +	private int autoReconnectTimer;
 +
@@ -1018,13 +1018,13 @@ index 69151c7..85aed1e 100644
          this.multilineMessage = this.fontRendererObj.listFormattedStringToWidth(this.message.getFormattedText(), this.width - 50);
          this.textHeight = this.multilineMessage.size() * this.fontRendererObj.FONT_HEIGHT;
          this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + this.textHeight / 2 + this.fontRendererObj.FONT_HEIGHT, this.height - 30), I18n.format("gui.toMenu", new Object[0])));
-+
++        
 +		// TODO: Client
-+		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height
-+			/ 2 + this.textHeight / 2 + this.fontRendererObj.FONT_HEIGHT + 24,
++		buttonList.add(new GuiButton(1, width / 2 - 100,
++			height / 2 + textHeight / 2 + fontRendererObj.FONT_HEIGHT + 24,
 +			"Reconnect"));
-+		this.buttonList.add(new GuiButton(2, this.width / 2 - 100, this.height
-+			/ 2 + this.textHeight / 2 + this.fontRendererObj.FONT_HEIGHT + 48,
++		buttonList.add(new GuiButton(2, width / 2 - 100,
++			height / 2 + textHeight / 2 + fontRendererObj.FONT_HEIGHT + 48,
 +			"AutoReconnect"));
 +		if(message.getUnformattedText().toLowerCase().contains("whitelist")
 +			|| message.getUnformattedText().toLowerCase()
@@ -1032,12 +1032,12 @@ index 69151c7..85aed1e 100644
 +			if(parentScreen instanceof GuiMultiplayer
 +				&& ((GuiMultiplayer)parentScreen).serverListSelector
 +					.getSelected() != -1)
-+				this.buttonList.add(new GuiButton(3, this.width / 2 - 100,
-+					this.height / 2 + this.textHeight / 2
-+						+ this.fontRendererObj.FONT_HEIGHT + 72,
++				buttonList.add(new GuiButton(3,
++					width / 2 - 100, height / 2 + textHeight / 2
++						+ fontRendererObj.FONT_HEIGHT + 72,
 +					"§4Delete Server§r"));
 +		if(WurstClient.INSTANCE.options.autoReconnect)
-+			this.autoReconnectTimer = 100;
++			autoReconnectTimer = 100;
      }
  
      /**
@@ -1049,14 +1049,14 @@ index 69151c7..85aed1e 100644
 +			// TODO: Client
 +		}else if(button.id == 1)
 +		{
-+			ServerHook.reconnectToLastServer(this);
++			ServerHook.reconnectToLastServer(parentScreen);
 +		}else if(button.id == 2)
 +		{
 +			WurstClient.INSTANCE.options.autoReconnect =
 +				!WurstClient.INSTANCE.options.autoReconnect;
 +			ConfigFiles.OPTIONS.save();
 +			if(WurstClient.INSTANCE.options.autoReconnect)
-+				this.autoReconnectTimer = 100;
++				autoReconnectTimer = 100;
 +		}else if(button.id == 3)
 +		{
 +			GuiMultiplayer servers = (GuiMultiplayer)parentScreen;
@@ -1077,15 +1077,15 @@ index 69151c7..85aed1e 100644
 +		{
 +			if(buttonList.size() < 2)
 +				return;
-+			((GuiButton)this.buttonList.get(2)).displayString =
-+				"AutoReconnect (" + ((this.autoReconnectTimer / 20) + 1) + ")";
-+			if(this.autoReconnectTimer > 0)
-+				this.autoReconnectTimer--;
++			buttonList.get(2).displayString =
++				"AutoReconnect (" + (autoReconnectTimer / 20 + 1) + ")";
++			if(autoReconnectTimer > 0)
++				autoReconnectTimer--;
 +			else
 +			{
 +				try
 +				{
-+					this.actionPerformed((GuiButton)this.buttonList.get(1));
++					actionPerformed(buttonList.get(1));
 +				}catch(IOException e)
 +				{
 +					e.printStackTrace();
@@ -1093,7 +1093,7 @@ index 69151c7..85aed1e 100644
 +			}
 +		}else
 +		{
-+			((GuiButton)this.buttonList.get(2)).displayString = "AutoReconnect";
++			buttonList.get(2).displayString = "AutoReconnect";
  		}
  	}
  
