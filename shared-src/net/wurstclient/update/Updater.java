@@ -38,7 +38,7 @@ public class Updater
 		try
 		{
 			JsonArray json = fetchJson(
-				"https://api.github.com/repos/Wurst-Imperium/Wurst-MCX/releases")
+				"https://api.github.com/repos/Wurst-Imperium/Wurst-MCX2/releases")
 					.getAsJsonArray();
 			
 			for(JsonElement element : json)
