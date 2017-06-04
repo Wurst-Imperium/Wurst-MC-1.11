@@ -80,7 +80,7 @@ public class Updater
 		{
 			if(!asset.getAsJsonObject().get("name").getAsString()
 				.endsWith("MC" + WMinecraft.VERSION
-					+ (WMinecraft.OPTIFINE ? "-OF" : "") + ".zip"))
+					+ (WMinecraft.OPTIFINE ? "-OF" : "") + ".jar"))
 				continue;
 			
 			return true;
