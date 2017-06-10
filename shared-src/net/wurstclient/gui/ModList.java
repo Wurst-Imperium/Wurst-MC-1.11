@@ -17,11 +17,14 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.mods.other.NavigatorMod;
+import net.wurstclient.features.special_features.ModListSpf;
 import net.wurstclient.font.Fonts;
 
 public final class ModList implements UpdateListener
 {
 	private final ArrayList<Entry> activeMods = new ArrayList<>();
+	private final ModListSpf modListSpf =
+		WurstClient.INSTANCE.special.modListSpf;
 	private int posY;
 	private ScaledResolution sr;
 	
@@ -41,10 +44,10 @@ public final class ModList implements UpdateListener
 	
 	public void render(float partialTicks)
 	{
-		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 2)
+		if(modListSpf.getMode() == 2)
 			return;
 		
-		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
+		if(modListSpf.getPosition() == 1)
 			posY = 0;
 		else
 			posY = 19;
@@ -57,11 +60,10 @@ public final class ModList implements UpdateListener
 		
 		int modListHeight = posY + activeMods.size() * 9;
 		
-		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 0
-			&& modListHeight <= sr.getScaledHeight())
+		if(modListSpf.getMode() == 0 && modListHeight <= sr.getScaledHeight())
 			
 			// draw mod list
-			if(WurstClient.INSTANCE.special.modListSpf.isAnimations())
+			if(modListSpf.isAnimations())
 				for(Entry e : activeMods)
 					drawWithOffset(e, partialTicks);
 			else
@@ -85,14 +87,14 @@ public final class ModList implements UpdateListener
 			activeMods.add(new Entry(mod, 4));
 			activeMods.sort(Comparator.comparing(e -> e.mod.getName()));
 			
-		}else if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
+		}else if(!modListSpf.isAnimations())
 			activeMods.removeIf(e -> e.mod == mod);
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		if(!WurstClient.INSTANCE.special.modListSpf.isAnimations())
+		if(!modListSpf.isAnimations())
 			return;
 		
 		for(Iterator<Entry> itr = activeMods.iterator(); itr.hasNext();)
@@ -116,7 +118,7 @@ public final class ModList implements UpdateListener
 	private void drawString(String s)
 	{
 		int posX;
-		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
+		if(modListSpf.getPosition() == 1)
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2;
 		else
 			posX = 2;
@@ -133,7 +135,7 @@ public final class ModList implements UpdateListener
 			e.offset * partialTicks + e.prevOffset * (1 - partialTicks);
 		
 		float posX;
-		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
+		if(modListSpf.getPosition() == 1)
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2
 				+ 5 * offset;
 		else

@@ -15,11 +15,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.special_features.TabGuiSpf;
 import net.wurstclient.font.Fonts;
 
 public final class TabGui implements UpdateListener
 {
 	private final ArrayList<Tab> tabs = new ArrayList<>();
+	private final TabGuiSpf tabGuiSpf = WurstClient.INSTANCE.special.tabGuiSpf;
 	
 	public TabGui()
 	{
@@ -47,7 +49,7 @@ public final class TabGui implements UpdateListener
 	
 	public void render(float partialTicks)
 	{
-		if(WurstClient.INSTANCE.special.tabGuiSpf.getPosition() == 2)
+		if(tabGuiSpf.getPosition() == 2)
 			return;
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -64,7 +66,7 @@ public final class TabGui implements UpdateListener
 		
 		int x;
 		int y;
-		if(WurstClient.INSTANCE.special.tabGuiSpf.getPosition() == 1)
+		if(tabGuiSpf.getPosition() == 1)
 		{
 			x = sr.getScaledWidth() - width - 2;
 			y = 3;
