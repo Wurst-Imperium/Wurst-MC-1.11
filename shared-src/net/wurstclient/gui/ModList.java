@@ -21,7 +21,6 @@ import net.wurstclient.font.Fonts;
 
 public final class ModList implements UpdateListener
 {
-	private UIPosition position;
 	private final ArrayList<Entry> activeMods = new ArrayList<>();
 	private int posY;
 	private ScaledResolution sr;
@@ -45,7 +44,7 @@ public final class ModList implements UpdateListener
 		if(WurstClient.INSTANCE.special.modListSpf.getMode() == 2)
 			return;
 		
-		if(position == UIPosition.RIGHT)
+		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
 			posY = 0;
 		else
 			posY = 19;
@@ -117,7 +116,7 @@ public final class ModList implements UpdateListener
 	private void drawString(String s)
 	{
 		int posX;
-		if(position == UIPosition.RIGHT)
+		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2;
 		else
 			posX = 2;
@@ -134,7 +133,7 @@ public final class ModList implements UpdateListener
 			e.offset * partialTicks + e.prevOffset * (1 - partialTicks);
 		
 		float posX;
-		if(position == UIPosition.RIGHT)
+		if(WurstClient.INSTANCE.special.modListSpf.getPosition() == 1)
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2
 				+ 5 * offset;
 		else
@@ -159,10 +158,5 @@ public final class ModList implements UpdateListener
 			this.offset = offset;
 			prevOffset = offset;
 		}
-	}
-	
-	public void setPosition(UIPosition position)
-	{
-		this.position = position;
 	}
 }
