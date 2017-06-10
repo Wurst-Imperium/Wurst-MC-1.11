@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.Spf;
 import net.wurstclient.settings.ModeSetting;
@@ -15,7 +16,7 @@ import net.wurstclient.settings.ModeSetting;
 public final class TabGuiSpf extends Spf
 {
 	private final ModeSetting position =
-		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 0);
+		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 2);
 	
 	public TabGuiSpf()
 	{
@@ -23,6 +24,12 @@ public final class TabGuiSpf extends Spf
 			+ "Use the arrow keys to navigate.");
 		
 		settings.add(position);
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.special.modListSpf};
 	}
 	
 	public int getPosition()

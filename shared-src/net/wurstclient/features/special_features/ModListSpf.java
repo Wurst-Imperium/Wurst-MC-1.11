@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.special_features;
 
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.Spf;
 import net.wurstclient.settings.CheckboxSetting;
@@ -29,7 +30,7 @@ public final class ModListSpf extends Spf
 			}
 		};
 	private final ModeSetting position =
-		new ModeSetting("Position", new String[]{"Left", "Right"}, 1);
+		new ModeSetting("Position", new String[]{"Left", "Right"}, 0);
 	private final CheckboxSetting animations =
 		new CheckboxSetting("Animations", true);
 	
@@ -44,6 +45,12 @@ public final class ModListSpf extends Spf
 		settings.add(mode);
 		settings.add(position);
 		settings.add(animations);
+	}
+	
+	@Override
+	public Feature[] getSeeAlso()
+	{
+		return new Feature[]{wurst.special.tabGuiSpf};
 	}
 	
 	public int getMode()
