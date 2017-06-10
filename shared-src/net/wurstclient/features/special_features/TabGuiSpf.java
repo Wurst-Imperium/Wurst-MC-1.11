@@ -1,0 +1,32 @@
+/*
+ * Copyright © 2014 - 2017 | Wurst-Imperium | All rights reserved.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+package net.wurstclient.features.special_features;
+
+import net.wurstclient.features.SearchTags;
+import net.wurstclient.features.Spf;
+import net.wurstclient.settings.ModeSetting;
+
+@SearchTags({"tab gui"})
+public final class TabGuiSpf extends Spf
+{
+	private final ModeSetting position =
+		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 0);
+	
+	public TabGuiSpf()
+	{
+		super("TabGui", "Allows you to quickly toggle mods while playing.\n"
+			+ "Use the arrow keys to navigate.");
+		
+		settings.add(position);
+	}
+	
+	public int getPosition()
+	{
+		return position.getSelected();
+	}
+}

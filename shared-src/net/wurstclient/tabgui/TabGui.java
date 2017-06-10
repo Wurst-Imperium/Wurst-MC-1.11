@@ -47,6 +47,9 @@ public final class TabGui implements UpdateListener
 	
 	public void render(float partialTicks)
 	{
+		if(WurstClient.INSTANCE.special.tabGuiSpf.getPosition() == 2)
+			return;
+		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -55,19 +58,35 @@ public final class TabGui implements UpdateListener
 		
 		GL11.glPushMatrix();
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		GL11.glTranslatef(2, 23, 0);
 		
-		drawBox(0, 0, 92, 160);
+		int width = 92;
+		int height = tabs.size() * 10;
+		
+		int x;
+		int y;
+		if(WurstClient.INSTANCE.special.tabGuiSpf.getPosition() == 1)
+		{
+			x = sr.getScaledWidth() - width - 2;
+			y = 3;
+		}else
+		{
+			x = 2;
+			y = 23;
+		}
+		
+		GL11.glTranslatef(x, y, 0);
+		drawBox(0, 0, width, height);
+		
 		int factor = sr.getScaleFactor();
-		GL11.glScissor(2 * factor, (sr.getScaledHeight() - 183) * factor,
-			92 * factor, 160 * factor);
+		GL11.glScissor(x * factor, (sr.getScaledHeight() - height - y) * factor,
+			width * factor, height * factor);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
-		int posY = -2;
+		int textY = -2;
 		for(Tab tab : tabs)
 		{
-			Fonts.segoe18.drawString(tab.getName(), 2, posY, 0xffffffff);
-			posY += 10;
+			Fonts.segoe18.drawString(tab.getName(), 2, textY, 0xffffffff);
+			textY += 10;
 		}
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
