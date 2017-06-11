@@ -18,6 +18,7 @@ import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.mods.other.NavigatorMod;
 import net.wurstclient.features.special_features.ModListSpf;
+import net.wurstclient.features.special_features.YesCheatSpf;
 import net.wurstclient.font.Fonts;
 
 public final class ModList implements UpdateListener
@@ -44,37 +45,34 @@ public final class ModList implements UpdateListener
 	
 	public void render(float partialTicks)
 	{
-		if(modListSpf.getMode() == 2)
+		if(modListSpf.isHidden())
 			return;
 		
-		if(modListSpf.getPosition() == 1)
+		if(modListSpf.isPositionRight())
 			posY = 0;
 		else
 			posY = 19;
 		sr = new ScaledResolution(Minecraft.getMinecraft());
 		
 		// YesCheat+ mode indicator
-		if(WurstClient.INSTANCE.special.yesCheatSpf.modeIndicator.isChecked())
-			drawString("YesCheat+: " + WurstClient.INSTANCE.special.yesCheatSpf
-				.getProfile().getName());
+		YesCheatSpf yesCheatSpf = WurstClient.INSTANCE.special.yesCheatSpf;
+		if(yesCheatSpf.modeIndicator.isChecked())
+			drawString("YesCheat+: " + yesCheatSpf.getProfile().getName());
 		
-		int modListHeight = posY + activeMods.size() * 9;
-		
-		if(modListSpf.getMode() == 0 && modListHeight <= sr.getScaledHeight())
+		int height = posY + activeMods.size() * 9;
+		if(modListSpf.isCountMode() || height > sr.getScaledHeight())
 			
-			// draw mod list
-			if(modListSpf.isAnimations())
-				for(Entry e : activeMods)
-					drawWithOffset(e, partialTicks);
-			else
-				for(Entry e : activeMods)
-					drawString(e.mod.getRenderName());
-				
-		// draw counter
-		else if(activeMods.size() == 1)
-			drawString("1 mod active");
+			// draw counter
+			drawString(activeMods.size() == 1 ? "1 mod active"
+				: activeMods.size() + " mods active");
+		
+		// draw mod list
+		else if(modListSpf.isAnimations())
+			for(Entry e : activeMods)
+				drawWithOffset(e, partialTicks);
 		else
-			drawString(activeMods.size() + " mods active");
+			for(Entry e : activeMods)
+				drawString(e.mod.getRenderName());
 	}
 	
 	public void updateState(Mod mod)
@@ -84,6 +82,7 @@ public final class ModList implements UpdateListener
 			for(Entry e : activeMods)
 				if(e.mod == mod)
 					return;
+				
 			activeMods.add(new Entry(mod, 4));
 			activeMods.sort(Comparator.comparing(e -> e.mod.getName()));
 			
@@ -106,10 +105,12 @@ public final class ModList implements UpdateListener
 				e.prevOffset = e.offset;
 				if(e.offset > 0)
 					e.offset--;
+				
 			}else if(!e.mod.isActive() && e.offset < 4)
 			{
 				e.prevOffset = e.offset;
 				e.offset++;
+				
 			}else if(!e.mod.isActive() && e.offset == 4)
 				itr.remove();
 		}
@@ -118,13 +119,14 @@ public final class ModList implements UpdateListener
 	private void drawString(String s)
 	{
 		int posX;
-		if(modListSpf.getPosition() == 1)
+		if(modListSpf.isPositionRight())
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2;
 		else
 			posX = 2;
 		
 		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0xff000000);
 		Fonts.segoe18.drawString(s, posX, posY, 0xffffffff);
+		
 		posY += 9;
 	}
 	
@@ -135,16 +137,16 @@ public final class ModList implements UpdateListener
 			e.offset * partialTicks + e.prevOffset * (1 - partialTicks);
 		
 		float posX;
-		if(modListSpf.getPosition() == 1)
+		if(modListSpf.isPositionRight())
 			posX = sr.getScaledWidth() - Fonts.segoe18.getStringWidth(s) - 2
 				+ 5 * offset;
 		else
 			posX = 2 - 5 * offset;
 		
 		int alpha = (int)(255 * (1 - offset / 4)) << 24;
-		
 		Fonts.segoe18.drawString(s, posX + 1, posY + 1, 0x04000000 | alpha);
 		Fonts.segoe18.drawString(s, posX, posY, 0x04ffffff | alpha);
+		
 		posY += 9;
 	}
 	

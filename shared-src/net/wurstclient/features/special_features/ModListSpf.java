@@ -18,19 +18,23 @@ import net.wurstclient.settings.ModeSetting;
 public final class ModListSpf extends Spf
 {
 	private final ModeSetting mode =
-		new ModeSetting("Mode", new String[]{"Auto", "Count", "Hidden"}, 0)
+		new ModeSetting("Mode", new String[]{"Auto", "Count"}, 0)
 		{
 			@Override
 			public void update()
 			{
-				if(getSelected() == 0)
-					animations.unlock();
-				else
-					animations.lock(() -> false);
+				updateAnimationsLock();
 			}
 		};
 	private final ModeSetting position =
-		new ModeSetting("Position", new String[]{"Left", "Right"}, 0);
+		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 0)
+		{
+			@Override
+			public void update()
+			{
+				updateAnimationsLock();
+			}
+		};
 	private final CheckboxSetting animations =
 		new CheckboxSetting("Animations", true);
 	
@@ -39,12 +43,19 @@ public final class ModListSpf extends Spf
 		super("ModList",
 			"Shows a list of active mods on the screen.\n"
 				+ "§lAuto§r mode renders the whole list if it fits onto the screen.\n"
-				+ "§lCount§r mode only renders the number of active mods.\n"
-				+ "§lHidden§r mode renders nothing.");
+				+ "§lCount§r mode only renders the number of active mods.");
 		
 		settings.add(mode);
 		settings.add(position);
 		settings.add(animations);
+	}
+	
+	private void updateAnimationsLock()
+	{
+		if(isCountMode() || isHidden())
+			animations.lock(() -> false);
+		else
+			animations.unlock();
 	}
 	
 	@Override
@@ -53,18 +64,23 @@ public final class ModListSpf extends Spf
 		return new Feature[]{wurst.special.tabGuiSpf};
 	}
 	
-	public int getMode()
+	public boolean isCountMode()
 	{
-		return mode.getSelected();
+		return mode.getSelected() == 1;
+	}
+	
+	public boolean isPositionRight()
+	{
+		return position.getSelected() == 1;
+	}
+	
+	public boolean isHidden()
+	{
+		return position.getSelected() == 2;
 	}
 	
 	public boolean isAnimations()
 	{
 		return animations.isChecked();
-	}
-	
-	public int getPosition()
-	{
-		return position.getSelected();
 	}
 }
