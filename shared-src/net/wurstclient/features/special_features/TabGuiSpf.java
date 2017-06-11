@@ -32,8 +32,13 @@ public final class TabGuiSpf extends Spf
 		return new Feature[]{wurst.special.modListSpf};
 	}
 	
-	public int getPosition()
+	public boolean isPositionRight()
 	{
-		return position.getSelected();
+		return position.getSelected() == 1;
+	}
+	
+	public boolean isHidden()
+	{
+		return position.getSelected() == 2;
 	}
 }

@@ -49,7 +49,7 @@ public final class TabGui implements UpdateListener
 	
 	public void render(float partialTicks)
 	{
-		if(tabGuiSpf.getPosition() == 2)
+		if(tabGuiSpf.isHidden())
 			return;
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -66,7 +66,7 @@ public final class TabGui implements UpdateListener
 		
 		int x;
 		int y;
-		if(tabGuiSpf.getPosition() == 1)
+		if(tabGuiSpf.isPositionRight())
 		{
 			x = sr.getScaledWidth() - width - 2;
 			y = 3;
