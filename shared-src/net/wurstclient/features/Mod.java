@@ -28,10 +28,6 @@ public abstract class Mod extends Feature
 {
 	private final String name;
 	private final String description;
-	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
-		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
-		: "";
-	
 	private final Bypasses bypasses = getClass().getAnnotation(Bypasses.class);
 	private final boolean stateSaved =
 		!getClass().isAnnotationPresent(DontSaveState.class);
@@ -246,12 +242,6 @@ public abstract class Mod extends Feature
 	public final String getDescription()
 	{
 		return description;
-	}
-	
-	@Override
-	public final String getTags()
-	{
-		return tags;
 	}
 	
 	@Override

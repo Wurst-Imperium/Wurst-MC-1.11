@@ -48,7 +48,7 @@ public final class Navigator
 		// add search results
 		for(Feature mod : navigatorList)
 			if(mod.getName().toLowerCase().contains(query)
-				|| mod.getTags().toLowerCase().contains(query)
+				|| mod.getSearchTags().toLowerCase().contains(query)
 				|| mod.getDescription().toLowerCase().contains(query))
 				list.add(mod);
 			
@@ -68,7 +68,7 @@ public final class Navigator
 		
 		// sort search results
 		list.sort(Comparator.comparing(Feature::getName, c)
-			.thenComparing(Feature::getTags, c)
+			.thenComparing(Feature::getSearchTags, c)
 			.thenComparing(Feature::getDescription, c));
 	}
 	

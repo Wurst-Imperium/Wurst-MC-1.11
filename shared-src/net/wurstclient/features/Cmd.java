@@ -24,9 +24,6 @@ public abstract class Cmd extends Feature
 	private final String name;
 	private final String description;
 	private final String[] syntax;
-	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
-		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
-		: "";
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Cmd(String name, String description, String... syntax)
@@ -105,12 +102,6 @@ public abstract class Cmd extends Feature
 	public final boolean isBlocked()
 	{
 		return false;
-	}
-	
-	@Override
-	public final String getTags()
-	{
-		return tags;
 	}
 	
 	@Override

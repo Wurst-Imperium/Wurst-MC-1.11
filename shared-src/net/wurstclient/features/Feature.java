@@ -22,6 +22,9 @@ public abstract class Feature
 	private final String helpPage =
 		getClass().isAnnotationPresent(HelpPage.class)
 			? getClass().getAnnotation(HelpPage.class).value() : "";
+	private final String searchTags =
+		getClass().isAnnotationPresent(SearchTags.class) ? String.join("§",
+			getClass().getAnnotation(SearchTags.class).value()) : "";
 	
 	public abstract String getName();
 	
@@ -32,8 +35,6 @@ public abstract class Feature
 	public abstract boolean isEnabled();
 	
 	public abstract boolean isBlocked();
-	
-	public abstract String getTags();
 	
 	public abstract ArrayList<Setting> getSettings();
 	
@@ -46,6 +47,11 @@ public abstract class Feature
 	public final String getHelpPage()
 	{
 		return helpPage;
+	}
+	
+	public final String getSearchTags()
+	{
+		return searchTags;
 	}
 	
 	public abstract Feature[] getSeeAlso();
