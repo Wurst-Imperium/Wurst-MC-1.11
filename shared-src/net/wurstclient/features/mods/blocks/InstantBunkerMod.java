@@ -60,7 +60,7 @@ public final class InstantBunkerMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
+		addSetting(mode);
 	}
 	
 	@Override

@@ -46,7 +46,7 @@ public final class AutoFishMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(overfillInventory);
+		addSetting(overfillInventory);
 	}
 	
 	@Override

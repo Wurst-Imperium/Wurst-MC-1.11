@@ -39,7 +39,7 @@ public final class HighJumpMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(height);
+		addSetting(height);
 	}
 	
 	public double getAdditionalJumpMotion()

@@ -33,7 +33,7 @@ public final class CriticalsMod extends Mod implements LeftClickListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
+		addSetting(mode);
 	}
 	
 	@Override

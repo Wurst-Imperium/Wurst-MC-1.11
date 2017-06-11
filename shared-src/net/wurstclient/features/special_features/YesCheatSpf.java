@@ -33,7 +33,7 @@ public final class YesCheatSpf extends Spf
 		super("YesCheat+",
 			"Makes other features bypass AntiCheat plugins or blocks them if they can't.");
 		
-		settings.add(
+		addSetting(
 			new ModeSetting("Profile", Profile.getNames(), profile.ordinal())
 			{
 				@Override
@@ -55,7 +55,7 @@ public final class YesCheatSpf extends Spf
 						.forEach((mod) -> mod.onYesCheatUpdate(profile));
 				}
 			});
-		settings.add(modeIndicator);
+		addSetting(modeIndicator);
 	}
 	
 	public Profile getProfile()

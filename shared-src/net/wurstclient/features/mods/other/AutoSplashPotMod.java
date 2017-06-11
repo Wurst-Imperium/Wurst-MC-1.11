@@ -44,8 +44,8 @@ public final class AutoSplashPotMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(health);
-		settings.add(ignoreScreen);
+		addSetting(health);
+		addSetting(ignoreScreen);
 	}
 	
 	@Override

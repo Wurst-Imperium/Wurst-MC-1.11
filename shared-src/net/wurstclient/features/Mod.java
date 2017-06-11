@@ -36,8 +36,6 @@ public abstract class Mod extends Feature
 	private boolean blocked;
 	private boolean active;
 	
-	protected ArrayList<Setting> settings = new ArrayList<>();
-	
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
 	
@@ -58,7 +56,7 @@ public abstract class Mod extends Feature
 				new PossibleKeybind(dotT + " off", "Disable " + name)));
 		
 		// settings keybinds
-		for(Setting setting : settings)
+		for(Setting setting : getSettings())
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;
@@ -242,12 +240,6 @@ public abstract class Mod extends Feature
 	public final String getDescription()
 	{
 		return description;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
 	}
 	
 	public final boolean isStateSaved()

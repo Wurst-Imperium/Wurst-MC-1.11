@@ -19,6 +19,9 @@ public abstract class Feature
 	protected static final WurstClient wurst = WurstClient.INSTANCE;
 	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
+	@Deprecated
+	protected final ArrayList<Setting> settings = new ArrayList<>();
+	
 	private final String helpPage =
 		getClass().isAnnotationPresent(HelpPage.class)
 			? getClass().getAnnotation(HelpPage.class).value() : "";
@@ -36,7 +39,15 @@ public abstract class Feature
 	
 	public abstract boolean isBlocked();
 	
-	public abstract ArrayList<Setting> getSettings();
+	public final ArrayList<Setting> getSettings()
+	{
+		return settings;
+	}
+	
+	protected void addSetting(Setting setting)
+	{
+		settings.add(setting);
+	}
 	
 	public abstract ArrayList<PossibleKeybind> getPossibleKeybinds();
 	

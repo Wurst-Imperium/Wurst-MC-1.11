@@ -80,9 +80,9 @@ public final class NukerMod extends Mod implements LeftClickListener,
 	@Override
 	public void initSettings()
 	{
-		settings.add(range);
-		settings.add(mode);
-		settings.add(mode2);
+		addSetting(range);
+		addSetting(mode);
+		addSetting(mode2);
 	}
 	
 	@Override

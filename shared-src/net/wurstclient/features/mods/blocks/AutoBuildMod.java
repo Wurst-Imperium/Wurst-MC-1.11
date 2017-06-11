@@ -91,8 +91,8 @@ public final class AutoBuildMod extends Mod
 	public void setTemplates(TreeMap<String, int[][]> templates)
 	{
 		settings.clear();
-		settings.add(mode);
-		settings.add(useAi);
+		addSetting(mode);
+		addSetting(useAi);
 		
 		this.templates =
 			templates.values().toArray(new int[templates.size()][][]);
@@ -106,7 +106,7 @@ public final class AutoBuildMod extends Mod
 		template = new ModeSetting("Template",
 			templates.keySet().toArray(new String[templates.size()]), selected);
 		
-		settings.add(template);
+		addSetting(template);
 	}
 	
 	@Override

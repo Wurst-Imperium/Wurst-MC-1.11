@@ -74,12 +74,12 @@ public final class KillauraMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		if(useCooldown != null)
-			settings.add(useCooldown);
+			addSetting(useCooldown);
 		
-		settings.add(speed);
-		settings.add(range);
-		settings.add(fov);
-		settings.add(hitThroughWalls);
+		addSetting(speed);
+		addSetting(range);
+		addSetting(fov);
+		addSetting(hitThroughWalls);
 	}
 	
 	@Override

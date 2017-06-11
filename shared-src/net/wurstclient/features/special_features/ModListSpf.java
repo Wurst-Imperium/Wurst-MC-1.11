@@ -39,8 +39,8 @@ public final class ModListSpf extends Spf
 				+ "§lCount§r mode only renders the number of active mods.\n"
 				+ "§lHidden§r mode renders nothing.");
 		
-		settings.add(mode);
-		settings.add(animations);
+		addSetting(mode);
+		addSetting(animations);
 	}
 	
 	public int getMode()

@@ -71,11 +71,11 @@ public final class FlightMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
-		settings.add(speed);
+		addSetting(mode);
+		addSetting(speed);
 		
 		if(flightKickBypass != null)
-			settings.add(flightKickBypass);
+			addSetting(flightKickBypass);
 	}
 	
 	@Override

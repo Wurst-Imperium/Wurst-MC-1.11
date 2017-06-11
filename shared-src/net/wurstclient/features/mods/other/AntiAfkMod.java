@@ -44,7 +44,7 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(useAi);
+		addSetting(useAi);
 	}
 	
 	@Override

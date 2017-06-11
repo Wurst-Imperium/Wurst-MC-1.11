@@ -40,17 +40,17 @@ public final class TargetSpf extends Spf
 			"Controls what entities are targeted by other features (e.g. Killaura). Also allows you to\n"
 				+ "bypass AntiAura plugins by filtering out fake entities.");
 		
-		settings.add(players);
-		settings.add(animals);
-		settings.add(monsters);
-		settings.add(golems);
+		addSetting(players);
+		addSetting(animals);
+		addSetting(monsters);
+		addSetting(golems);
 		
-		settings.add(sleepingPlayers);
-		settings.add(invisiblePlayers);
-		settings.add(invisibleMobs);
+		addSetting(sleepingPlayers);
+		addSetting(invisiblePlayers);
+		addSetting(invisibleMobs);
 		
-		settings.add(teams);
-		settings.add(teamColors);
+		addSetting(teams);
+		addSetting(teamColors);
 	}
 	
 	@Override

@@ -55,7 +55,7 @@ public final class JetpackMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		if(flightKickBypass != null)
-			settings.add(flightKickBypass);
+			addSetting(flightKickBypass);
 	}
 	
 	@Override

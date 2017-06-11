@@ -46,7 +46,7 @@ public final class FollowMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(distance);
+		addSetting(distance);
 	}
 	
 	private final TargetSettings targetSettingsFind = new TargetSettings()

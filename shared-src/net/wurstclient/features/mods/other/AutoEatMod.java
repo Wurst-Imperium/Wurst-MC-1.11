@@ -41,7 +41,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(ignoreScreen);
+		addSetting(ignoreScreen);
 	}
 	
 	@Override

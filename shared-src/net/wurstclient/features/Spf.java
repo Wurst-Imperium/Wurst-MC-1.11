@@ -16,7 +16,6 @@ public abstract class Spf extends Feature
 {
 	private final String name;
 	private final String description;
-	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Spf(String name, String description)
 	{
@@ -55,18 +54,12 @@ public abstract class Spf extends Feature
 	}
 	
 	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
-	}
-	
-	@Override
 	public ArrayList<PossibleKeybind> getPossibleKeybinds()
 	{
 		ArrayList<PossibleKeybind> possibleKeybinds = new ArrayList<>();
 		
 		// settings keybinds
-		for(Setting setting : settings)
+		for(Setting setting : getSettings())
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;

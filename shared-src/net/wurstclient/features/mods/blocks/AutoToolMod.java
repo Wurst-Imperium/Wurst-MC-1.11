@@ -41,7 +41,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(useSwords);
+		addSetting(useSwords);
 	}
 	
 	@Override

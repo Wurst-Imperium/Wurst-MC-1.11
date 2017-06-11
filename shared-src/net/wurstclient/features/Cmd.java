@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.keybinds.PossibleKeybind;
-import net.wurstclient.settings.Setting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
@@ -24,7 +23,6 @@ public abstract class Cmd extends Feature
 	private final String name;
 	private final String description;
 	private final String[] syntax;
-	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Cmd(String name, String description, String... syntax)
 	{
@@ -102,12 +100,6 @@ public abstract class Cmd extends Feature
 	public final boolean isBlocked()
 	{
 		return false;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
 	}
 	
 	@Override

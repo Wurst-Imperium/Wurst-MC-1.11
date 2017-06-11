@@ -34,9 +34,9 @@ public final class NoSlowdownMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(water);
-		settings.add(soulSand);
-		settings.add(items);
+		addSetting(water);
+		addSetting(soulSand);
+		addSetting(items);
 	}
 	
 	@Override

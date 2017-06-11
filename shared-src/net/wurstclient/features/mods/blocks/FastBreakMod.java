@@ -40,8 +40,8 @@ public final class FastBreakMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
-		settings.add(speed);
+		addSetting(mode);
+		addSetting(speed);
 	}
 	
 	@Override

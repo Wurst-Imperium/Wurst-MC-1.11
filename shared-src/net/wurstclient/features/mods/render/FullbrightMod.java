@@ -38,7 +38,7 @@ public final class FullbrightMod extends Mod implements UpdateListener
 	public void initSettings()
 	{
 		if(shaderMode != null)
-			settings.add(shaderMode);
+			addSetting(shaderMode);
 	}
 	
 	@Override
