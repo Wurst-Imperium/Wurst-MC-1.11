@@ -19,6 +19,10 @@ public abstract class Feature
 	protected static final WurstClient wurst = WurstClient.INSTANCE;
 	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
+	private final String helpPage =
+		getClass().isAnnotationPresent(HelpPage.class)
+			? getClass().getAnnotation(HelpPage.class).value() : "";
+	
 	public abstract String getName();
 	
 	public abstract String getType();
@@ -39,7 +43,10 @@ public abstract class Feature
 	
 	public abstract void doPrimaryAction();
 	
-	public abstract String getHelpPage();
+	public final String getHelpPage()
+	{
+		return helpPage;
+	}
 	
 	public abstract Feature[] getSeeAlso();
 }

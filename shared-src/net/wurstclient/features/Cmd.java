@@ -27,9 +27,6 @@ public abstract class Cmd extends Feature
 	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
 		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
 		: "";
-	private final String helpPage =
-		getClass().isAnnotationPresent(HelpPage.class)
-			? getClass().getAnnotation(HelpPage.class).value() : "";
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Cmd(String name, String description, String... syntax)
@@ -138,12 +135,6 @@ public abstract class Cmd extends Feature
 	public void doPrimaryAction()
 	{
 		
-	}
-	
-	@Override
-	public final String getHelpPage()
-	{
-		return helpPage;
 	}
 	
 	@Override
