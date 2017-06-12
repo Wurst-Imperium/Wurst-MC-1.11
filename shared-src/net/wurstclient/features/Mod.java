@@ -28,13 +28,6 @@ public abstract class Mod extends Feature
 {
 	private final String name;
 	private final String description;
-	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
-		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
-		: "";
-	private final String helpPage =
-		getClass().isAnnotationPresent(HelpPage.class)
-			? getClass().getAnnotation(HelpPage.class).value() : "";
-	
 	private final Bypasses bypasses = getClass().getAnnotation(Bypasses.class);
 	private final boolean stateSaved =
 		!getClass().isAnnotationPresent(DontSaveState.class);
@@ -42,8 +35,6 @@ public abstract class Mod extends Feature
 	private boolean enabled;
 	private boolean blocked;
 	private boolean active;
-	
-	protected ArrayList<Setting> settings = new ArrayList<>();
 	
 	private long currentMS = 0L;
 	protected long lastMS = -1L;
@@ -65,7 +56,7 @@ public abstract class Mod extends Feature
 				new PossibleKeybind(dotT + " off", "Disable " + name)));
 		
 		// settings keybinds
-		for(Setting setting : settings)
+		for(Setting setting : getSettings())
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;
@@ -251,18 +242,6 @@ public abstract class Mod extends Feature
 		return description;
 	}
 	
-	@Override
-	public final String getTags()
-	{
-		return tags;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
-	}
-	
 	public final boolean isStateSaved()
 	{
 		return stateSaved;
@@ -278,12 +257,6 @@ public abstract class Mod extends Feature
 	public final void doPrimaryAction()
 	{
 		toggle();
-	}
-	
-	@Override
-	public final String getHelpPage()
-	{
-		return helpPage;
 	}
 	
 	public final Bypasses getBypasses()

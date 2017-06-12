@@ -26,7 +26,7 @@ public final class TimerMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(speed);
+		addSetting(speed);
 	}
 	
 	@Override

@@ -44,11 +44,11 @@ public final class NoWeatherMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(disableRain);
-		settings.add(changeTime);
-		settings.add(time);
-		settings.add(changeMoonPhase);
-		settings.add(moonPhase);
+		addSetting(disableRain);
+		addSetting(changeTime);
+		addSetting(time);
+		addSetting(changeMoonPhase);
+		addSetting(moonPhase);
 	}
 	
 	public boolean isRainDisabled()

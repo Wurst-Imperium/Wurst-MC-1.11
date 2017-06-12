@@ -29,7 +29,7 @@ public final class AntiKnockbackMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(strength);
+		addSetting(strength);
 	}
 	
 	public float getKnockbackModifier()

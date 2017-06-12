@@ -38,7 +38,7 @@ public final class KaboomMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(power);
+		addSetting(power);
 	}
 	
 	@Override

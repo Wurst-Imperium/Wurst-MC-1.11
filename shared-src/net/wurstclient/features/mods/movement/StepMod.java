@@ -45,8 +45,8 @@ public final class StepMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
-		settings.add(height);
+		addSetting(mode);
+		addSetting(height);
 	}
 	
 	@Override

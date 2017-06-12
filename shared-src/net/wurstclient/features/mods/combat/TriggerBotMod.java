@@ -81,13 +81,13 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(useKillaura);
+		addSetting(useKillaura);
 		
 		if(useCooldown != null)
-			settings.add(useCooldown);
+			addSetting(useCooldown);
 		
-		settings.add(speed);
-		settings.add(range);
+		addSetting(speed);
+		addSetting(range);
 	}
 	
 	@Override

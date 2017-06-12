@@ -38,7 +38,7 @@ public final class SneakMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
+		addSetting(mode);
 	}
 	
 	@Override

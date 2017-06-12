@@ -19,6 +19,16 @@ public abstract class Feature
 	protected static final WurstClient wurst = WurstClient.INSTANCE;
 	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
+	@Deprecated
+	protected final ArrayList<Setting> settings = new ArrayList<>();
+	
+	private final String helpPage =
+		getClass().isAnnotationPresent(HelpPage.class)
+			? getClass().getAnnotation(HelpPage.class).value() : "";
+	private final String searchTags =
+		getClass().isAnnotationPresent(SearchTags.class) ? String.join("§",
+			getClass().getAnnotation(SearchTags.class).value()) : "";
+	
 	public abstract String getName();
 	
 	public abstract String getType();
@@ -29,9 +39,15 @@ public abstract class Feature
 	
 	public abstract boolean isBlocked();
 	
-	public abstract String getTags();
+	public final ArrayList<Setting> getSettings()
+	{
+		return settings;
+	}
 	
-	public abstract ArrayList<Setting> getSettings();
+	protected void addSetting(Setting setting)
+	{
+		settings.add(setting);
+	}
 	
 	public abstract ArrayList<PossibleKeybind> getPossibleKeybinds();
 	
@@ -39,7 +55,15 @@ public abstract class Feature
 	
 	public abstract void doPrimaryAction();
 	
-	public abstract String getHelpPage();
+	public final String getHelpPage()
+	{
+		return helpPage;
+	}
+	
+	public final String getSearchTags()
+	{
+		return searchTags;
+	}
 	
 	public abstract Feature[] getSeeAlso();
 }

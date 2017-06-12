@@ -16,13 +16,6 @@ public abstract class Spf extends Feature
 {
 	private final String name;
 	private final String description;
-	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
-		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
-		: "";
-	private final String helpPage =
-		getClass().isAnnotationPresent(HelpPage.class)
-			? getClass().getAnnotation(HelpPage.class).value() : "";
-	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Spf(String name, String description)
 	{
@@ -61,24 +54,12 @@ public abstract class Spf extends Feature
 	}
 	
 	@Override
-	public final String getTags()
-	{
-		return tags;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
-	}
-	
-	@Override
 	public ArrayList<PossibleKeybind> getPossibleKeybinds()
 	{
 		ArrayList<PossibleKeybind> possibleKeybinds = new ArrayList<>();
 		
 		// settings keybinds
-		for(Setting setting : settings)
+		for(Setting setting : getSettings())
 			possibleKeybinds.addAll(setting.getPossibleKeybinds(name));
 		
 		return possibleKeybinds;
@@ -94,12 +75,6 @@ public abstract class Spf extends Feature
 	public void doPrimaryAction()
 	{
 		
-	}
-	
-	@Override
-	public final String getHelpPage()
-	{
-		return helpPage;
 	}
 	
 	@Override

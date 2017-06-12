@@ -34,8 +34,8 @@ public final class RegenMod extends RetroMod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(speed);
-		settings.add(pauseInMidAir);
+		addSetting(speed);
+		addSetting(pauseInMidAir);
 	}
 	
 	@Override

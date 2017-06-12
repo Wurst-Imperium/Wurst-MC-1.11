@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.keybinds.PossibleKeybind;
-import net.wurstclient.settings.Setting;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
@@ -24,13 +23,6 @@ public abstract class Cmd extends Feature
 	private final String name;
 	private final String description;
 	private final String[] syntax;
-	private final String tags = getClass().isAnnotationPresent(SearchTags.class)
-		? String.join("§", getClass().getAnnotation(SearchTags.class).value())
-		: "";
-	private final String helpPage =
-		getClass().isAnnotationPresent(HelpPage.class)
-			? getClass().getAnnotation(HelpPage.class).value() : "";
-	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
 	public Cmd(String name, String description, String... syntax)
 	{
@@ -111,18 +103,6 @@ public abstract class Cmd extends Feature
 	}
 	
 	@Override
-	public final String getTags()
-	{
-		return tags;
-	}
-	
-	@Override
-	public final ArrayList<Setting> getSettings()
-	{
-		return settings;
-	}
-	
-	@Override
 	public final ArrayList<PossibleKeybind> getPossibleKeybinds()
 	{
 		return new ArrayList<>();
@@ -138,12 +118,6 @@ public abstract class Cmd extends Feature
 	public void doPrimaryAction()
 	{
 		
-	}
-	
-	@Override
-	public final String getHelpPage()
-	{
-		return helpPage;
 	}
 	
 	@Override

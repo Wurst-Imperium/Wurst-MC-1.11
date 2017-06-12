@@ -32,8 +32,8 @@ public final class AutoStealMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(buttons);
-		settings.add(delay);
+		addSetting(buttons);
+		addSetting(delay);
 	}
 	
 	public boolean areButtonsVisible()

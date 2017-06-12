@@ -97,9 +97,9 @@ public final class SpeedNukerMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(useNuker);
-		settings.add(range);
-		settings.add(mode);
+		addSetting(useNuker);
+		addSetting(range);
+		addSetting(mode);
 	}
 	
 	@Override

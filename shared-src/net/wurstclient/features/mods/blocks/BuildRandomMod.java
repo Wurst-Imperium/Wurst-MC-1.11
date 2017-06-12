@@ -50,7 +50,7 @@ public final class BuildRandomMod extends Mod
 	@Override
 	public void initSettings()
 	{
-		settings.add(mode);
+		addSetting(mode);
 	}
 	
 	@Override

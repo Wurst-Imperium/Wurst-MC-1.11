@@ -90,14 +90,14 @@ public final class FightBotMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(useKillaura);
+		addSetting(useKillaura);
 		
 		if(useCooldown != null)
-			settings.add(useCooldown);
+			addSetting(useCooldown);
 		
-		settings.add(speed);
-		settings.add(range);
-		settings.add(distance);
+		addSetting(speed);
+		addSetting(range);
+		addSetting(distance);
 	}
 	
 	@Override

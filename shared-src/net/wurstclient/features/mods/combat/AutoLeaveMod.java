@@ -53,8 +53,8 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(health);
-		settings.add(mode);
+		addSetting(health);
+		addSetting(mode);
 	}
 	
 	@Override

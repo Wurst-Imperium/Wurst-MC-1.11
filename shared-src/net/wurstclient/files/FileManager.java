@@ -8,12 +8,14 @@
 package net.wurstclient.files;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.TreeMap;
 
 import com.google.gson.JsonObject;
@@ -69,32 +71,24 @@ public class FileManager
 	
 	public void createDefaultAutoBuildTemplates()
 	{
-		try
+		for(DefaultAutoBuildTemplates template : DefaultAutoBuildTemplates
+			.values())
 		{
-			String[] comment =
-				{"Copyright © 2014 - 2017 | Wurst-Imperium | All rights reserved.",
-					"This Source Code Form is subject to the terms of the Mozilla Public",
-					"License, v. 2.0. If a copy of the MPL was not distributed with this",
-					"file, You can obtain one at http://mozilla.org/MPL/2.0/."};
-			Iterator<Entry<String, int[][]>> itr =
-				new DefaultAutoBuildTemplates().entrySet().iterator();
-			while(itr.hasNext())
+			JsonObject json = new JsonObject();
+			json.add("blocks", JsonUtils.gson.toJsonTree(template.getData()));
+			
+			Path path =
+				WurstFolders.AUTOBUILD.resolve(template.getName() + ".json");
+			
+			try(BufferedWriter writer = Files.newBufferedWriter(path))
 			{
-				Entry<String, int[][]> entry = itr.next();
-				JsonObject json = new JsonObject();
-				json.add("__comment",
-					JsonUtils.prettyGson.toJsonTree(comment, String[].class));
-				json.add("blocks", JsonUtils.prettyGson
-					.toJsonTree(entry.getValue(), int[][].class));
-				PrintWriter save = new PrintWriter(
-					new FileWriter(new File(WurstFolders.AUTOBUILD.toFile(),
-						entry.getKey() + ".json")));
-				save.println(JsonUtils.prettyGson.toJson(json));
-				save.close();
+				JsonUtils.prettyGson.toJson(json, writer);
+				
+			}catch(IOException e)
+			{
+				System.out.println("Failed to save " + path.getFileName());
+				e.printStackTrace();
 			}
-		}catch(Exception e)
-		{
-			e.printStackTrace();
 		}
 	}
 	

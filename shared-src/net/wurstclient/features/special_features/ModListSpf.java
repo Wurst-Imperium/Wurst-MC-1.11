@@ -45,9 +45,9 @@ public final class ModListSpf extends Spf
 				+ "§lAuto§r mode renders the whole list if it fits onto the screen.\n"
 				+ "§lCount§r mode only renders the number of active mods.");
 		
-		settings.add(mode);
-		settings.add(position);
-		settings.add(animations);
+		addSetting(mode);
+		addSetting(position);
+		addSetting(animations);
 	}
 	
 	private void updateAnimationsLock()

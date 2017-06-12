@@ -30,7 +30,7 @@ public final class MileyCyrusMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(twerkSpeed);
+		addSetting(twerkSpeed);
 	}
 	
 	@Override

@@ -59,14 +59,14 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 	@Override
 	public void initSettings()
 	{
-		settings.add(range);
-		settings.add(mode);
+		addSetting(range);
+		addSetting(mode);
 		
-		settings.add(saplings);
-		settings.add(crops);
-		settings.add(stems);
-		settings.add(cocoa);
-		settings.add(other);
+		addSetting(saplings);
+		addSetting(crops);
+		addSetting(stems);
+		addSetting(cocoa);
+		addSetting(other);
 	}
 	
 	@Override

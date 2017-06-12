@@ -55,8 +55,8 @@ public final class PathCmd extends Cmd implements UpdateListener, RenderListener
 		super("path",
 			"Shows the shortest path to a specific point. Useful for labyrinths and caves.",
 			"<x> <y> <z>", "<entity>", "-debug", "-depth", "-refresh");
-		settings.add(debugMode);
-		settings.add(depthTest);
+		addSetting(debugMode);
+		addSetting(depthTest);
 	}
 	
 	@Override
