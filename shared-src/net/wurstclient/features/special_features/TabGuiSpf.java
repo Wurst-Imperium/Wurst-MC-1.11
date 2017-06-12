@@ -23,7 +23,7 @@ public final class TabGuiSpf extends Spf
 		super("TabGui", "Allows you to quickly toggle mods while playing.\n"
 			+ "Use the arrow keys to navigate.");
 		
-		settings.add(position);
+		addSetting(position);
 	}
 	
 	@Override
