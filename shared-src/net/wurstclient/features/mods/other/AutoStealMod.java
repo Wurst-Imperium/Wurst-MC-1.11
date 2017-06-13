@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.other;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -27,6 +28,7 @@ public final class AutoStealMod extends Mod
 	{
 		super("AutoSteal",
 			"Automatically steals everything from all chests you open.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

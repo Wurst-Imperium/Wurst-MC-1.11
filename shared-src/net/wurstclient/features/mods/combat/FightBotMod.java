@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -85,6 +86,7 @@ public final class FightBotMod extends Mod implements UpdateListener
 		super("FightBot",
 			"A bot that automatically walks around and kills everything.\n"
 				+ "Good for MobArena.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

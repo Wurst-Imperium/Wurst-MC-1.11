@@ -24,6 +24,7 @@ import net.wurstclient.events.RightClickEvent;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.RightClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
@@ -73,6 +74,7 @@ public final class AutoBuildMod extends Mod
 				+ "§lFast§r mode can place multiple blocks at once.\n"
 				+ "§lLegit§r mode can bypass NoCheat+.\n"
 				+ "Templates can be customized using the TemplateTool.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

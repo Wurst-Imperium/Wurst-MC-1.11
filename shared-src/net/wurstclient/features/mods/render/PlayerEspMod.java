@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -29,6 +30,7 @@ public final class PlayerEspMod extends Mod implements RenderListener
 	public PlayerEspMod()
 	{
 		super("PlayerESP", "Allows you to see players through walls.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

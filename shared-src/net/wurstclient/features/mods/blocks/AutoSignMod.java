@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods.blocks;
 
 import net.minecraft.util.text.ITextComponent;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -28,6 +29,7 @@ public final class AutoSignMod extends Mod
 		super("AutoSign",
 			"Instantly writes whatever text you want on every sign you place. Once activated, you can\n"
 				+ "write normally on one sign to specify the text for all other signs.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

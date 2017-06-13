@@ -19,6 +19,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -34,6 +35,7 @@ public final class JesusMod extends Mod
 	{
 		super("Jesus", "Allows you to walk on water.\n"
 			+ "The real Jesus used this hack ~2000 years ago.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

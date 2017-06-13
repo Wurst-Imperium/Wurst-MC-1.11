@@ -22,6 +22,7 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -54,6 +55,7 @@ public final class BonemealAuraMod extends Mod implements UpdateListener
 				+ "§lFast§r mode can use bone meal on multiple blocks at once.\n"
 				+ "§lLegit§r mode can bypass NoCheat+.\n"
 				+ "Use the checkboxes to specify the types of plants.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

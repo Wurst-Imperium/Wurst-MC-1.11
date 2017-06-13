@@ -12,6 +12,7 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -24,6 +25,7 @@ public final class SkinDerpMod extends Mod implements UpdateListener
 	public SkinDerpMod()
 	{
 		super("SkinDerp", "Randomly toggles parts of your skin.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.minecraft.client.settings.GameSettings;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -20,6 +21,7 @@ public final class AutoWalkMod extends Mod implements UpdateListener
 	public AutoWalkMod()
 	{
 		super("AutoWalk", "Makes you walk automatically.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

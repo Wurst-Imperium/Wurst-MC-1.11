@@ -13,6 +13,7 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -28,6 +29,7 @@ public final class CriticalsMod extends Mod implements LeftClickListener
 	public CriticalsMod()
 	{
 		super("Criticals", "Changes all your hits to critical hits.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -25,6 +26,7 @@ public final class CrashTagMod extends Mod
 		super("CrashTag",
 			"Modifies a nametag so that it can kick people from the server.\n"
 				+ "Right click a mob with the modified nametag to kick all nearby players.");
+		setCategory(Category.ITEMS);
 	}
 	
 	@Override

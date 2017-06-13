@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.combat;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.SliderSetting;
@@ -24,6 +25,7 @@ public final class AntiKnockbackMod extends Mod
 	{
 		super("AntiKnockback",
 			"Prevents you from getting pushed by players, mobs and flowing water.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

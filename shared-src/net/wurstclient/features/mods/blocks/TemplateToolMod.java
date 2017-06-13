@@ -37,6 +37,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.files.WurstFolders;
@@ -59,6 +60,7 @@ public final class TemplateToolMod extends Mod
 	{
 		super("TemplateTool",
 			"Allows you to create custom templates for AutoBuild by scanning existing buildings.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

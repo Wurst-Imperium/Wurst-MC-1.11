@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -29,6 +30,7 @@ public final class MobEspMod extends Mod implements RenderListener
 	public MobEspMod()
 	{
 		super("MobESP", "Allows you to see mobs through walls.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

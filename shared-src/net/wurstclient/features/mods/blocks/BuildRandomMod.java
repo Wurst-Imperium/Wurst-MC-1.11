@@ -20,6 +20,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -45,6 +46,7 @@ public final class BuildRandomMod extends Mod
 			+ "§lFast§r mode can place blocks behind other blocks.\n"
 			+ "§lLegit§r mode can bypass NoCheat+.\n"
 			+ "Tip: Using this mod in combination with FastPlace will make it faster.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
@@ -36,6 +37,7 @@ public final class AutoLeaveMod extends Mod implements UpdateListener
 		super("AutoLeave",
 			"Automatically leaves the server when your health is low.\n"
 				+ "The Chars, TP and SelfHurt modes can bypass CombatLog and similar plugins.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.other;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -23,6 +24,7 @@ public final class AutoSwitchMod extends Mod implements UpdateListener
 			"Switches the item in your hand all the time.\n"
 				+ "Tip: Use this in combination with BuildRandom while having a lot of different colored wool\n"
 				+ "blocks in your hotbar.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

@@ -18,6 +18,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -45,6 +46,7 @@ public final class BowAimbotMod extends Mod
 		super("BowAimbot",
 			"Automatically aims your bow at the closest entity.\n"
 				+ "Tip: This works with FastBow.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

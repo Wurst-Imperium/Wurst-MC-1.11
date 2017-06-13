@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods.render;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -19,5 +20,6 @@ public final class CaveFinderMod extends Mod
 	{
 		super("CaveFinder", "Allows you to see caves through walls."
 			+ (WMinecraft.OPTIFINE ? "\nNot compatible with shaders." : ""));
+		setCategory(Category.RENDER);
 	}
 }

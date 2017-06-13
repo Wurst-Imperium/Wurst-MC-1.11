@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -33,6 +34,7 @@ public final class CmdBlockMod extends Mod
 			"Allows you to make a Command Block without having OP.\n"
 				+ "Requires creative mode.\n"
 				+ "Appears to be patched on Spigot.");
+		setCategory(Category.ITEMS);
 	}
 	
 	@Override

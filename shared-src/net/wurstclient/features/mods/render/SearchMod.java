@@ -17,6 +17,7 @@ import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.ChatUtils;
 import net.wurstclient.utils.RenderUtils;
@@ -36,6 +37,7 @@ public final class SearchMod extends Mod
 			"Helps you to find specific blocks.\n"
 				+ "Use §l.search id <block_id>§r or §l.search name <block_name>§r to specify the block to search\n"
 				+ "for.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

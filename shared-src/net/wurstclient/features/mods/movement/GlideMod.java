@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
@@ -17,6 +18,7 @@ public final class GlideMod extends Mod implements UpdateListener
 	public GlideMod()
 	{
 		super("Glide", "Makes you glide down slowly instead of falling.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

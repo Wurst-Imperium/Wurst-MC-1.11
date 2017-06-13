@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -83,6 +84,7 @@ public final class ClickAuraMod extends Mod
 			"Automatically attacks the closest valid entity whenever you click.\n\n"
 				+ "§c§lWARNING:§r ClickAuras generally look more suspicious than Killauras and are easier to\n"
 				+ "detect. It is recommended to use Killaura or TriggerBot instead.");
+		setCategory(Category.COMBAT);
 	}
 	
 	private final TargetSettings targetSettings = new TargetSettings()

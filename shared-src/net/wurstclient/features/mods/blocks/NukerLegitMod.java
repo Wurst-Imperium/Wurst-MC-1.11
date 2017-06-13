@@ -17,6 +17,7 @@ import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -94,6 +95,7 @@ public final class NukerLegitMod extends Mod
 		super("NukerLegit",
 			"Slower Nuker that bypasses all AntiCheat plugins.\n"
 				+ "Not required on normal NoCheat+ servers!");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

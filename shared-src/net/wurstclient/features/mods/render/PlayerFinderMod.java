@@ -20,6 +20,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -36,6 +37,7 @@ public final class PlayerFinderMod extends Mod
 	public PlayerFinderMod()
 	{
 		super("PlayerFinder", "Finds far players during thunderstorms.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

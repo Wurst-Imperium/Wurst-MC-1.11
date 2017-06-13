@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.blocks;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -35,6 +36,7 @@ public final class FastBreakMod extends Mod
 	{
 		super("FastBreak", "Allows you to break blocks faster.\n"
 			+ "Tip: This works with Nuker.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

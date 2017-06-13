@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods.blocks;
 
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -20,6 +21,7 @@ public final class FastPlaceMod extends Mod implements UpdateListener
 	{
 		super("FastPlace", "Allows you to place blocks 5 times faster.\n"
 			+ "Tip: This can speed up mods like AutoBuild.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

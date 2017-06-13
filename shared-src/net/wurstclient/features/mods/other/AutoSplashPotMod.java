@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -39,6 +40,7 @@ public final class AutoSplashPotMod extends Mod implements UpdateListener
 		super("AutoSplashPot",
 			"Automatically throws instant health splash potions if your health is lower than or equal to\n"
 				+ "the set value.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

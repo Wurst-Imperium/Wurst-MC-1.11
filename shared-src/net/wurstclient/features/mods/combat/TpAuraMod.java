@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -30,12 +31,6 @@ import net.wurstclient.utils.RotationUtils;
 	antiCheat = false)
 public final class TpAuraMod extends Mod implements UpdateListener
 {
-	public TpAuraMod()
-	{
-		super("TP-Aura",
-			"Automatically attacks the closest valid entity while teleporting around it.");
-	}
-	
 	private Random random = new Random();
 	
 	private final CheckboxSetting useKillaura =
@@ -95,6 +90,13 @@ public final class TpAuraMod extends Mod implements UpdateListener
 			return range.getValueF();
 		}
 	};
+	
+	public TpAuraMod()
+	{
+		super("TP-Aura",
+			"Automatically attacks the closest valid entity while teleporting around it.");
+		setCategory(Category.COMBAT);
+	}
 	
 	@Override
 	public void initSettings()

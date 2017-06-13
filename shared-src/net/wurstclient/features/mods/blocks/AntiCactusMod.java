@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.blocks;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -17,5 +18,6 @@ public final class AntiCactusMod extends Mod
 	public AntiCactusMod()
 	{
 		super("AntiCactus", "Protects you from cactus damage.");
+		setCategory(Category.BLOCKS);
 	}
 }

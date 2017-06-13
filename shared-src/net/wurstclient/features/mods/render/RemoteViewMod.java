@@ -10,6 +10,7 @@ package net.wurstclient.features.mods.render;
 import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -74,6 +75,7 @@ public final class RemoteViewMod extends Mod implements UpdateListener
 	{
 		super("RemoteView", "Allows you to see the world as someone else.\n"
 			+ "Use the .rv command to make it target a specific entity.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.movement;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -28,6 +29,7 @@ public final class HighJumpMod extends Mod
 	{
 		super("HighJump", "Allows you to jump higher.\n\n"
 			+ "§c§lWARNING:§r You will take fall damage if you don't use NoFall.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

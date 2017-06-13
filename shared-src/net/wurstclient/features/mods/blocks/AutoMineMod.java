@@ -10,6 +10,7 @@ package net.wurstclient.features.mods.blocks;
 import net.minecraft.block.material.Material;
 import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -20,6 +21,7 @@ public final class AutoMineMod extends Mod implements UpdateListener
 	public AutoMineMod()
 	{
 		super("AutoMine", "Automatically mines whatever you look at.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

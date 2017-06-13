@@ -15,6 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -30,6 +31,7 @@ public final class ProphuntEspMod extends Mod implements RenderListener
 	public ProphuntEspMod()
 	{
 		super("ProphuntESP", "Allows you to see fake blocks in Prophunt.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

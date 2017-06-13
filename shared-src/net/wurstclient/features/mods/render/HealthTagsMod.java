@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -18,6 +19,7 @@ public final class HealthTagsMod extends Mod
 	public HealthTagsMod()
 	{
 		super("HealthTags", "Shows the health of players in their nametags.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

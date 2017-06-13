@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.compatibility.WPotionEffects;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses
@@ -22,6 +23,7 @@ public final class LsdMod extends Mod implements UpdateListener
 	public LsdMod()
 	{
 		super("LSD", "Causes hallucinations.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

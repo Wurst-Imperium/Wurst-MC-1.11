@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods.other;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -19,6 +20,7 @@ public final class PotionSaverMod extends Mod
 	{
 		super("PotionSaver",
 			"Freezes all potion effects while you are standing still.");
+		setCategory(Category.OTHER);
 	}
 	
 	public boolean isFrozen()

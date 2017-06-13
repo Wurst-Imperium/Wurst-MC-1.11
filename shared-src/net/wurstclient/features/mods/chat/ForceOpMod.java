@@ -31,6 +31,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.HelpPage;
 import net.wurstclient.features.Mod;
@@ -81,6 +82,7 @@ public final class ForceOpMod extends Mod implements ChatInputListener
 	public ForceOpMod()
 	{
 		super("ForceOP", "Cracks AuthMe passwords. Can be used to get OP.");
+		setCategory(Category.CHAT);
 	}
 	
 	@Override

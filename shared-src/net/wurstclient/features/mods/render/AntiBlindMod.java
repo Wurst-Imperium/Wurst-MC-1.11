@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -17,5 +18,6 @@ public final class AntiBlindMod extends Mod
 	public AntiBlindMod()
 	{
 		super("AntiBlind", "Blocks blindness and nausea.");
+		setCategory(Category.RENDER);
 	}
 }

@@ -12,6 +12,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.RetroMod;
 import net.wurstclient.features.SearchTags;
@@ -25,6 +26,7 @@ public final class FastEatMod extends RetroMod implements UpdateListener
 	{
 		super("FastEat",
 			"Allows you to eat food much faster.\n" + "OM! NOM! NOM!");
+		setCategory(Category.RETRO);
 	}
 	
 	@Override

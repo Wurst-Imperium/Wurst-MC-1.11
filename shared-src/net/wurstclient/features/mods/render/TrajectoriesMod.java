@@ -21,6 +21,7 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -35,6 +36,7 @@ public final class TrajectoriesMod extends Mod implements RenderListener
 	{
 		super("Trajectories",
 			"Predicts the flight path of arrows and throwable items.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

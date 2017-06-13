@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -33,6 +34,7 @@ public final class KaboomMod extends Mod implements UpdateListener
 				+ "This can be a lot faster than Nuker if the server doesn't have NoCheat+.\n"
 				+ "It works best with fast tools and weak blocks.\n"
 				+ "Note that this is not an actual explosion.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

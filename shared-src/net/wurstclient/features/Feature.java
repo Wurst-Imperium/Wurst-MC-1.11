@@ -19,6 +19,8 @@ public abstract class Feature
 	protected static final WurstClient wurst = WurstClient.INSTANCE;
 	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
+	private Category category;
+	
 	@Deprecated
 	protected final ArrayList<Setting> settings = new ArrayList<>();
 	
@@ -32,6 +34,16 @@ public abstract class Feature
 	public abstract String getName();
 	
 	public abstract String getType();
+	
+	public final Category getCategory()
+	{
+		return category;
+	}
+	
+	public void setCategory(Category category)
+	{
+		this.category = category;
+	}
 	
 	public abstract String getDescription();
 	

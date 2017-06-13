@@ -14,6 +14,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
@@ -29,6 +30,7 @@ public final class LogSpammerMod extends Mod implements UpdateListener
 		super("LogSpammer",
 			"Fills the server console with errors so that admins can't see what you are doing.\n"
 				+ "Patched on Bukkit and Spigot servers. They will kick you if you use it.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

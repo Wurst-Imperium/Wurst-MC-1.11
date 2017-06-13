@@ -11,6 +11,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
@@ -19,6 +20,7 @@ public final class HeadlessMod extends Mod implements UpdateListener
 	public HeadlessMod()
 	{
 		super("Headless", "Makes it look like you lost your head.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

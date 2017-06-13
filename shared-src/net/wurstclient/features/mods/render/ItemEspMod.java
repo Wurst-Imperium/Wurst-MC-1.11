@@ -14,6 +14,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -29,6 +30,7 @@ public final class ItemEspMod extends Mod implements RenderListener
 	public ItemEspMod()
 	{
 		super("ItemESP", "Allows you to see items through walls.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

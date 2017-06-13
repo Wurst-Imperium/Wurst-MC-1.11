@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.other;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.SliderSetting;
@@ -21,6 +22,7 @@ public final class TimerMod extends Mod
 	public TimerMod()
 	{
 		super("Timer", "Changes the speed of almost everything.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -68,6 +69,7 @@ public final class KillauraMod extends Mod implements UpdateListener
 	public KillauraMod()
 	{
 		super("Killaura", "Automatically attacks entities around you.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

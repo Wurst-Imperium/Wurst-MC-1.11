@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -19,5 +20,6 @@ public final class NameTagsMod extends Mod
 		super("NameTags",
 			"Changes the scale of the nametags so you can always read them.\n"
 				+ "Also allows you to see the nametags of sneaking players.");
+		setCategory(Category.RENDER);
 	}
 }

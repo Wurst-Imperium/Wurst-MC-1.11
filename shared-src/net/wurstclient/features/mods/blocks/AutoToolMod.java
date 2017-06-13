@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -36,6 +37,7 @@ public final class AutoToolMod extends Mod implements UpdateListener
 		super("AutoTool",
 			"Automatically uses the best tool in your hotbar to mine blocks.\n"
 				+ "Tip: This works with Nuker.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

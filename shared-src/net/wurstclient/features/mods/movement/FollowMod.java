@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.ai.FollowAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
@@ -41,6 +42,7 @@ public final class FollowMod extends Mod implements UpdateListener
 	{
 		super("Follow",
 			"A bot that follows the closest entity.\n" + "Very annoying.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMath;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -22,6 +23,7 @@ public final class HeadRollMod extends Mod implements UpdateListener
 	public HeadRollMod()
 	{
 		super("HeadRoll", "Makes you nod all the time.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.render;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -31,6 +32,7 @@ public final class FullbrightMod extends Mod implements UpdateListener
 	public FullbrightMod()
 	{
 		super("Fullbright", "Allows you to see in the dark.");
+		setCategory(Category.RENDER);
 		wurst.events.add(UpdateListener.class, this);
 	}
 	

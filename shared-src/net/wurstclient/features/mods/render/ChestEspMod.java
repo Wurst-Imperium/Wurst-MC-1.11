@@ -25,6 +25,7 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -61,6 +62,7 @@ public final class ChestEspMod extends Mod
 			+ "Works with normal chests, trapped chests, ender chests and minecart chests.\n"
 			+ "For normal and trapped chests, ChestESP will remember which ones you have already\n"
 			+ "opened and remind you whether or not they are empty by slightly altering their overlay.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

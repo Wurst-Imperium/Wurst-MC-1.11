@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -27,6 +28,7 @@ public final class AutoArmorMod extends Mod implements UpdateListener
 	public AutoArmorMod()
 	{
 		super("AutoArmor", "Manages your armor automatically.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

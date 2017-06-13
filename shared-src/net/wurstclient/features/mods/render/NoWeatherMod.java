@@ -1,5 +1,6 @@
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -39,6 +40,7 @@ public final class NoWeatherMod extends Mod
 	{
 		super("NoWeather",
 			"Allows you to alter the client-side weather, time and moon phase.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

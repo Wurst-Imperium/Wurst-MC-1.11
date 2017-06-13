@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.GUIRenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Cmd;
 import net.wurstclient.features.HelpPage;
 
@@ -41,6 +42,7 @@ public final class TacoCmd extends Cmd
 	{
 		super("taco", "Spawns a dancing taco on your hotbar.\n"
 			+ "\"I love that little guy. So cute!\" -WiZARD");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

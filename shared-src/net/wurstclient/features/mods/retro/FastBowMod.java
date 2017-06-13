@@ -15,6 +15,7 @@ import net.wurstclient.compatibility.WItem;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.RetroMod;
@@ -28,6 +29,7 @@ public final class FastBowMod extends RetroMod implements UpdateListener
 	{
 		super("FastBow", "Turns your bow into a machine gun.\n"
 			+ "Tip: This also works with BowAimbot.");
+		setCategory(Category.RETRO);
 	}
 	
 	@Override

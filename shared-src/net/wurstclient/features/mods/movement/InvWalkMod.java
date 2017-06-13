@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.movement;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -18,5 +19,6 @@ public final class InvWalkMod extends Mod
 	public InvWalkMod()
 	{
 		super("InvWalk", "Allows you to walk while the inventory is open.");
+		setCategory(Category.MOVEMENT);
 	}
 }

@@ -12,6 +12,7 @@ import java.util.Iterator;
 import net.minecraft.client.gui.ChatLine;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.MiscUtils;
@@ -24,6 +25,7 @@ public final class AntiSpamMod extends Mod implements ChatInputListener
 	{
 		super("AntiSpam",
 			"Blocks chat spam by adding a counter to repeated messages.");
+		setCategory(Category.CHAT);
 	}
 	
 	@Override

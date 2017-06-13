@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.movement;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -17,5 +18,6 @@ public final class SafeWalkMod extends Mod
 	public SafeWalkMod()
 	{
 		super("SafeWalk", "Prevents you from falling off edges.");
+		setCategory(Category.MOVEMENT);
 	}
 }

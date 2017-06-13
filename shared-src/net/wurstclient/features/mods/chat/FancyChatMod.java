@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.chat;
 
 import net.wurstclient.events.ChatOutputEvent;
 import net.wurstclient.events.listeners.ChatOutputListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -24,6 +25,7 @@ public final class FancyChatMod extends Mod implements ChatOutputListener
 			"Replaces ASCII characters in sent chat messages with fancier unicode characters. Can be\n"
 				+ "used to bypass curse word filters on some servers. Does not work on servers that block\n"
 				+ "unicode characters.");
+		setCategory(Category.CHAT);
 	}
 	
 	@Override

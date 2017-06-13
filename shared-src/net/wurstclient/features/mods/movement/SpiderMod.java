@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false,
@@ -20,6 +21,7 @@ public final class SpiderMod extends Mod implements UpdateListener
 	public SpiderMod()
 	{
 		super("Spider", "Allows you to climb up walls like a spider.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

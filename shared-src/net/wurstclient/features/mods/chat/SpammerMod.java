@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.files.ConfigFiles;
 import net.wurstclient.files.WurstFolders;
@@ -51,6 +52,7 @@ public final class SpammerMod extends Mod
 	{
 		super("Spammer",
 			"Automatically spams messages in the chat. It can also run Wurst commands automatically.");
+		setCategory(Category.CHAT);
 	}
 	
 	@Override

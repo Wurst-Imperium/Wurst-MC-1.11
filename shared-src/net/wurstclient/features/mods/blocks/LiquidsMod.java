@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.blocks;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false, latestNCP = false, olderNCP = false)
@@ -16,5 +17,6 @@ public final class LiquidsMod extends Mod
 	{
 		super("Liquids",
 			"Allows you to interact with liquid blocks as if they were solid.");
+		setCategory(Category.BLOCKS);
 	}
 }

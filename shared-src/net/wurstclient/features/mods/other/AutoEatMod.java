@@ -17,6 +17,7 @@ import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayerController;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -36,6 +37,7 @@ public final class AutoEatMod extends Mod implements UpdateListener
 	{
 		super("AutoEat", "Automatically eats food when necessary.\n"
 			+ "§lIgnore screen§r keeps eating while the inventory is open.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

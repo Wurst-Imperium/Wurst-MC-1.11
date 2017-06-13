@@ -12,6 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -56,6 +57,7 @@ public final class FlightMod extends Mod implements UpdateListener
 	{
 		super("Flight", "Allows you to you fly.\n\n"
 			+ "§c§lWARNING:§r You will take fall damage if you don't use NoFall.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

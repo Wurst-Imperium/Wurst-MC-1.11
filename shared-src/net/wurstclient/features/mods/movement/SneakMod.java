@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -33,6 +34,7 @@ public final class SneakMod extends Mod
 			"Makes you sneak automatically.\n"
 				+ "§lPacket§r mode makes it look like you're sneaking without slowing you down.\n"
 				+ "§lLegit§r mode actually makes you sneak.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

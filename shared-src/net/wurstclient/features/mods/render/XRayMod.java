@@ -10,6 +10,7 @@ package net.wurstclient.features.mods.render;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.XRayUtils;
@@ -29,6 +30,7 @@ public final class XRayMod extends Mod
 	public XRayMod()
 	{
 		super("X-Ray", "Allows you to see ores through walls.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

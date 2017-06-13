@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -35,6 +36,7 @@ public final class AutoSwordMod extends Mod
 		super("AutoSword",
 			"Automatically uses the best weapon in your hotbar to attack entities.\n"
 				+ "Tip: This works with Killaura.");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

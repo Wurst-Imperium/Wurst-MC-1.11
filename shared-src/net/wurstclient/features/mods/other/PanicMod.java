@@ -8,6 +8,7 @@
 package net.wurstclient.features.mods.other;
 
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -19,6 +20,7 @@ public final class PanicMod extends Mod implements UpdateListener
 	{
 		super("Panic", "Instantly turns off all enabled mods.\n"
 			+ "Be careful with this!");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityUtils;
 import net.wurstclient.utils.EntityUtils.TargetSettings;
@@ -20,13 +21,6 @@ import net.wurstclient.utils.RotationUtils;
 @Mod.DontSaveState
 public final class ProtectMod extends Mod implements UpdateListener
 {
-	public ProtectMod()
-	{
-		super("Protect",
-			"A bot that follows the closest entity and protects it from other entities.\n"
-				+ "Use .protect <entity> to protect a specific entity instead of the closest one.");
-	}
-	
 	private Entity friend;
 	private Entity enemy;
 	private float range = 6F;
@@ -119,6 +113,14 @@ public final class ProtectMod extends Mod implements UpdateListener
 			return range;
 		}
 	};
+	
+	public ProtectMod()
+	{
+		super("Protect",
+			"A bot that follows the closest entity and protects it from other entities.\n"
+				+ "Use .protect <entity> to protect a specific entity instead of the closest one.");
+		setCategory(Category.COMBAT);
+	}
 	
 	@Override
 	public String getRenderName()

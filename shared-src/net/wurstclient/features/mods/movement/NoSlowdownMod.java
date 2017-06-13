@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -29,6 +30,7 @@ public final class NoSlowdownMod extends Mod implements UpdateListener
 	{
 		super("NoSlowdown",
 			"Cancels slowness effects caused by water, soul sand and using items.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

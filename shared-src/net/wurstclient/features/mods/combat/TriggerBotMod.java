@@ -10,6 +10,7 @@ package net.wurstclient.features.mods.combat;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -24,12 +25,6 @@ import net.wurstclient.utils.EntityUtils.TargetSettings;
 @Mod.Bypasses
 public final class TriggerBotMod extends Mod implements UpdateListener
 {
-	public TriggerBotMod()
-	{
-		super("TriggerBot",
-			"Automatically attacks the entity you're looking at.");
-	}
-	
 	private final CheckboxSetting useKillaura =
 		new CheckboxSetting("Use Killaura settings", true)
 		{
@@ -77,6 +72,13 @@ public final class TriggerBotMod extends Mod implements UpdateListener
 			return range.getValueF();
 		}
 	};
+	
+	public TriggerBotMod()
+	{
+		super("TriggerBot",
+			"Automatically attacks the entity you're looking at.");
+		setCategory(Category.COMBAT);
+	}
 	
 	@Override
 	public void initSettings()

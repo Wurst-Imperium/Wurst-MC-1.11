@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -22,6 +23,7 @@ public final class SpeedHackMod extends Mod implements UpdateListener
 			"Allows you to run roughly 2.5x faster than you would by sprinting and jumping.\n\n"
 				+ "§6§lNotice:§r This mod was patched in NoCheat+ version 3.13.2. It will only bypass older versions\n"
 				+ "of NoCheat+. Type §l/ncp version§r to check the NoCheat+ version of a server.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

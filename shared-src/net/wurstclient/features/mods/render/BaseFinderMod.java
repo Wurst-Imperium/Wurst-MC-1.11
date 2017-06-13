@@ -21,6 +21,7 @@ import net.wurstclient.compatibility.WBlock;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -57,6 +58,7 @@ public final class BaseFinderMod extends Mod
 			"Finds player bases by searching for man-made blocks.\n"
 				+ "The blocks that it finds will be highlighted in red.\n"
 				+ "Good for finding faction bases.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.RenderListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -24,6 +25,7 @@ public final class TracersMod extends Mod implements RenderListener
 	public TracersMod()
 	{
 		super("Tracers", "Draws lines to players around you.");
+		setCategory(Category.RENDER);
 	}
 	
 	@Override

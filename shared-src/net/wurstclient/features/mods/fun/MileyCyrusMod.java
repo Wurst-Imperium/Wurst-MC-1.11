@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.fun;
 
 import net.minecraft.client.settings.GameSettings;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.SliderSetting;
@@ -25,6 +26,7 @@ public final class MileyCyrusMod extends Mod implements UpdateListener
 	public MileyCyrusMod()
 	{
 		super("MileyCyrus", "Makes you twerk.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

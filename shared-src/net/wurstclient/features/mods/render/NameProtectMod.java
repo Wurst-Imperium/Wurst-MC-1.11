@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -21,6 +22,7 @@ public final class NameProtectMod extends Mod
 	public NameProtectMod()
 	{
 		super("NameProtect", "Hides all player names.");
+		setCategory(Category.RENDER);
 	}
 	
 	public String protect(String string)

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.other;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 
 @Mod.Bypasses(ghostMode = false)
@@ -20,6 +21,7 @@ public final class ThrowMod extends Mod implements UpdateListener
 			+ "This can cause a lot of lag and even crash a server.\n"
 			+ "Works best with snowballs or eggs.\n"
 			+ "Use the .throw command to change the amount of uses per click.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

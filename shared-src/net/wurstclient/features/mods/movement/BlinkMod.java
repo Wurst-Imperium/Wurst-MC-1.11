@@ -14,6 +14,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.events.PacketOutputEvent;
 import net.wurstclient.events.listeners.PacketOutputListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.utils.EntityFakePlayer;
@@ -30,6 +31,7 @@ public final class BlinkMod extends Mod implements PacketOutputListener
 	{
 		super("Blink", "Suspends all motion updates while enabled.\n"
 			+ "Can be used for teleportation, instant picking up of items and more.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

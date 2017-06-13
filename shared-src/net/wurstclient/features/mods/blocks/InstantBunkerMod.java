@@ -19,6 +19,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -55,6 +56,7 @@ public final class InstantBunkerMod extends Mod
 			"Builds a small bunker around you. Needs 57 blocks.\n"
 				+ "§lInstant§r mode places all 57 blocks at once.\n"
 				+ "§lLegit§r mode builds the bunker like a normal player would (bypasses NoCheat+).");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

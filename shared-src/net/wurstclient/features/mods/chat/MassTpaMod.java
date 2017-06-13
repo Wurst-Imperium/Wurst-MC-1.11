@@ -17,6 +17,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.ChatInputEvent;
 import net.wurstclient.events.listeners.ChatInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -37,6 +38,7 @@ public final class MassTpaMod extends Mod
 	{
 		super("MassTPA", "Sends a TPA request to all players.\n"
 			+ "Stops if someone accepts.");
+		setCategory(Category.CHAT);
 	}
 	
 	@Override

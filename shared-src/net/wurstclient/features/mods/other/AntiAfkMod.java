@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import net.wurstclient.ai.GoRandomAI;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -39,6 +40,7 @@ public final class AntiAfkMod extends Mod implements UpdateListener
 		super("AntiAFK",
 			"Walks around randomly to hide you from AFK detectors.\n"
 				+ "Needs 3x3 blocks of free space.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

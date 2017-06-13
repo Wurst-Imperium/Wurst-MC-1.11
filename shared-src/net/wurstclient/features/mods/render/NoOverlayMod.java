@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -18,5 +19,6 @@ public final class NoOverlayMod extends Mod
 	{
 		super("NoOverlay",
 			"Blocks the overlays of pumpkins, water, fire, and lava.");
+		setCategory(Category.RENDER);
 	}
 }

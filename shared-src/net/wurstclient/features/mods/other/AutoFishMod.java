@@ -17,6 +17,7 @@ import net.wurstclient.compatibility.WSoundEvents;
 import net.wurstclient.events.PacketInputEvent;
 import net.wurstclient.events.listeners.PacketInputListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.settings.CheckboxSetting;
@@ -41,6 +42,7 @@ public final class AutoFishMod extends Mod
 				+ "hotbar once needed.\n"
 				+ "§lOverfill inventory§r keeps fishing when your inventory is full. Useful if you have a hopper\n"
 				+ "collecting the items.");
+		setCategory(Category.OTHER);
 	}
 	
 	@Override

@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.render;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -17,5 +18,6 @@ public final class NoHurtcamMod extends Mod
 	public NoHurtcamMod()
 	{
 		super("NoHurtcam", "Disables the shaking effect when you get hurt.");
+		setCategory(Category.RENDER);
 	}
 }

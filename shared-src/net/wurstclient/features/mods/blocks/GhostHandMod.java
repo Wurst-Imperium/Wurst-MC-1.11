@@ -7,6 +7,7 @@
  */
 package net.wurstclient.features.mods.blocks;
 
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -20,6 +21,7 @@ public final class GhostHandMod extends Mod
 		super("GhostHand",
 			"Allows you to reach specific blocks through walls.\n"
 				+ "Type §l.ghosthand id <block_id>§r or §l.ghosthand name <block_name>§r to specify it.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
 import net.wurstclient.settings.ModeSetting;
@@ -40,6 +41,7 @@ public final class StepMod extends Mod implements UpdateListener
 			"Allows you to step up full blocks.\n"
 				+ "§lSimple§r mode can step up multiple blocks (enables Height slider).\n"
 				+ "§lLegit§r mode can bypass NoCheat+.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

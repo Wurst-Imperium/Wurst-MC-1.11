@@ -12,6 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -33,6 +34,7 @@ public final class JetpackMod extends Mod implements UpdateListener
 	{
 		super("Jetpack", "Allows you to fly as if you had a jetpack.\n\n"
 			+ "§c§lWARNING:§r You will take fall damage if you don't use NoFall.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

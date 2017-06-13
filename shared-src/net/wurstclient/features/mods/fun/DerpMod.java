@@ -13,6 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -25,6 +26,7 @@ public final class DerpMod extends Mod implements UpdateListener
 	public DerpMod()
 	{
 		super("Derp", "Randomly moves your head around.");
+		setCategory(Category.FUN);
 	}
 	
 	@Override

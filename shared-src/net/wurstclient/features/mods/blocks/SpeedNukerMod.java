@@ -14,6 +14,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.LeftClickEvent;
 import net.wurstclient.events.listeners.LeftClickListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -92,6 +93,7 @@ public final class SpeedNukerMod extends Mod
 	{
 		super("SpeedNuker",
 			"Faster version of Nuker that cannot bypass NoCheat+.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

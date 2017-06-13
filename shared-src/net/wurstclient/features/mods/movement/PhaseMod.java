@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -23,6 +24,7 @@ public final class PhaseMod extends Mod implements UpdateListener
 	{
 		super("Phase",
 			"Exploits a bug in older versions of NoCheat+ that allows you to glitch through blocks.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

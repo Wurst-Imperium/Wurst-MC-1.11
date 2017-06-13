@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -20,6 +21,7 @@ public final class BunnyHopMod extends Mod implements UpdateListener
 	public BunnyHopMod()
 	{
 		super("BunnyHop", "Automatically jumps whenever you walk.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

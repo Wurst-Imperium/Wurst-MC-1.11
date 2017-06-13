@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.compatibility.WPlayer;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
@@ -87,6 +88,7 @@ public final class KillauraLegitMod extends Mod implements UpdateListener
 	{
 		super("KillauraLegit", "Slower Killaura that is harder to detect.\n"
 			+ "Not required on normal NoCheat+ servers!");
+		setCategory(Category.COMBAT);
 	}
 	
 	@Override

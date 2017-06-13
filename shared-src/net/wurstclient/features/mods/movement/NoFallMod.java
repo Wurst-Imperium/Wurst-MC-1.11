@@ -11,6 +11,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.wurstclient.compatibility.WConnection;
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -21,6 +22,7 @@ public final class NoFallMod extends Mod implements UpdateListener
 	public NoFallMod()
 	{
 		super("NoFall", "Protects you from fall damage.");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ package net.wurstclient.features.mods.movement;
 
 import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 
@@ -21,6 +22,7 @@ public final class NoClipMod extends Mod implements UpdateListener
 		super("NoClip", "Allows you to freely move through blocks.\n"
 			+ "A block (e.g. sand) must fall on your head to activate it.\n\n"
 			+ "§c§lWARNING:§r You will take damage while moving through blocks!");
+		setCategory(Category.MOVEMENT);
 	}
 	
 	@Override

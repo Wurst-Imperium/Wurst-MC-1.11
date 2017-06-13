@@ -8,6 +8,7 @@
 package net.wurstclient.gui;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.KeyPressEvent;
 import net.wurstclient.events.listeners.KeyPressListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.TabGuiSpf;
 import net.wurstclient.font.Fonts;
@@ -35,21 +37,21 @@ public final class TabGui implements KeyPressListener
 	{
 		WurstClient.INSTANCE.events.add(KeyPressListener.class, this);
 		
-		WurstClient wurst = WurstClient.INSTANCE;
-		Tab blocksTab = new Tab("Blocks");
-		blocksTab.add(wurst.mods.antiCactusMod);
-		blocksTab.add(wurst.mods.autoBuildMod);
-		blocksTab.add(wurst.mods.autoMineMod);
-		blocksTab.updateSize();
-		tabs.add(blocksTab);
+		LinkedHashMap<Category, Tab> tabMap = new LinkedHashMap<>();
+		for(Category category : Category.values())
+			tabMap.put(category, new Tab(category.getName()));
 		
-		Tab chatTab = new Tab("Chat");
-		chatTab.add(wurst.mods.antiSpamMod);
-		chatTab.add(wurst.mods.fancyChatMod);
-		chatTab.add(wurst.mods.forceOpMod);
-		chatTab.updateSize();
-		tabs.add(chatTab);
+		ArrayList<Feature> features = new ArrayList<>();
+		features.addAll(WurstClient.INSTANCE.mods.getAllMods());
+		features.addAll(WurstClient.INSTANCE.commands.getAllCommands());
+		features.addAll(WurstClient.INSTANCE.special.getAllFeatures());
 		
+		for(Feature feature : features)
+			if(feature.getCategory() != null)
+				tabMap.get(feature.getCategory()).add(feature);
+			
+		tabs.addAll(tabMap.values());
+		tabs.forEach(tab -> tab.updateSize());
 		updateSize();
 	}
 	

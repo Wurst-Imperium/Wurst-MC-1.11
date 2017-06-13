@@ -16,6 +16,7 @@ import net.wurstclient.compatibility.WMinecraft;
 import net.wurstclient.events.listeners.PostUpdateListener;
 import net.wurstclient.events.listeners.RenderListener;
 import net.wurstclient.events.listeners.UpdateListener;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Feature;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.special_features.YesCheatSpf.Profile;
@@ -35,6 +36,7 @@ public final class TunnellerMod extends Mod
 	public TunnellerMod()
 	{
 		super("Tunneller", "Digs a 3x3 tunnel around you.");
+		setCategory(Category.BLOCKS);
 	}
 	
 	@Override

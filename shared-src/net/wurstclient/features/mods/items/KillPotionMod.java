@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.features.Category;
 import net.wurstclient.features.Mod;
 import net.wurstclient.features.SearchTags;
 import net.wurstclient.utils.ChatUtils;
@@ -25,6 +26,7 @@ public final class KillPotionMod extends Mod
 		super("KillPotion",
 			"Generates a potion that can kill anything, even players in Creative mode.\n"
 				+ "Requires Creative mode.");
+		setCategory(Category.ITEMS);
 	}
 	
 	@Override
