@@ -26,6 +26,8 @@ public final class TabGui implements KeyPressListener
 	private final ArrayList<Tab> tabs = new ArrayList<>();
 	private final TabGuiSpf tabGuiSpf = WurstClient.INSTANCE.special.tabGuiSpf;
 	
+	private int width;
+	private int height;
 	private int selected;
 	private boolean tabOpened;
 	
@@ -38,13 +40,29 @@ public final class TabGui implements KeyPressListener
 		blocksTab.add(wurst.mods.antiCactusMod);
 		blocksTab.add(wurst.mods.autoBuildMod);
 		blocksTab.add(wurst.mods.autoMineMod);
+		blocksTab.updateSize();
 		tabs.add(blocksTab);
 		
 		Tab chatTab = new Tab("Chat");
 		chatTab.add(wurst.mods.antiSpamMod);
 		chatTab.add(wurst.mods.fancyChatMod);
 		chatTab.add(wurst.mods.forceOpMod);
+		chatTab.updateSize();
 		tabs.add(chatTab);
+		
+		updateSize();
+	}
+	
+	private void updateSize()
+	{
+		width = 64;
+		for(Tab tab : tabs)
+		{
+			int tabWidth = Fonts.segoe18.getStringWidth(tab.name) + 10;
+			if(tabWidth > width)
+				width = tabWidth;
+		}
+		height = tabs.size() * 10;
 	}
 	
 	@Override
@@ -100,14 +118,6 @@ public final class TabGui implements KeyPressListener
 		
 		int x = 2;
 		int y = 23;
-		int width = 64;
-		for(Tab tab : tabs)
-		{
-			int tabWidth = Fonts.segoe18.getStringWidth(tab.name) + 4;
-			if(tabWidth > width)
-				width = tabWidth;
-		}
-		int height = tabs.size() * 10;
 		
 		GL11.glTranslatef(x, y, 0);
 		drawBox(0, 0, width, height);
@@ -138,21 +148,13 @@ public final class TabGui implements KeyPressListener
 			Tab tab = tabs.get(selected);
 			int tabX = x + width + 2;
 			int tabY = y;
-			int tabWidth = 64;
-			for(Feature f : tab.features)
-			{
-				int fWidth = Fonts.segoe18.getStringWidth(f.getName()) + 4;
-				if(fWidth > tabWidth)
-					tabWidth = fWidth;
-			}
-			int tabHeight = tab.features.size() * 10;
 			
 			GL11.glTranslatef(width + 2, 0, 0);
-			drawBox(0, 0, tabWidth, tabHeight);
+			drawBox(0, 0, tab.width, tab.height);
 			
 			GL11.glScissor(tabX * factor,
-				(sr.getScaledHeight() - tabHeight - tabY) * factor,
-				tabWidth * factor, tabHeight * factor);
+				(sr.getScaledHeight() - tab.height - tabY) * factor,
+				tab.width * factor, tab.height * factor);
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
 			
 			int tabTextY = -2;
@@ -251,11 +253,26 @@ public final class TabGui implements KeyPressListener
 		private final String name;
 		private final ArrayList<Feature> features = new ArrayList<>();
 		
+		private int width;
+		private int height;
 		private int selected;
 		
 		public Tab(String name)
 		{
 			this.name = name;
+		}
+		
+		public void updateSize()
+		{
+			width = 64;
+			for(Feature feature : features)
+			{
+				int fWidth =
+					Fonts.segoe18.getStringWidth(feature.getName()) + 10;
+				if(fWidth > width)
+					width = fWidth;
+			}
+			height = features.size() * 10;
 		}
 		
 		public void onKeyPress(int keyCode)
