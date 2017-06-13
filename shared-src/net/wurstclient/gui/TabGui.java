@@ -27,6 +27,7 @@ public final class TabGui implements KeyPressListener
 	private final TabGuiSpf tabGuiSpf = WurstClient.INSTANCE.special.tabGuiSpf;
 	
 	private int selected;
+	private boolean tabOpened;
 	
 	public TabGui()
 	{
@@ -49,22 +50,34 @@ public final class TabGui implements KeyPressListener
 	@Override
 	public void onKeyPress(KeyPressEvent event)
 	{
-		switch(event.getKeyCode())
-		{
-			case Keyboard.KEY_DOWN:
-			if(selected < tabs.size() - 1)
-				selected++;
-			else
-				selected = 0;
-			break;
-			
-			case Keyboard.KEY_UP:
-			if(selected > 0)
-				selected--;
-			else
-				selected = tabs.size() - 1;
-			break;
-		}
+		if(tabOpened)
+			switch(event.getKeyCode())
+			{
+				case Keyboard.KEY_LEFT:
+				tabOpened = false;
+				break;
+			}
+		else
+			switch(event.getKeyCode())
+			{
+				case Keyboard.KEY_DOWN:
+				if(selected < tabs.size() - 1)
+					selected++;
+				else
+					selected = 0;
+				break;
+				
+				case Keyboard.KEY_UP:
+				if(selected > 0)
+					selected--;
+				else
+					selected = tabs.size() - 1;
+				break;
+				
+				case Keyboard.KEY_RIGHT:
+				tabOpened = true;
+				break;
+			}
 	}
 	
 	public void render(float partialTicks)
@@ -103,12 +116,11 @@ public final class TabGui implements KeyPressListener
 		int textY = -2;
 		for(int i = 0; i < tabs.size(); i++)
 		{
+			String tabName = tabs.get(i).getName();
 			if(i == selected)
-				Fonts.segoe18.drawString(">" + tabs.get(i).getName(), 2, textY,
-					0xffffffff);
-			else
-				Fonts.segoe18.drawString(tabs.get(i).getName(), 2, textY,
-					0xffffffff);
+				tabName = (tabOpened ? "<" : ">") + tabName;
+			
+			Fonts.segoe18.drawString(tabName, 2, textY, 0xffffffff);
 			textY += 10;
 		}
 		
@@ -188,7 +200,7 @@ public final class TabGui implements KeyPressListener
 		GL11.glEnd();
 	}
 	
-	public static final class Tab
+	private static final class Tab
 	{
 		private final String name;
 		private final ArrayList<Feature> features = new ArrayList<>();
