@@ -63,7 +63,13 @@ public final class TabGui implements UpdateListener
 		
 		int x = 2;
 		int y = 23;
-		int width = 92;
+		int width = 64;
+		for(Tab tab : tabs)
+		{
+			int tabWidth = Fonts.segoe18.getStringWidth(tab.getName()) + 4;
+			if(tabWidth > width)
+				width = tabWidth;
+		}
 		int height = tabs.size() * 10;
 		
 		GL11.glTranslatef(x, y, 0);
