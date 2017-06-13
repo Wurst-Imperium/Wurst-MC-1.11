@@ -56,6 +56,10 @@ public final class TabGui implements KeyPressListener
 				case Keyboard.KEY_LEFT:
 				tabOpened = false;
 				break;
+				
+				default:
+				tabs.get(selected).onKeyPress(event.getKeyCode());
+				break;
 			}
 		else
 			switch(event.getKeyCode())
@@ -99,7 +103,7 @@ public final class TabGui implements KeyPressListener
 		int width = 64;
 		for(Tab tab : tabs)
 		{
-			int tabWidth = Fonts.segoe18.getStringWidth(tab.getName()) + 4;
+			int tabWidth = Fonts.segoe18.getStringWidth(tab.name) + 4;
 			if(tabWidth > width)
 				width = tabWidth;
 		}
@@ -116,7 +120,7 @@ public final class TabGui implements KeyPressListener
 		int textY = -2;
 		for(int i = 0; i < tabs.size(); i++)
 		{
-			String tabName = tabs.get(i).getName();
+			String tabName = tabs.get(i).name;
 			if(i == selected)
 				tabName = (tabOpened ? "<" : ">") + tabName;
 			
@@ -125,6 +129,48 @@ public final class TabGui implements KeyPressListener
 		}
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+		
+		if(tabOpened)
+		{
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			
+			Tab tab = tabs.get(selected);
+			int tabX = x + width + 2;
+			int tabY = y;
+			int tabWidth = 64;
+			for(Feature f : tab.features)
+			{
+				int fWidth = Fonts.segoe18.getStringWidth(f.getName()) + 4;
+				if(fWidth > tabWidth)
+					tabWidth = fWidth;
+			}
+			int tabHeight = tab.features.size() * 10;
+			
+			GL11.glTranslatef(width + 2, 0, 0);
+			drawBox(0, 0, tabWidth, tabHeight);
+			
+			GL11.glScissor(tabX * factor,
+				(sr.getScaledHeight() - tabHeight - tabY) * factor,
+				tabWidth * factor, tabHeight * factor);
+			GL11.glEnable(GL11.GL_SCISSOR_TEST);
+			
+			int tabTextY = -2;
+			for(int i = 0; i < tab.features.size(); i++)
+			{
+				String fName = tab.features.get(i).getName();
+				if(i == tab.selected)
+					fName = ">" + fName;
+				
+				Fonts.segoe18.drawString(fName, 2, tabTextY, 0xffffffff);
+				tabTextY += 10;
+			}
+			
+			GL11.glDisable(GL11.GL_SCISSOR_TEST);
+			
+			GL11.glPopMatrix();
+		}
+		
 		GL11.glPopMatrix();
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -205,19 +251,40 @@ public final class TabGui implements KeyPressListener
 		private final String name;
 		private final ArrayList<Feature> features = new ArrayList<>();
 		
+		private int selected;
+		
 		public Tab(String name)
 		{
 			this.name = name;
 		}
 		
+		public void onKeyPress(int keyCode)
+		{
+			switch(keyCode)
+			{
+				case Keyboard.KEY_DOWN:
+				if(selected < features.size() - 1)
+					selected++;
+				else
+					selected = 0;
+				break;
+				
+				case Keyboard.KEY_UP:
+				if(selected > 0)
+					selected--;
+				else
+					selected = features.size() - 1;
+				break;
+				
+				case Keyboard.KEY_RETURN:
+				features.get(selected).doPrimaryAction();
+				break;
+			}
+		}
+		
 		public void add(Feature feature)
 		{
 			features.add(feature);
-		}
-		
-		public String getName()
-		{
-			return name;
 		}
 	}
 }
