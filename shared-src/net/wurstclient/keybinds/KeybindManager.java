@@ -18,6 +18,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.wurstclient.WurstClient;
 import net.wurstclient.compatibility.WMinecraft;
+import net.wurstclient.events.KeyPressEvent;
 import net.wurstclient.files.ConfigFiles;
 
 public class KeybindManager
@@ -128,11 +129,15 @@ public class KeybindManager
 		if(!WurstClient.INSTANCE.isEnabled())
 			return;
 		
-		int key = Keyboard.getEventKey();
-		if(key == 0)
+		int keyCode = Keyboard.getEventKey();
+		if(keyCode == 0)
 			return;
+		String keyName = Keyboard.getKeyName(keyCode);
 		
-		ArrayList<String> commands = map.get(Keyboard.getKeyName(key));
+		KeyPressEvent event = new KeyPressEvent(keyCode, keyName);
+		WurstClient.INSTANCE.events.fire(event);
+		
+		ArrayList<String> commands = map.get(keyName);
 		if(commands == null)
 			return;
 		

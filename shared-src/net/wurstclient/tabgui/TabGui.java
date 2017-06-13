@@ -9,23 +9,29 @@ package net.wurstclient.tabgui;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
+import net.wurstclient.events.KeyPressEvent;
+import net.wurstclient.events.listeners.KeyPressListener;
 import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.TabGuiSpf;
 import net.wurstclient.font.Fonts;
 
-public final class TabGui implements UpdateListener
+public final class TabGui implements UpdateListener, KeyPressListener
 {
 	private final ArrayList<Tab> tabs = new ArrayList<>();
 	private final TabGuiSpf tabGuiSpf = WurstClient.INSTANCE.special.tabGuiSpf;
 	
+	private int selected;
+	
 	public TabGui()
 	{
 		WurstClient.INSTANCE.events.add(UpdateListener.class, this);
+		WurstClient.INSTANCE.events.add(KeyPressListener.class, this);
 		
 		WurstClient wurst = WurstClient.INSTANCE;
 		Tab blocksTab = new Tab("Blocks");
@@ -45,6 +51,27 @@ public final class TabGui implements UpdateListener
 	public void onUpdate()
 	{
 		
+	}
+	
+	@Override
+	public void onKeyPress(KeyPressEvent event)
+	{
+		switch(event.getKeyCode())
+		{
+			case Keyboard.KEY_DOWN:
+			if(selected < tabs.size() - 1)
+				selected++;
+			else
+				selected = 0;
+			break;
+			
+			case Keyboard.KEY_UP:
+			if(selected > 0)
+				selected--;
+			else
+				selected = tabs.size() - 1;
+			break;
+		}
 	}
 	
 	public void render(float partialTicks)
@@ -81,9 +108,14 @@ public final class TabGui implements UpdateListener
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
 		int textY = -2;
-		for(Tab tab : tabs)
+		for(int i = 0; i < tabs.size(); i++)
 		{
-			Fonts.segoe18.drawString(tab.getName(), 2, textY, 0xffffffff);
+			if(i == selected)
+				Fonts.segoe18.drawString(">" + tabs.get(i).getName(), 2, textY,
+					0xffffffff);
+			else
+				Fonts.segoe18.drawString(tabs.get(i).getName(), 2, textY,
+					0xffffffff);
 			textY += 10;
 		}
 		
