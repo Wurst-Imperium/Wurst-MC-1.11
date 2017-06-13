@@ -17,11 +17,10 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.KeyPressEvent;
 import net.wurstclient.events.listeners.KeyPressListener;
-import net.wurstclient.events.listeners.UpdateListener;
 import net.wurstclient.features.special_features.TabGuiSpf;
 import net.wurstclient.font.Fonts;
 
-public final class TabGui implements UpdateListener, KeyPressListener
+public final class TabGui implements KeyPressListener
 {
 	private final ArrayList<Tab> tabs = new ArrayList<>();
 	private final TabGuiSpf tabGuiSpf = WurstClient.INSTANCE.special.tabGuiSpf;
@@ -30,7 +29,6 @@ public final class TabGui implements UpdateListener, KeyPressListener
 	
 	public TabGui()
 	{
-		WurstClient.INSTANCE.events.add(UpdateListener.class, this);
 		WurstClient.INSTANCE.events.add(KeyPressListener.class, this);
 		
 		WurstClient wurst = WurstClient.INSTANCE;
@@ -45,12 +43,6 @@ public final class TabGui implements UpdateListener, KeyPressListener
 		chatTab.add(wurst.mods.fancyChatMod);
 		chatTab.add(wurst.mods.forceOpMod);
 		tabs.add(chatTab);
-	}
-	
-	@Override
-	public void onUpdate()
-	{
-		
 	}
 	
 	@Override
