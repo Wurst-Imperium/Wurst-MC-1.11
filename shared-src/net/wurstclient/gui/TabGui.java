@@ -160,7 +160,15 @@ public final class TabGui implements KeyPressListener
 			int tabTextY = -2;
 			for(int i = 0; i < tab.features.size(); i++)
 			{
-				String fName = tab.features.get(i).getName();
+				Feature feature = tab.features.get(i);
+				String fName = feature.getName();
+				
+				if(feature.isEnabled())
+					if(feature.isBlocked())
+						fName = "§c" + fName + "§r";
+					else
+						fName = "§a" + fName + "§r";
+					
 				if(i == tab.selected)
 					fName = ">" + fName;
 				
