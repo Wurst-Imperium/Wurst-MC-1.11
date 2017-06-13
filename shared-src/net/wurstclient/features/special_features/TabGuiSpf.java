@@ -15,15 +15,15 @@ import net.wurstclient.settings.ModeSetting;
 @SearchTags({"tab gui"})
 public final class TabGuiSpf extends Spf
 {
-	private final ModeSetting position =
-		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 2);
+	private final ModeSetting status =
+		new ModeSetting("Status", new String[]{"Enabled", "Disabled"}, 0);
 	
 	public TabGuiSpf()
 	{
 		super("TabGui", "Allows you to quickly toggle mods while playing.\n"
 			+ "Use the arrow keys to navigate.");
 		
-		addSetting(position);
+		addSetting(status);
 	}
 	
 	@Override
@@ -32,13 +32,8 @@ public final class TabGuiSpf extends Spf
 		return new Feature[]{wurst.special.modListSpf};
 	}
 	
-	public boolean isPositionRight()
-	{
-		return position.getSelected() == 1;
-	}
-	
 	public boolean isHidden()
 	{
-		return position.getSelected() == 2;
+		return status.getSelected() == 1;
 	}
 }

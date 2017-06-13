@@ -18,44 +18,33 @@ import net.wurstclient.settings.ModeSetting;
 public final class ModListSpf extends Spf
 {
 	private final ModeSetting mode =
-		new ModeSetting("Mode", new String[]{"Auto", "Count"}, 0)
+		new ModeSetting("Mode", new String[]{"Auto", "Count", "Hidden"}, 0)
 		{
 			@Override
 			public void update()
 			{
-				updateAnimationsLock();
+				if(getSelected() == 0)
+					animations.unlock();
+				else
+					animations.lock(() -> false);
 			}
 		};
 	private final ModeSetting position =
-		new ModeSetting("Position", new String[]{"Left", "Right", "Hidden"}, 0)
-		{
-			@Override
-			public void update()
-			{
-				updateAnimationsLock();
-			}
-		};
+		new ModeSetting("Position", new String[]{"Left", "Right"}, 1);
 	private final CheckboxSetting animations =
 		new CheckboxSetting("Animations", true);
 	
 	public ModListSpf()
 	{
-		super("ModList",
-			"Shows a list of active mods on the screen.\n"
-				+ "§lAuto§r mode renders the whole list if it fits onto the screen.\n"
-				+ "§lCount§r mode only renders the number of active mods.");
+		super("ModList", "Shows a list of active mods on the screen.\n"
+			+ "§lAuto§r mode renders the whole list if it fits onto the screen.\n"
+			+ "§lCount§r mode only renders the number of active mods.\n"
+			+ "§lHidden§r mode renders nothing.\n\n"
+			+ "The §lLeft§r position should only be used while TabGui is disabled.");
 		
 		addSetting(mode);
 		addSetting(position);
 		addSetting(animations);
-	}
-	
-	private void updateAnimationsLock()
-	{
-		if(isCountMode() || isHidden())
-			animations.lock(() -> false);
-		else
-			animations.unlock();
 	}
 	
 	@Override
@@ -76,7 +65,7 @@ public final class ModListSpf extends Spf
 	
 	public boolean isHidden()
 	{
-		return position.getSelected() == 2;
+		return mode.getSelected() == 2;
 	}
 	
 	public boolean isAnimations()

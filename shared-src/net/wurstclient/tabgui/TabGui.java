@@ -61,20 +61,10 @@ public final class TabGui implements UpdateListener
 		GL11.glPushMatrix();
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		
+		int x = 2;
+		int y = 23;
 		int width = 92;
 		int height = tabs.size() * 10;
-		
-		int x;
-		int y;
-		if(tabGuiSpf.isPositionRight())
-		{
-			x = sr.getScaledWidth() - width - 2;
-			y = 3;
-		}else
-		{
-			x = 2;
-			y = 23;
-		}
 		
 		GL11.glTranslatef(x, y, 0);
 		drawBox(0, 0, width, height);
