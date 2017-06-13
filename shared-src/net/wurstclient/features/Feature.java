@@ -21,8 +21,7 @@ public abstract class Feature
 	
 	private Category category;
 	
-	@Deprecated
-	protected final ArrayList<Setting> settings = new ArrayList<>();
+	private final ArrayList<Setting> settings = new ArrayList<>();
 	
 	private final String helpPage =
 		getClass().isAnnotationPresent(HelpPage.class)
