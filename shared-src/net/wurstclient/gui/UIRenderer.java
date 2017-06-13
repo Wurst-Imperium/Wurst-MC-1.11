@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.GUIRenderEvent;
-import net.wurstclient.tabgui.TabGui;
 
 public final class UIRenderer
 {

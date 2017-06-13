@@ -5,7 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package net.wurstclient.tabgui;
+package net.wurstclient.gui;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.WurstClient;
 import net.wurstclient.events.KeyPressEvent;
 import net.wurstclient.events.listeners.KeyPressListener;
+import net.wurstclient.features.Feature;
 import net.wurstclient.features.special_features.TabGuiSpf;
 import net.wurstclient.font.Fonts;
 
@@ -185,5 +186,26 @@ public final class TabGui implements KeyPressListener
 			GL11.glVertex2d(x1, y2);
 		}
 		GL11.glEnd();
+	}
+	
+	public static final class Tab
+	{
+		private final String name;
+		private final ArrayList<Feature> features = new ArrayList<>();
+		
+		public Tab(String name)
+		{
+			this.name = name;
+		}
+		
+		public void add(Feature feature)
+		{
+			features.add(feature);
+		}
+		
+		public String getName()
+		{
+			return name;
+		}
 	}
 }
