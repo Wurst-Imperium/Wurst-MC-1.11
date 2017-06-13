@@ -70,6 +70,9 @@ public final class TabGui implements KeyPressListener
 	@Override
 	public void onKeyPress(KeyPressEvent event)
 	{
+		if(tabGuiSpf.isHidden())
+			return;
+		
 		if(tabOpened)
 			switch(event.getKeyCode())
 			{
