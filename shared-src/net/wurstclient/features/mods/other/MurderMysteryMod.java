@@ -62,7 +62,7 @@ public final class MurderMysteryMod extends Mod
 		renderNotice = false;
 		wurst.events.add(UpdateListener.class, this);
 		wurst.events.add(RenderListener.class, this);
-		if(isUserNotMurderer())
+		if(!isUserMurderer())
 			whoHasSword();
 	}
 
@@ -125,27 +125,24 @@ public final class MurderMysteryMod extends Mod
 		updateMS();
 		if(!hasTimePassedM(250))
 			return;
-		if(isUserNotMurderer())
+		if(!isUserMurderer())
 			whoHasSword();
 		updateLastMS();
 	}
 
-	private boolean isUserNotMurderer()
+	private boolean isUserMurderer()
 	{
-		if(murderer.equals("YOU!"))
-			if(WMinecraft.getPlayer().inventory.getStackInSlot(1)
-				.getItem() instanceof ItemSword)
-				return false;
-			else
-				return true;
 		if(WMinecraft.getPlayer().inventory.getStackInSlot(1)
 			.getItem() instanceof ItemSword)
 		{
-			murderer = "YOU!";
-			ChatUtils.message("You are the murderer. Good luck!");
-			return false;
+			if(!murderer.equals("YOU!"))
+			{
+				murderer = "YOU!";
+				ChatUtils.message("You are the murderer. Good luck!");
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	private void whoHasSword()
@@ -165,7 +162,7 @@ public final class MurderMysteryMod extends Mod
 					murderer = player.getName();
 					ChatUtils
 						.message("The murderer in this game is: §a" + murderer);
-					if(renderNotice == false)
+					if(!renderNotice)
 					{
 						ChatUtils.message(
 							"Wurst will show you the murderer until you disable this mod.");
