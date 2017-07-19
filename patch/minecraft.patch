@@ -1,6 +1,6 @@
-From 7977138bd9ca26d3e52d83bebbc6eadde14cf643 Mon Sep 17 00:00:00 2001
+From 9bc7ae08fd46a7355953af39c1c85d0ee4839c03 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 4 Jul 2017 09:31:31 +0200
+Date: Wed, 19 Jul 2017 11:49:24 +0200
 Subject: [PATCH] mod
 
 ---
@@ -47,7 +47,7 @@ Subject: [PATCH] mod
  .../client/network/NetworkPlayerInfo.java          |   8 +
  .../client/renderer/BlockFluidRenderer.java        |   8 +
  .../client/renderer/BlockModelRenderer.java        |  14 +-
- net/minecraft/client/renderer/EntityRenderer.java  | 106 ++++++---
+ net/minecraft/client/renderer/EntityRenderer.java  | 112 +++++++---
  .../client/renderer/InventoryEffectRenderer.java   |  22 +-
  net/minecraft/client/renderer/ItemRenderer.java    |  10 +
  net/minecraft/client/renderer/chunk/VisGraph.java  |  11 +-
@@ -70,7 +70,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   4 +
  net/minecraft/world/World.java                     |  35 +--
- 66 files changed, 1363 insertions(+), 651 deletions(-)
+ 66 files changed, 1368 insertions(+), 652 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -2869,7 +2869,7 @@ index 25829f8..5161edc 100644
              flag = true;
          }
 diff --git a/net/minecraft/client/renderer/EntityRenderer.java b/net/minecraft/client/renderer/EntityRenderer.java
-index c3f154a..7ec8c7f 100644
+index c3f154a..e40c1c0 100644
 --- a/net/minecraft/client/renderer/EntityRenderer.java
 +++ b/net/minecraft/client/renderer/EntityRenderer.java
 @@ -1,8 +1,5 @@
@@ -2981,7 +2981,21 @@ index c3f154a..7ec8c7f 100644
          if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
          {
              EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
-@@ -766,15 +773,20 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -684,8 +691,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
+                     f5 = f5 * 0.1F;
+                     RayTraceResult raytraceresult = this.mc.world.rayTraceBlocks(new Vec3d(d0 + (double)f3, d1 + (double)f4, d2 + (double)f5), new Vec3d(d0 - d4 + (double)f3 + (double)f5, d1 - d6 + (double)f4, d2 - d5 + (double)f5));
+ 					
+-                    if (raytraceresult != null)
++					// TODO: Client
++					if(raytraceresult != null
++						&& !WurstClient.INSTANCE.mods.cameraNoClipMod
++							.isActive())
+ 					{
++						
+                         double d7 = raytraceresult.hitVec.distanceTo(new Vec3d(d0, d1, d2));
+ 
+                         if (d7 < d3)
+@@ -766,15 +777,20 @@ public class EntityRenderer implements IResourceManagerReloadListener
  
          this.hurtCameraEffect(partialTicks);
  
@@ -3004,7 +3018,7 @@ index c3f154a..7ec8c7f 100644
              int i = 20;
  
              if (this.mc.player.isPotionActive(MobEffects.NAUSEA))
-@@ -1310,7 +1322,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1310,7 +1326,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
          }
  
          this.getMouseOver(partialTicks);
@@ -3017,7 +3031,7 @@ index c3f154a..7ec8c7f 100644
          GlStateManager.enableAlpha();
          GlStateManager.alphaFunc(516, 0.5F);
          this.mc.mcProfiler.startSection("center");
-@@ -1485,6 +1502,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1485,6 +1506,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
  
          this.mc.mcProfiler.endStartSection("hand");
  
@@ -3027,7 +3041,7 @@ index c3f154a..7ec8c7f 100644
          if (this.renderHand)
          {
              GlStateManager.clear(256);
-@@ -1872,8 +1892,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1872,8 +1896,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
          this.fogColorBlue *= f13;
          double d1 = (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks) * world.provider.getVoidFogYFactor();
  
@@ -3041,7 +3055,7 @@ index c3f154a..7ec8c7f 100644
              int i = ((EntityLivingBase)entity).getActivePotionEffect(MobEffects.BLINDNESS).getDuration();
  
              if (i < 20)
-@@ -1952,8 +1976,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1952,8 +1980,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          IBlockState iblockstate = ActiveRenderInfo.getBlockStateAtEntityViewpoint(this.mc.world, entity, partialTicks);
  
@@ -3055,7 +3069,7 @@ index c3f154a..7ec8c7f 100644
              float f1 = 5.0F;
              int i = ((EntityLivingBase)entity).getActivePotionEffect(MobEffects.BLINDNESS).getDuration();
  
-@@ -1991,8 +2019,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1991,8 +2023,12 @@ public class EntityRenderer implements IResourceManagerReloadListener
  
              if (entity instanceof EntityLivingBase)
              {
@@ -3069,7 +3083,7 @@ index c3f154a..7ec8c7f 100644
                      GlStateManager.setFogDensity(0.01F);
                  }
                  else
-@@ -2007,9 +2039,16 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -2007,9 +2043,16 @@ public class EntityRenderer implements IResourceManagerReloadListener
          }
          else if (iblockstate.getMaterial() == Material.LAVA)
          {
@@ -3086,7 +3100,7 @@ index c3f154a..7ec8c7f 100644
          else
          {
              float f = this.farPlaneDistance;
-@@ -2084,7 +2123,18 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -2084,7 +2127,18 @@ public class EntityRenderer implements IResourceManagerReloadListener
          GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
          GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
          GlStateManager.rotate((float)(isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
