@@ -1,6 +1,6 @@
-From 7e27bace7eabb0a5d90f00201580d3a6bd2367c3 Mon Sep 17 00:00:00 2001
+From c666fb8d67f0c075040f6577f57015fdcd78a937 Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Tue, 28 Nov 2017 15:42:40 +0100
+Date: Sun, 4 Mar 2018 16:59:27 +0100
 Subject: [PATCH] mod
 
 ---
@@ -330,7 +330,7 @@ index b48d9bd..88f7932 100644
          entityIn.motionZ *= 0.4D;
      }
 diff --git a/net/minecraft/client/Minecraft.java b/net/minecraft/client/Minecraft.java
-index 20bd020..20eb0b2 100644
+index 20bd020..8413f10 100644
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
 @@ -1,18 +1,5 @@
@@ -507,8 +507,8 @@ index 20bd020..20eb0b2 100644
 -import org.lwjgl.util.glu.GLU;
 +import net.wurstclient.WurstClient;
 +import net.wurstclient.bot.WurstBot;
-+import net.wurstclient.events.LeftClickEvent;
-+import net.wurstclient.events.RightClickEvent;
++import net.wurstclient.events.LeftClickListener.LeftClickEvent;
++import net.wurstclient.events.RightClickListener.RightClickEvent;
 +import net.wurstclient.gui.main.GuiWurstMainMenu;
 +import net.wurstclient.hooks.FrameHook;
 +import net.wurstclient.spam.SpamProcessor;
@@ -704,7 +704,7 @@ index 20bd020..20eb0b2 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..8ff49c8 100644
+index 0728387..5ae99b4 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -759,9 +759,9 @@ index 0728387..8ff49c8 100644
  import net.minecraft.world.IInteractionObject;
  import net.minecraft.world.World;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.ChatOutputEvent;
-+import net.wurstclient.events.PostUpdateEvent;
-+import net.wurstclient.events.UpdateEvent;
++import net.wurstclient.events.ChatOutputListener.ChatOutputEvent;
++import net.wurstclient.events.PostUpdateListener.PostUpdateEvent;
++import net.wurstclient.events.UpdateListener.UpdateEvent;
 +import net.wurstclient.utils.RotationUtils;
  
  public class EntityPlayerSP extends AbstractClientPlayer
@@ -1168,7 +1168,7 @@ index 9dedd1e..ac0ed96 100644
              GuiFlatPresets.LayerItem guiflatpresets$layeritem = (GuiFlatPresets.LayerItem)GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
              this.renderIcon(insideLeft, yPos, guiflatpresets$layeritem.icon, guiflatpresets$layeritem.iconMetadata);
 diff --git a/net/minecraft/client/gui/GuiGameOver.java b/net/minecraft/client/gui/GuiGameOver.java
-index 0d62806..d28e917 100644
+index 0d62806..ea64342 100644
 --- a/net/minecraft/client/gui/GuiGameOver.java
 +++ b/net/minecraft/client/gui/GuiGameOver.java
 @@ -1,12 +1,18 @@
@@ -1184,7 +1184,7 @@ index 0d62806..d28e917 100644
  import net.minecraft.util.text.ITextComponent;
  import net.minecraft.util.text.TextFormatting;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.DeathEvent;
++import net.wurstclient.events.DeathListener.DeathEvent;
 +import net.wurstclient.gui.main.GuiWurstMainMenu;
 +import net.wurstclient.spam.SpamProcessor;
  
@@ -1212,7 +1212,7 @@ index 0d62806..d28e917 100644
              {
                  guibutton.enabled = true;
              }
-+            
++			
 +			// TODO: Client
 +			WurstClient.INSTANCE.events.fire(DeathEvent.INSTANCE);
 +			SpamProcessor.runScript("death", "Runs whenever you die.");
@@ -1699,7 +1699,7 @@ index 9a4b028..cf9a188 100644
  
      public void selectServer(int index)
 diff --git a/net/minecraft/client/gui/GuiNewChat.java b/net/minecraft/client/gui/GuiNewChat.java
-index 7607b50..172a274 100644
+index 7607b50..cb981a8 100644
 --- a/net/minecraft/client/gui/GuiNewChat.java
 +++ b/net/minecraft/client/gui/GuiNewChat.java
 @@ -1,17 +1,23 @@
@@ -1725,7 +1725,7 @@ index 7607b50..172a274 100644
 -import org.apache.logging.log4j.LogManager;
 -import org.apache.logging.log4j.Logger;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.ChatInputEvent;
++import net.wurstclient.events.ChatInputListener.ChatInputEvent;
  
  public class GuiNewChat extends Gui
  {
@@ -1740,7 +1740,7 @@ index 7607b50..172a274 100644
 +		if(event.isCancelled())
 +			return;
 +		chatComponent = event.getComponent();
-+    	
++		
          this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
          LOGGER.info("[CHAT] {}", new Object[] {chatComponent.getUnformattedText().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n")});
      }
@@ -2517,7 +2517,7 @@ index 4aa6328..0ece5e8 100644
       * Loads a list of servers from servers.dat, by running ServerData.getServerDataFromNBTCompound on each NBT compound
       * found in the "servers" tag list.
 diff --git a/net/minecraft/client/network/NetHandlerPlayClient.java b/net/minecraft/client/network/NetHandlerPlayClient.java
-index 966ee81..bc7cbde 100644
+index 966ee81..8831366 100644
 --- a/net/minecraft/client/network/NetHandlerPlayClient.java
 +++ b/net/minecraft/client/network/NetHandlerPlayClient.java
 @@ -1,11 +1,5 @@
@@ -2753,7 +2753,7 @@ index 966ee81..bc7cbde 100644
 -import org.apache.logging.log4j.LogManager;
 -import org.apache.logging.log4j.Logger;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.PacketOutputEvent;
++import net.wurstclient.events.PacketOutputListener.PacketOutputEvent;
 +import net.wurstclient.gui.main.GuiWurstMainMenu;
  
  public class NetHandlerPlayClient implements INetHandlerPlayClient
@@ -2878,7 +2878,7 @@ index 25829f8..5161edc 100644
              flag = true;
          }
 diff --git a/net/minecraft/client/renderer/EntityRenderer.java b/net/minecraft/client/renderer/EntityRenderer.java
-index c3f154a..e40c1c0 100644
+index c3f154a..0882418 100644
 --- a/net/minecraft/client/renderer/EntityRenderer.java
 +++ b/net/minecraft/client/renderer/EntityRenderer.java
 @@ -1,8 +1,5 @@
@@ -2940,7 +2940,7 @@ index c3f154a..e40c1c0 100644
 -import org.lwjgl.opengl.GLContext;
 -import org.lwjgl.util.glu.Project;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.RenderEvent;
++import net.wurstclient.events.RenderListener.RenderEvent;
 +import net.wurstclient.hooks.ZoomHook;
  
  public class EntityRenderer implements IResourceManagerReloadListener
@@ -4213,7 +4213,7 @@ index 27cb20a..c89b552 100644
  
      /** The material this tool is made from. */
 diff --git a/net/minecraft/network/NetworkManager.java b/net/minecraft/network/NetworkManager.java
-index 20fd7bb..185a55e 100644
+index 20fd7bb..91b855e 100644
 --- a/net/minecraft/network/NetworkManager.java
 +++ b/net/minecraft/network/NetworkManager.java
 @@ -1,18 +1,25 @@
@@ -4275,7 +4275,7 @@ index 20fd7bb..185a55e 100644
 -import org.apache.logging.log4j.Marker;
 -import org.apache.logging.log4j.MarkerManager;
 +import net.wurstclient.WurstClient;
-+import net.wurstclient.events.PacketInputEvent;
++import net.wurstclient.events.PacketInputListener.PacketInputEvent;
  
  public class NetworkManager extends SimpleChannelInboundHandler < Packet<? >>
  {
