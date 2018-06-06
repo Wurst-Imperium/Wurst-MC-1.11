@@ -1,6 +1,6 @@
-From 9f7be69e8b571c502ccdbd2fb2f37c1a764312d0 Mon Sep 17 00:00:00 2001
+From cc2416ac476abb6b53f4140e1e8e0c0c26eb3a7c Mon Sep 17 00:00:00 2001
 From: Alexander01998 <contact.wurstimperium@gmail.com>
-Date: Fri, 18 May 2018 13:08:49 +0200
+Date: Thu, 7 Jun 2018 00:09:36 +0200
 Subject: [PATCH] mod
 
 ---
@@ -11,7 +11,7 @@ Subject: [PATCH] mod
  net/minecraft/block/BlockSlab.java                 |   6 +-
  net/minecraft/block/BlockSoulSand.java             |   6 +
  net/minecraft/client/Minecraft.java                | 196 +++++++++---------
- net/minecraft/client/entity/EntityPlayerSP.java    | 112 +++++++---
+ net/minecraft/client/entity/EntityPlayerSP.java    | 116 ++++++++---
  net/minecraft/client/gui/FontRenderer.java         |  17 +-
  net/minecraft/client/gui/GuiButton.java            |  19 +-
  .../GuiClickableScrolledSelectionListProxy.java    |   4 +-
@@ -70,7 +70,7 @@ Subject: [PATCH] mod
  net/minecraft/util/ScreenShotHelper.java           |  15 +-
  net/minecraft/util/Timer.java                      |   4 +
  net/minecraft/world/World.java                     |  35 ++--
- 66 files changed, 1366 insertions(+), 653 deletions(-)
+ 66 files changed, 1368 insertions(+), 655 deletions(-)
 
 diff --git a/Start.java b/Start.java
 index ae0025f..9b0eed6 100644
@@ -704,7 +704,7 @@ index 20bd020..8413f10 100644
                  {
                      return;
 diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..a331553 100644
+index 0728387..6efa921 100644
 --- a/net/minecraft/client/entity/EntityPlayerSP.java
 +++ b/net/minecraft/client/entity/EntityPlayerSP.java
 @@ -1,7 +1,9 @@
@@ -767,6 +767,22 @@ index 0728387..a331553 100644
  
  public class EntityPlayerSP extends AbstractClientPlayer
  {
+@@ -104,13 +93,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
+      * The last yaw value which was transmitted to the server, used to determine when the yaw changes and needs to be
+      * re-transmitted
+      */
+-    private float lastReportedYaw;
++    public float lastReportedYaw;
+ 
+     /**
+      * The last pitch value which was transmitted to the server, used to determine when the pitch changes and needs to
+      * be re-transmitted
+      */
+-    private float lastReportedPitch;
++    public float lastReportedPitch;
+     private boolean prevOnGround;
+ 
+     /** the last sneaking state sent to the server */
 @@ -226,6 +215,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
      {
          if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
